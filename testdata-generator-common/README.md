@@ -6,7 +6,7 @@ EPCIS (Electronic Product Code Information Services) is an ISO/IEC/GS1standard t
 
 
 #### Workflow:
-This test data generator utility requires some of the inputs such as eventType, eventTime, EPCs/Quantity information etc. based on this information bulk events can be generated. It can also generate bulk EPCs/Quantities based on the provided information. These information needs to be provided in the JSON format as the input to this utility which are processed to obtain the necessary information. Based on these information events are created. This utility supports the bulk event creation in both URN and Digital Link URI format. The attached files provide the JSON template for creating the different event type.
+This test data generator utility requires inputs such as eventType, eventTime, EPCs/Quantity information etc. based on this information bulk events can be generated. It can also generate bulk EPCs/Quantities based on the provided information. These information needs to be provided in the JSON format as the input to this utility which are processed to obtain the necessary information. Based on these information events are created. This utility supports the bulk event creation in both URN and Digital Link URI format. The attached files provide the JSON template for creating the different event type.
 
 
 #### Technologies and Packages used:
