@@ -1,0 +1,45 @@
+{
+  "events": [
+    {
+      "nodeId": 2,
+      "eventType": "ObjectEvent",
+      "eventCount": 1,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-02-24T17:44:24+01:00"
+      },
+      "businessStep": "COMMISSIONING",
+      "disposition": "ACTIVE",
+      "referencedIdentifier": [
+        {
+          "identifierId": 1,
+          "epcCount": 5,
+          "classCount": 0
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {}
+    }
+  ],
+  "identifiers": [
+    {
+      "identifierId": 1,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": {
+        "sgtin": {
+          "identifierType": "sgtin",
+          "gcpLength": 12,
+          "sgtin": "12345678901234",
+          "serialType": "range",
+          "rangeFrom": "500"
+        }
+      },
+      "classData": null,
+      "parentData": null
+    }
+  ]
+}

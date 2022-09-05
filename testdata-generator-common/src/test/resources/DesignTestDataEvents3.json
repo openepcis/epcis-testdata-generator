@@ -1,0 +1,88 @@
+{
+  "events": [
+    {
+      "nodeId": 2,
+      "eventType": "ObjectEvent",
+      "eventCount": 2,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-07T12:31:44+03:00"
+      },
+      "businessStep": "COMMISSIONING",
+      "disposition": "ACTIVE",
+      "referencedIdentifier": [
+        {
+          "identifierId": 1,
+          "epcCount": 5,
+          "classCount": 0
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {}
+    },
+    {
+      "nodeId": 3,
+      "eventType": "AggregationEvent",
+      "eventCount": 3,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-07T12:32:05+03:00"
+      },
+      "businessStep": "PACKING",
+      "disposition": "IN_PROGRESS",
+      "referencedIdentifier": [
+        {
+          "parentNodeId": 2,
+          "epcCount": 3,
+          "classCount": 0
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {
+        "identifierId": 4,
+        "parentCount": 3
+      }
+    }
+  ],
+  "identifiers": [
+    {
+      "identifierId": 1,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": {
+        "sgtin": {
+          "identifierType": "sgtin",
+          "gcpLength": "10",
+          "sgtin": "83874887387784",
+          "serialType": "random",
+          "randomType": "NUMERIC",
+          "randomMinLength": "5",
+          "randomMaxLength": "10"
+        }
+      },
+      "classData": null,
+      "parentData": null
+    },
+    {
+      "identifierId": 4,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": null,
+      "classData": null,
+      "parentData": {
+        "sscc": {
+          "identifierType": "sscc",
+          "gcpLength": "10",
+          "gcp": "849384938943",
+          "serialType": "random"
+        }
+      }
+    }
+  ]
+}

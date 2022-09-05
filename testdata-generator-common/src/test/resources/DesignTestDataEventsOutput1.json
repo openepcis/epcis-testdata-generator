@@ -1,0 +1,32 @@
+[
+  {
+    "type": "ObjectEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-02T06:15:21+01:00",
+    "action": "ADD",
+    "bizStep": "urn:epcglobal:cbv:bizstep:commissioning",
+    "disposition": "urn:epcglobal:cbv:disp:active",
+    "epcList": [
+      "urn:epc:id:sgtin:8293892839.328.500",
+      "urn:epc:id:sgtin:8293892839.328.501",
+      "urn:epc:id:sgtin:8293892839.328.502",
+      "urn:epc:id:sgtin:8293892839.328.503"
+    ]
+  },
+  {
+    "type": "AggregationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-02T06:15:33+01:00",
+    "action": "ADD",
+    "bizStep": "urn:epcglobal:cbv:bizstep:packing",
+    "disposition": "urn:epcglobal:cbv:disp:in_progress",
+    "persistentDisposition": {},
+    "parentID": "urn:epc:id:sscc:783748374.00000600",
+    "childEPCs": [
+      "urn:epc:id:sgtin:8293892839.328.500",
+      "urn:epc:id:sgtin:8293892839.328.501",
+      "urn:epc:id:sgtin:8293892839.328.502",
+      "urn:epc:id:sgtin:8293892839.328.503"
+    ]
+  }
+]

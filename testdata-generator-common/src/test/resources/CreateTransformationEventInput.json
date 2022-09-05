@@ -1,0 +1,118 @@
+{
+  "events": [
+    {
+      "nodeId": 1,
+      "eventType": "TransformationEvent",
+      "eventCount": 3,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-02T12:03:12.772+01:00"
+      },
+      "businessStep": "TRANSPORTING",
+      "disposition": "IN_PROGRESS",
+      "readPoint": {
+        "gcpLength": "10",
+        "gln": "8439489384938",
+        "extension": "8493"
+      },
+      "bizTransactions": [
+        {
+          "ID": 0,
+          "type": "poc",
+          "bizTransaction": "urn:epcglobal:cbv:1234"
+        }
+      ],
+      "sensorElementList": [
+        {
+          "sensorMetadata": {
+            "time": "2022-03-02T12:03:12.772+01:00"
+          },
+          "sensorReport": [
+            {
+              "ID": 0,
+              "type": "Absorbed_dose",
+              "deviceID": "urn:epcglobal:cbv:1234"
+            }
+          ],
+          "ID": 0
+        }
+      ],
+      "referencedIdentifier": [
+        {
+          "identifierId": 1,
+          "epcCount": 3,
+          "classCount": 2,
+          "instanceStartCount": 0,
+          "classStartCount": 0
+        }
+      ],
+      "parentReferencedIdentifier": {},
+      "outputReferencedIdentifier": [
+        {
+          "identifierId": 2,
+          "epcCount": 2,
+          "classCount": 3,
+          "instanceStartCount": 0,
+          "classStartCount": 0
+        }
+      ]
+    }
+  ],
+  "identifiers": [
+    {
+      "identifierId": 1,
+      "objectIdentifierSyntax": "WebURI",
+      "instanceData": {
+        "sgtin": {
+          "identifierType": "sgtin",
+          "gcpLength": null,
+          "sgtin": "13827382738277",
+          "serialType": "range",
+          "rangeFrom": "500",
+          "rangeTo": "503"
+        }
+      },
+      "classData": {
+        "lgtin": {
+          "identifierType": "lgtin",
+          "gcpLength": null,
+          "quantityType": null,
+          "uom": null,
+          "lgtin": "34894839849384",
+          "serialType": "range",
+          "rangeFrom": "600"
+        }
+      },
+      "parentData": null
+    },
+    {
+      "identifierId": 2,
+      "objectIdentifierSyntax": "WebURI",
+      "instanceData": {
+        "giai": {
+          "identifierType": "giai",
+          "gcpLength": null,
+          "gcp": "48938493",
+          "serialType": "range",
+          "rangeFrom": "5"
+        }
+      },
+      "classData": {
+        "gdti": {
+          "identifierType": "gdti",
+          "gcpLength": null,
+          "quantityType": null,
+          "uom": null,
+          "serialType": "",
+          "gdti": "4930493094039",
+          "classIdentifiersCount": "3"
+        }
+      },
+      "parentData": null
+    }
+  ]
+}

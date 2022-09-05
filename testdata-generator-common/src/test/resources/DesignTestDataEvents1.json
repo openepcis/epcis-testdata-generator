@@ -1,0 +1,91 @@
+{
+  "events": [
+    {
+      "nodeId": 2,
+      "eventType": "ObjectEvent",
+      "eventCount": 1,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-02T18:15:21+02:00"
+      },
+      "businessStep": "COMMISSIONING",
+      "disposition": "ACTIVE",
+      "referencedIdentifier": [
+        {
+          "identifierId": 1,
+          "epcCount": 4,
+          "classCount": 0
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {}
+    },
+    {
+      "nodeId": 3,
+      "eventType": "AggregationEvent",
+      "eventCount": 1,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-02T18:15:33+02:00"
+      },
+      "businessStep": "PACKING",
+      "disposition": "IN_PROGRESS",
+      "persistentDisposition": {
+        "set": [],
+        "unset": []
+      },
+      "referencedIdentifier": [
+        {
+          "parentNodeId": 2,
+          "epcCount": 4,
+          "classCount": 0
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {
+        "identifierId": 4,
+        "parentCount": 1
+      }
+    }
+  ],
+  "identifiers": [
+    {
+      "identifierId": 1,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": {
+        "sgtin": {
+          "identifierType": "sgtin",
+          "gcpLength": "10",
+          "sgtin": "38293892839283",
+          "serialType": "range",
+          "rangeFrom": "500"
+        }
+      },
+      "classData": null,
+      "parentData": null
+    },
+    {
+      "identifierId": 4,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": null,
+      "classData": null,
+      "parentData": {
+        "sscc": {
+          "identifierType": "sscc",
+          "gcpLength": "8",
+          "gcp": "783748374",
+          "serialType": "range",
+          "rangeFrom": "600"
+        }
+      }
+    }
+  ]
+}

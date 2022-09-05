@@ -1,0 +1,161 @@
+{
+  "events": [
+    {
+      "nodeId": 3,
+      "eventType": "TransformationEvent",
+      "eventCount": 2,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-14T17:08:09+01:00"
+      },
+      "businessStep": "RESERVING",
+      "referencedIdentifier": [
+        {
+          "identifierId": 1,
+          "epcCount": 10,
+          "classCount": 0
+        },
+        {
+          "identifierId": 2,
+          "epcCount": 0,
+          "classCount": 5
+        }
+      ],
+      "outputReferencedIdentifier": [
+        {
+          "identifierId": 4,
+          "epcCount": 64,
+          "classCount": 32
+        }
+      ],
+      "parentReferencedIdentifier": {}
+    },
+    {
+      "nodeId": 5,
+      "eventType": "ObjectEvent",
+      "eventCount": 4,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-14T17:08:34+01:00"
+      },
+      "businessStep": "PACKING",
+      "referencedIdentifier": [
+        {
+          "parentNodeId": 3,
+          "epcCount": 16,
+          "classCount": 2
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {}
+    },
+    {
+      "nodeId": 6,
+      "eventType": "AggregationEvent",
+      "eventCount": 8,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-14T17:08:47+01:00"
+      },
+      "businessStep": "SHIPPING",
+      "referencedIdentifier": [
+        {
+          "parentNodeId": 5,
+          "epcCount": 2,
+          "classCount": 1
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {
+        "identifierId": 7,
+        "parentCount": 32
+      }
+    }
+  ],
+  "identifiers": [
+    {
+      "identifierId": 1,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": {
+        "sgtin": {
+          "identifierType": "sgtin",
+          "gcpLength": 10,
+          "sgtin": "11111111111111",
+          "serialType": "range",
+          "rangeFrom": 100
+        }
+      },
+      "classData": null,
+      "parentData": null
+    },
+    {
+      "identifierId": 2,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": null,
+      "classData": {
+        "lgtin": {
+          "identifierType": "lgtin",
+          "gcpLength": 10,
+          "quantityType": null,
+          "uom": null,
+          "lgtin": "22222222222222",
+          "serialType": "random"
+        }
+      },
+      "parentData": null
+    },
+    {
+      "identifierId": 4,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": {
+        "sgtin": {
+          "identifierType": "sgtin",
+          "gcpLength": 12,
+          "sgtin": "33333333333333",
+          "serialType": "range",
+          "randomType": "ALPHA_NUMERIC",
+          "randomMinLength": 5,
+          "randomMaxLength": 10,
+          "rangeFrom": 200
+        }
+      },
+      "classData": {
+        "gtin": {
+          "identifierType": "gtin",
+          "gcpLength": 12,
+          "quantityType": "Variable Measure Quantity",
+          "uom": "TNE",
+          "gtin": "44444444444444",
+          "quantity": 1000.1
+        }
+      },
+      "parentData": null
+    },
+    {
+      "identifierId": 7,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": null,
+      "classData": null,
+      "parentData": {
+        "sscc": {
+          "identifierType": "sscc",
+          "gcpLength": 12,
+          "gcp": "5555555",
+          "serialType": "random"
+        }
+      }
+    }
+  ]
+}

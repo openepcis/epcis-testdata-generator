@@ -1,0 +1,60 @@
+[
+  {
+    "type": "ObjectEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-01T09:46:29+01:00",
+    "action": "ADD",
+    "quantityList": [
+      {
+        "epcClass": "urn:epc:class:lgtin:3094039403.990.200"
+      },
+      {
+        "epcClass": "urn:epc:class:lgtin:3094039403.990.201"
+      },
+      {
+        "epcClass": "urn:epc:class:lgtin:3094039403.990.202"
+      }
+    ],
+    "epcList": [
+      "urn:epc:id:sgtin:319198219.8281.100",
+      "urn:epc:id:sgtin:319198219.8281.101",
+      "urn:epc:id:sgtin:319198219.8281.102",
+      "urn:epc:id:sgtin:319198219.8281.103",
+      "urn:epc:id:sgtin:319198219.8281.104",
+      "urn:epc:id:sgtin:319198219.8281.105",
+      "urn:epc:id:sgtin:319198219.8281.106",
+      "urn:epc:id:sgtin:319198219.8281.107",
+      "urn:epc:id:sgtin:319198219.8281.108",
+      "urn:epc:id:sgtin:319198219.8281.109"
+    ]
+  },
+  {
+    "type": "ObjectEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-01T09:46:29+01:00",
+    "action": "ADD",
+    "quantityList": [
+      {
+        "epcClass": "urn:epc:class:lgtin:3094039403.990.203"
+      },
+      {
+        "epcClass": "urn:epc:class:lgtin:3094039403.990.204"
+      },
+      {
+        "epcClass": "urn:epc:class:lgtin:3094039403.990.205"
+      }
+    ],
+    "epcList": [
+      "urn:epc:id:sgtin:319198219.8281.110",
+      "urn:epc:id:sgtin:319198219.8281.111",
+      "urn:epc:id:sgtin:319198219.8281.112",
+      "urn:epc:id:sgtin:319198219.8281.113",
+      "urn:epc:id:sgtin:319198219.8281.114",
+      "urn:epc:id:sgtin:319198219.8281.115",
+      "urn:epc:id:sgtin:319198219.8281.116",
+      "urn:epc:id:sgtin:319198219.8281.117",
+      "urn:epc:id:sgtin:319198219.8281.118",
+      "urn:epc:id:sgtin:319198219.8281.119"
+    ]
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "events": [
+    {
+      "nodeId": 1,
+      "eventType": "AggregationEvent",
+      "eventCount": 10,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-11T11:12:14.401+01:00"
+      },
+      "referencedIdentifier": [],
+      "parentReferencedIdentifier": {},
+      "outputReferencedIdentifier": []
+    }
+  ],
+  "identifiers": []
+}

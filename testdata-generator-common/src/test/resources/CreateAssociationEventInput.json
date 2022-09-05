@@ -1,0 +1,135 @@
+{
+  "events": [
+    {
+      "nodeId": 1,
+      "eventType": "AssociationEvent",
+      "eventCount": 2,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "OBSERVE",
+      "eventID": true,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-02T12:22:14.528+01:00"
+      },
+      "recordTimeType": "CURRENT_TIME",
+      "businessStep": "SHIPPING",
+      "disposition": "IN_PROGRESS",
+      "readPoint": {
+        "gcpLength": "10",
+        "gln": "1234567890123",
+        "extension": "000"
+      },
+      "bizLocation": {
+        "gcpLength": "10",
+        "gln": "0987654321098",
+        "extension": "1111"
+      },
+      "persistentDisposition": {
+        "set": [
+          "COMPLETENESS_VERIFIED"
+        ],
+        "unset": [
+          "COMPLETENESS_INFERRED"
+        ]
+      },
+      "bizTransactions": [
+        {
+          "ID": 0,
+          "type": "cert",
+          "bizTransaction": "12345"
+        }
+      ],
+      "sources": [
+        {
+          "type": "OWNING_PARTY",
+          "glnType": "SGLN",
+          "gln": "4839849384938",
+          "extension": "98493",
+          "gcpLength": "11"
+        }
+      ],
+      "destinations": [
+        {
+          "type": "PROCESSING_PARTY",
+          "glnType": "PGLN",
+          "gln": "8493849384938",
+          "gcpLength": "10"
+        }
+      ],
+      "userExtensions": [
+        {
+          "type": "userExtension",
+          "element": "extensionElement",
+          "dataType": "complex",
+          "namespace": "https://google.com",
+          "localName": "google",
+          "text": "",
+          "complex": [
+            {
+              "type": "userExtension",
+              "element": "extensionElement",
+              "dataType": "string",
+              "namespace": "https://fb.com",
+              "localName": "fb",
+              "text": "myval",
+              "complex": null,
+              "ID": 1
+            }
+          ],
+          "ID": 0
+        }
+      ],
+      "referencedIdentifier": [
+        {
+          "identifierId": 2,
+          "epcCount": 4,
+          "classCount": 3,
+          "instanceStartCount": 0,
+          "classStartCount": 0
+        }
+      ],
+      "parentReferencedIdentifier": {
+        "identifierId": 1,
+        "parentCount": 2
+      },
+      "outputReferencedIdentifier": []
+    }
+  ],
+  "identifiers": [
+    {
+      "identifierId": 1,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": {
+        "giai": {
+          "identifierType": "giai",
+          "gcpLength": null,
+          "gcp": "4839493",
+          "serialType": "range",
+          "rangeFrom": "100",
+          "rangeTo": "104"
+        }
+      },
+      "classData": {
+        "itip": {
+          "identifierType": "itip",
+          "gcpLength": "11",
+          "quantityType": null,
+          "uom": null,
+          "serialType": "",
+          "itip": "483984938493894389",
+          "classIdentifiersCount": "3"
+        }
+      },
+      "parentData": {
+        "gsrnp": {
+          "identifierType": "gsrnp",
+          "gcpLength": null,
+          "gcp": "48398493",
+          "serialType": "random",
+          "randomCount": "2"
+        }
+      }
+    }
+  ]
+}

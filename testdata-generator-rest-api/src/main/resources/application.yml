@@ -1,0 +1,23 @@
+quarkus:
+  swagger-ui:
+    always-include: true
+  http:
+    cors: true
+    port: 8080
+
+  container-image:
+    group: openepcis
+    name: testdata-generator
+    additional-tags:
+      - latest
+
+  native:
+    additional-build-args: "-H:ReflectionConfigurationFiles=reflection-config.json"
+
+
+  class-loading:
+    parent-first-artifacts: "org.eclipse.persistence:eclipselink,jakarta.xml.bind:jakarta.xml.bind-api,xml-apis:xml-apis"
+
+mp:
+  openapi:
+    filter: "io.openepcis.testdata.api.filter.SchemaExampleOASFilter"

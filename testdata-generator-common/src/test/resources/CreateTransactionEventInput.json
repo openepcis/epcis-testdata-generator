@@ -1,0 +1,80 @@
+{
+  "events": [
+    {
+      "nodeId": 1,
+      "eventType": "TransactionEvent",
+      "eventCount": 5,
+      "locationPartyIdentifierSyntax": "WebURI",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": true,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-02T09:39:36.997+01:30"
+      },
+      "persistentDisposition": {
+        "set": [
+          "ACTIVE"
+        ],
+        "unset": []
+      },
+      "bizTransactions": [
+        {
+          "ID": 0,
+          "type": "cert",
+          "bizTransaction": "12345"
+        }
+      ],
+      "referencedIdentifier": [
+        {
+          "identifierId": 2,
+          "epcCount": 4,
+          "classCount": 2,
+          "instanceStartCount": 0,
+          "classStartCount": 0
+        }
+      ],
+      "parentReferencedIdentifier": {
+        "identifierId": 1,
+        "parentCount": 5
+      },
+      "outputReferencedIdentifier": []
+    }
+  ],
+  "identifiers": [
+    {
+      "identifierId": 1,
+      "objectIdentifierSyntax": "WebURI",
+      "instanceData": {
+        "sscc": {
+          "identifierType": "sscc",
+          "gcpLength": null,
+          "gcp": "34039403",
+          "serialType": "random",
+          "randomCount": "4"
+        }
+      },
+      "classData": {
+        "gdti": {
+          "identifierType": "gdti",
+          "gcpLength": null,
+          "quantityType": "Variable Measure Quantity",
+          "uom": "KGM",
+          "serialType": "",
+          "gdti": "4930403940394",
+          "classIdentifiersCount": "2",
+          "quantity": "10"
+        }
+      },
+      "parentData": {
+        "sscc": {
+          "identifierType": "sscc",
+          "gcpLength": null,
+          "gcp": "123456",
+          "serialType": "random",
+          "randomCount": "5"
+        }
+      }
+    }
+  ]
+}

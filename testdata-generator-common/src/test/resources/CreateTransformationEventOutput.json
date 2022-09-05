@@ -1,0 +1,155 @@
+[
+  {
+    "type": "TransformationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-02T12:03:12+01:00",
+    "bizStep": "urn:epcglobal:cbv:bizstep:transporting",
+    "disposition": "urn:epcglobal:cbv:disp:in_progress",
+    "readPoint": {
+      "id": "urn:epc:id:sgln:8439489384.93.8493"
+    },
+    "sensorElementList": [
+      {
+        "sensorMetadata": {
+          "time": "2022-03-02T12:04:00+01:00"
+        },
+        "sensorReport": [
+          {
+            "type": "Absorbed_dose",
+            "deviceID": "urn:epcglobal:cbv:1234"
+          }
+        ]
+      }
+    ],
+    "inputEPCList": [
+      "https://gs1.org/01/13827382738277/21/500",
+      "https://gs1.org/01/13827382738277/21/501",
+      "https://gs1.org/01/13827382738277/21/502"
+    ],
+    "outputEPCList": [
+      "https://id.gs1.org/8004/489384935",
+      "https://id.gs1.org/8004/489384936"
+    ],
+    "inputQuantityList": [
+      {
+        "epcClass": "https://id.gs1.org/01/34894839849384/10/600"
+      },
+      {
+        "epcClass": "https://id.gs1.org/01/34894839849384/10/601"
+      }
+    ],
+    "outputQuantityList": [
+      {
+        "epcClass": "https://id.gs1.org/253/4930493094032"
+      },
+      {
+        "epcClass": "https://id.gs1.org/253/4930493094032"
+      },
+      {
+        "epcClass": "https://id.gs1.org/253/4930493094032"
+      }
+    ]
+  },
+  {
+    "type": "TransformationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-02T12:03:12+01:00",
+    "bizStep": "urn:epcglobal:cbv:bizstep:transporting",
+    "disposition": "urn:epcglobal:cbv:disp:in_progress",
+    "readPoint": {
+      "id": "urn:epc:id:sgln:8439489384.93.8493"
+    },
+    "sensorElementList": [
+      {
+        "sensorMetadata": {
+          "time": "2022-03-02T12:04:00+01:00"
+        },
+        "sensorReport": [
+          {
+            "type": "Absorbed_dose",
+            "deviceID": "urn:epcglobal:cbv:1234"
+          }
+        ]
+      }
+    ],
+    "inputEPCList": [
+      "https://gs1.org/01/13827382738277/21/503",
+      "https://gs1.org/01/13827382738277/21/504",
+      "https://gs1.org/01/13827382738277/21/505"
+    ],
+    "outputEPCList": [
+      "https://id.gs1.org/8004/489384937",
+      "https://id.gs1.org/8004/489384938"
+    ],
+    "inputQuantityList": [
+      {
+        "epcClass": "https://id.gs1.org/01/34894839849384/10/602"
+      },
+      {
+        "epcClass": "https://id.gs1.org/01/34894839849384/10/603"
+      }
+    ],
+    "outputQuantityList": [
+      {
+        "epcClass": "https://id.gs1.org/253/4930493094032"
+      },
+      {
+        "epcClass": "https://id.gs1.org/253/4930493094032"
+      },
+      {
+        "epcClass": "https://id.gs1.org/253/4930493094032"
+      }
+    ]
+  },
+  {
+    "type": "TransformationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-02T12:03:12+01:00",
+    "bizStep": "urn:epcglobal:cbv:bizstep:transporting",
+    "disposition": "urn:epcglobal:cbv:disp:in_progress",
+    "readPoint": {
+      "id": "urn:epc:id:sgln:8439489384.93.8493"
+    },
+    "sensorElementList": [
+      {
+        "sensorMetadata": {
+          "time": "2022-03-02T12:04:00+01:00"
+        },
+        "sensorReport": [
+          {
+            "type": "Absorbed_dose",
+            "deviceID": "urn:epcglobal:cbv:1234"
+          }
+        ]
+      }
+    ],
+    "inputEPCList": [
+      "https://gs1.org/01/13827382738277/21/506",
+      "https://gs1.org/01/13827382738277/21/507",
+      "https://gs1.org/01/13827382738277/21/508"
+    ],
+    "outputEPCList": [
+      "https://id.gs1.org/8004/489384939",
+      "https://id.gs1.org/8004/4893849310"
+    ],
+    "inputQuantityList": [
+      {
+        "epcClass": "https://id.gs1.org/01/34894839849384/10/604"
+      },
+      {
+        "epcClass": "https://id.gs1.org/01/34894839849384/10/605"
+      }
+    ],
+    "outputQuantityList": [
+      {
+        "epcClass": "https://id.gs1.org/253/4930493094032"
+      },
+      {
+        "epcClass": "https://id.gs1.org/253/4930493094032"
+      },
+      {
+        "epcClass": "https://id.gs1.org/253/4930493094032"
+      }
+    ]
+  }
+]

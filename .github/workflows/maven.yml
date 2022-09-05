@@ -1,0 +1,73 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout git submodules
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Install gpg secret key
+        run: |
+          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
+          gpg --batch --list-secret-keys --keyid-format LONG
+      - name: deploy testdata generator modules
+        env:
+          OPENEPCIS_OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OPENEPCIS_OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+        run: |
+          mvn \
+            -s .mvn/settings.xml \
+            --no-transfer-progress \
+            --batch-mode \
+            -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
+            -Popenepcis-ossrh \
+            -B deploy -Popenepcis-ossrh
+      - name: vus.js ui build
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: integrate vus.js ui into quarkus rest api
+        run: |
+          cd testdata-generator-ui
+          export API_URL="/api"
+          npm install
+          npm run-script build
+          cd ..
+          rm -Rf testdata-generator-rest-api/src/main/resources/static-web/ui
+          mv testdata-generator-ui/dist testdata-generator-rest-api/src/main/resources/static-web/ui
+      - name: create Quarkus runtime image
+        run: |
+          mvn \
+            -s .mvn/settings.xml \
+            --no-transfer-progress \
+            --batch-mode \
+            -f testdata-generator-rest-api/pom.xml \
+            -Dquarkus.container-image.build=true \
+            -DskipTests \
+            -B package
+      - name: docker hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.OPENEPCIS_DOCKER_USER }}
+          password: ${{ secrets.OPENEPCIS_DOCKER_TOKEN }}
+      - name: push image to docker hub
+        run: docker push openepcis/testdata-generator

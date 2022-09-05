@@ -1,0 +1,43 @@
+{
+  "events": [
+    {
+      "nodeId": 1,
+      "eventType": "AggregationEvent",
+      "eventCount": 10,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-01T16:50:04+01:00"
+      },
+      "businessStep": "PACKING",
+      "disposition": "IN_PROGRESS",
+      "referencedIdentifier": [],
+      "parentReferencedIdentifier": {
+        "identifierId": 1,
+        "parentCount": 10
+      },
+      "outputReferencedIdentifier": []
+    }
+  ],
+  "identifiers": [
+    {
+      "identifierId": 1,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": null,
+      "classData": null,
+      "parentData": {
+        "grai": {
+          "identifierType": "grai",
+          "gcpLength": "12",
+          "grai": "8394893849389",
+          "serialType": "range",
+          "rangeFrom": "9000",
+          "rangeTo": "9001"
+        }
+      }
+    }
+  ]
+}

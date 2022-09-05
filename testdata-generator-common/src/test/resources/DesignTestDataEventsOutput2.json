@@ -1,0 +1,66 @@
+[
+  {
+    "type": "TransactionEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-03T01:17:13+01:00",
+    "action": "ADD",
+    "bizStep": "urn:epcglobal:cbv:bizstep:commissioning",
+    "disposition": "urn:epcglobal:cbv:disp:active",
+    "parentID": "https://id.gs1.org/00/999999900000000200",
+    "epcList": [
+      "urn:epc:id:sgtin:11111111111.11.1111",
+      "urn:epc:id:sgtin:11111111111.11.1112",
+      "urn:epc:id:sgtin:11111111111.11.1113",
+      "urn:epc:id:sgtin:11111111111.11.1114",
+      "urn:epc:id:sgtin:11111111111.11.1115",
+      "urn:epc:id:sgtin:11111111111.11.1116"
+    ]
+  },
+  {
+    "type": "TransformationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-03T01:17:36+01:00",
+    "bizStep": "urn:epcglobal:cbv:bizstep:repackaging",
+    "disposition": "urn:epcglobal:cbv:disp:active",
+    "inputEPCList": [
+      "urn:epc:id:sgtin:11111111111.11.1111",
+      "urn:epc:id:sgtin:11111111111.11.1112",
+      "urn:epc:id:sgtin:11111111111.11.1113",
+      "urn:epc:id:sgtin:11111111111.11.1114",
+      "urn:epc:id:sgtin:11111111111.11.1115",
+      "urn:epc:id:sgtin:11111111111.11.1116"
+    ],
+    "outputEPCList": [
+      "urn:epc:id:sscc:2222222.0000002222",
+      "urn:epc:id:sscc:2222222.0000002223",
+      "urn:epc:id:sscc:2222222.0000002224",
+      "urn:epc:id:sscc:2222222.0000002225"
+    ]
+  },
+  {
+    "type": "AssociationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-03T01:17:40+01:00",
+    "action": "ADD",
+    "bizStep": "urn:epcglobal:cbv:bizstep:packing",
+    "disposition": "urn:epcglobal:cbv:disp:in_progress",
+    "parentID": "https://id.gs1.org/00/444444400000000400",
+    "childEPCs": [
+      "urn:epc:id:sscc:2222222.0000002222",
+      "urn:epc:id:sscc:2222222.0000002223"
+    ]
+  },
+  {
+    "type": "AssociationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-03T01:17:40+01:00",
+    "action": "ADD",
+    "bizStep": "urn:epcglobal:cbv:bizstep:packing",
+    "disposition": "urn:epcglobal:cbv:disp:in_progress",
+    "parentID": "https://id.gs1.org/00/444444400000000401",
+    "childEPCs": [
+      "urn:epc:id:sscc:2222222.0000002224",
+      "urn:epc:id:sscc:2222222.0000002225"
+    ]
+  }
+]

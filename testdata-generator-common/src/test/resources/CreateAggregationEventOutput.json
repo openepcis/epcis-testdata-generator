@@ -1,0 +1,92 @@
+[
+  {
+    "type": "AggregationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-01T04:50:04+01:00",
+    "action": "ADD",
+    "bizStep": "urn:epcglobal:cbv:bizstep:packing",
+    "disposition": "urn:epcglobal:cbv:disp:in_progress",
+    "parentID": "urn:epc:id:grai:839489384938..9000"
+  },
+  {
+    "type": "AggregationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-01T04:50:04+01:00",
+    "action": "ADD",
+    "bizStep": "urn:epcglobal:cbv:bizstep:packing",
+    "disposition": "urn:epcglobal:cbv:disp:in_progress",
+    "parentID": "urn:epc:id:grai:839489384938..9001"
+  },
+  {
+    "type": "AggregationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-01T04:50:04+01:00",
+    "action": "ADD",
+    "bizStep": "urn:epcglobal:cbv:bizstep:packing",
+    "disposition": "urn:epcglobal:cbv:disp:in_progress",
+    "parentID": "urn:epc:id:grai:839489384938..9002"
+  },
+  {
+    "type": "AggregationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-01T04:50:04+01:00",
+    "action": "ADD",
+    "bizStep": "urn:epcglobal:cbv:bizstep:packing",
+    "disposition": "urn:epcglobal:cbv:disp:in_progress",
+    "parentID": "urn:epc:id:grai:839489384938..9003"
+  },
+  {
+    "type": "AggregationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-01T04:50:04+01:00",
+    "action": "ADD",
+    "bizStep": "urn:epcglobal:cbv:bizstep:packing",
+    "disposition": "urn:epcglobal:cbv:disp:in_progress",
+    "parentID": "urn:epc:id:grai:839489384938..9004"
+  },
+  {
+    "type": "AggregationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-01T04:50:04+01:00",
+    "action": "ADD",
+    "bizStep": "urn:epcglobal:cbv:bizstep:packing",
+    "disposition": "urn:epcglobal:cbv:disp:in_progress",
+    "parentID": "urn:epc:id:grai:839489384938..9005"
+  },
+  {
+    "type": "AggregationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-01T04:50:04+01:00",
+    "action": "ADD",
+    "bizStep": "urn:epcglobal:cbv:bizstep:packing",
+    "disposition": "urn:epcglobal:cbv:disp:in_progress",
+    "parentID": "urn:epc:id:grai:839489384938..9006"
+  },
+  {
+    "type": "AggregationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-01T04:50:04+01:00",
+    "action": "ADD",
+    "bizStep": "urn:epcglobal:cbv:bizstep:packing",
+    "disposition": "urn:epcglobal:cbv:disp:in_progress",
+    "parentID": "urn:epc:id:grai:839489384938..9007"
+  },
+  {
+    "type": "AggregationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-01T04:50:04+01:00",
+    "action": "ADD",
+    "bizStep": "urn:epcglobal:cbv:bizstep:packing",
+    "disposition": "urn:epcglobal:cbv:disp:in_progress",
+    "parentID": "urn:epc:id:grai:839489384938..9008"
+  },
+  {
+    "type": "AggregationEvent",
+    "eventTimeZoneOffset": "+02:00",
+    "eventTime": "2022-03-01T04:50:04+01:00",
+    "action": "ADD",
+    "bizStep": "urn:epcglobal:cbv:bizstep:packing",
+    "disposition": "urn:epcglobal:cbv:disp:in_progress",
+    "parentID": "urn:epc:id:grai:839489384938..9009"
+  }
+]

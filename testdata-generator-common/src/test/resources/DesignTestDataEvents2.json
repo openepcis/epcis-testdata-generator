@@ -1,0 +1,150 @@
+{
+  "events": [
+    {
+      "nodeId": 2,
+      "eventType": "TransactionEvent",
+      "eventCount": 1,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-03T13:17:13+03:00"
+      },
+      "businessStep": "COMMISSIONING",
+      "disposition": "ACTIVE",
+      "referencedIdentifier": [
+        {
+          "identifierId": 1,
+          "epcCount": 6,
+          "classCount": 0
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {
+        "identifierId": 6,
+        "parentCount": 1
+      }
+    },
+    {
+      "nodeId": 3,
+      "eventType": "TransformationEvent",
+      "eventCount": 1,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-03T13:17:36+03:00"
+      },
+      "businessStep": "REPACKAGING",
+      "disposition": "ACTIVE",
+      "referencedIdentifier": [
+        {
+          "parentNodeId": 2,
+          "epcCount": 6,
+          "classCount": 0
+        }
+      ],
+      "outputReferencedIdentifier": [
+        {
+          "identifierId": 5,
+          "epcCount": 4,
+          "classCount": 0
+        }
+      ],
+      "parentReferencedIdentifier": {}
+    },
+    {
+      "nodeId": 4,
+      "eventType": "AssociationEvent",
+      "eventCount": 2,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-03T13:17:40+03:00"
+      },
+      "businessStep": "PACKING",
+      "disposition": "IN_PROGRESS",
+      "referencedIdentifier": [
+        {
+          "parentNodeId": 3,
+          "epcCount": 2,
+          "classCount": 0
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {
+        "identifierId": 7,
+        "parentCount": 2
+      }
+    }
+  ],
+  "identifiers": [
+    {
+      "identifierId": 1,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": {
+        "sgtin": {
+          "identifierType": "sgtin",
+          "gcpLength": "11",
+          "sgtin": "11111111111111",
+          "serialType": "range",
+          "rangeFrom": "1111"
+        }
+      },
+      "classData": null,
+      "parentData": null
+    },
+    {
+      "identifierId": 5,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": {
+        "sscc": {
+          "identifierType": "sscc",
+          "gcpLength": "10",
+          "gcp": "2222222",
+          "serialType": "range",
+          "rangeFrom": "2222"
+        }
+      },
+      "classData": null,
+      "parentData": null
+    },
+    {
+      "identifierId": 6,
+      "objectIdentifierSyntax": "WebURI",
+      "instanceData": null,
+      "classData": null,
+      "parentData": {
+        "sscc": {
+          "identifierType": "sscc",
+          "gcpLength": "9",
+          "gcp": "9999999",
+          "serialType": "range",
+          "rangeFrom": "200"
+        }
+      }
+    },
+    {
+      "identifierId": 7,
+      "objectIdentifierSyntax": "WebURI",
+      "instanceData": null,
+      "classData": null,
+      "parentData": {
+        "sscc": {
+          "identifierType": "sscc",
+          "gcpLength": null,
+          "gcp": "4444444",
+          "serialType": "range",
+          "rangeFrom": "400"
+        }
+      }
+    }
+  ]
+}

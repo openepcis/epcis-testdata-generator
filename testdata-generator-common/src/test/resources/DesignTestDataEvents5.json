@@ -1,0 +1,87 @@
+{
+  "events": [
+    {
+      "nodeId": 2,
+      "eventType": "ObjectEvent",
+      "eventCount": 2,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-09T16:13:42+02:30"
+      },
+      "referencedIdentifier": [
+        {
+          "identifierId": 1,
+          "epcCount": 12,
+          "classCount": 0
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {}
+    },
+    {
+      "nodeId": 3,
+      "eventType": "AggregationEvent",
+      "eventCount": 2,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-09T16:13:52+02:30"
+      },
+      "referencedIdentifier": [
+        {
+          "parentNodeId": 2,
+          "epcCount": 6,
+          "classCount": 0
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {}
+    },
+    {
+      "nodeId": 4,
+      "eventType": "TransactionEvent",
+      "eventCount": 3,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-03-09T16:14:17+02:30"
+      },
+      "referencedIdentifier": [
+        {
+          "parentNodeId": 3,
+          "epcCount": 2,
+          "classCount": 0
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {}
+    }
+  ],
+  "identifiers": [
+    {
+      "identifierId": 1,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": {
+        "sgtin": {
+          "identifierType": "sgtin",
+          "gcpLength": "10",
+          "sgtin": "11111111111111",
+          "serialType": "range",
+          "rangeFrom": "100"
+        }
+      },
+      "classData": null,
+      "parentData": null
+    }
+  ]
+}
