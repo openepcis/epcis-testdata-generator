@@ -31,7 +31,7 @@
     <name>testdata-generator-common</name>
     <description>Java library to generate EPCIS events in JSON format based on the provided InputTemplate.</description>
     <version>0.9.1-SNAPSHOT</version>
-    <url>https://github.com/openepcis/openepcis-epcis-testdata-generator</url>
+    <url>https://github.com/openepcis/epcis-testdata-generator</url>
 
     <licenses>
         <license>
@@ -56,9 +56,9 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/openepcis/openepcis-epcis-testdata-generator.git</connection>
-        <developerConnection>scm:git:ssh://github.com:openepcis/openepcis-epcis-testdata-generator.git</developerConnection>
-        <url>https://github.com/openepcis/openepcis-epcis-testdata-generator/tree/main</url>
+        <connection>scm:git:git://github.com/openepcis/epcis-testdata-generator.git</connection>
+        <developerConnection>scm:git:ssh://github.com:openepcis/epcis-testdata-generator.git</developerConnection>
+        <url>https://github.com/openepcis/epcis-testdata-generator/tree/main</url>
     </scm>
 
     <build>

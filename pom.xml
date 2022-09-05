@@ -26,7 +26,7 @@
     <packaging>pom</packaging>
     <name>testdata-generator-build</name>
     <description>OpenEPCIS Testdata Generator</description>
-    <url>https://github.com/openepcis/openepcis-dist</url>
+    <url>https://github.com/openepcis/epcis-testdata-generator</url>
 
     <licenses>
         <license>
@@ -46,8 +46,7 @@
 
     <scm>
         <connection>scm:git:git://github.com/openepcis/epcis-testdata-generator.git</connection>
-        <developerConnection>scm:git:ssh://github.com:openepcis/epcis-testdata-generator.git
-        </developerConnection>
+        <developerConnection>scm:git:ssh://github.com:openepcis/epcis-testdata-generator.git</developerConnection>
         <url>https://github.com/openepcis/epcis-testdata-generator/tree/main</url>
     </scm>
 
