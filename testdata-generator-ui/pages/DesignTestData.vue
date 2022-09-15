@@ -121,6 +121,7 @@ export default {
       allEventsInfoArray: [],
       connectorCounter: 1,
       dialogData: {},
+      parentIdEventTypes: ['AggregationEvent', 'AssociationEvent', 'TransactionEvent'],
       listNodes: [
         {
           ID: 1,
@@ -260,6 +261,7 @@ export default {
         connectorObj.name = 'connector' + vm.connectorCounter
         connectorObj.source = connectObj.output_id
         connectorObj.target = connectObj.input_id
+        connectorObj.hideInheritParentCount = false
         vm.connectorCounter++
 
         // Add connector information within the connector store for storing the EPC/Parent/Quantity
@@ -277,6 +279,22 @@ export default {
     // On selection of the Connector get show the modal for getting the information
     this.$df.on('connectionSelected', function (connectObj) {
       vm.connectObj = connectObj
+
+      // After selection of connector based on the node to which its connected decide if ParentCount need to be displayed or not
+      const connectorArray = JSON.parse(JSON.stringify(vm.$store.state.modules.ConnectorStore.connectorArray))
+      const connectorData = connectorArray.find(con => parseInt(con.source) === parseInt(connectObj.output_id) && parseInt(con.target) === parseInt(connectObj.input_id))
+
+      for (const eventNode in vm.$df.export().drawflow.Home.data) {
+        const nodeInfo = vm.$df.export().drawflow.Home.data[eventNode]
+        if (nodeInfo.name === 'Events' && parseInt(nodeInfo.id) === parseInt(connectorData.source)) {
+          const targetEventType = nodeInfo.data.eventType
+          if (vm.parentIdEventTypes.includes(targetEventType)) {
+            vm.$store.commit('modules/ConnectorStore/populateHideInheritParentCount', true)
+          } else {
+            vm.$store.commit('modules/ConnectorStore/populateHideInheritParentCount', false)
+          }
+        }
+      }
     })
 
     // On Double click on Connector, show the modal for getting the connector information and store it.

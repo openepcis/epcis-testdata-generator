@@ -18,11 +18,13 @@ package io.openepcis.testdata.generator.template;
 import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @Getter
 @Setter
+@ToString
 public class ReferencedIdentifier implements Serializable {
   @Schema(
       type = SchemaType.NUMBER,
@@ -51,4 +53,9 @@ public class ReferencedIdentifier implements Serializable {
       type = SchemaType.NUMBER,
       description = "Quantity of the class identifiers associated with event node")
   private Float quantity;
+
+  @Schema(
+      type = SchemaType.NUMBER,
+      description = "Number of parent identifiers inherited from parent node to child node")
+  private int inheritParentCount;
 }

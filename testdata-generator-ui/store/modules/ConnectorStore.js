@@ -1,5 +1,5 @@
 // OpenEPCIS Testdata Generator UI
-// Copyright (C) 2022  benelog GmbH & Co. KG 
+// Copyright (C) 2022  benelog GmbH & Co. KG
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// 
+//
 // See LICENSE in the project root for license information.
 const getDefaultState = () => {
   return {
@@ -46,8 +46,19 @@ export const mutations = {
   populateConnectorInfo (state, connectorInfo) {
     const connect = state.connectorArray.find(con => parseInt(con.source) === parseInt(state.currentConnector.output_id) && parseInt(con.target) === parseInt(state.currentConnector.input_id))
     connect.epcCount = parseInt(connectorInfo.epcCount)
+    connect.inheritParentCount = parseInt(connectorInfo.inheritParentCount)
     connect.classCount = parseInt(connectorInfo.classCount)
     connect.quantity = parseInt(connectorInfo.quantity)
+    connect.hideInheritParentCount = connectorInfo.hideInheritParentCount
+  },
+  // Function to set the hideInheritParentCount based on the Source Node connected to Connector
+  populateHideInheritParentCount (state, displayValue) {
+    if (state.currentConnector !== undefined) {
+      const connect = state.connectorArray.find(con => parseInt(con.source) === parseInt(state.currentConnector.output_id) && parseInt(con.target) === parseInt(state.currentConnector.input_id))
+      if (connect !== undefined) {
+        connect.hideInheritParentCount = displayValue
+      }
+    }
   },
   // Function to remove the connector information from connector Array if the connector is deleted
   removeConnectorInfo (state, connectorInfo) {

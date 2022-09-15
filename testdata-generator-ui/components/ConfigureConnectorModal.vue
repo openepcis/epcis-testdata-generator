@@ -26,10 +26,20 @@
   >
     <b-form id="connectorData" class="form-horizontal" autocomplete="on" @submit.prevent="submitConnectorData">
       <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-6">
           <label class="col-form-label" style="font-weight:bold">EPC Count</label>
           <input
             v-model="connector.epcCount"
+            type="number"
+            class="form-control"
+            autocomplete="off"
+            required
+          >
+        </div>
+        <div v-if="connector.hideInheritParentCount" class="col-sm-6">
+          <label class="col-form-label" style="font-weight:bold">Parent Count</label>
+          <input
+            v-model="connector.inheritParentCount"
             type="number"
             class="form-control"
             autocomplete="off"
@@ -80,6 +90,8 @@ export default {
     return {
       connector: {
         epcCount: 0,
+        inheritParentCount: 0,
+        hideInheritParentCount: false,
         classCount: 0,
         quantity: 0.0
       }
@@ -94,8 +106,10 @@ export default {
       if (connectorInfo !== undefined) {
         // Based on the current connector info assign the values
         this.connector.epcCount = connectorInfo.epcCount !== undefined ? connectorInfo.epcCount : 0
+        this.connector.inheritParentCount = connectorInfo.inheritParentCount !== undefined ? connectorInfo.inheritParentCount : 0
         this.connector.classCount = connectorInfo.classCount !== undefined ? connectorInfo.classCount : 0
         this.connector.quantity = connectorInfo.quantity !== undefined ? connectorInfo.quantity : 0.0
+        this.connector.hideInheritParentCount = connectorInfo.hideInheritParentCount !== undefined ? connectorInfo.hideInheritParentCount : false
       }
     }
   },

@@ -16,10 +16,7 @@
 package io.openepcis.testdata.generator.format;
 
 import io.openepcis.model.epcis.SourceList;
-import io.openepcis.testdata.generator.constants.DomainName;
-import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
-import io.openepcis.testdata.generator.constants.SourceDestinationGLNType;
-import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
+import io.openepcis.testdata.generator.constants.*;
 import java.io.Serializable;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
 
@@ -70,22 +67,31 @@ public class SourceFormatter implements Serializable {
 
   private static SourceList formatWebURI(SourceDestinationSyntax input) {
     try {
-      final var srcFormatted = new SourceList();
       String gln = input.getGln();
       gln = gln.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gln.substring(0, 12));
+      String source = "";
 
-      srcFormatted.setType(input.getType().toString().toLowerCase());
-
-      if (input.getGlnType() == SourceDestinationGLNType.PGLN) {
-        srcFormatted.setSource(DomainName.IDENTIFIER_DOMAIN + "/417/" + gln);
-      } else {
-        if (input.getExtension() != null) {
-          srcFormatted.setSource(
-              DomainName.IDENTIFIER_DOMAIN + "/414/" + gln + "/254/" + input.getExtension());
-        } else {
-          srcFormatted.setSource(DomainName.IDENTIFIER_DOMAIN + "/414/" + gln);
-        }
+      // For ProcessingParty and OwningParty add the 417 as application identifier.
+      if (input.getType().equals(SourceDestinationType.PROCESSING_PARTY)
+          || input.getType().equals(SourceDestinationType.OWNING_PARTY)) {
+        source = DomainName.IDENTIFIER_DOMAIN + "/417/" + gln;
+      } else if (input.getType().equals(SourceDestinationType.LOCATION)) {
+        // For Location add the 414 as application identifier.
+        source = DomainName.IDENTIFIER_DOMAIN + "/414/" + gln;
       }
+
+      // If the extension is present then add the extension to the source else keep it blank.
+      source =
+          source
+              + (input.getExtension() != null && !input.getExtension().isEmpty()
+                  ? "/254/" + input.getExtension()
+                  : "");
+
+      // Add the formatted values to SourceList and return it to calling method.
+      final var srcFormatted = new SourceList();
+      srcFormatted.setType(input.getType().toString().toLowerCase());
+      srcFormatted.setSource(source);
+
       return srcFormatted;
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
