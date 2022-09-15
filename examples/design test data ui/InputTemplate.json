@@ -1,0 +1,287 @@
+{
+  "events": [
+    {
+      "nodeId": 1,
+      "eventType": "ObjectEvent",
+      "eventCount": 4,
+      "locationPartyIdentifierSyntax": "WebURI",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+01:00",
+        "fromTime": "2022-09-07T08:00+02:00",
+        "toTime": "2022-09-07T16:00+02:00"
+      },
+      "businessStep": "COMMISSIONING",
+      "disposition": "ACTIVE",
+      "readPoint": {
+        "gcpLength": null,
+        "gln": "4012345000005",
+        "extensionType": "static"
+      },
+      "referencedIdentifier": [
+        {
+          "identifierId": 2,
+          "epcCount": 50,
+          "classCount": 0,
+          "quantity": 0
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {},
+      "epcList": [],
+      "quantityList": [],
+      "outputEPCList": [],
+      "outputQuantityList": []
+    },
+    {
+      "nodeId": 3,
+      "eventType": "AggregationEvent",
+      "eventCount": 8,
+      "locationPartyIdentifierSyntax": "WebURI",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+01:00",
+        "fromTime": "2022-09-07T16:00+02:00",
+        "toTime": "2022-09-07T17:00+02:00"
+      },
+      "businessStep": "PACKING",
+      "disposition": "IN_PROGRESS",
+      "readPoint": {
+        "gcpLength": null,
+        "gln": "4012345000009",
+        "extensionType": "static"
+      },
+      "referencedIdentifier": [
+        {
+          "parentNodeId": 1,
+          "epcCount": 10,
+          "classCount": 0,
+          "quantity": 0
+        },
+        {
+          "identifierId": 4,
+          "parentCount": 32
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {
+        "identifierId": 4,
+        "parentCount": 32
+      },
+      "epcList": [],
+      "quantityList": [],
+      "outputEPCList": [],
+      "outputQuantityList": []
+    },
+    {
+      "nodeId": 5,
+      "eventType": "AggregationEvent",
+      "eventCount": 4,
+      "locationPartyIdentifierSyntax": "WebURI",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+01:00",
+        "fromTime": "2022-09-07T17:00+02:00",
+        "toTime": "2022-09-07T18:00+02:00"
+      },
+      "businessStep": "PACKING",
+      "readPoint": {
+        "gcpLength": null,
+        "gln": "4012345000009",
+        "extensionType": "static"
+      },
+      "referencedIdentifier": [
+        {
+          "parentNodeId": 3,
+          "epcCount": 5,
+          "classCount": 0,
+          "quantity": 0
+        },
+        {
+          "identifierId": 6,
+          "parentCount": 32
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {
+        "identifierId": 6,
+        "parentCount": 32
+      },
+      "epcList": [],
+      "quantityList": [],
+      "outputEPCList": [],
+      "outputQuantityList": []
+    },
+    {
+      "nodeId": 7,
+      "eventType": "AggregationEvent",
+      "eventCount": 2,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+01:00",
+        "fromTime": "2022-09-08T06:00+02:00",
+        "toTime": "2022-09-08T07:00+02:00"
+      },
+      "businessStep": "LOADING",
+      "referencedIdentifier": [
+        {
+          "parentNodeId": 5,
+          "epcCount": 2,
+          "classCount": 0,
+          "quantity": 0
+        },
+        {
+          "identifierId": 8,
+          "parentCount": 8
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {
+        "identifierId": 8,
+        "parentCount": 8
+      },
+      "epcList": [],
+      "quantityList": [],
+      "outputEPCList": [],
+      "outputQuantityList": []
+    },
+    {
+      "nodeId": 9,
+      "eventType": "ObjectEvent",
+      "eventCount": 2,
+      "locationPartyIdentifierSyntax": "WebURI",
+      "ordinaryEvent": true,
+      "action": "OBSERVE",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+01:00",
+        "fromTime": "2022-09-08T09:00+02:00",
+        "toTime": "2022-09-08T10:00+02:00"
+      },
+      "businessStep": "SHIPPING",
+      "disposition": "IN_TRANSIT",
+      "readPoint": {
+        "gcpLength": null,
+        "gln": "4012345000009",
+        "extensionType": "static"
+      },
+      "sources": [
+        {
+          "type": "PROCESSING_PARTY",
+          "glnType": "SGLN",
+          "gln": "4012345000009",
+          "gcpLength": null
+        }
+      ],
+      "destinations": [
+        {
+          "type": "PROCESSING_PARTY",
+          "glnType": "SGLN",
+          "gln": "0061414100007",
+          "gcpLength": null
+        }
+      ],
+      "referencedIdentifier": [
+        {
+          "parentNodeId": 7,
+          "epcCount": 1,
+          "classCount": 0,
+          "quantity": 0
+        }
+      ],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {},
+      "epcList": [],
+      "quantityList": [],
+      "outputEPCList": [],
+      "outputQuantityList": []
+    }
+  ],
+  "identifiers": [
+    {
+      "identifierId": 2,
+      "objectIdentifierSyntax": "WebURI",
+      "instanceData": {
+        "sgtin": {
+          "identifierType": "sgtin",
+          "gcpLength": null,
+          "sgtin": "04012345123456",
+          "serialType": "random",
+          "randomType": "ALPHA_NUMERIC",
+          "randomMinLength": 10,
+          "randomMaxLength": 14
+        }
+      },
+      "classData": null,
+      "parentData": null
+    },
+    {
+      "identifierId": 4,
+      "objectIdentifierSyntax": "WebURI",
+      "instanceData": null,
+      "classData": null,
+      "parentData": {
+        "sgtin": {
+          "identifierType": "sgtin",
+          "gcpLength": null,
+          "sgtin": "04012345333336",
+          "serialType": "random",
+          "randomType": "ALPHA_NUMERIC",
+          "randomMinLength": 12,
+          "randomMaxLength": 14
+        }
+      }
+    },
+    {
+      "identifierId": 6,
+      "objectIdentifierSyntax": "WebURI",
+      "instanceData": {
+        "sgtin": {
+          "identifierType": "sgtin",
+          "gcpLength": null,
+          "sgtin": "04012345444445",
+          "serialType": "random",
+          "randomType": "ALPHA_NUMERIC",
+          "randomMinLength": 12,
+          "randomMaxLength": 14
+        }
+      },
+      "classData": null,
+      "parentData": {
+        "sgtin": {
+          "identifierType": "sgtin",
+          "gcpLength": null,
+          "sgtin": "04012345444445",
+          "serialType": "random",
+          "randomType": "ALPHA_NUMERIC",
+          "randomMinLength": 12,
+          "randomMaxLength": 14
+        }
+      }
+    },
+    {
+      "identifierId": 8,
+      "objectIdentifierSyntax": "WebURI",
+      "instanceData": null,
+      "classData": null,
+      "parentData": {
+        "sscc": {
+          "identifierType": "sscc",
+          "gcpLength": null,
+          "serialType": "random",
+          "gcp": "4012345",
+          "rangeFrom": 60000
+        }
+      }
+    }
+  ]
+}

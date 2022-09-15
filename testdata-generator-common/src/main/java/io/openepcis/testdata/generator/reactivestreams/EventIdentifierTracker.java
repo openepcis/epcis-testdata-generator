@@ -19,12 +19,15 @@ import io.openepcis.model.epcis.EPCISEvent;
 import io.openepcis.testdata.generator.template.EPCISEventType;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Data
 @RequiredArgsConstructor
+@ToString
 public class EventIdentifierTracker {
   private final EPCISEventType eventTypeInfo;
   private final EPCISEvent event;
   private int instanceIndex = 0;
   private int quantityIndex = 0;
+  private int parentIndex = 0;
 }

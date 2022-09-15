@@ -115,6 +115,13 @@ public class EventModelUtil {
     return segregateInstanceIdentifiers(parentTracker, epcCount);
   }
 
+  // Public method which will be invoked during the Instance identifiers creation if child node
+  // inherits parent identifiers
+  public static List<String> parentIdentifiers(
+      final EventIdentifierTracker parentTracker, final int inheritParentCount) {
+    return segregateParentIdentifiers(parentTracker, inheritParentCount);
+  }
+
   // Public method which will be invoked during the Class Identifier creation if the Class
   // Identifiers need to be inherited from the Parent event node
   public static List<QuantityList> classIdentifiers(
@@ -179,6 +186,50 @@ public class EventModelUtil {
       parentTracker.setInstanceIndex(0);
     }
     return instanceIdentifiersList;
+  }
+
+  // Private method which will segregate the Parent identifier from the Parent Event based on the
+  // type of the event
+  private static List<String> segregateParentIdentifiers(
+      final EventIdentifierTracker parentTracker, final int inheritParentCount) {
+    // List to store all the Parent identifiers from parent
+    List<String> parentIdentifiersList = new ArrayList<>();
+
+    // Check the type of event based on which obtain relative Parent Identifiers
+    if (parentTracker.getEvent() instanceof AggregationEvent aggregationEvent
+        && aggregationEvent.getParentID() != null
+        && !aggregationEvent.getParentID().isEmpty()) {
+      // For AggregationEvent add the Parent-Ids
+      parentIdentifiersList.add(aggregationEvent.getParentID());
+    } else if (parentTracker.getEvent() instanceof TransactionEvent transactionEvent
+        && transactionEvent.getParentID() != null
+        && !transactionEvent.getParentID().isEmpty()) {
+      // For TransactionEvent add the Parent-Ids
+      parentIdentifiersList.add(transactionEvent.getParentID());
+    } else if (parentTracker.getEvent() instanceof AssociationEvent associationEvent
+        && associationEvent.getParentID() != null
+        && !associationEvent.getParentID().isEmpty()) {
+      // For AssociationEvent add the Parent-Ids
+      parentIdentifiersList.add(associationEvent.getParentID());
+    }
+
+    if (!parentIdentifiersList.isEmpty()
+        && parentIdentifiersList.size() >= (parentTracker.getParentIndex() + inheritParentCount)) {
+      // If the parentIdentifiersList has the values required by the child event
+      parentIdentifiersList =
+          parentIdentifiersList.subList(
+              parentTracker.getParentIndex(), parentTracker.getParentIndex() + inheritParentCount);
+      parentTracker.setParentIndex(parentTracker.getParentIndex() + inheritParentCount);
+    } else if (!parentIdentifiersList.isEmpty()
+        && parentIdentifiersList.size() >= inheritParentCount) {
+      // If the instanceIdentifiersList does not have the values required by the child event add all
+      parentIdentifiersList = parentIdentifiersList.subList(0, inheritParentCount);
+      parentTracker.setParentIndex(0);
+    } else {
+      parentTracker.setParentIndex(0);
+    }
+
+    return parentIdentifiersList;
   }
 
   // Private method which will segregate the Class Identifiers from the Parent Event based on type

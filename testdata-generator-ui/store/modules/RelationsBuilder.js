@@ -1,5 +1,5 @@
 // OpenEPCIS Testdata Generator UI
-// Copyright (C) 2022  benelog GmbH & Co. KG 
+// Copyright (C) 2022  benelog GmbH & Co. KG
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// 
+//
 // See LICENSE in the project root for license information.
 const getDefaultState = () => {
   return {
@@ -88,7 +88,7 @@ export const actions = {
           if (eventFormDataInfo !== undefined) {
             // For Identifiers node add the information into referencedIdentifier of the target node if its eventNode
             if (state.diagram[identifierNode].name === 'Identifiers' && Object.keys(eventFormDataInfo.formData)[0] !== undefined) {
-              const identifierObj = { identifierId: state.diagram[identifierNode].id, epcCount: connectionInfo.epcCount, classCount: connectionInfo.classCount, quantity: connectionInfo.quantity }
+              const identifierObj = { identifierId: state.diagram[identifierNode].id, epcCount: connectionInfo.epcCount, inheritParentCount: connectionInfo.inheritParentCount, classCount: connectionInfo.classCount, quantity: connectionInfo.quantity }
 
               // If the eventType is TransformationEvent and if the identifiers node is connected to input_1 then treat it as input EPC/Quantity
               if ((Object.keys(eventFormDataInfo.formData)[0] === 'TransformationEvent' && identifiersConnections[connect].output === 'input_1') || Object.keys(eventFormDataInfo.formData)[0] !== 'TransformationEvent') {
@@ -173,7 +173,7 @@ export const actions = {
 
               // If the EventNode is directly connected to another EventNode then add the ParentEventNode to respective events reference identifiers
               parentReferenceIdentifiers = parentReferenceIdentifiers.map(function (identifier) {
-                const refIdObj = { parentNodeId: parentNodeInfo.eventId, epcCount: connectionInfo.epcCount, classCount: connectionInfo.classCount, quantity: connectionInfo.quantity }
+                const refIdObj = { parentNodeId: parentNodeInfo.eventId, epcCount: connectionInfo.epcCount, inheritParentCount: connectionInfo.inheritParentCount, classCount: connectionInfo.classCount, quantity: connectionInfo.quantity }
                 return refIdObj
               })
 

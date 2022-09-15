@@ -1,0 +1,55 @@
+{
+  "events": [
+    {
+      "nodeId": 1,
+      "eventType": "ObjectEvent",
+      "eventCount": 10,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-09-14T16:59:56.000+02:00"
+      },
+      "referencedIdentifier": [
+        {
+          "identifierId": 1,
+          "epcCount": 10,
+          "classCount": 5
+        }
+      ],
+      "parentReferencedIdentifier": {},
+      "outputReferencedIdentifier": []
+    }
+  ],
+  "identifiers": [
+    {
+      "identifierId": 1,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": {
+        "sgtin": {
+          "identifierType": "sgtin",
+          "gcpLength": 10,
+          "sgtin": "89589598549889",
+          "serialType": "range",
+          "rangeFrom": 100,
+          "count": 10
+        }
+      },
+      "classData": {
+        "lgtin": {
+          "identifierType": "lgtin",
+          "gcpLength": 10,
+          "quantityType": null,
+          "uom": null,
+          "lgtin": "78675867587685",
+          "serialType": "range",
+          "rangeFrom": 500,
+          "count": 5
+        }
+      },
+      "parentData": null
+    }
+  ]
+}

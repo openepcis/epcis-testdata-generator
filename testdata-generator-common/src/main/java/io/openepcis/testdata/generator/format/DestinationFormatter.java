@@ -16,10 +16,7 @@
 package io.openepcis.testdata.generator.format;
 
 import io.openepcis.model.epcis.DestinationList;
-import io.openepcis.testdata.generator.constants.DomainName;
-import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
-import io.openepcis.testdata.generator.constants.SourceDestinationGLNType;
-import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
+import io.openepcis.testdata.generator.constants.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
@@ -74,22 +71,32 @@ public class DestinationFormatter {
 
   private static DestinationList formatWebURI(SourceDestinationSyntax input) {
     try {
-      final var dstFormatted = new DestinationList();
+
       String gln = input.getGln();
       gln = gln.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gln.substring(0, 12));
-      gln = CompanyPrefixFormatter.gcpFormatterNormal(gln, input.getGcpLength()).toString();
-      dstFormatted.setType(input.getType().toString().toLowerCase());
+      String destination = "";
 
-      if (input.getGlnType() == SourceDestinationGLNType.PGLN) {
-        dstFormatted.setDestination(DomainName.IDENTIFIER_DOMAIN + "/417/" + gln);
-      } else {
-        if (input.getExtension() != null) {
-          dstFormatted.setDestination(
-              DomainName.IDENTIFIER_DOMAIN + "/414/" + gln + "/254/" + input.getExtension());
-        } else {
-          dstFormatted.setDestination(DomainName.IDENTIFIER_DOMAIN + "/414/" + gln);
-        }
+      // For ProcessingParty and OwningParty add the 417 as application identifier.
+      if (input.getType().equals(SourceDestinationType.PROCESSING_PARTY)
+          || input.getType().equals(SourceDestinationType.OWNING_PARTY)) {
+        destination = DomainName.IDENTIFIER_DOMAIN + "/417/" + gln;
+      } else if (input.getType().equals(SourceDestinationType.LOCATION)) {
+        // For Location add the 414 as application identifier.
+        destination = DomainName.IDENTIFIER_DOMAIN + "/414/" + gln;
       }
+
+      // If the extension is present then add the extension to the destination else keep it blank.
+      destination =
+          destination
+              + (input.getExtension() != null && !input.getExtension().isEmpty()
+                  ? "/254/" + input.getExtension()
+                  : "");
+
+      // Add the formatted values to DestinationList and return it to calling method.
+      final var dstFormatted = new DestinationList();
+      dstFormatted.setType(input.getType().toString().toLowerCase());
+      dstFormatted.setDestination(destination);
+
       return dstFormatted;
     } catch (Exception ex) {
       throw new TestDataGeneratorException(

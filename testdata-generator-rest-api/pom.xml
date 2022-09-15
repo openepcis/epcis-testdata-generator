@@ -181,7 +181,7 @@
         </dependency>
         <dependency>
             <groupId>io.openepcis</groupId>
-            <artifactId>epcis-testdata-generator-common</artifactId>
+            <artifactId>testdata-generator-common</artifactId>
             <version>${project.version}</version>
         </dependency>
 
