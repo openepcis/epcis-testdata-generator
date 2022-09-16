@@ -18,6 +18,7 @@ package io.openepcis.testdata.api.exception;
 import io.openepcis.core.exception.NotAcceptedException;
 import io.openepcis.core.exception.ResourceNotFoundException;
 import io.openepcis.model.rest.ProblemResponseBody;
+import javax.ws.rs.WebApplicationException;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
@@ -81,5 +82,16 @@ public class ExceptionMapper {
     responseBody.setStatus(RestResponse.StatusCode.INTERNAL_SERVER_ERROR);
     responseBody.setDetail(exception.getMessage());
     return RestResponse.status(RestResponse.Status.INTERNAL_SERVER_ERROR, responseBody);
+  }
+
+  @ServerExceptionMapper
+  public final RestResponse<ProblemResponseBody> mapException(
+      final WebApplicationException exception) {
+    final ProblemResponseBody responseBody = new ProblemResponseBody();
+    responseBody.setType(exception.getClass().getSimpleName());
+    responseBody.setTitle(exception.getResponse().getStatusInfo().getReasonPhrase());
+    responseBody.setStatus(exception.getResponse().getStatus());
+    responseBody.setDetail(exception.getMessage());
+    return RestResponse.status(exception.getResponse().getStatusInfo(), responseBody);
   }
 }

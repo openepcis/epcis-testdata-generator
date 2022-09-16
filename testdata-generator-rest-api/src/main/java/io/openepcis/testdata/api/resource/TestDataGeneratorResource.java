@@ -116,8 +116,10 @@ public class TestDataGeneratorResource {
               example = "?pretty, ?pretty=true, ?pretty=false",
               schema =
                   @Schema(
+                      type = SchemaType.BOOLEAN,
+                      required = false,
                       description = "empty defaults to true",
-                      enumeration = {"true", "false"}))
+                      enumeration = {"true", "false", ""}))
           @QueryParam("pretty")
           final String pretty)
       throws TestDataGeneratorException {
