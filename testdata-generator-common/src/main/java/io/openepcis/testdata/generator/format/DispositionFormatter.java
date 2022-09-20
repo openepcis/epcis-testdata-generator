@@ -17,6 +17,7 @@ package io.openepcis.testdata.generator.format;
 
 import io.openepcis.testdata.generator.constants.Disposition;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@RegisterForReflection
 public class DispositionFormatter {
 
   public static String format(final Disposition disposition) {

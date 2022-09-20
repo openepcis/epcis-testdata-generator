@@ -17,12 +17,14 @@ package io.openepcis.testdata.generator.format;
 
 import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.List;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@RegisterForReflection
 public class ErrorDeclarationFormatter {
 
   public static List<String> format(IdentifierVocabularyType syntax, List<String> input) {

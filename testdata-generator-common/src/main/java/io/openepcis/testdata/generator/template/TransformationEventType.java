@@ -16,6 +16,7 @@
 package io.openepcis.testdata.generator.template;
 
 import io.openepcis.testdata.generator.format.UserExtensionSyntax;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.EqualsAndHashCode;
@@ -29,6 +30,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
+@RegisterForReflection
 public class TransformationEventType extends EPCISEventType {
   // OTHER Field Transformation Event Specific Elements
   @Schema(

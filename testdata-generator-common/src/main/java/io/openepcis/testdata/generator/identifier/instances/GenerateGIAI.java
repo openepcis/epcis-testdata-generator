@@ -21,6 +21,7 @@ import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Setter;
@@ -29,6 +30,7 @@ import lombok.ToString;
 @Setter
 @JsonTypeName("giai")
 @ToString(callSuper = true)
+@RegisterForReflection
 public class GenerateGIAI extends GenerateEPCType2 {
 
   private static final String GIAI_URN_PART = "urn:epc:id:giai:";

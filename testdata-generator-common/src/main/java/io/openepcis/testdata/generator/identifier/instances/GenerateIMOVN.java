@@ -20,6 +20,7 @@ import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.Max;
@@ -33,6 +34,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @Setter
 @JsonTypeName("imovn")
 @ToString(callSuper = true)
+@RegisterForReflection
 public class GenerateIMOVN implements EPCStrategy {
 
   @Pattern(regexp = "^(\\s*|\\d{7})$", message = "IMOVN should be of 7 digit")

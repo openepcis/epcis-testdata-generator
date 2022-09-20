@@ -15,6 +15,9 @@
  */
 package io.openepcis.testdata.generator.constants;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public enum BusinessStep {
   NULL(null),
   ACCEPTING("accepting"),

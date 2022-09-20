@@ -18,6 +18,7 @@ package io.openepcis.testdata.generator.identifier.instances;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.List;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
@@ -42,6 +43,7 @@ import java.util.List;
   @JsonSubTypes.Type(value = GenerateIMOVN.class, name = "imovn"), //
   @JsonSubTypes.Type(value = GenerateManualURI.class, name = "manualURI"), //
 })
+@RegisterForReflection
 public interface EPCStrategy {
   List<String> format(IdentifierVocabularyType syntax, Integer count);
 }

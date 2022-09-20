@@ -16,7 +16,9 @@
 package io.openepcis.testdata.generator.constants;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
+@RegisterForReflection
 public enum IdentifierVocabularyType {
   @JsonProperty("URN")
   URN("URN"),

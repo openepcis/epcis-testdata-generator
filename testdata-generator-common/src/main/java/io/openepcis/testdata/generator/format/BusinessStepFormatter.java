@@ -17,10 +17,12 @@ package io.openepcis.testdata.generator.format;
 
 import io.openepcis.testdata.generator.constants.BusinessStep;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@RegisterForReflection
 public class BusinessStepFormatter {
 
   public static String format(final BusinessStep businessStep) {

@@ -16,6 +16,7 @@
 package io.openepcis.testdata.generator.format;
 
 import io.openepcis.testdata.generator.constants.ErrorReason;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.io.Serializable;
 import java.util.List;
 import javax.validation.Valid;
@@ -25,6 +26,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@RegisterForReflection
 public class ErrorDeclarationSyntax implements Serializable {
 
   // Required Field

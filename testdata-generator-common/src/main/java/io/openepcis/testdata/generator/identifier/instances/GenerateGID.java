@@ -20,6 +20,7 @@ import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,6 +35,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @Setter
 @JsonTypeName("gid")
 @ToString(callSuper = true)
+@RegisterForReflection
 public class GenerateGID implements EPCStrategy {
 
   @Pattern(regexp = "[0-9]{1,9}", message = "GID Manager should be of length 1-9")

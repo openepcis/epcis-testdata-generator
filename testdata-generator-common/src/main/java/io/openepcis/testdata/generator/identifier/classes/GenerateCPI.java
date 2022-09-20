@@ -20,6 +20,7 @@ import io.openepcis.model.epcis.QuantityList;
 import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.NotNull;
@@ -32,6 +33,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @Setter
 @JsonTypeName("cpi")
 @ToString(callSuper = true)
+@RegisterForReflection
 public class GenerateCPI extends GenerateQuantity {
 
   @Pattern(regexp = "^[A-Z0-9]{7,30}$", message = "GCN should be of min 7 and max 30 digit")

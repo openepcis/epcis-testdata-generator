@@ -21,6 +21,7 @@ import io.openepcis.model.rest.ProblemResponseBody;
 import io.openepcis.testdata.api.exception.TestDataGeneratorException;
 import io.openepcis.testdata.generator.EPCISEventGenerator;
 import io.openepcis.testdata.generator.template.InputTemplate;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import io.smallrye.mutiny.Multi;
 import java.util.Map;
 import java.util.Set;
@@ -28,7 +29,6 @@ import java.util.concurrent.CompletionException;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -45,11 +45,12 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 @Path("/api")
 @Tag(name = "Test Data Generator")
+@RegisterForReflection
 public class TestDataGeneratorResource {
 
   @Inject ObjectMapper objectMapper;
 
-  private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+  @Inject Validator validator; // = Validation.buildDefaultValidatorFactory().getValidator();
 
   // Method to Generator test data based on the provided JSON data template and show the appropriate
   // error messages

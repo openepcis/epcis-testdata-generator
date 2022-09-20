@@ -15,11 +15,13 @@
  */
 package io.openepcis.testdata.generator.constants;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
+@RegisterForReflection
 public enum SourceDestinationGLNType {
   SGLN("sgln"),
   PGLN("pgln");

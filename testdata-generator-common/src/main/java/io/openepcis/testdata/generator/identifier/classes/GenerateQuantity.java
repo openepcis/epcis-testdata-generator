@@ -15,6 +15,7 @@
  */
 package io.openepcis.testdata.generator.identifier.classes;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
+@RegisterForReflection
 public abstract class GenerateQuantity implements QuantityStatergy {
 
   @Min(value = 6, message = "Class Identifiers GCP Length cannot be less than 6")

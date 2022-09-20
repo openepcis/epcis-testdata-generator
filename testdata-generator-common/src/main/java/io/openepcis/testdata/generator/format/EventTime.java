@@ -19,6 +19,7 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Feature.ADJUST_DATES_T
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 import javax.validation.constraints.NotNull;
@@ -31,6 +32,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@RegisterForReflection
 public class EventTime implements Serializable {
   @JsonFormat(without = {ADJUST_DATES_TO_CONTEXT_TIME_ZONE})
   private OffsetDateTime specificTime;

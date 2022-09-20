@@ -21,6 +21,7 @@ import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.NotNull;
@@ -34,6 +35,7 @@ import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
 @Setter
 @JsonTypeName("grai")
 @ToString(callSuper = true)
+@RegisterForReflection
 public class GenerateGRAI extends GenerateQuantity {
 
   @Pattern(regexp = "^(\\s*|\\d{13})$", message = "GRAI should be of 13 digit")

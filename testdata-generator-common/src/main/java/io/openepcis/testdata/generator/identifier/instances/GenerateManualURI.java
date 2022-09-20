@@ -18,6 +18,7 @@ package io.openepcis.testdata.generator.identifier.instances;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.NotNull;
@@ -29,6 +30,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @Setter
 @JsonTypeName("manualURI")
 @ToString(callSuper = true)
+@RegisterForReflection
 public class GenerateManualURI implements EPCStrategy {
 
   @NotNull(message = "Manual URI cannot be Null")

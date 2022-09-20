@@ -16,11 +16,13 @@
 package io.openepcis.testdata.generator.format;
 
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@RegisterForReflection
 public class PersistentDispositionFormatter {
 
   public static List<String> format(final List<String> input) {

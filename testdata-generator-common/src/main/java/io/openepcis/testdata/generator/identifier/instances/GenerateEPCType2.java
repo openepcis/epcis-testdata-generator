@@ -15,6 +15,7 @@
  */
 package io.openepcis.testdata.generator.identifier.instances;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import javax.validation.constraints.Pattern;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +26,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @Setter
 @NoArgsConstructor
 @ToString
+@RegisterForReflection
 public abstract class GenerateEPCType2 extends GenerateEPC implements EPCStrategy {
   @Pattern(regexp = "[0-9]{6,12}", message = "Invalid GCP, GCP should be b/w 6-12 digits")
   @Schema(type = SchemaType.STRING, description = "GCP consisting of 6-12 digits.", required = true)

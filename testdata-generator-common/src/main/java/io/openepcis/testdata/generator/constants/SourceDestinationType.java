@@ -15,6 +15,9 @@
  */
 package io.openepcis.testdata.generator.constants;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public enum SourceDestinationType {
   OWNING_PARTY("owning_party"),
   PROCESSING_PARTY("processing_party"),

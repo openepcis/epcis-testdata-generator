@@ -15,6 +15,9 @@
  */
 package io.openepcis.testdata.generator.constants;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public enum RecordTimeType {
   CURRENT_TIME("CurrentTime"),
   SAME_AS_EVENT_TIME("SameAsEventTime");

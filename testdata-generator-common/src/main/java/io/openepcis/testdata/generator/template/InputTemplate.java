@@ -15,6 +15,7 @@
  */
 package io.openepcis.testdata.generator.template;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.Getter;
@@ -26,6 +27,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @Getter
 @Setter
 @ToString
+@RegisterForReflection
 public class InputTemplate {
   @Schema(
       type = SchemaType.ARRAY,

@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.openepcis.model.epcis.QuantityList;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.List;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
@@ -33,6 +34,7 @@ import java.util.List;
   @JsonSubTypes.Type(value = GenerateUPUI.class, name = "upui"),
   @JsonSubTypes.Type(value = GenerateManualURI.class, name = "manualURI")
 })
+@RegisterForReflection
 public interface QuantityStatergy {
   List<QuantityList> format(
       final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity);

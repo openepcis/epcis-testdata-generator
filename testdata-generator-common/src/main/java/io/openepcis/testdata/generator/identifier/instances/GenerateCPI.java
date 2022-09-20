@@ -21,6 +21,7 @@ import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.NotNull;
@@ -33,6 +34,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @Setter
 @JsonTypeName("cpi")
 @ToString(callSuper = true)
+@RegisterForReflection
 public class GenerateCPI extends GenerateEPC {
 
   @Pattern(regexp = "[A-Z0-9]{7,30}", message = "Invalid characters in CPI")

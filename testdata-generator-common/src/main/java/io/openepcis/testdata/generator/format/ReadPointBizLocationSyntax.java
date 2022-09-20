@@ -16,6 +16,7 @@
 package io.openepcis.testdata.generator.format;
 
 import io.openepcis.testdata.generator.annotations.ConditionalValidation;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.io.Serializable;
 import javax.validation.constraints.Pattern;
 import lombok.Getter;
@@ -31,6 +32,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
       dependFieldName = {"gln"},
       message = "GLN cannot be Null for Read point/Business Location")
 })
+@RegisterForReflection
 public class ReadPointBizLocationSyntax implements Serializable {
   @Pattern(
       regexp = "^(\\s*|\\d{13})$",

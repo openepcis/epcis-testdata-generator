@@ -30,6 +30,7 @@ import io.openepcis.testdata.generator.format.ErrorDeclarationSyntax;
 import io.openepcis.testdata.generator.format.EventTime;
 import io.openepcis.testdata.generator.format.ReadPointBizLocationSyntax;
 import io.openepcis.testdata.generator.format.UserExtensionSyntax;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
   @JsonSubTypes.Type(value = AssociationEventType.class, name = "AssociationEvent")
 })
 @JsonIgnoreProperties(ignoreUnknown = true)
+@RegisterForReflection
 public class EPCISEventType implements Serializable {
 
   @NotNull(message = "Node identifier cannot be Null")

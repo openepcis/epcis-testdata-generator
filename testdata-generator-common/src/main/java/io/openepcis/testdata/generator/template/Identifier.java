@@ -25,6 +25,7 @@ import io.openepcis.testdata.generator.identifier.classes.GenerateITIP;
 import io.openepcis.testdata.generator.identifier.classes.GenerateManualURI;
 import io.openepcis.testdata.generator.identifier.classes.GenerateUPUI;
 import io.openepcis.testdata.generator.identifier.instances.*;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -35,6 +36,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @Getter
 @Setter
+@RegisterForReflection
 public class Identifier {
   @NotNull(message = "Identifiers ID Cannot be Null")
   @Min(value = 1, message = "Identifier ID cannot be less than 1")

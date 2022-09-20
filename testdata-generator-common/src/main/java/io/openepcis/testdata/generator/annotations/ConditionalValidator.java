@@ -16,10 +16,14 @@
 package io.openepcis.testdata.generator.annotations;
 
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 
+@RegisterForReflection
+@Slf4j
 public class ConditionalValidator implements ConstraintValidator<ConditionalValidation, Object> {
   private String fieldName;
   private String[] expectedFieldValue;
@@ -63,6 +67,7 @@ public class ConditionalValidator implements ConstraintValidator<ConditionalVali
         return validatorException(value, ctx);
       }
     } catch (Exception e) {
+      log.error(e.getMessage(), e);
       throw new TestDataGeneratorException(e.getMessage());
     }
     return true;

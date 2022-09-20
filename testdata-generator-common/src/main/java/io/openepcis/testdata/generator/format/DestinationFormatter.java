@@ -17,11 +17,13 @@ package io.openepcis.testdata.generator.format;
 
 import io.openepcis.model.epcis.DestinationList;
 import io.openepcis.testdata.generator.constants.*;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@RegisterForReflection
 public class DestinationFormatter {
 
   public static DestinationList format(

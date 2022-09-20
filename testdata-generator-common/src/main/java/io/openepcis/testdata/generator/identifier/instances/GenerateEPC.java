@@ -16,6 +16,7 @@
 package io.openepcis.testdata.generator.identifier.instances;
 
 import io.openepcis.testdata.generator.constants.RandomizationType;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -28,6 +29,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @Setter
 @NoArgsConstructor
 @ToString
+@RegisterForReflection
 public abstract class GenerateEPC implements EPCStrategy {
   @Min(value = 6, message = "Instance Identifiers GCP Length cannot be less than 6")
   @Max(value = 12, message = "Instance Identifiers GCP Length cannot be more than 12")

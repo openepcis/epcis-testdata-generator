@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.model.AbstractEventCreationModel;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +36,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @Getter
 @Setter
 @ToString
+@RegisterForReflection
 public class UserExtensionSyntax implements Serializable {
   @Schema(
       type = SchemaType.STRING,

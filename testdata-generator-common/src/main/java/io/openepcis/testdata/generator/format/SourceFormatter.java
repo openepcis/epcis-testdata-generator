@@ -17,9 +17,11 @@ package io.openepcis.testdata.generator.format;
 
 import io.openepcis.model.epcis.SourceList;
 import io.openepcis.testdata.generator.constants.*;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.io.Serializable;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
 
+@RegisterForReflection
 public class SourceFormatter implements Serializable {
 
   public static SourceList format(IdentifierVocabularyType syntax, SourceDestinationSyntax source) {

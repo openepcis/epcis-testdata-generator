@@ -15,6 +15,9 @@
  */
 package io.openepcis.testdata.generator.constants;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
+@RegisterForReflection
 public enum ErrorReason {
   DID_NOT_OCCUR("did_not_occur"),
   INCORRECT_DATA("incorrect_data"),

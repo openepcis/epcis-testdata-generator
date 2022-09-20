@@ -18,6 +18,7 @@ package io.openepcis.testdata.generator.format;
 import io.openepcis.testdata.generator.annotations.ConditionalValidation;
 import io.openepcis.testdata.generator.constants.SourceDestinationGLNType;
 import io.openepcis.testdata.generator.constants.SourceDestinationType;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.io.Serializable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -44,6 +45,7 @@ import lombok.Setter;
       dependFieldName = {"manualType", "manualURI"},
       message = "ManualType/ManualURI cannot be Null for Source/Destination if the type is Other")
 })
+@RegisterForReflection
 public class SourceDestinationSyntax implements Serializable {
 
   @NotNull(message = "Type cannot be Null for Source/Destination")

@@ -17,6 +17,7 @@ package io.openepcis.testdata.api.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -27,6 +28,7 @@ import org.eclipse.microprofile.openapi.models.Components;
 import org.eclipse.microprofile.openapi.models.OpenAPI;
 import org.eclipse.microprofile.openapi.models.examples.Example;
 
+@RegisterForReflection
 public class SchemaExampleOASFilter implements OASFilter {
 
   private final ObjectMapper objectMapper = new ObjectMapper();

@@ -17,6 +17,7 @@ package io.openepcis.testdata.generator.format;
 
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@RegisterForReflection
 public class ReadpointBusinessLocationFormatter {
 
   private static final String URN_PREFIX = "urn:epc:id:sgln:";

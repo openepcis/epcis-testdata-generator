@@ -16,6 +16,7 @@
 package io.openepcis.testdata.generator.format;
 
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -28,6 +29,7 @@ import org.apache.commons.math3.random.RandomDataGenerator;
 @Getter
 @Setter
 @RequiredArgsConstructor
+@RegisterForReflection
 public class RandomDateTimeGenerator implements Serializable {
 
   private final OffsetDateTime fromTime;

@@ -17,10 +17,12 @@ package io.openepcis.testdata.generator.format;
 
 import io.openepcis.model.epcis.BizTransactionList;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@RegisterForReflection
 public class BizTransactionsFormatter {
 
   public static BizTransactionList format(final BizTransactionList input) {

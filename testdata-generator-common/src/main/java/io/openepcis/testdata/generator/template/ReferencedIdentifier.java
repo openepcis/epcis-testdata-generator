@@ -15,6 +15,7 @@
  */
 package io.openepcis.testdata.generator.template;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +26,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @Getter
 @Setter
 @ToString
+@RegisterForReflection
 public class ReferencedIdentifier implements Serializable {
   @Schema(
       type = SchemaType.NUMBER,

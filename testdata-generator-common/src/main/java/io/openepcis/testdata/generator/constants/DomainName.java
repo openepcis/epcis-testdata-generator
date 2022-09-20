@@ -15,9 +15,11 @@
  */
 package io.openepcis.testdata.generator.constants;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+@RegisterForReflection
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DomainName {
   public static final String IDENTIFIER_DOMAIN = "https://id.gs1.org";

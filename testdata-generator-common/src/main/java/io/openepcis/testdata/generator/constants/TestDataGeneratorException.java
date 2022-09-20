@@ -15,11 +15,14 @@
  */
 package io.openepcis.testdata.generator.constants;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
 /**
  * Class that is used to throw any Exception that may occur during the generation of EPCIS events.
  * During the execution if any error occurs then respective information will be passed onto the
  * methods of this class and this information will be shown to user and execution will be stopped.
  */
+@RegisterForReflection
 public class TestDataGeneratorException extends RuntimeException {
 
   private static final long serialVersionUID = 1L;

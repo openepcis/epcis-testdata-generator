@@ -21,6 +21,7 @@ import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.NotNull;
@@ -34,6 +35,7 @@ import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
 @Setter
 @JsonTypeName("upui")
 @ToString(callSuper = true)
+@RegisterForReflection
 public class GenerateUPUI extends GenerateEPC {
 
   @Pattern(regexp = "^(\\s*|\\d{14})$", message = "UPUI should be of 14 digit")

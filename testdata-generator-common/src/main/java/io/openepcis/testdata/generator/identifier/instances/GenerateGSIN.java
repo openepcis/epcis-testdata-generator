@@ -21,6 +21,7 @@ import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Setter;
@@ -30,6 +31,7 @@ import org.apache.commons.lang.StringUtils;
 @Setter
 @ToString(callSuper = true)
 @JsonTypeName("gsin")
+@RegisterForReflection
 public class GenerateGSIN extends GenerateEPCType2 {
 
   private static final String GSIN_URN_PART = "urn:epc:id:gsin:";

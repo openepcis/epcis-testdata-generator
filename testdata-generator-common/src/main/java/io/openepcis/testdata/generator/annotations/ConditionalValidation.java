@@ -19,6 +19,7 @@ import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -29,6 +30,7 @@ import javax.validation.Payload;
 @Retention(RUNTIME)
 @Constraint(validatedBy = ConditionalValidator.class)
 @Documented
+@RegisterForReflection
 public @interface ConditionalValidation {
   String fieldName();
 

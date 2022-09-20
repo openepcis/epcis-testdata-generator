@@ -18,6 +18,7 @@ package io.openepcis.testdata.generator.template;
 import io.openepcis.model.epcis.Action;
 import io.openepcis.testdata.generator.format.SourceDestinationSyntax;
 import io.openepcis.testdata.generator.format.UserExtensionSyntax;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -32,6 +33,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
+@RegisterForReflection
 public class ObjectEventType extends EPCISEventType {
   // WHY Dimension Object Event Specific Element
   @Schema(
