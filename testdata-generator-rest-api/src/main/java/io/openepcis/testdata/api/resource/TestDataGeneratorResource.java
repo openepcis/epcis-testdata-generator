@@ -23,8 +23,10 @@ import io.openepcis.testdata.generator.EPCISEventGenerator;
 import io.openepcis.testdata.generator.template.InputTemplate;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import io.smallrye.mutiny.Multi;
+import io.smallrye.mutiny.Uni;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
@@ -32,6 +34,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import org.eclipse.microprofile.context.ManagedExecutor;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -50,7 +53,9 @@ public class TestDataGeneratorResource {
 
   @Inject ObjectMapper objectMapper;
 
-  @Inject Validator validator; // = Validation.buildDefaultValidatorFactory().getValidator();
+  @Inject Validator validator;
+
+  @Inject ManagedExecutor executor;
 
   // Method to Generator test data based on the provided JSON data template and show the appropriate
   // error messages
@@ -149,16 +154,24 @@ public class TestDataGeneratorResource {
       // InputTemplate contents
       if (violations.isEmpty()) {
         return EPCISEventGenerator.generate(inputTemplate)
-            .map(
-                e -> {
-                  try {
-                    return ("".equals(pretty) || "true".equalsIgnoreCase(pretty))
-                        ? objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(e)
-                        : objectMapper.writeValueAsString(e);
-                  } catch (Exception ex) {
-                    throw new CompletionException(ex);
-                  }
-                });
+            .onItem()
+            .<String>transformToUniAndMerge(
+                e ->
+                    Uni.createFrom()
+                        .completionStage(
+                            CompletableFuture.supplyAsync(
+                                () -> {
+                                  try {
+                                    return ("".equals(pretty) || "true".equalsIgnoreCase(pretty))
+                                        ? objectMapper
+                                            .writerWithDefaultPrettyPrinter()
+                                            .writeValueAsString(e)
+                                        : objectMapper.writeValueAsString(e);
+                                  } catch (Exception ex) {
+                                    throw new CompletionException(ex);
+                                  }
+                                },
+                                executor)));
       } else {
         // If there are any validation error then append all messages using , operator
         throw new TestDataGeneratorException(
