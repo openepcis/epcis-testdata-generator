@@ -23,10 +23,8 @@ import io.openepcis.testdata.generator.EPCISEventGenerator;
 import io.openepcis.testdata.generator.template.InputTemplate;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import io.smallrye.mutiny.Multi;
-import io.smallrye.mutiny.Uni;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
@@ -154,24 +152,19 @@ public class TestDataGeneratorResource {
       // InputTemplate contents
       if (violations.isEmpty()) {
         return EPCISEventGenerator.generate(inputTemplate)
+            .runSubscriptionOn(executor)
+            .emitOn(executor)
             .onItem()
-            .<String>transformToUniAndMerge(
-                e ->
-                    Uni.createFrom()
-                        .completionStage(
-                            CompletableFuture.supplyAsync(
-                                () -> {
-                                  try {
-                                    return ("".equals(pretty) || "true".equalsIgnoreCase(pretty))
-                                        ? objectMapper
-                                            .writerWithDefaultPrettyPrinter()
-                                            .writeValueAsString(e)
-                                        : objectMapper.writeValueAsString(e);
-                                  } catch (Exception ex) {
-                                    throw new CompletionException(ex);
-                                  }
-                                },
-                                executor)));
+            .transform(
+                e -> {
+                  try {
+                    return ("".equals(pretty) || "true".equalsIgnoreCase(pretty))
+                        ? objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(e)
+                        : objectMapper.writeValueAsString(e);
+                  } catch (Exception ex) {
+                    throw new CompletionException(ex);
+                  }
+                });
       } else {
         // If there are any validation error then append all messages using , operator
         throw new TestDataGeneratorException(
