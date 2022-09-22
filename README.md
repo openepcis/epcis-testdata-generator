@@ -36,11 +36,11 @@ The developed OpenEPCIS Test Data Generator application has been divided into 3 
 
 This is the core of the OpenEPCIS Test Data Generator where the events are actually generated. It includes the logic for generating the events and formatting the values according to the EPCIS standard. To make the application memory efficient and to generate a large number of test events quickly only one event information is stored in memory at a time. It employs the Reactive Stream approach to do the same. This module has been developed primarily using Java with some additional libraries such as Jackson, Lombok, SmallRye Mutiny etc.
 
-## [testdata-generator-rest-api](testdata-generator-rest-api) (REST service wrapper for generating testdata events)
+### [testdata-generator-rest-api](testdata-generator-rest-api) (REST service wrapper for generating testdata events)
 
 This is the service that acts as a bridge between the front-end and back-end server. When a user provides the input information in the form of InputTemplate to generate the test data events then this service module will capture that information and validates it. If the InputTemplate adheres to all the constraints and rules then it's sent to the backend server ([testdata-generator-common](testdata-generator-common)) to generate the events. This service can also be directly accessed via the cURL command or Swagger-UI. This module has been developed using the latest technologies such as Java with the Quarkus framework. However, it also utilizes some libraries such as Jackson, OpenAPI, Hibernate validator, etc.
 
-## [testdata-generator-ui](testdata-generator-ui) (user interface for generating testdata events)
+### [testdata-generator-ui](testdata-generator-ui) (user interface for generating testdata events)
 
 This is the user's view of the application where users can interact with various fields of EPCIS and provide the necessary values. Also, It does the task of converting the user-provided values 
 into the InputTemplate required for the subsequent modules. It has been developed primarily using the technologies such as  HTML (HyperText Markup Language), JavaScript library Nuxt.js/Vue.js, and 
@@ -99,9 +99,69 @@ the required events:
 // Pass the required JSON inputTemplate to generate EPCIS testdata events.
 EPCISEventGenerator.generate(inputTemplate).collect().asList().await().indefinitely().forEach(e - > {
     try {
-        System.out.println(e);
+        System.out.println(e.toString());
     } catch (JsonProcessingException ex) {
         throw new CompletionException(ex);
     }
 });
 ```
+
+Sample inputTemplate:
+```
+{
+    "events": [{
+        "nodeId": 1,
+        "eventType": "ObjectEvent",
+        "eventCount": 5,
+        "locationPartyIdentifierSyntax": "URN",
+        "ordinaryEvent": true,
+        "action": "ADD",
+        "eventID": true,
+        "eventTime": {
+            "timeZoneOffset": "+02:00",
+            "fromTime": "2022-04-01T18:30:04+02:00",
+            "toTime": "2022-04-05T18:30:04+02:00"
+        },
+        "recordTimeType": "CURRENT_TIME",
+        "businessStep": "COMMISSIONING",
+        "disposition": "ACTIVE",
+        "referencedIdentifier": [{
+            "identifierId": 1,
+            "epcCount": 10,
+            "classCount": 5
+        }],
+        "parentReferencedIdentifier": {},
+        "outputReferencedIdentifier": []
+    }],
+    "identifiers": [{
+        "identifierId": 1,
+        "objectIdentifierSyntax": "URN",
+        "instanceData": {
+            "sgtin": {
+                "identifierType": "sgtin",
+                "gcpLength": 10,
+                "sgtin": "89384989388934",
+                "serialType": "range",
+                "rangeFrom": 100,
+                "rangeTo": 110
+            }
+        },
+        "classData": {
+            "grai": {
+                "identifierType": "grai",
+                "gcpLength": 10,
+                "quantityType": null,
+                "uom": null,
+                "serialType": "",
+                "grai": "8384783874378",
+                "classIdentifiersCount": 5
+            }
+        },
+        "parentData": null
+    }]
+}
+```
+
+## Dependencies
+
+The event creation logic depends on the [openepcis-models](https://github.com/openepcis/openepcis-models) package.
