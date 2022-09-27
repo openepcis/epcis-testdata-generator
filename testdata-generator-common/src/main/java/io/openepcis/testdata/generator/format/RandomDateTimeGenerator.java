@@ -38,6 +38,11 @@ public class RandomDateTimeGenerator implements Serializable {
   private RandomDataGenerator randomData = new RandomDataGenerator();
 
   public OffsetDateTime nextDate() {
+    if (fromTime == null) {
+      return Instant.ofEpochMilli(System.currentTimeMillis())
+          .atZone(ZoneId.systemDefault())
+          .toOffsetDateTime();
+    }
     try {
       return Instant.ofEpochMilli(
               randomData.nextLong(

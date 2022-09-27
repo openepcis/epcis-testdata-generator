@@ -64,10 +64,38 @@ jobs:
             -Dquarkus.container-image.build=true \
             -DskipTests \
             -B package
+      - name: create Quarkus native runtime image
+        run: |
+          mvn \
+            -s .mvn/settings.xml \
+            --no-transfer-progress \
+            --batch-mode \
+            -f testdata-generator-rest-api/pom.xml \
+            -Dquarkus.container-image.build=true \
+            -DskipTests \
+            -Pnative \
+            -Dquarkus.native.container-build=true \
+            -Dquarkus.container-image.name=testdata-generator-native \
+            -B package
+      - name: create Quarkus native arm runtime image
+        run: |
+          mvn \
+            -s .mvn/settings.xml \
+            --no-transfer-progress \
+            --batch-mode \
+            -f testdata-generator-rest-api/pom.xml \
+            -Dquarkus.container-image.build=true \
+            -DskipTests \
+            -Pnative \
+            -Dquarkus.native.builder-image=quay.io/quarkus/ubi-quarkus-native-image:22.1-java17-arm64 \
+            -Dquarkus.jib.base-native-image=quay.io/quarkus/quarkus-micro-image:2.0-arm64 \
+            -Dquarkus.native.container-build=true \
+            -Dquarkus.container-image.name=testdata-generator-native-arm64
+            -B package
       - name: docker hub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.OPENEPCIS_DOCKER_USER }}
           password: ${{ secrets.OPENEPCIS_DOCKER_TOKEN }}
-      - name: push image to docker hub
-        run: docker push openepcis/testdata-generator
+      - name: push images to docker hub
+        run: docker push openepcis/testdata-generator; docker push openepcis/testdata-generator-native; docker push openepcis/testdata-generator-native-arm64
