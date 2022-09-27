@@ -22,6 +22,7 @@ import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.NotNull;
@@ -70,11 +71,13 @@ public class GenerateGDTI extends GenerateEPC {
           && rangeFrom != null
           && count != null
           && count > 0
-          && rangeFrom >= 0) {
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+          && rangeFrom.longValue() >= 0) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           formattedGDTI.add(GDTI_URN_PART + modifiedGDTI + rangeID);
         }
-        this.rangeFrom = this.rangeFrom + count;
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         // Return the list of GDTI for RANDOM calculation
         randomMinLength = randomMinLength < 1 || randomMinLength > 17 ? 1 : randomMinLength;
@@ -115,11 +118,13 @@ public class GenerateGDTI extends GenerateEPC {
           && rangeFrom != null
           && count != null
           && count > 0
-          && rangeFrom >= 0) {
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+          && rangeFrom.longValue() >= 0) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           formattedGDTI.add(DomainName.IDENTIFIER_DOMAIN + GDTI_URI_PART + modifiedGDTI + rangeID);
         }
-        this.rangeFrom = this.rangeFrom + count;
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         // Return the list of GDTI for RANDOM calculation
         randomMinLength = randomMinLength < 1 || randomMinLength > 17 ? 1 : randomMinLength;

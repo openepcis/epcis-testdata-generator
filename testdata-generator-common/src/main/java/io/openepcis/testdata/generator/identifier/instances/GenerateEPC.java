@@ -17,6 +17,7 @@ package io.openepcis.testdata.generator.identifier.instances;
 
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import java.math.BigInteger;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -51,13 +52,13 @@ public abstract class GenerateEPC implements EPCStrategy {
   @Schema(
       type = SchemaType.NUMBER,
       description = "Starting value for range based identifier generation.")
-  protected Integer rangeFrom;
+  protected BigInteger rangeFrom;
 
   @Min(value = 1, message = "Range end value cannot be less than 1")
   @Schema(
       type = SchemaType.NUMBER,
       description = "Ending value for range based identifier generation.")
-  protected Integer rangeTo;
+  protected BigInteger rangeTo;
 
   @Min(value = 1, message = "Number of required serial numbers cannot be less than 1")
   @Schema(
@@ -73,7 +74,7 @@ public abstract class GenerateEPC implements EPCStrategy {
   @Schema(
       type = SchemaType.NUMBER,
       description = "Serial number for none based identifier generation.")
-  protected Integer serialNumber;
+  protected BigInteger serialNumber;
 
   @Schema(type = SchemaType.NUMBER, description = "Min character length for random serial numbers.")
   protected Integer randomMinLength;

@@ -22,6 +22,7 @@ import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Setter;
@@ -58,17 +59,19 @@ public class GenerateGSIN extends GenerateEPCType2 {
       if (serialType.equalsIgnoreCase("range")
           && rangeFrom != null
           && count != null
-          && count > 0
-          && rangeFrom >= 0) {
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+          && count.longValue() > 0
+          && rangeFrom.longValue() >= 0) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count.longValue();
+            rangeID++) {
           String append = gcp + rangeID;
           append = StringUtils.repeat("0", 16 - append.length()) + rangeID;
           formattedGSIN.add(GSIN_URN_PART + gcp + "." + append);
         }
-        this.rangeFrom = this.rangeFrom + count;
-      } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count.longValue());
+      } else if (serialType.equalsIgnoreCase("random") && count != null && count.longValue() > 0) {
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(RandomizationType.NUMERIC, 1, 4, count);
+            RandomValueGenerator.randomGenerator(RandomizationType.NUMERIC, 1, 4, count.intValue());
 
         for (var randomID : randomSerialNumbers) {
           var append = gcp + randomID;
@@ -77,7 +80,7 @@ public class GenerateGSIN extends GenerateEPCType2 {
         }
       } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
         // NONE selection
-        for (var noneCounter = 0; noneCounter < count; noneCounter++) {
+        for (var noneCounter = 0; noneCounter < count.longValue(); noneCounter++) {
           String append = gcp + "." + serialNumber;
           append = StringUtils.repeat("0", 16 - append.length()) + serialNumber;
           formattedGSIN.add(GSIN_URN_PART + gcp + "." + append);
@@ -99,18 +102,20 @@ public class GenerateGSIN extends GenerateEPCType2 {
       if (serialType.equalsIgnoreCase("range")
           && rangeFrom != null
           && count != null
-          && count > 0
-          && rangeFrom >= 0) {
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+          && count.longValue() > 0
+          && rangeFrom.longValue() >= 0) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < (rangeFrom.longValue() + count.longValue());
+            rangeID++) {
           var append = gcp + rangeID;
           append = StringUtils.repeat("0", 17 - append.length()) + rangeID;
           formattedGSIN.add(DomainName.IDENTIFIER_DOMAIN + GSIN_URI_PART + gcp + append);
         }
-        this.rangeFrom = this.rangeFrom + count;
-      } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count.longValue());
+      } else if (serialType.equalsIgnoreCase("random") && count != null && count.longValue() > 0) {
         // RANDOM calculation
         List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(RandomizationType.NUMERIC, 1, 4, count);
+            RandomValueGenerator.randomGenerator(RandomizationType.NUMERIC, 1, 4, count.intValue());
 
         for (var randomID : randomSerialNumbers) {
           var append = gcp + randomID;

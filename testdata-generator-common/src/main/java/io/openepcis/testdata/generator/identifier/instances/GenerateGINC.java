@@ -22,6 +22,7 @@ import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Setter;
@@ -57,12 +58,14 @@ public class GenerateGINC extends GenerateEPCType2 {
           && rangeFrom != null
           && count != null
           && count > 0
-          && rangeFrom >= 0) {
+          && rangeFrom.longValue() >= 0) {
         // Return the list of GINC for RANGE calculation
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           formattedGINC.add(GINC_URN_PART + gcp + "." + rangeID);
         }
-        this.rangeFrom = this.rangeFrom + count;
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         // Return the list of GINC for RANDOM calculation
         final int requiredMaxLength = 29 - gcp.length();
@@ -95,12 +98,14 @@ public class GenerateGINC extends GenerateEPCType2 {
           && rangeFrom != null
           && count != null
           && count > 0
-          && rangeFrom >= 0) {
+          && rangeFrom.longValue() >= 0) {
         // RANGE calculation
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           formattedGINC.add(DomainName.IDENTIFIER_DOMAIN + GINC_URI_PART + gcp + rangeID);
         }
-        this.rangeFrom = this.rangeFrom + count;
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         // RANDOM calculation
         final int requiredMaxLength = 29 - gcp.length();

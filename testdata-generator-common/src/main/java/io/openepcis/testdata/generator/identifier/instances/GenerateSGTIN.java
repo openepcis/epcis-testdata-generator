@@ -22,6 +22,7 @@ import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.NotNull;
@@ -77,11 +78,13 @@ public class GenerateSGTIN extends GenerateEPC {
           && rangeFrom != null
           && count != null
           && count > 0
-          && rangeFrom >= 0) {
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+          && rangeFrom.longValue() >= 0) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           formattedSGTIN.add(SGTIN_URN_PART + modifiedSgtin + "." + rangeID);
         }
-        this.rangeFrom = this.rangeFrom + count;
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
 
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         randomMinLength = randomMinLength < 1 || randomMinLength > 20 ? 1 : randomMinLength;
@@ -119,10 +122,12 @@ public class GenerateSGTIN extends GenerateEPC {
       // Return the list of SGTIN for RANGE calculation
       if (serialType.equalsIgnoreCase("range")
           && rangeFrom != null
-          && rangeFrom >= 0
+          && rangeFrom.longValue() >= 0
           && count != null
           && count > 0) {
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           formattedSGTIN.add(
               DomainName.IDENTIFIER_DOMAIN
                   + SGTIN_URI_PART
@@ -130,7 +135,7 @@ public class GenerateSGTIN extends GenerateEPC {
                   + SGTIN_URI_SERIAL_PART
                   + rangeID);
         }
-        this.rangeFrom = this.rangeFrom + count;
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         randomMinLength = randomMinLength < 1 || randomMinLength > 20 ? 1 : randomMinLength;
         randomMaxLength = randomMaxLength < 1 || randomMaxLength > 20 ? 20 : randomMaxLength;

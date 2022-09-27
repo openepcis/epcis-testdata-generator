@@ -24,6 +24,7 @@ import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.Min;
@@ -56,13 +57,13 @@ public class GenerateLGTIN extends GenerateQuantity {
   @Schema(
       type = SchemaType.NUMBER,
       description = "Serial number for none based identifier generation")
-  private Integer serialNumber;
+  private BigInteger serialNumber;
 
   @Min(value = 0, message = "Range start value cannot be less than 0")
   @Schema(
       type = SchemaType.NUMBER,
       description = "Starting value for range based identifier generation")
-  private Integer rangeFrom;
+  private BigInteger rangeFrom;
 
   private static final String LGTIN_URN_PART = "urn:epc:class:lgtin:";
   private static final String LGTIN_URI_PART = "/01/";
@@ -96,14 +97,20 @@ public class GenerateLGTIN extends GenerateQuantity {
           && rangeFrom != null
           && count != null
           && count > 0
-          && rangeFrom >= 0) {
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+          && rangeFrom.doubleValue() >= 0) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           // Call the method to create and add the Quantity information for every range option
           returnQuantityFormatted.add(
               quantityUrnCreator(
-                  IdentifierVocabularyType.URN, formattedLgtin, rangeID.toString(), quantity, uom));
+                  IdentifierVocabularyType.URN,
+                  formattedLgtin,
+                  Long.valueOf(rangeID).toString(),
+                  quantity,
+                  uom));
         }
-        this.rangeFrom = this.rangeFrom + count;
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         final List<String> randomSerialNumbers =
             RandomValueGenerator.randomGenerator(RandomizationType.NUMERIC, 1, 20, count);
@@ -152,14 +159,20 @@ public class GenerateLGTIN extends GenerateQuantity {
           && rangeFrom != null
           && count != null
           && count > 0
-          && rangeFrom >= 0) {
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+          && rangeFrom.doubleValue() >= 0) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           // Call the method to create and add the Quantity information for every range option
           returnQuantityFormatted.add(
               quantityUrnCreator(
-                  IdentifierVocabularyType.WEBURI, lgtinWebURI, rangeID.toString(), quantity, uom));
+                  IdentifierVocabularyType.WEBURI,
+                  lgtinWebURI,
+                  Long.valueOf(rangeID).toString(),
+                  quantity,
+                  uom));
         }
-        this.rangeFrom = this.rangeFrom + count;
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         // Return the list of SGTIN for RANDOM calculation
         List<String> randomSerialNumbers =

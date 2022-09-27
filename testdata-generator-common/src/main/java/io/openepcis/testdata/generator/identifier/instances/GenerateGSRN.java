@@ -22,6 +22,7 @@ import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Setter;
@@ -59,13 +60,15 @@ public class GenerateGSRN extends GenerateEPCType2 {
           && rangeFrom != null
           && count != null
           && count > 0
-          && rangeFrom >= 0) {
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+          && rangeFrom.longValue() >= 0) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           var append = gcp + rangeID;
           append = StringUtils.repeat("0", 17 - append.length()) + rangeID;
           formattedGSRN.add(GSRN_URN_PART + gcp + "." + append);
         }
-        this.rangeFrom = this.rangeFrom + count;
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         final int requiredLength = 17 - gcp.length();
         final List<String> randomSerialNumbers =
@@ -94,13 +97,15 @@ public class GenerateGSRN extends GenerateEPCType2 {
   private List<String> generateWebURI(Integer count) {
     try {
       final List<String> formattedGSRN = new ArrayList<>();
-      if (rangeFrom != null && count != null && count > 0 && rangeFrom >= 0) {
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+      if (rangeFrom != null && count != null && count > 0 && rangeFrom.longValue() >= 0) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           var append = gcp + rangeID;
           append = StringUtils.repeat("0", 18 - append.length()) + rangeID;
           formattedGSRN.add(DomainName.IDENTIFIER_DOMAIN + GSRN_URI_PART + gcp + append);
         }
-        this.rangeFrom = this.rangeFrom + count;
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         int requiredLength = 18 - gcp.length();
         final List<String> randomSerialNumbers =

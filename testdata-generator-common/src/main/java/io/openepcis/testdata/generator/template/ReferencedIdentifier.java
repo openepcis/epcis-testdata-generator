@@ -39,17 +39,17 @@ public class ReferencedIdentifier implements Serializable {
   @Schema(
       type = SchemaType.NUMBER,
       description = "Number of instance identifiers associated with event node")
-  private int epcCount;
+  private Integer epcCount;
 
   @Schema(
       type = SchemaType.NUMBER,
       description = "Number of class identifiers associated with event node")
-  private int classCount;
+  private Integer classCount;
 
   @Schema(
       type = SchemaType.NUMBER,
       description = "Number of parent identifiers associated with event node")
-  private int parentCount;
+  private Integer parentCount;
 
   @Schema(
       type = SchemaType.NUMBER,
@@ -59,5 +59,5 @@ public class ReferencedIdentifier implements Serializable {
   @Schema(
       type = SchemaType.NUMBER,
       description = "Number of parent identifiers inherited from parent node to child node")
-  private int inheritParentCount;
+  private Integer inheritParentCount;
 }

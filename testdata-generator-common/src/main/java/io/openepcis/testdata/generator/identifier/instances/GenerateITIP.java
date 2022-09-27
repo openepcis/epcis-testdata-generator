@@ -21,6 +21,7 @@ import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.NotNull;
@@ -75,11 +76,13 @@ public class GenerateITIP extends GenerateEPC {
           && rangeFrom != null
           && count != null
           && count > 0
-          && rangeFrom >= 0) {
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+          && rangeFrom.longValue() >= 0) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           formattedITIP.add(ITIP_URN_PART + modifiedITIP + "." + rangeID);
         }
-        this.rangeFrom = this.rangeFrom + count;
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         randomMinLength = randomMinLength < 1 || randomMinLength > 20 ? 1 : randomMinLength;
         randomMaxLength = randomMaxLength < 1 || randomMaxLength > 20 ? 20 : randomMaxLength;
@@ -114,8 +117,10 @@ public class GenerateITIP extends GenerateEPC {
           && rangeFrom != null
           && count != null
           && count > 0
-          && rangeFrom >= 0) {
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+          && rangeFrom.longValue() >= 0) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           formattedITIP.add(
               DomainName.IDENTIFIER_DOMAIN
                   + ITIP_URI_PART
@@ -123,7 +128,7 @@ public class GenerateITIP extends GenerateEPC {
                   + ITIP_SERIAL_PART
                   + rangeID);
         }
-        this.rangeFrom = this.rangeFrom + count;
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         randomMinLength = randomMinLength < 1 || randomMinLength > 20 ? 1 : randomMinLength;
         randomMaxLength = randomMaxLength < 1 || randomMaxLength > 20 ? 20 : randomMaxLength;

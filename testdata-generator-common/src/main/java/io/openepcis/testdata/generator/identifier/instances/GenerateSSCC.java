@@ -22,6 +22,7 @@ import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Setter;
@@ -58,13 +59,15 @@ public class GenerateSSCC extends GenerateEPCType2 {
           && rangeFrom != null
           && count != null
           && count > 0
-          && rangeFrom >= 0) {
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+          && rangeFrom.longValue() >= 0) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           var append = gcp + rangeID;
           append = StringUtils.repeat("0", 17 - append.length()) + rangeID;
           formattedSSCC.add(SSCC_URN_PART + gcp + "." + append);
         }
-        this.rangeFrom = this.rangeFrom + count;
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         final int requiredLength = 17 - gcp.length();
         final List<String> randomSerialNumbers =
@@ -97,13 +100,15 @@ public class GenerateSSCC extends GenerateEPCType2 {
           && rangeFrom != null
           && count != null
           && count > 0
-          && rangeFrom >= 0) {
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+          && rangeFrom.longValue() >= 0) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           var append = gcp + rangeID;
           append = StringUtils.repeat("0", 18 - append.length()) + rangeID;
           formattedSSCC.add(DomainName.IDENTIFIER_DOMAIN + SSCC_URI_PART + gcp + append);
         }
-        this.rangeFrom = this.rangeFrom + count;
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         final int requiredLength = 18 - gcp.length();
         final List<String> randomSerialNumbers =

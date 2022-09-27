@@ -22,6 +22,7 @@ import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Setter;
@@ -59,11 +60,13 @@ public class GenerateGIAI extends GenerateEPCType2 {
           && rangeFrom != null
           && count != null
           && count > 0
-          && rangeFrom >= 0) {
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+          && rangeFrom.longValue() >= 0) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count.longValue();
+            rangeID++) {
           formattedGIAI.add(GIAI_URN_PART + gcp + "." + rangeID);
         }
-        this.rangeFrom = this.rangeFrom + count;
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count.longValue());
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         // Return the list of GIAI for RANDOM calculation
         final int requiredMaxLength = 29 - gcp.length();
@@ -98,11 +101,13 @@ public class GenerateGIAI extends GenerateEPCType2 {
           && rangeFrom != null
           && count != null
           && count > 0
-          && rangeFrom >= 0) {
-        for (var rangeID = rangeFrom; rangeID < rangeFrom + count; rangeID++) {
+          && rangeFrom.longValue() >= 0) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count.longValue();
+            rangeID++) {
           formattedGIAI.add(DomainName.IDENTIFIER_DOMAIN + GIAI_URI_PART + gcp + rangeID);
         }
-        this.rangeFrom = this.rangeFrom + count;
+        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count.longValue());
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         // Return the list of GIAI for RANDOM calculation
         final int requiredMaxLength = 29 - gcp.length();
