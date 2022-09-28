@@ -1,5 +1,5 @@
 // OpenEPCIS Testdata Generator UI
-// Copyright (C) 2022  benelog GmbH & Co. KG 
+// Copyright (C) 2022  benelog GmbH & Co. KG
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// 
+//
 // See LICENSE in the project root for license information.
 export const state = () => ({
   testDataInputTemplate: {},
@@ -21,7 +21,7 @@ export const state = () => ({
 })
 
 export const mutations = {
-  jsonPreparation (state, { payload }) {
+  jsonPreparation (state, payload) {
     const offset = new Date().getTimezoneOffset()
     const utcOffset = (offset < 0 ? '+' : '-') + ('00' + Math.floor(Math.abs(offset) / 60)).slice(-2) + ':' + ('00' + (Math.abs(offset) % 60)).slice(-2)
 
@@ -310,7 +310,7 @@ export const mutations = {
   },
 
   // Format the identifiers data
-  identifiersData (state, { rootState, payload }) {
+  identifiersData (state, payload) {
     const identifiers = []
 
     for (const identifierCount in payload.identifiersData) {
@@ -353,10 +353,10 @@ export const mutations = {
 export const actions = {
   jsonPreparation ({ commit, rootState }, payload) {
     // Prepare the JSON for test input data
-    commit('jsonPreparation', { rootState, payload })
+    commit('jsonPreparation', { eventsData: rootState.modules.RelationsBuilder.eventsData })
 
     // Prepare the JSON for identifiers data
-    commit('identifiersData', { rootState, payload })
+    commit('identifiersData', { identifiersData: rootState.modules.RelationsBuilder.identifiersData })
 
     // Prepare the JSON test data input template
     commit('inputTemplatePreparation')

@@ -477,6 +477,10 @@ body {
   background: #F7DC6F;
 }
 
+.drawflow .drawflow-node.highlightNode {
+  background:#E74C3C;
+}
+
 .nodeContainer{
   padding-top: 10px;
 }
@@ -497,6 +501,7 @@ body {
     border-radius: 25px;
     height:25px;
     margin-top: -11px;
+    font-size: 11px;
 }
 
 .nodeContainer{

@@ -33,7 +33,7 @@
           <pre />
         </div>
         <div style="padding-left: 29%; padding-top: 5%">
-          <button class="btn btn-success" @click="buildEventRelations($event)">
+          <button class="btn btn-success rounded-pill" @click="buildEventRelations($event)">
             Submit
           </button>
         </div>
@@ -46,7 +46,7 @@
           @drop="drop($event)"
           @dragover="allowDrop($event)"
         >
-          <div class="drawflowButton btn-export" @click="exportDesignInfo()">
+          <div class="drawflowButton btn-export rounded-pill" @click="exportDesignInfo()">
             Export
           </div>
           <span>
@@ -58,17 +58,17 @@
               @change="importDesignInfo()"
             >
             <div
-              class="drawflowButton btn-import"
+              class="drawflowButton btn-import rounded-pill"
               title="Upload Test Data Template from Local"
               @click="$refs.readDrawflowInfo.click()"
             >
               Import
             </div>
           </span>
-          <div class="drawflowButton btn-importEvents" @click="importEventsList($event)">
+          <div class="drawflowButton btn-importEvents rounded-pill" @click="importEventsList($event)">
             Import Events
           </div>
-          <div class=" drawflowButton btn-clear" @click="clearDesignInfo()">
+          <div class=" drawflowButton btn-clear rounded-pill" @click="clearDesignInfo()">
             Clear
           </div>
         </div>
@@ -347,11 +347,37 @@ export default {
 
     // On click of the Submit button build the relationship between the Nodes/Events based on Connection
     buildEventRelations (event) {
+      // Remove the highlightNode class from all the nodes initially during the submit button click
+      Array.from(document.querySelectorAll('.highlightNode')).forEach(el => el.classList.remove('highlightNode'))
+
       // Populate the diagram info into the mutation in Vuex store
       this.$store.commit('modules/RelationsBuilder/populateDiagramInfo', this.$df.export())
 
       // Call the Vuex store action to perform the operations based on the diagram values
       this.$store.dispatch('modules/RelationsBuilder/buildRelations', {})
+
+      // Check if there are any mismatch during the inheritance of identifiers count in Child event/node from Parent event/node.
+      const identifiersInheritError = JSON.parse(JSON.stringify(this.$store.state.modules.RelationsBuilder.identifiersInheritError))
+      if (identifiersInheritError.length === 0) {
+        this.eventGenerator()
+      } else {
+        // Add the class to all the nodes which have mismatch in identifiers count during the inheriting process.
+        for (const errorNode in identifiersInheritError) {
+          document.getElementById('node-' + identifiersInheritError[errorNode].eventId).classList.add('highlightNode')
+        }
+
+        // Display the alert message with all the text information
+        this.$alertify.confirmWithTitle(
+          'Test data generator warning',
+          'Identifiers inherited by child event/node exceeds the identifiers available in parent event/node,<br/> would you still like to continue further?',
+          () => this.eventGenerator()
+        )
+      }
+    },
+
+    eventGenerator () {
+      // Call the method to prepare the JSON/InputTemplate based on design
+      this.$store.dispatch('modules/ConfigureNodeEvents/jsonPreparation', { root: true })
 
       // Send the data to the Generate Test Data
       this.$store.commit('modules/TestDataGeneratorStore/populateTestDataInput', JSON.stringify(this.$store.state.modules.ConfigureNodeEvents.testDataInputTemplate, null, 4))

@@ -47,13 +47,13 @@
       <div class="col text-center">
         <button
           ref="Btn"
-          class="btn btn-info"
+          class="btn btn-info rounded-pill"
           df-ID
           :value="ID"
           title="Add Parent Identifiers"
           @click="parentIdentifiersModal(ID)"
         >
-          <em class="bi bi-pencil-square" /> Parent ID
+          <em class="bi bi-plus-circle" /> Parent ID
         </button>
         <pre>{{ parentIdentifierType }}</pre>
       </div>
