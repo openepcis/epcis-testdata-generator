@@ -145,7 +145,7 @@ export const actions = {
               parentEventCount = parseInt(parentEventCount) !== 0 ? parseInt(parentEventCount) : 1
 
               if (eventData !== undefined && (eventData.eventType === 'AggregationEvent' || eventData.eventType === 'TransactionEvent' || eventData.eventType === 'AssociationEvent')) {
-                const parentObj = { identifierId: state.diagram[identifierNode].id, parentCount: parseInt(parseInt(eventData.eventCount) * parseInt(parentEventCount) / nodeCount) }
+                const parentObj = { identifierId: state.diagram[identifierNode].id, parentCount: parseInt(eventData.eventCount) }
                 eventData.parentReferencedIdentifier = parentObj
               }
             }
