@@ -15,7 +15,6 @@
  */
 package io.openepcis.testdata.generator.model;
 
-import io.openepcis.model.epcis.Ilmd;
 import io.openepcis.model.epcis.QuantityList;
 import io.openepcis.model.epcis.TransformationEvent;
 import io.openepcis.testdata.generator.reactivestreams.EventIdentifierTracker;
@@ -62,9 +61,7 @@ public class TransformationEventCreationModel
           typeInfo.getIlmd().stream()
               .flatMap(c -> c.toMap().entrySet().stream())
               .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-      var ilmd = new Ilmd();
-      ilmd.setUserExtensions(ilmdMap);
-      e.setIlmd(ilmd);
+      e.setIlmdXml(ilmdMap);
     }
 
     // Add the context information to the JSON event to add the localname & namespaces from User

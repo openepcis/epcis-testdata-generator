@@ -223,6 +223,18 @@
           >
         </div>
 
+        <div v-show="classIdentifiersForm.serialType == 'none' && autoGenerateOptionA == true && classIdentifiersForm.identifierType == 'lgtin'" class="verticleSpace horizontalSpace">
+          <input
+            v-model="classIdentifiersForm.serialNumber"
+            type="number"
+            class="form-control"
+            min="1"
+            placeholder="Serial ref. number"
+            title="Enter serial number"
+            :required="classIdentifiersForm.serialType == 'none' && autoGenerateOptionA == true && classIdentifiersForm.identifierType == 'lgtin'"
+          >
+        </div>
+
         <div v-show="autoGenerateOptionA == false && classIdentifiersForm.identifierType != null && classIdentifiersForm.identifierType != 'manualURI'" class="verticleSpace horizontalSpace">
           <input
             v-model="classIdentifiersForm.classIdentifiersCount"
