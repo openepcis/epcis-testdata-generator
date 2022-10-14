@@ -110,7 +110,7 @@
           <span v-if="selectedSensorMetaData.indexOf('deviceMetadata') >= 0" class="horizontalSpace verticleSpace">
             <label class="form-label">Device Metadata</label>
             <input
-              v-model="sensorMetaData.deviceMetaData"
+              v-model="sensorMetaData.deviceMetadata"
               :required="selectedSensorMetaData.indexOf('deviceMetadata') >= 0"
               type="text"
               class="form-control"
@@ -152,7 +152,7 @@
             <span class="form-group form-inline">
               <span v-if="selectedSensorReport.indexOf('type') >= 0" class="horizontalSpace">
                 <label class="form-label">Type</label>
-                <b-form-select v-model="reportElement.type" class="form-control" :options="sensorReportTypes" :selected="null" @change="sensorTypeChange($event)" />
+                <b-form-select v-model="reportElement.type" class="form-control" :options="sensorReportTypes" :selected="null" />
               </span>
 
               <span v-if="selectedSensorReport.indexOf('deviceID') >= 0" class="horizontalSpace verticleSpace">
@@ -302,10 +302,26 @@ export default {
     this.SensorReportDatas = sensorDatas.SensorReportDatas
     this.sensorReportTypes = sensorDatas.sensorReportTypes
     this.sensorReportUOMs = sensorDatas.sensorReportUOMs
+
+    // Check if user is trying to provide new SensorElement or modifying existing SensorElement, for modification show the existing information
+    const currentSensorElementInfo = JSON.parse(JSON.stringify(this.$store.state.modules.SensorElementsStore.currentSensorElementInfo))
+    if (currentSensorElementInfo !== undefined && currentSensorElementInfo !== null && Object.keys(currentSensorElementInfo).length !== 0) {
+      this.selectedSensorMetaData = Object.keys(currentSensorElementInfo.sensorMetadata)
+      this.selectedSensorReport = Object.keys(currentSensorElementInfo.sensorReport[0]).filter(item => item !== 'ID')
+      this.sensorMetaData = currentSensorElementInfo.sensorMetadata
+      this.sensorReportArray = currentSensorElementInfo.sensorReport
+      this.sensorReportCount = currentSensorElementInfo.sensorReport.length
+    }
   },
   methods: {
     // Function called on submission of the sensor information
     submitSensorInformation () {
+      // Keep only those sensor metadata values which are selected by user using the multiselect option
+      this.sensorMetaData = Object.fromEntries(this.selectedSensorMetaData.map(k => [k, this.sensorMetaData[k]]))
+
+      // Keep only those sensor report values which are selected by user using the multiselect option
+      this.sensorReportArray = this.sensorReportArray.map(v => Object.fromEntries(Object.entries(v).filter(([k, v]) => this.selectedSensorReport.includes(k))))
+
       const sensorElement = {}
       sensorElement.sensorMetadata = this.sensorMetaData
       sensorElement.sensorReport = this.sensorReportArray
@@ -326,10 +342,6 @@ export default {
       this.sensorReportCount++
     },
 
-    // Based on the Sensor Type populate the UOM type
-    sensorTypeChange (event) {
-    },
-
     // Based on user click delete the respective sensor report elements
     deleteSensorReport (sensorReportID) {
       const idx = this.sensorReportArray.findIndex(obj => obj.ID === sensorReportID)
@@ -342,6 +354,8 @@ export default {
     cancel () {
       // Hide the sensor modal
       this.$store.commit('modules/SensorElementsStore/hideSensorModal')
+      // Reset current sensor element information
+      this.$store.commit('modules/SensorElementsStore/resetCurrentSensorElementInfo')
     }
   }
 }
