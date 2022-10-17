@@ -888,11 +888,12 @@
                 Add Sensor Info
               </button>
               <span v-for="sensorElement in $store.state.modules.SensorElementsStore.sensorElementList" :key="sensorElement.ID" class="form-inline verticleSpace">
-                <span class="horizontalSpace">
-                  <button class="btn btn-danger" @click="deleteSensorElement($event, sensorElement.ID)"><em class="bi bi-trash" /></button>
-                </span>
                 <span>
-                  Sensor Information
+                  Sensor Information - {{ sensorElement.ID + 1 }}
+                </span>
+                <span class="horizontalSpace">
+                  <button type="button" title="Modify Sensor Element" @click="modifySensorElement($event, sensorElement.ID)"><em class="bi bi-pencil" /></button>
+                  <button type="button" title="Delete Sensor Element" @click="deleteSensorElement($event, sensorElement.ID)"><em class="bi bi-trash" /></button>
                 </span>
               </span>
             </td>
@@ -1281,6 +1282,13 @@ export default {
 
     // Function that will be triggered on click of the Add sensor Information
     addSensorInformation () {
+      this.$store.commit('modules/SensorElementsStore/showSensorModal')
+    },
+
+    // Based on user click show the Sensor Element modal to modify the existing information
+    modifySensorElement (event, sensorElementID) {
+      event.preventDefault()
+      this.$store.commit('modules/SensorElementsStore/modifySensorElement', { sensorElementID })
       this.$store.commit('modules/SensorElementsStore/showSensorModal')
     },
 

@@ -208,7 +208,7 @@
             min="1"
             placeholder="Serial ref. number"
             title="Enter serial number"
-            :required="classIdentifiersForm.serialType == 'none'"
+            :required="classIdentifiersForm.serialType == 'none' && autoGenerateOptionA == true && classIdentifiersForm.identifierType == 'lgtin'"
           >
         </div>
 

@@ -1,5 +1,5 @@
 // OpenEPCIS Testdata Generator UI
-// Copyright (C) 2022  benelog GmbH & Co. KG 
+// Copyright (C) 2022  benelog GmbH & Co. KG
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// 
+//
 // See LICENSE in the project root for license information.
 export default {
   ssr: false,
@@ -50,7 +50,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: "~/plugins/element-ui", mode:"client" }
+    { src: "~/plugins/element-ui", mode:"client" },
+    { src: "~/plugins/alert", mode:"client" }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

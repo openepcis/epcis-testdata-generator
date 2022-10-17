@@ -17,7 +17,10 @@
 const getDefaultState = () => {
   return {
     diagram: {},
-    allEventsInfoArray: []
+    allEventsInfoArray: [],
+    eventsData: [],
+    identifiersData: [],
+    identifiersInheritError: []
   }
 }
 
@@ -32,6 +35,17 @@ export const mutations = {
   // Clear the final array to build fresh relations
   clearAllEventsArray (state) {
     state.allEventsInfoArray = []
+  },
+
+  // Populate events and identifiers data in the state variable
+  populateData (state, payload) {
+    state.eventsData = payload.eventsData !== undefined ? payload.eventsData : []
+    state.identifiersData = payload.identifiersData !== undefined ? payload.identifiersData : []
+  },
+
+  // set identifiersInheritError to value if any error in identifiers present
+  populateIdentifiersInheritError (state, payload) {
+    state.identifiersInheritError = payload.identifiersInheritError
   }
 }
 
@@ -131,7 +145,7 @@ export const actions = {
               parentEventCount = parseInt(parentEventCount) !== 0 ? parseInt(parentEventCount) : 1
 
               if (eventData !== undefined && (eventData.eventType === 'AggregationEvent' || eventData.eventType === 'TransactionEvent' || eventData.eventType === 'AssociationEvent')) {
-                const parentObj = { identifierId: state.diagram[identifierNode].id, parentCount: parseInt(parseInt(eventData.eventCount) * parseInt(parentEventCount) / nodeCount) }
+                const parentObj = { identifierId: state.diagram[identifierNode].id, parentCount: parseInt(eventData.eventCount) }
                 eventData.parentReferencedIdentifier = parentObj
               }
             }
@@ -190,6 +204,78 @@ export const actions = {
       }
     }
 
-    dispatch('modules/ConfigureNodeEvents/jsonPreparation', { eventsData: allEventsInfoArray, identifiersData: identifiersNodeInfo }, { root: true })
+    // Check if any of the child node/event is trying to inherit more epc/class/parent identifiers from parent node/event.
+    const identifiersInheritError = []
+    for (const eventInfo in allEventsInfoArray) {
+      // Obtain all child event information.
+      const childFormData = allEventsInfoArray[eventInfo].formData[Object.keys(allEventsInfoArray[eventInfo].formData)[0]]
+      const childEventRefId = childFormData !== undefined ? childFormData.referencedIdentifier : []
+      const childEventCount = childFormData !== undefined ? childFormData.eventCount : 0
+      let childEventTotalEpcCount = 0
+      let childEventTotalClassCount = 0
+      let childEventInheritParentCount = 0
+      const parentNodeIds = []
+
+      // Loop through all childEventRefId check if parentNodeId exists and obtain the total child identifiers count.
+      for (const childRef in childEventRefId) {
+        if (childEventRefId[childRef].parentNodeId !== undefined && childEventRefId[childRef].parentNodeId !== 0) {
+          childEventTotalEpcCount = childEventTotalEpcCount + (parseInt(childEventCount) * parseInt(childEventRefId[childRef].epcCount))
+          childEventTotalClassCount = childEventTotalClassCount + (parseInt(childEventCount) * parseInt(childEventRefId[childRef].classCount))
+          childEventInheritParentCount = childEventInheritParentCount + (parseInt(childEventCount) * parseInt(childEventRefId[childRef].inheritParentCount))
+          parentNodeIds.push(childEventRefId[childRef].parentNodeId)
+        }
+      }
+
+      // If child event is inheriting identifiers from parent node/event then loop over those parent node/event
+      if (parentNodeIds.length > 0) {
+        // Obtain the Parent node information and check if the child identifiers count is less than or equal to parent identifiers count
+        let parentEventTotalEpcCount = 0
+        let parentEventTotalClassCount = 0
+        let parentEventInheritParentCount = 0
+
+        for (const parentNodeId in parentNodeIds) {
+          const parentNodeInfo = allEventsInfoArray.find(node => parseInt(node.eventId) === parseInt(parentNodeIds[parentNodeId]))
+          let parentEventRefId = ''
+          if (parentNodeInfo.eventType === 'TransformationEvent') {
+            parentEventRefId = parentNodeInfo.formData[Object.keys(parentNodeInfo.formData)[0]].outputReferencedIdentifier
+          } else {
+            parentEventRefId = parentNodeInfo.formData[Object.keys(parentNodeInfo.formData)[0]].referencedIdentifier
+          }
+          parentEventInheritParentCount = parentNodeInfo.formData[Object.keys(parentNodeInfo.formData)[0]].eventCount
+
+          // Find the total count of parent identifiers for epc and class identifiers
+          for (const parentRef in parentEventRefId) {
+            if (parentEventRefId[parentRef].epcCount !== undefined) {
+              parentEventTotalEpcCount = parentEventTotalEpcCount + (parseInt(parentEventRefId[parentRef].epcCount))
+              parentEventTotalClassCount = parentEventTotalClassCount + (parseInt(parentEventRefId[parentRef].classCount))
+            }
+          }
+        }
+
+        // If the available epc count in parent is less then child event requested then store the associated information.
+        if (parentEventTotalEpcCount < childEventTotalEpcCount) {
+          const epcErrObj = { type: 'Instance Identifiers', eventId: allEventsInfoArray[eventInfo].eventId, eventType: allEventsInfoArray[eventInfo].eventType, eventCount: childFormData.eventCount, bizStep: childFormData.businessStep, disposition: childFormData.disposition, parentCount: parentEventTotalEpcCount, childCount: childEventTotalEpcCount, message: 'Child node/event is inheriting more EPC identifiers than available in Parent node/event.' }
+          identifiersInheritError.push(epcErrObj)
+        }
+
+        // If the available class count in parent is less then child event requested then store the associated information.
+        if (parentEventTotalClassCount < childEventTotalClassCount) {
+          const classErrObj = { type: 'Class Identifiers', eventId: allEventsInfoArray[eventInfo].eventId, eventType: allEventsInfoArray[eventInfo].eventType, eventCount: childFormData.eventCount, bizStep: childFormData.businessStep, disposition: childFormData.disposition, parentCount: parentEventTotalClassCount, childCount: childEventTotalClassCount, message: 'Child node/event is inheriting more Class identifiers than available in Parent node/event.' }
+          identifiersInheritError.push(classErrObj)
+        }
+
+        // if the available parent count in parent is less than child event requested then store the associated information.
+        if (parentEventInheritParentCount < childEventInheritParentCount) {
+          const parentErrObj = { type: 'Parent Identifiers', eventId: allEventsInfoArray[eventInfo].eventId, eventType: allEventsInfoArray[eventInfo].eventType, eventCount: childFormData.eventCount, bizStep: childFormData.businessStep, disposition: childFormData.disposition, parentCount: parentEventInheritParentCount, childCount: childEventInheritParentCount, message: 'Child node/event is inheriting more Parent Identifiers than available in Parent node/event.' }
+          identifiersInheritError.push(parentErrObj)
+        }
+      }
+    }
+
+    // Populate the identifiersInheritError in the state variable
+    commit('populateIdentifiersInheritError', { identifiersInheritError })
+
+    // Populate the data in the state variable
+    commit('populateData', { eventsData: allEventsInfoArray, identifiersData: identifiersNodeInfo })
   }
 }

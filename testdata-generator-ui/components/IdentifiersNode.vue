@@ -45,24 +45,24 @@
       <div class="col text-center" style="">
         <button
           ref="Btn"
-          class="btn btn-info"
+          class="btn btn-info rounded-pill"
           df-ID
           :value="ID"
           title="Add Instance Identifiers"
           @click="instanceIdentifiersModal(ID)"
         >
-          <em class="bi bi-pencil-square" /> EPC List
+          <em class="bi bi-plus-circle" /> EPC List
         </button>
         <pre>{{ instanceIdentifierType }}</pre>
         <button
           ref="Btn"
-          class="btn btn-info"
+          class="btn btn-info rounded-pill"
           df-ID
           :value="ID"
           title="Add Class Identifiers"
           @click="classIdentifiersModal(ID)"
         >
-          <em class="bi bi-pencil-square" /> Class List
+          <em class="bi bi-plus-circle" /> Class List
         </button>
         <pre>{{ classIdentifierType }}</pre>
       </div>

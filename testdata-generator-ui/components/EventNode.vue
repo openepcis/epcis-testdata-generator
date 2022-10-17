@@ -17,26 +17,47 @@
 -->
 <template>
   <div class="eventContainer">
-    <div class="eventsNode text-center">
-      {{ eventType }}
-    </div>
-    <div class="text-center nodeContainer">
-      <button
-        ref="Btn"
-        class="btn btn-info"
-        df-ID
-        :value="ID"
-        title="Add Event Information"
-        @click="eventModal(ID)"
-      >
-        <em class="bi bi-pencil-square" /> Info
-      </button><br>
-      <div style="font-size:9px;text-align:center;white-space: pre">
-        Count: {{ eventCount }}
-        Action: {{ action }}
-        BizStep: {{ businessStep }}
-        Disposition: {{ disposition }}
+    <div class="eventsNode" style="display: grid; grid-template-columns: repeat(3,1fr);">
+      <div style="justify-self: left;" />
+      <div style="justify-self: center;">
+        {{ eventType }}
       </div>
+      <div style="justify-self: right;padding-left:5px">
+        <button
+          ref="Btn"
+          class="btn btn-primary btn-circle btn-sm justify-content-end"
+          df-ID
+          :value="ID"
+          title="Add Event Information"
+          @click="eventModal(ID)"
+        >
+          <em class="bi bi-pencil-square" />
+        </button>
+      </div>
+    </div>
+    <div class="text-center nodeContainer" style="font-size:9px;white-space: pre">
+      <table style="width:80%;" class="center">
+        <tr>
+          <td>count</td>
+          <td>:</td>
+          <td>{{ eventCount }}</td>
+        </tr>
+        <tr>
+          <td>action</td>
+          <td>:</td>
+          <td>{{ action }}</td>
+        </tr>
+        <tr>
+          <td>bizStep</td>
+          <td>:</td>
+          <td>{{ businessStep }}</td>
+        </tr>
+        <tr>
+          <td>disposition</td>
+          <td>:</td>
+          <td>{{ disposition }}</td>
+        </tr>
+      </table>
     </div>
   </div>
 </template>
@@ -116,4 +137,21 @@ export default {
 </script>
 
 <style>
+.btn-circle.btn-sm {
+    width: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    font-size: 9px;
+    text-align: center;
+}
+
+table, th, td {
+  border:1px grey;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom:10px;
+}
 </style>
