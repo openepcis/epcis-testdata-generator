@@ -20,24 +20,36 @@
     <div
       v-for="extension in extension.complex"
       :key="extension.ID"
-      class="form-inline"
     >
-      <span>{{ extension.namespace + ":" + extension.localName }}</span>
-      <input v-if="extension.dataType == 'string'" :value="extension.text" type="text" @input="extensionText($event,extension.ID)">
-      <span v-if="extension.dataType == 'complex'" class="horizontalSpace verticleSpace">
-        <ExtensionComponent
-          v-if="extension.dataType == 'complex'"
-          :extension="extension"
-        />
-      </span>
-      <span class="horizontalSpace verticleSpace" />
-      <button class="btn btn-danger" @click="deleteExtension($event,extension.ID)">
-        <em class="bi bi-trash" />
+      <tr style="white-space:nowrap">
+        <td v-if="extension.dataType == 'string'">
+          <span>{{ extension.namespace + ":" + extension.localName }}</span>
+          <input v-if="extension.dataType == 'string'" :value="extension.text" type="text" @input="extensionText($event,extension.ID)">
+        </td>
+
+        <td v-if="extension.dataType == 'complex'">
+          <span>{{ extension.namespace + ":" + extension.localName }}</span>
+          <ExtensionComponent
+            v-if="extension.dataType == 'complex'"
+            :extension="extension"
+          />
+        </td>
+
+        <td style="width:100%">
+          <button type="button" class="modifyButton" title="Modify Extension" @click="modifyExtension($event, extension.ID)">
+            <em class="bi bi-pencil" />
+          </button>
+          <button type="button" class="deleteButton" title="Delete Extension" @click="deleteExtension($event, extension.ID)">
+            <em class="bi bi-trash" />
+          </button>
+        </td>
+      </tr>
+    </div>
+    <div style="margin-top:8px;">
+      <button @click="addNewExtension($event)">
+        Add another
       </button>
     </div>
-    <button @click="addNewExtension($event)">
-      Add another
-    </button>
   </div>
 </template>
 
@@ -51,6 +63,8 @@ export default {
   props: {
     extension: Object
   },
+  mounted () {
+  },
   created () {
     this.$store.commit('modules/ExtensionDataStore/extensionTypePopulator', this.extension.type)
   },
@@ -59,8 +73,18 @@ export default {
       // Add the extension on click of the add button by the user
       event.preventDefault()
       this.$store.commit('modules/ExtensionDataStore/setParentExtension', this.extension)
-      this.$store.commit('modules/ExtensionDataStore/toggleExtensionModal')
+      this.$store.commit('modules/ExtensionDataStore/showExtensionModal')
     },
+
+    modifyExtension (event, extensionID) {
+      // Function to modify the User Extension onClick of the modify button
+      event.preventDefault()
+      this.$store.commit('modules/ExtensionDataStore/extensionTypePopulator', this.extension.type)
+      this.$store.commit('modules/ExtensionDataStore/setParentExtension', this.extension)
+      this.$store.commit('modules/ExtensionDataStore/modifyExtension', extensionID)
+      this.$store.commit('modules/ExtensionDataStore/showExtensionModal')
+    },
+
     deleteExtension (event, extensionID) {
       // Delete the extension on click of the delete button by the user
       event.preventDefault()
@@ -86,5 +110,13 @@ export default {
 .verticleSpace{
   padding-top:8px;
   padding-bottom: 8px;
+}
+
+.modifyButton{
+  color:#F8C471
+}
+
+.deleteButton{
+  color:#dc3545
 }
 </style>
