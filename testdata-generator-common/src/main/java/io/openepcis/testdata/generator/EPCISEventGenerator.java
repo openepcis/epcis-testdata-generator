@@ -34,8 +34,17 @@ import io.smallrye.mutiny.Multi;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class EPCISEventGenerator {
+
+  private static final ObjectMapper objectMapper = new ObjectMapper()
+          .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+          .registerModule(new Jdk8Module())
+          .registerModule(new JavaTimeModule())
+          .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+          .configure(DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY, false)
+          .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
   private EPCISEventGenerator() {}
 
@@ -57,13 +66,6 @@ public class EPCISEventGenerator {
   }
 
   public static Multi<String> generate(final InputTemplate inputTemplate) {
-    final ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    objectMapper.registerModule(new Jdk8Module());
-    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    objectMapper.configure(DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY, false);
-    objectMapper.registerModule(new JavaTimeModule());
-    objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
     // Call the method to build the context based on the information present within inputTemplate
     ContextNamespaceBuilder.storeContextInfo(inputTemplate.getEvents());
@@ -77,6 +79,7 @@ public class EPCISEventGenerator {
                       + ",\"isA\":\"EPCISDocument\", \"schemaVersion\": \"2.0\", \"creationDate\":\""
                       + Instant.now().toString()
                       + "\", \"epcisBody\":{ \"eventList\":[");
+      final AtomicBoolean firstEntry = new AtomicBoolean(true);
       final Multi<String> generatedEvents =
           Multi.createFrom()
               .publisher(new EPCISEventPublisher(EPCISEventGenerator.createModels(inputTemplate)))
@@ -84,8 +87,10 @@ public class EPCISEventGenerator {
               .transform(
                   event -> {
                     try {
-                      return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(event)
-                          + ",";
+                      if (firstEntry.getAndSet(false)) {
+                        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(event);
+                      }
+                      return "," + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(event);
                     } catch (JsonProcessingException e) {
                       e.printStackTrace();
                     }
