@@ -42,7 +42,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Getter
@@ -62,10 +61,6 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
 
   private EPCISEventDownstreamHandler epcisEventDownstreamHandler = null;
 
-  // Variable to store the localname & namespaces from User Extensions, ILMD and Error Extensions so
-  // can be added to @context
-  @Getter @Setter private static List<Object> context;
-
   @Override
   public EPCISEventDownstreamHandler toEPCISDownstreamHandler() {
     if (epcisEventDownstreamHandler == null) {
@@ -78,10 +73,6 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
 
     final IdentifierVocabularyType syntax = typeInfo.getLocationPartyIdentifierSyntax();
     try {
-      // Empty the context list for the next event to store the namespaces corresponding to the
-      // event
-      context = new ArrayList<>();
-      context.add("https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld");
 
       // Call the method to add the When dimension information associated with the event
       configureWhenDimension(epcisEvent);
@@ -277,7 +268,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
                   .getInstanceData()
                   .format(matchingIdentifier.getObjectIdentifierSyntax(), epc.getEpcCount()));
         }
-      } else if (epc.getParentNodeId() != 0 && epc.getEpcCount() > 0) {
+      } else if (epc.getParentNodeId() != 0 && epc.getEpcCount() != null && epc.getEpcCount() > 0) {
         // If referenced identifier contains the parent node id then obtain the identifiers from its
         // parent event and add it
 
@@ -293,7 +284,9 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
 
       // When user wants to inherit Parent-Ids from parent node into child node get the matching
       // Parent Identifiers. (AggregationEvent -> ObjectEvent)
-      if (epc.getParentNodeId() != 0 && epc.getInheritParentCount() > 0) {
+      if (epc.getParentNodeId() != 0
+          && epc.getInheritParentCount() != null
+          && epc.getInheritParentCount() > 0) {
         parentTracker.stream()
             .forEach(
                 parent -> {

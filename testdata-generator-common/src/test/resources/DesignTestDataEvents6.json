@@ -1,29 +1,32 @@
 {
-  "events": [
-    {
-      "nodeId": 2,
-      "eventType": "ObjectEvent",
-      "eventCount": 3,
-      "locationPartyIdentifierSyntax": "URN",
-      "ordinaryEvent": true,
-      "action": "ADD",
-      "eventID": false,
-      "eventTime": {
-        "timeZoneOffset": "+02:00",
-        "specificTime": "2022-03-09T16:13:42+02:30"
-      },
-      "businessStep": "ACCEPTING",
-      "disposition": "ACTIVE",
-      "referencedIdentifier": [
-        {
-          "identifierId": 1,
-          "epcCount": 6,
-          "classCount": 0
-        }
-      ],
-      "outputReferencedIdentifier": [],
-      "parentReferencedIdentifier": {}
+  "events": [{
+    "nodeId": 2,
+    "eventType": "ObjectEvent",
+    "eventCount": 1,
+    "locationPartyIdentifierSyntax": "URN",
+    "ordinaryEvent": true,
+    "action": "ADD",
+    "eventID": false,
+    "eventTime": {
+      "timeZoneOffset": "+02:00",
+      "specificTime": "2022-10-25T10:44:33.000+02:00"
     },
+    "businessStep": "COMMISSIONING",
+    "disposition": "ACTIVE",
+    "referencedIdentifier": [{
+      "identifierId": 1,
+      "epcCount": 10,
+      "inheritParentCount": 0,
+      "classCount": 0,
+      "quantity": 0
+    }],
+    "outputReferencedIdentifier": [],
+    "parentReferencedIdentifier": {},
+    "epcList": [],
+    "quantityList": [],
+    "outputEPCList": [],
+    "outputQuantityList": []
+  },
     {
       "nodeId": 3,
       "eventType": "AggregationEvent",
@@ -34,46 +37,30 @@
       "eventID": false,
       "eventTime": {
         "timeZoneOffset": "+02:00",
-        "specificTime": "2022-03-09T16:13:52+02:30"
+        "specificTime": "2022-10-25T10:44:51.000+02:00"
       },
-      "referencedIdentifier": [
-        {
-          "parentNodeId": 2,
-          "epcCount": 3,
-          "classCount": 0
-        },
-        {
-          "parentNodeId": 5
-        }
-      ],
+      "businessStep": "PACKING",
+      "disposition": "IN_PROGRESS",
+      "referencedIdentifier": [{
+        "parentNodeId": 2,
+        "epcCount": 5,
+        "inheritParentCount": 0,
+        "classCount": 0,
+        "quantity": 0
+      }],
       "outputReferencedIdentifier": [],
-      "parentReferencedIdentifier": {}
+      "parentReferencedIdentifier": {
+        "identifierId": 6,
+        "parentCount": 2
+      },
+      "epcList": [],
+      "quantityList": [],
+      "outputEPCList": [],
+      "outputQuantityList": []
     },
     {
       "nodeId": 4,
       "eventType": "TransactionEvent",
-      "eventCount": 3,
-      "locationPartyIdentifierSyntax": "URN",
-      "ordinaryEvent": true,
-      "action": "ADD",
-      "eventID": false,
-      "eventTime": {
-        "timeZoneOffset": "+02:00",
-        "specificTime": "2022-03-09T16:14:17+02:30"
-      },
-      "referencedIdentifier": [
-        {
-          "parentNodeId": 3,
-          "epcCount": 1,
-          "classCount": 0
-        }
-      ],
-      "outputReferencedIdentifier": [],
-      "parentReferencedIdentifier": {}
-    },
-    {
-      "nodeId": 5,
-      "eventType": "ObjectEvent",
       "eventCount": 2,
       "locationPartyIdentifierSyntax": "URN",
       "ordinaryEvent": true,
@@ -81,36 +68,99 @@
       "eventID": false,
       "eventTime": {
         "timeZoneOffset": "+02:00",
-        "specificTime": "2022-03-09T16:28:17+02:30"
+        "specificTime": "2022-10-25T10:45:58.000+02:00"
       },
-      "businessStep": "COLLECTING",
-      "disposition": "COMPLETENESS_VERIFIED",
-      "referencedIdentifier": [
-        {
-          "identifierId": 1,
-          "epcCount": 4,
-          "classCount": 0
-        }
-      ],
+      "businessStep": "INSPECTING",
+      "disposition": "CONFORMANT",
+      "referencedIdentifier": [{
+        "parentNodeId": 3,
+        "epcCount": 0,
+        "inheritParentCount": 1,
+        "classCount": 0,
+        "quantity": 0
+      }],
       "outputReferencedIdentifier": [],
-      "parentReferencedIdentifier": {}
+      "parentReferencedIdentifier": {
+        "identifierId": 7,
+        "parentCount": 2
+      },
+      "epcList": [],
+      "quantityList": [],
+      "outputEPCList": [],
+      "outputQuantityList": []
+    },
+    {
+      "nodeId": 5,
+      "eventType": "ObjectEvent",
+      "eventCount": 1,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2022-10-25T10:47:41.000+02:00"
+      },
+      "businessStep": "SHIPPING",
+      "disposition": "IN_PROGRESS",
+      "referencedIdentifier": [{
+        "parentNodeId": 4,
+        "epcCount": 0,
+        "inheritParentCount": 1,
+        "classCount": 0,
+        "quantity": 0
+      }],
+      "outputReferencedIdentifier": [],
+      "parentReferencedIdentifier": {},
+      "epcList": [],
+      "quantityList": [],
+      "outputEPCList": [],
+      "outputQuantityList": []
     }
   ],
-  "identifiers": [
+  "identifiers": [{
+    "identifierId": 1,
+    "objectIdentifierSyntax": "URN",
+    "instanceData": {
+      "sgtin": {
+        "identifierType": "sgtin",
+        "gcpLength": 12,
+        "sgtin": "78437377378783",
+        "serialType": "range",
+        "rangeFrom": 100
+      }
+    },
+    "classData": null,
+    "parentData": null
+  },
     {
-      "identifierId": 1,
+      "identifierId": 6,
       "objectIdentifierSyntax": "URN",
-      "instanceData": {
-        "sgtin": {
-          "identifierType": "sgtin",
-          "gcpLength": "10",
-          "sgtin": "11111111111111",
-          "serialType": "range",
-          "rangeFrom": "100"
-        }
-      },
+      "instanceData": null,
       "classData": null,
-      "parentData": null
+      "parentData": {
+        "sscc": {
+          "identifierType": "sscc",
+          "gcpLength": 10,
+          "gcp": "7378874784",
+          "serialType": "range",
+          "rangeFrom": 120
+        }
+      }
+    },
+    {
+      "identifierId": 7,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": null,
+      "classData": null,
+      "parentData": {
+        "sscc": {
+          "identifierType": "sscc",
+          "gcpLength": 10,
+          "gcp": "483983894",
+          "serialType": "random"
+        }
+      }
     }
   ]
 }

@@ -63,10 +63,6 @@ public class TransformationEventCreationModel
               .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
       e.setIlmdXml(ilmdMap);
     }
-
-    // Add the context information to the JSON event to add the localname & namespaces from User
-    // Extensions, ILMD and Error Extensions
-    e.setContextInfo(getContext());
   }
 
   // Private method which will generate Instance/InputEPCs & Class/InputQuantity identifiers if

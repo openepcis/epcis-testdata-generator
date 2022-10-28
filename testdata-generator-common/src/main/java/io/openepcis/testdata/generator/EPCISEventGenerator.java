@@ -15,14 +15,23 @@
  */
 package io.openepcis.testdata.generator;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.openepcis.model.epcis.EPCISEvent;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
+import io.openepcis.testdata.generator.format.ContextNamespaceBuilder;
 import io.openepcis.testdata.generator.model.EventCreationModel;
 import io.openepcis.testdata.generator.model.EventModelUtil;
 import io.openepcis.testdata.generator.reactivestreams.EPCISEventPublisher;
 import io.openepcis.testdata.generator.template.EPCISEventType;
 import io.openepcis.testdata.generator.template.InputTemplate;
 import io.smallrye.mutiny.Multi;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,10 +56,53 @@ public class EPCISEventGenerator {
     }
   }
 
-  public static Multi<EPCISEvent> generate(final InputTemplate inputTemplate) {
+  public static Multi<String> generate(final InputTemplate inputTemplate) {
+    final ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    objectMapper.registerModule(new Jdk8Module());
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    objectMapper.configure(DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY, false);
+    objectMapper.registerModule(new JavaTimeModule());
+    objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+    // Call the method to build the context based on the information present within inputTemplate
+    ContextNamespaceBuilder.storeContextInfo(inputTemplate.getEvents());
+
     try {
-      return Multi.createFrom()
-          .publisher(new EPCISEventPublisher(EPCISEventGenerator.createModels(inputTemplate)));
+      final Multi<String> beginDocument =
+          Multi.createFrom()
+              .items(
+                  "{\"@context\":"
+                      + objectMapper.writeValueAsString(ContextNamespaceBuilder.getContext())
+                      + ",\"isA\":\"EPCISDocument\", \"schemaVersion\": \"2.0\", \"creationDate\":\""
+                      + Instant.now().toString()
+                      + "\", \"epcisBody\":{ \"eventList\":[");
+      final Multi<String> generatedEvents =
+          Multi.createFrom()
+              .publisher(new EPCISEventPublisher(EPCISEventGenerator.createModels(inputTemplate)))
+              .onItem()
+              .transform(
+                  event -> {
+                    try {
+                      return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(event)
+                          + ",";
+                    } catch (JsonProcessingException e) {
+                      e.printStackTrace();
+                    }
+                    return null;
+                  });
+
+      // Multi<String> allEvents = generatedEvents.skip().last().map(s -> s + ",");
+      // Multi<String> lastEvent = generatedEvents.select().last();
+
+      return Multi.createBy()
+          .concatenating()
+          .streams(beginDocument, generatedEvents, Multi.createFrom().items("]}}"));
+      // return allEvents.onCompletion().switchTo(lastEvent);
+      // return Multi.createBy().concatenating().streams(beginDocument, allEvents, lastEvent,
+      // Multi.createFrom().items("]}}"));
+      // return generatedEvents;
+
     } catch (Exception e) {
       throw new TestDataGeneratorException(
           "Exception occurred during the generation of EPCIS events : " + e);

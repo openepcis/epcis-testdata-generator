@@ -44,21 +44,37 @@ curl -X 'POST' \
         "eventID": false,
         "eventTime": {
             "timeZoneOffset": "+02:00",
-            "specificTime": "2022-10-06T17:23:05.000+02:00"
+            "fromTime": "2022-10-01T10:22:16+02:00",
+            "toTime": "2022-10-31T10:22:16+02:00"
         },
         "businessStep": "COMMISSIONING",
         "disposition": "ACTIVE",
-        "readPoint": {
-            "gcpLength": 7,
-            "gln": "9859849889548",
-            "extensionType": "dynamic",
-            "extensionFrom": "430"
-        },
-        "referencedIdentifier": [],
+        "referencedIdentifier": [{
+            "identifierId": 1,
+            "epcCount": 10,
+            "classCount": 0
+        }],
         "parentReferencedIdentifier": {},
         "outputReferencedIdentifier": []
     }],
-    "identifiers": []
+    "identifiers": [{
+        "identifierId": 1,
+        "objectIdentifierSyntax": "URN",
+        "instanceData": {
+            "sgtin": {
+                "identifierType": "sgtin",
+                "gcpLength": 10,
+                "sgtin": "40584954485984",
+                "serialType": "random",
+                "randomCount": 10,
+                "randomType": "NUMERIC",
+                "randomMinLength": 2,
+                "randomMaxLength": 10
+            }
+        },
+        "classData": null,
+        "parentData": null
+    }]
 }'
 ```
 

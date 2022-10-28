@@ -1,5 +1,5 @@
 // OpenEPCIS Testdata Generator UI
-// Copyright (C) 2022  benelog GmbH & Co. KG 
+// Copyright (C) 2022  benelog GmbH & Co. KG
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// 
+//
 // See LICENSE in the project root for license information.
 import beautifier from 'js-beautify'
 
@@ -26,7 +26,7 @@ export const mutations = {
     state.testDataInput = beautifier.js_beautify(inputTemplate, { indent_size: 4 })
   },
   populateTestDataOutput (state, generatedTestData) {
-    state.testDataOutput = generatedTestData
+    state.testDataOutput = beautifier.js_beautify(generatedTestData, { indent_size: 4 })
   }
 }
 
@@ -48,7 +48,7 @@ export const actions = {
 
       this.$axios.post('/generateTestData', { ...JSON.parse(state.testDataInput) }, { headers })
         .then((response) => {
-          commit('populateTestDataOutput', JSON.stringify(response.data, null, 4))
+          commit('populateTestDataOutput', response.data)
         })
         .catch((error) => {
           console.log(JSON.stringify(error, null, 4))

@@ -18,7 +18,8 @@
         {
           "identifierId": 1,
           "epcCount": 4,
-          "classCount": 0
+          "classCount": 0,
+          "inheritParentCount": 0
         }
       ],
       "outputReferencedIdentifier": [],
@@ -46,7 +47,8 @@
         {
           "parentNodeId": 2,
           "epcCount": 4,
-          "classCount": 0
+          "classCount": 0,
+          "inheritParentCount": 0
         }
       ],
       "outputReferencedIdentifier": [],

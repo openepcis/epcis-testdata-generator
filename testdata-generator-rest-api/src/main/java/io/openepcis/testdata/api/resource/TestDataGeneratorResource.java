@@ -16,7 +16,6 @@
 package io.openepcis.testdata.api.resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.openepcis.model.epcis.EPCISEvent;
 import io.openepcis.model.rest.ProblemResponseBody;
 import io.openepcis.testdata.api.exception.TestDataGeneratorException;
 import io.openepcis.testdata.generator.EPCISEventGenerator;
@@ -86,7 +85,7 @@ public class TestDataGeneratorResource {
             description = "OK: EPCIS Test Data events created successfully.",
             content =
                 @Content(
-                    schema = @Schema(type = SchemaType.ARRAY, implementation = EPCISEvent.class))),
+                    schema = @Schema(type = SchemaType.STRING, implementation = String.class))),
         @APIResponse(
             responseCode = "400",
             description =
@@ -158,9 +157,7 @@ public class TestDataGeneratorResource {
             .transform(
                 e -> {
                   try {
-                    return ("".equals(pretty) || "true".equalsIgnoreCase(pretty))
-                        ? objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(e)
-                        : objectMapper.writeValueAsString(e);
+                    return ("".equals(pretty) || "true".equalsIgnoreCase(pretty)) ? e : e;
                   } catch (Exception ex) {
                     throw new CompletionException(ex);
                   }

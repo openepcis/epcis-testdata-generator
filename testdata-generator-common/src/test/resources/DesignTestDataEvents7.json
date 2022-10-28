@@ -17,19 +17,22 @@
         {
           "identifierId": 1,
           "epcCount": 10,
-          "classCount": 0
+          "classCount": 0,
+          "inheritParentCount": 0
         },
         {
           "identifierId": 2,
           "epcCount": 0,
-          "classCount": 5
+          "classCount": 5,
+          "inheritParentCount": 0
         }
       ],
       "outputReferencedIdentifier": [
         {
           "identifierId": 4,
           "epcCount": 64,
-          "classCount": 32
+          "classCount": 32,
+          "inheritParentCount": 0
         }
       ],
       "parentReferencedIdentifier": {}
@@ -51,7 +54,8 @@
         {
           "parentNodeId": 3,
           "epcCount": 16,
-          "classCount": 2
+          "classCount": 2,
+          "inheritParentCount": 0
         }
       ],
       "outputReferencedIdentifier": [],
@@ -74,7 +78,8 @@
         {
           "parentNodeId": 5,
           "epcCount": 2,
-          "classCount": 1
+          "classCount": 1,
+          "inheritParentCount": 0
         }
       ],
       "outputReferencedIdentifier": [],

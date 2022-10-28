@@ -108,10 +108,6 @@ public class TransactionEventCreationModel
       e.setBizTransactionList(
           typeInfo.getBizTransactions().stream().map(BizTransactionsFormatter::format).toList());
     }
-
-    // Add the context information to the JSON event to add the localname & namespaces from User
-    // Extensions, ILMD and Error Extensions
-    e.setContextInfo(getContext());
   }
 
   // Private method which will generate Instance/EPC & Class/Quantity identifiers if available and

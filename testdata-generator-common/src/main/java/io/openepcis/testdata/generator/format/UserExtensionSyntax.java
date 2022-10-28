@@ -18,7 +18,6 @@ package io.openepcis.testdata.generator.format;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
-import io.openepcis.testdata.generator.model.AbstractEventCreationModel;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -76,7 +75,7 @@ public class UserExtensionSyntax implements Serializable {
       @SuppressWarnings("unchecked")
       Optional<Map<String, String>> temp =
           Optional.of(
-              AbstractEventCreationModel.getContext().stream()
+              ContextNamespaceBuilder.getContext().stream()
                   .filter(c -> c instanceof Map<?, ?>)
                   .map(c -> (Map<String, String>) c)
                   .flatMap(m -> m.entrySet().stream())
@@ -86,7 +85,7 @@ public class UserExtensionSyntax implements Serializable {
       // Check if the namespace already exist within the List of HashMap if not then only add it if
       // exists already then skip it.
       if (!temp.get().containsKey(this.namespacePrefix)) {
-        AbstractEventCreationModel.getContext().add(Map.of(this.namespacePrefix, this.namespace));
+        ContextNamespaceBuilder.getContext().add(Map.of(this.namespacePrefix, this.namespace));
       }
 
       if (complex != null && !complex.isEmpty()) {

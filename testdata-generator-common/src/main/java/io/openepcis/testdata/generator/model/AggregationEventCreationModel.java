@@ -109,10 +109,6 @@ public class AggregationEventCreationModel
       e.setBizTransactionList(
           typeInfo.getBizTransactions().stream().map(BizTransactionsFormatter::format).toList());
     }
-
-    // Add the context information to the JSON event to add the localname & namespaces from User
-    // Extensions, ILMD and Error Extensions
-    e.setContextInfo(getContext());
   }
 
   // Private method which will generate Instance/ChildEPCs & Class/ChildQuantities identifiers if
