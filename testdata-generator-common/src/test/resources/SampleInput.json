@@ -2,22 +2,44 @@
   "events": [{
     "nodeId": 1,
     "eventType": "ObjectEvent",
-    "eventCount": 3,
+    "eventCount": 2,
     "locationPartyIdentifierSyntax": "URN",
     "ordinaryEvent": true,
     "action": "ADD",
     "eventID": false,
     "eventTime": {
       "timeZoneOffset": "+02:00",
-      "fromTime": "2022-10-01T16:01:11+02:00",
-      "toTime": "2022-10-04T16:01:11+02:00"
+      "specificTime": "2022-11-02T14:25:45.000+01:00"
     },
-    "readPoint": {
-      "gcpLength": 8,
-      "gln": "8884398489439",
-      "extensionType": "dynamic",
-      "extensionFrom": "100"
-    },
+    "userExtensions": [{
+      "type": "userExtension",
+      "element": "extensionElement",
+      "dataType": "string",
+      "namespace": "https://ex1.com",
+      "localName": "User",
+      "text": "One",
+      "complex": null,
+      "ID": 0
+    }, {
+      "type": "userExtension",
+      "element": "extensionElement",
+      "dataType": "string",
+      "namespace": "https://ex2.com",
+      "localName": "User",
+      "text": "One1",
+      "complex": null,
+      "ID": 0
+    }],
+    "ilmd": [{
+      "type": "ilmd",
+      "element": "extensionElement",
+      "dataType": "string",
+      "namespace": "https://ilmd.com",
+      "localName": "ilmd",
+      "text": "Two",
+      "complex": null,
+      "ID": 0
+    }],
     "referencedIdentifier": [],
     "parentReferencedIdentifier": {},
     "outputReferencedIdentifier": []

@@ -26,7 +26,7 @@ export const mutations = {
     state.testDataInput = beautifier.js_beautify(inputTemplate, { indent_size: 4 })
   },
   populateTestDataOutput (state, generatedTestData) {
-    state.testDataOutput = beautifier.js_beautify(generatedTestData, { indent_size: 4 })
+    state.testDataOutput = generatedTestData
   }
 }
 
@@ -51,7 +51,7 @@ export const actions = {
           commit('populateTestDataOutput', response.data)
         })
         .catch((error) => {
-          console.log(JSON.stringify(error, null, 4))
+          console.log('Error : ' + JSON.stringify(error.data, null, 4))
           if (error.response !== undefined && error.response.data !== undefined && error.response.data.type !== undefined && error.response.data.detail !== undefined) {
             commit('populateTestDataOutput', error.response.data.type + ', ' + error.response.data.title + ':\n' + error.response.data.detail.replace(/(?![^\n]{1,75}$)([^\n]{1,75})\s/g, '$1\n'))
           } else if (error.response !== undefined) {

@@ -16,6 +16,7 @@
 package io.openepcis.testdata.tests;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -60,6 +61,7 @@ public class GenerateEventsTest {
     final Set<ConstraintViolation<InputTemplate>> violations = validator.validate(inputTemplate);
     final String message =
         violations.stream().map(cv -> cv.getMessage()).collect(Collectors.joining(", "));
+    System.out.println(message);
 
     EPCISEventGenerator.generate(inputTemplate)
         .collect()
@@ -69,8 +71,9 @@ public class GenerateEventsTest {
         .forEach(
             e -> {
               try {
-                System.out.println(e);
-              } catch (Exception ex) {
+                System.out.println(
+                    objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(e));
+              } catch (JsonProcessingException ex) {
                 throw new CompletionException(ex);
               }
             });

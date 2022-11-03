@@ -60,7 +60,7 @@ Installation instruction for Windows/macOS: https://podman.io/getting-started/in
 
 Run the following command in a terminal or command prompt after installing Podman on your local machine:
 ```
-podman run --rm -t --name testdata-generator -p 8080:8080 openepcis/testdata-generator
+podman run --rm -t --name testdata-generator -p 8080:8080 docker.io/openepcis/testdata-generator
 ```
 
 ### Running with Docker:
