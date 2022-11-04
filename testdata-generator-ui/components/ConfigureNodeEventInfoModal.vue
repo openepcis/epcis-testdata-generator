@@ -914,20 +914,30 @@
               <div
                 v-for="extension in $store.state.modules.ExtensionDataStore.userExtensions"
                 :key="extension.ID"
-                class="form-inline horizontalSpace verticleSpace"
               >
-                <span>{{ extension.namespace + ":" + extension.localName }}</span>
-                <input v-if="extension.dataType == 'string'" :value="extension.text" type="text" @input="extensionText($event, extension.ID, 'userExtension')">
-                <span v-if="extension.dataType == 'complex'" class="horizontalSpace verticleSpace">
-                  <ExtensionComponent
-                    v-if="extension.dataType == 'complex'"
-                    :extension="extension"
-                  />
-                </span>
-                <span class="horizontalSpace verticleSpace" />
-                <button class="btn btn-danger" @click="deleteExtension($event,extension.ID, 'userExtension')">
-                  <em class="bi bi-trash" />
-                </button>
+                <tr style="white-space:nowrap">
+                  <td v-if="extension.dataType == 'string'">
+                    <span>{{ extension.namespace + ":" + extension.localName }}</span>
+                    <input v-if="extension.dataType == 'string'" :value="extension.text" type="text" @input="extensionText($event, extension.ID, 'userExtension')">
+                  </td>
+
+                  <td v-if="extension.dataType == 'complex'">
+                    <span>{{ extension.namespace + ":" + extension.localName }}</span>
+                    <ExtensionComponent
+                      v-if="extension.dataType == 'complex'"
+                      :extension="extension"
+                    />
+                  </td>
+
+                  <td>
+                    <button type="button" class="modifyButton" title="Modify User Extension" @click="modifyExtension($event, extension.ID, 'userExtension')">
+                      <em class="bi bi-pencil" />
+                    </button>
+                    <button type="button" class="deleteButton" title="Delete User Extension" @click="deleteExtension($event, extension.ID, 'userExtension')">
+                      <em class="bi bi-trash" />
+                    </button>
+                  </td>
+                </tr>
               </div>
             </td>
           </tr>
@@ -942,20 +952,30 @@
               <div
                 v-for="extension in $store.state.modules.ExtensionDataStore.ilmd"
                 :key="extension.ID"
-                class="form-inline horizontalSpace verticleSpace"
               >
-                <span>{{ extension.namespace + ":" + extension.localName }}</span>
-                <input v-if="extension.dataType == 'string'" :value="extension.text" type="text" @input="extensionText($event, extension.ID, 'ilmd')">
-                <span v-if="extension.dataType == 'complex'" class="horizontalSpace verticleSpace">
-                  <ExtensionComponent
-                    v-if="extension.dataType == 'complex'"
-                    :extension="extension"
-                  />
-                </span>
-                <span class="horizontalSpace verticleSpace" />
-                <button class="btn btn-danger" @click="deleteExtension($event,extension.ID, 'ilmd')">
-                  <em class="bi bi-trash" />
-                </button>
+                <tr style="white-space:nowrap">
+                  <td v-if="extension.dataType == 'string'">
+                    <span>{{ extension.namespace + ":" + extension.localName }}</span>
+                    <input v-if="extension.dataType == 'string'" :value="extension.text" type="text" @input="extensionText($event, extension.ID, 'ilmd')">
+                  </td>
+
+                  <td v-if="extension.dataType == 'complex'">
+                    <span>{{ extension.namespace + ":" + extension.localName }}</span>
+                    <ExtensionComponent
+                      v-if="extension.dataType == 'complex'"
+                      :extension="extension"
+                    />
+                  </td>
+
+                  <td>
+                    <button type="button" class="modifyButton" title="Modify ILMD Extension" @click="modifyExtension($event, extension.ID, 'ilmd')">
+                      <em class="bi bi-pencil" />
+                    </button>
+                    <button type="button" class="deleteButton" title="Delete ILMD Extension" @click="deleteExtension($event, extension.ID, 'ilmd')">
+                      <em class="bi bi-trash" />
+                    </button>
+                  </td>
+                </tr>
               </div>
             </td>
           </tr>
@@ -1063,20 +1083,30 @@
               <div
                 v-for="extension in $store.state.modules.ExtensionDataStore.errorExtensions"
                 :key="extension.ID"
-                class="form-inline horizontalSpace verticleSpace"
               >
-                <span>{{ extension.namespace + ":" + extension.localName }}</span>
-                <input v-if="extension.dataType == 'string'" :value="extension.text" type="text" @input="extensionText($event, extension.ID, 'ErrorExtension')">
-                <span v-if="extension.dataType == 'complex'" class="horizontalSpace verticleSpace">
-                  <ExtensionComponent
-                    v-if="extension.dataType == 'complex'"
-                    :extension="extension"
-                  />
-                </span>
-                <span class="horizontalSpace verticleSpace" />
-                <button class="btn btn-danger" @click="deleteExtension($event,extension.ID, 'ErrorExtension')">
-                  <em class="bi bi-trash" />
-                </button>
+                <tr style="white-space:nowrap">
+                  <td v-if="extension.dataType == 'string'">
+                    <span>{{ extension.namespace + ":" + extension.localName }}</span>
+                    <input v-if="extension.dataType == 'string'" :value="extension.text" type="text" @input="extensionText($event, extension.ID, 'ErrorExtension')">
+                  </td>
+
+                  <td v-if="extension.dataType == 'complex'">
+                    <span>{{ extension.namespace + ":" + extension.localName }}</span>
+                    <ExtensionComponent
+                      v-if="extension.dataType == 'complex'"
+                      :extension="extension"
+                    />
+                  </td>
+
+                  <td>
+                    <button type="button" class="modifyButton" title="Modify Error Extension" @click="modifyExtension($event, extension.ID, 'ErrorExtension')">
+                      <em class="bi bi-pencil" />
+                    </button>
+                    <button type="button" class="deleteButton" title="Delete Error Extension" @click="deleteExtension($event, extension.ID, 'ErrorExtension')">
+                      <em class="bi bi-trash" />
+                    </button>
+                  </td>
+                </tr>
               </div>
             </td>
           </tr>
@@ -1348,7 +1378,7 @@ export default {
     // Function to add the User extension onclick of the Add button
     userExtensionAddition (event, type) {
       event.preventDefault()
-      this.$store.commit('modules/ExtensionDataStore/toggleExtensionModal')
+      this.$store.commit('modules/ExtensionDataStore/showExtensionModal')
       this.$store.commit('modules/ExtensionDataStore/extensionTypePopulator', type)
       this.$store.commit('modules/ExtensionDataStore/setParentExtension', null)
     },
@@ -1358,6 +1388,15 @@ export default {
       this.$store.commit('modules/ExtensionDataStore/setParentExtension', null)
       this.$store.commit('modules/ExtensionDataStore/extensionTypePopulator', type)
       this.$store.commit('modules/ExtensionDataStore/extensionText', { text: event.target.value, extensionID })
+    },
+
+    // Function to modify the User Extension onClick of the modify button
+    modifyExtension (event, extensionID, type) {
+      event.preventDefault()
+      this.$store.commit('modules/ExtensionDataStore/extensionTypePopulator', type)
+      this.$store.commit('modules/ExtensionDataStore/setParentExtension', null)
+      this.$store.commit('modules/ExtensionDataStore/modifyExtension', extensionID)
+      this.$store.commit('modules/ExtensionDataStore/showExtensionModal')
     },
 
     // Function to delete the User extension onclick of the Delete button
@@ -1487,5 +1526,13 @@ text-align: center;
 
 .errorDimension{
   background-color: #f2c2c2;
+}
+
+.modifyButton{
+  color:#F8C471
+}
+
+.deleteButton{
+  color:#dc3545
 }
 </style>

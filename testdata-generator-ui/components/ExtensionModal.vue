@@ -22,6 +22,7 @@
     size="lg"
     width="100%"
     :visible="$store.state.modules.ExtensionDataStore.extensionModal"
+    @hide="cancel"
   >
     <b-form id="AddExtension" @submit.prevent="submitExtension">
       <div class="form-group">
@@ -41,8 +42,6 @@
           placeholder="https://example.com"
           class="form-control"
           autocomplete="off"
-          oninput="setCustomValidity('');"
-          oninvalid="this.setCustomValidity('Invalid characters in namespace field ex: https://example.com or ns1')"
           required
         >
       </div>
@@ -51,8 +50,6 @@
         <input
           v-model="extension.localName"
           type="text"
-          oninput="setCustomValidity('');"
-          oninvalid="this.setCustomValidity('Invalid characters in local name field ex: myField or bestBeforeDate')"
           class="form-control"
           autocomplete="off"
           required
@@ -97,14 +94,27 @@ export default {
     }
   },
   mounted () {
+    // Check if user is trying to provide new Extension or modifying existing Extension, for modification show the existing information
+    const currentExtensionInfo = JSON.parse(JSON.stringify(this.$store.state.modules.ExtensionDataStore.currentExtensionInfo))
+    if (currentExtensionInfo !== undefined && currentExtensionInfo !== null && Object.keys(currentExtensionInfo).length !== 0) {
+      this.extension = currentExtensionInfo
+    }
   },
   created () {
   },
   methods: {
     submitExtension () {
       // Function to get the data after the submission of modal
-      this.$store.commit('modules/ExtensionDataStore/toggleExtensionModal')
+      this.$store.commit('modules/ExtensionDataStore/hideExtensionModal')
       this.$store.commit('modules/ExtensionDataStore/extensionsAddition', this.extension)
+    },
+
+    // Method to hide the extension on click of the Cancel/ESC button
+    cancel () {
+      // Hide the Extension modal
+      this.$store.commit('modules/ExtensionDataStore/hideExtensionModal')
+      // Reset current extension elements
+      this.$store.commit('modules/ExtensionDataStore/resetCurrentExtensionInfo')
     }
   }
 }
