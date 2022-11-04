@@ -180,7 +180,7 @@ export default {
     },
     '$store.state.modules.TestDataGeneratorStore.testDataOutput' (value) {
       if (value !== this.testDataOutputEditor.getValue()) {
-        this.testDataOutputEditor.setValue(value)
+        this.testDataOutputEditor.setValue(JSON.stringify(value, null, 4))
       }
     }
   },
@@ -252,8 +252,14 @@ export default {
     // Function to copy the test data template
     copyTestdataTemplate () {
       if (this.$store.state.modules.TestDataGeneratorStore.testDataInput !== '' && this.testDataInputEditor !== null) {
-        this.testDataInputEditor.execCommand('selectAll')
-        navigator.clipboard.writeText(this.testDataInputEditor.getValue())
+        // If the website is secure then copy to clipboard directly
+        if (window.isSecureContext && navigator.clipboard) {
+          this.testDataInputEditor.execCommand('selectAll')
+          navigator.clipboard.writeText(this.testDataInputEditor.getValue())
+        } else {
+          // If the website is not secure and in development then copy to clipboard using JS style
+          this.unsecuredCopyToClipboard(this.testDataInputEditor.getValue())
+        }
       }
     },
 
@@ -272,9 +278,30 @@ export default {
     // Function to copy the generated Test data to clipboard
     copyGeneratedTestData () {
       if (this.$store.state.modules.TestDataGeneratorStore.testDataOutput !== '' && this.testDataOutputEditor !== null) {
-        this.testDataOutputEditor.execCommand('selectAll')
-        navigator.clipboard.writeText(this.testDataOutputEditor.getValue())
+        // If the website is secure then copy to clipboard directly
+        if (window.isSecureContext && navigator.clipboard) {
+          this.testDataOutputEditor.execCommand('selectAll')
+          navigator.clipboard.writeText(this.testDataOutputEditor.getValue())
+        } else {
+          // If the website is not secure and in development then copy to clipboard using JS style
+          this.unsecuredCopyToClipboard(this.testDataOutputEditor.getValue())
+        }
       }
+    },
+
+    // Function to copy the value to clipboard using the textarea used during the development
+    unsecuredCopyToClipboard (text) {
+      const copyTextArea = document.createElement('textarea')
+      copyTextArea.value = text
+      document.body.appendChild(copyTextArea)
+      copyTextArea.focus()
+      copyTextArea.select()
+      try {
+        document.execCommand('copy')
+      } catch (err) {
+        console.error('Unable to copy to clipboard', err)
+      }
+      document.body.removeChild(copyTextArea)
     },
 
     readTemplateFile () {
@@ -305,7 +332,7 @@ export default {
     downloadEvents () {
       if (this.$store.state.modules.TestDataGeneratorStore.testDataOutput !== '') {
         const DateTime = new Date().toISOString().replace('Z', '').replace('T', '')
-        const textFileAsBlob = new Blob([JSON.stringify(JSON.parse(this.$store.state.modules.TestDataGeneratorStore.testDataOutput), null, 4)], { type: 'text/json' })
+        const textFileAsBlob = new Blob([JSON.stringify(this.$store.state.modules.TestDataGeneratorStore.testDataOutput, null, 4)], { type: 'text/json' })
         const downloadLink = document.createElement('a')
         downloadLink.download = 'Test_Data_Generator_Output_' + DateTime + '.json'
         downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob)

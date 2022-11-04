@@ -325,7 +325,7 @@ public class DesignTestDataEventsTest {
 
     // Check for the number of events present within the list of created events
     Assert.assertTrue(designEventsList.size() > 0);
-    assertEquals(21, designEventsList.size());
+    assertEquals(7, designEventsList.size());
 
     // Convert the list of generated EPCIS events into respective EPCIS events
     final List<EPCISEvent> outputTemplate =
@@ -334,14 +334,14 @@ public class DesignTestDataEventsTest {
     // Confirm the number ObjectEvent, AggregationEvent and TransactionEvent count in the created
     // events
     assertEquals(
-        5, outputTemplate.stream().filter(event -> event.getType().equals("ObjectEvent")).count());
+        3, outputTemplate.stream().filter(event -> event.getType().equals("ObjectEvent")).count());
     assertEquals(
-        4,
+        2,
         outputTemplate.stream()
             .filter(event -> event.getType().equals("AggregationEvent"))
             .count());
     assertEquals(
-        12,
+        2,
         outputTemplate.stream()
             .filter(event -> event.getType().equals("TransactionEvent"))
             .count());

@@ -16,16 +16,15 @@
 package io.openepcis.testdata.api.resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.openepcis.model.epcis.EPCISEvent;
+import io.openepcis.model.epcis.EPCISDocument;
 import io.openepcis.model.rest.ProblemResponseBody;
 import io.openepcis.testdata.api.exception.TestDataGeneratorException;
 import io.openepcis.testdata.generator.EPCISEventGenerator;
+import io.openepcis.testdata.generator.reactivestreams.StreamingEPCISDocument;
 import io.openepcis.testdata.generator.template.InputTemplate;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import io.smallrye.mutiny.Multi;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.CompletionException;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
@@ -86,7 +85,8 @@ public class TestDataGeneratorResource {
             description = "OK: EPCIS Test Data events created successfully.",
             content =
                 @Content(
-                    schema = @Schema(type = SchemaType.ARRAY, implementation = EPCISEvent.class))),
+                    schema =
+                        @Schema(type = SchemaType.OBJECT, implementation = EPCISDocument.class))),
         @APIResponse(
             responseCode = "400",
             description =
@@ -113,7 +113,7 @@ public class TestDataGeneratorResource {
                 "Internal Server Error: Unable to generate events as server encountered problem.",
             content = @Content(schema = @Schema(implementation = ProblemResponseBody.class)))
       })
-  public Multi<String> generateTestData(
+  public StreamingEPCISDocument generateTestData(
       final Map<String, Object> input,
       @Parameter(
               description = "Use pretty print for output",
@@ -125,7 +125,7 @@ public class TestDataGeneratorResource {
                       description = "empty defaults to true",
                       enumeration = {"true", "false", ""}))
           @QueryParam("pretty")
-          final String pretty)
+          final boolean pretty)
       throws TestDataGeneratorException {
 
     final InputTemplate inputTemplate;
@@ -151,20 +151,11 @@ public class TestDataGeneratorResource {
       // If there are no validation error then continue to generation of events based on
       // InputTemplate contents
       if (violations.isEmpty()) {
-        return EPCISEventGenerator.generate(inputTemplate)
-            .runSubscriptionOn(executor)
-            .emitOn(executor)
-            .onItem()
-            .transform(
-                e -> {
-                  try {
-                    return ("".equals(pretty) || "true".equalsIgnoreCase(pretty))
-                        ? objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(e)
-                        : objectMapper.writeValueAsString(e);
-                  } catch (Exception ex) {
-                    throw new CompletionException(ex);
-                  }
-                });
+        final StreamingEPCISDocument streamingEPCISDocument = new StreamingEPCISDocument();
+        StreamingEPCISDocument.storeContextInfo(inputTemplate.getEvents());
+        streamingEPCISDocument.setPrettyPrint(pretty);
+        streamingEPCISDocument.setEpcisEvents(EPCISEventGenerator.generate(inputTemplate));
+        return streamingEPCISDocument;
       } else {
         // If there are any validation error then append all messages using , operator
         throw new TestDataGeneratorException(

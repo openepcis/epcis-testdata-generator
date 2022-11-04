@@ -71,7 +71,8 @@ public class EPCISEventDownstreamHandler {
 
       // Check if the Child node event inherits multiple parent event ids from parent node event
       if (model.getTypeInfo().getReferencedIdentifier().stream()
-          .anyMatch(ref -> ref.getInheritParentCount() > 0)) {
+          .anyMatch(
+              ref -> ref.getInheritParentCount() != null && ref.getInheritParentCount() > 0)) {
         // Get all the ReferencedIdentifiers object information from Child Event Nodes which
         // inherits the Parent Identifiers from Parent Event Node
         final List<ReferencedIdentifier> inheritParentIdentifiers =
