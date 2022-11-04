@@ -20,7 +20,7 @@
     id="configureEventInfoModal"
     title="Add Event Information"
     size="xl"
-    width="200%"
+    width="150%"
     :visible="$store.state.modules.ConfigureNodeEventInfoStore.nodeEventInfoModal"
     modal-class="modal-fullscreen"
     @hide="cancel"
