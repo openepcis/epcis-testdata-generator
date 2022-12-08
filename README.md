@@ -76,6 +76,11 @@ To run the testdata generator you can simply use the [Testdata Generator Docker]
 docker run --rm -t --name testdata-generator -p 8080:8080 openepcis/testdata-generator
 ```
 
+The above command pulls the latest copy of the [image](https://hub.docker.com/r/openepcis/testdata-generator) from the OpenEPCIS docker-hub repository. Following are the various docker hub repositories related to OpenEPCIS Test Data Generator:
+* https://hub.docker.com/r/openepcis/testdata-generator
+* https://hub.docker.com/r/openepcis/testdata-generator-native
+* https://hub.docker.com/r/openepcis/testdata-generator-native-arm64
+
 ## Usage
 
 ### Using local set-up
