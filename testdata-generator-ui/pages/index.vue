@@ -69,6 +69,13 @@
               </router-link>
             </div>
           </div>
+          <div class="row d-flex">
+            <div class="footerBar">
+              <p>
+                Copyright © 2022 <a href="https://openepcis.io/" target="_blank">OpenEPCIS.io </a> - All Rights Reserved.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
     </main>
@@ -94,7 +101,7 @@ router-link{
   text-align: center;
   position: absolute;
   bottom: 0px;
-  width:80%;
-  margin-left: 8%;
+  width: 60%;
+  margin: auto;
 }
 </style>
