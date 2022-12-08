@@ -42,8 +42,8 @@ This is the service that acts as a bridge between the front-end and back-end ser
 
 ### [testdata-generator-ui](testdata-generator-ui) (user interface for generating testdata events)
 
-This is the user's view of the application where users can interact with various fields of EPCIS and provide the necessary values. Also, It does the task of converting the user-provided values 
-into the InputTemplate required for the subsequent modules. It has been developed primarily using the technologies such as  HTML (HyperText Markup Language), JavaScript library Nuxt.js/Vue.js, and 
+This is the user's view of the application where users can interact with various fields of EPCIS and provide the necessary values. Also, It does the task of converting the user-provided values
+into the InputTemplate required for the subsequent modules. It has been developed primarily using the technologies such as  HTML (HyperText Markup Language), JavaScript library Nuxt.js/Vue.js, and
 CSS(Cascading Style Sheets). It also includes some important front-end libraries/frameworks such as Drawflow, Bootstrap, Bootstrap icons, CodeMirror, etc.
 
 ## Local set-up
@@ -90,9 +90,9 @@ If you have the Podman pod or Docker container is up and running as mentioned in
 
 ### Direct usage
 
-The [EPCISEventGenerator class](testdata-generator-common/src/main/java/io/openepcis/testdata/generator/EPCISEventGenerator.java) within [testdata-generator-common](testdata-generator-common) 
-contains the Java method `generate` for producing test data events. To generate events, you must have the proper `inputTemplate` JSON prepared with all necessary data, which you can pass to the 
-following method to obtain 
+The [EPCISEventGenerator class](testdata-generator-common/src/main/java/io/openepcis/testdata/generator/EPCISEventGenerator.java) within [testdata-generator-common](testdata-generator-common)
+contains the Java method `generate` for producing test data events. To generate events, you must have the proper `inputTemplate` JSON prepared with all necessary data, which you can pass to the
+following method to obtain
 the required events:
 
 ```
@@ -161,6 +161,20 @@ Sample inputTemplate:
     }]
 }
 ```
+
+## Native image support
+
+Native Image is a sophisticated compilation approach in which it first performs analysis on the entire application code to identify components that may be reached, after which the code is
+statically compiled to create a native executable. The classes from the application, its dependencies, runtime library classes, and statically linked native JDK (Java Development Kit) code are all
+included in this component set. In comparison to a JVM (Java Virtual Machine), the resulting software starts up quicker and uses less memory during runtime. The Native Image builder, often known
+as native-image, is a tool that manages all application classes and dependencies. GraalVM can be used to build the native image for the application written in Java. It is a high-performance JDK distribution made to accelerate application execution.
+
+The command provided in the above set-up section pulls the latest copy of the [docker image](https://hub.docker.com/r/openepcis/testdata-generator) from the OpenEPCIS docker-hub repository.
+Additionally, there are 2 native images related to OpenEPCIS Test Data Generator created using the GraalVM which can be accessed using the below provided links :
+* https://hub.docker.com/r/openepcis/testdata-generator
+* https://hub.docker.com/r/openepcis/testdata-generator-native
+* https://hub.docker.com/r/openepcis/testdata-generator-native-arm64
+
 
 ## Dependencies
 
