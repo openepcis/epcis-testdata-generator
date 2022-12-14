@@ -261,6 +261,11 @@ export const mutations = {
       eventFormData.sensorElementList = sensorElementList
     }
 
+    // If certificate info has been added then add it to the JSON
+    if (payload.formData.certificationInfo !== undefined && payload.formData.certificationInfo !== null) {
+      eventFormData.certificationInfo = payload.formData.certificationInfo
+    }
+
     // If user extensions has been added then add it to the jSON
     if (rootState.modules.ExtensionDataStore.userExtensions.length > 0) {
       eventFormData.userExtensions = rootState.modules.ExtensionDataStore.userExtensions

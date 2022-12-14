@@ -1164,6 +1164,18 @@
                 <strong>OTHER</strong>
               </td>
 
+              <td>Certification Info</td>
+              <td>
+                <input
+                  v-model="formData.certificationInfo"
+                  type="text"
+                  class="form-control"
+                  placeholder="Certification Info"
+                >
+              </td>
+            </tr>
+
+            <tr>
               <td> Extensions </td>
               <td>
                 <button type="button" class="btn-btn-info" @click="userExtensionAddition($event,'userExtension')">
@@ -1411,7 +1423,7 @@ export default {
       EventTypeRowSpan: 6,
       rowspanWHAT: 1,
       rowspanWHY: 4,
-      rowSpanOtherFields: 1,
+      rowSpanOtherFields: 2,
       eventType: [],
       formData: {
         vocabularySyntax: 'URN',
@@ -1516,7 +1528,7 @@ export default {
         case 'ObjectEvent':
           this.rowspanWHAT = 2
           this.rowspanWHY = 6
-          this.rowSpanOtherFields = 2
+          this.rowSpanOtherFields = 3
           this.EventTypeRowSpan = 7
           break
         case 'AggregationEvent':
@@ -1524,19 +1536,19 @@ export default {
         case 'AssociationEvent':
           this.rowspanWHAT = 3
           this.rowspanWHY = 6
-          this.rowSpanOtherFields = 1
+          this.rowSpanOtherFields = 2
           this.EventTypeRowSpan = 7
           break
         case 'TransformationEvent':
           this.rowspanWHAT = 4
           this.rowspanWHY = 4
-          this.rowSpanOtherFields = 3
+          this.rowSpanOtherFields = 4
           this.EventTypeRowSpan = 6
           break
         default:
           this.rowspanWHY = 4
           this.rowspanWHAT = 1
-          this.rowSpanOtherFields = 1
+          this.rowSpanOtherFields = 2
           this.EventTypeRowSpan = 6
           break
       }

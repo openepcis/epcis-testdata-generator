@@ -179,6 +179,11 @@ public class EPCISEventType implements Serializable {
   private @Valid String hashAlgorithm;
 
   @Schema(
+      type = SchemaType.STRING,
+      description = "URL at which certification details can be found.")
+  private String certificationInfo;
+
+  @Schema(
       type = SchemaType.ARRAY,
       description = "User extension information associated with the event")
   private List<@Valid UserExtensionSyntax> userExtensions;
