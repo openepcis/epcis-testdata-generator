@@ -91,6 +91,11 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
         epcisEvent.setSensorElementList(typeInfo.getSensorElementList());
       }
 
+      // Add the certificationInfo
+      if (typeInfo.getCertificationInfo() != null && !typeInfo.getCertificationInfo().isEmpty()) {
+        epcisEvent.setCertificationInfo(typeInfo.getCertificationInfo());
+      }
+
       // User extensions addition
       if (typeInfo.getUserExtensions() != null && !typeInfo.getUserExtensions().isEmpty()) {
         epcisEvent.setUserExtensions(

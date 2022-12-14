@@ -906,6 +906,19 @@
             <td :rowspan="rowSpanOtherFields" style="background-color: #F2F3F4;">
               <strong>OTHER</strong>
             </td>
+
+            <td>Certification Info</td>
+            <td>
+              <input
+                v-model="formData.certificationInfo"
+                type="text"
+                class="form-control"
+                placeholder="Certification Info"
+              >
+            </td>
+          </tr>
+
+          <tr>
             <td> Extensions </td>
             <td>
               <button type="button" class="btn-btn-info" @click="userExtensionAddition($event,'userExtension')">
@@ -1139,7 +1152,7 @@ function initialState () {
     rowspanWHAT: 1,
     EventTypeRowSpan: 5,
     rowspanWHY: 4,
-    rowSpanOtherFields: 1,
+    rowSpanOtherFields: 2,
     eventType: [],
     bttArray: {
       type: [],
@@ -1284,7 +1297,7 @@ export default {
         case 'ObjectEvent':
           this.rowspanWHAT = 2
           this.rowspanWHY = 6
-          this.rowSpanOtherFields = 2
+          this.rowSpanOtherFields = 3
           this.EventTypeRowSpan = 6
           break
         case 'AggregationEvent':
@@ -1292,19 +1305,19 @@ export default {
         case 'AssociationEvent':
           this.rowspanWHAT = 3
           this.rowspanWHY = 6
-          this.rowSpanOtherFields = 1
+          this.rowSpanOtherFields = 2
           this.EventTypeRowSpan = 6
           break
         case 'TransformationEvent':
           this.rowspanWHAT = 4
           this.rowspanWHY = 4
-          this.rowSpanOtherFields = 3
+          this.rowSpanOtherFields = 4
           this.EventTypeRowSpan = 5
           break
         default:
           this.rowspanWHAT = 1
           this.rowspanWHY = 4
-          this.rowSpanOtherFields = 1
+          this.rowSpanOtherFields = 2
           this.EventTypeRowSpan = 5
           break
       }

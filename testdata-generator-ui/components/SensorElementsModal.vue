@@ -155,6 +155,11 @@
                 <b-form-select v-model="reportElement.type" class="form-control" :options="sensorReportTypes" :selected="null" />
               </span>
 
+              <span v-if="selectedSensorReport.indexOf('exception') >= 0" class="horizontalSpace verticleSpace">
+                <label class="form-label">Exception</label>
+                <input v-model="reportElement.exception" type="text" class="form-control">
+              </span>
+
               <span v-if="selectedSensorReport.indexOf('deviceID') >= 0" class="horizontalSpace verticleSpace">
                 <label class="form-label">Device ID</label>
                 <input v-model="reportElement.deviceID" type="text" class="form-control">
@@ -255,6 +260,11 @@
                 <b-form-select v-model="reportElement.uom" class="form-control" :options="sensorReportUOMs" :selected="null" />
               </span>
 
+              <span v-if="selectedSensorReport.indexOf('coordinateReferenceSystem') >= 0" class="horizontalSpace verticleSpace">
+                <label class="form-label">CRS</label>
+                <input v-model="reportElement.coordinateReferenceSystem" type="text" class="form-control">
+              </span>
+
               <!-- Add Delete button for each row -->
               <span v-if="sensorReportArray.length > 0" style="margin-top:4%" class="horizontalSpace verticleSpace">
                 <button class="btn btn-danger" @click="deleteSensorReport(reportElement.ID)"><em class="bi bi-trash" /></button>
@@ -326,11 +336,11 @@ export default {
       sensorElement.sensorMetadata = this.sensorMetaData
       sensorElement.sensorReport = this.sensorReportArray
 
-      // Hide the sensor modal
-      this.$store.commit('modules/SensorElementsStore/hideSensorModal')
-
       // Save the sensorElement information into the Store SensorElementList
       this.$store.commit('modules/SensorElementsStore/saveSensorElementInformation', sensorElement)
+
+      // Hide the sensor modal
+      this.$store.commit('modules/SensorElementsStore/hideSensorModal')
     },
 
     // Function to add the sensor report elements

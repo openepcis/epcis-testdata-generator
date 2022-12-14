@@ -289,6 +289,11 @@ export const mutations = {
         parentFormData.outputEPCList = parentEventData.outputEPCList
         parentFormData.outputQuantityList = parentEventData.outputQuantityList
 
+        // If certificate info has been added then add it to the JSON
+        if (parentEventData.certificationInfo !== undefined && parentEventData.certificationInfo !== null) {
+          parentFormData.certificationInfo = parentEventData.certificationInfo
+        }
+
         // If user extensions has been added then add it to the jSON
         if (parentEventData.userExtensions.length > 0) {
           parentFormData.userExtensions = parentEventData.userExtensions
