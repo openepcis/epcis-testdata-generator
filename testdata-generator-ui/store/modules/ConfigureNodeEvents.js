@@ -306,6 +306,11 @@ export const mutations = {
           }
         }
 
+        // If event is TransformationEvent then add the TransformationID to it
+        if (parentEventData.eventType === 'TransformationEvent') {
+          parentFormData.transformationID = parentEventData.transformationXformId
+        }
+
         parentObj = { ...parentObj, ...parentFormData }
         events.push(parentObj)
       }

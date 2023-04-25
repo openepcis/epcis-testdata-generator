@@ -278,6 +278,11 @@ export const mutations = {
       }
     }
 
+    // If event is TransformationEvent then add the TransformationID to it
+    if (rootState.modules.DesignTestDataStore.eventType === 'TransformationEvent') {
+      eventFormData.transformationID = payload.formData.transformationXformId
+    }
+
     // Add the reference identifiers information if the Instance/Class identifiers informations are provided
     const referencedIdentifier = []
     const instanceIdentifiersList = JSON.parse(JSON.stringify(rootState.modules.IdentifiersStore.instanceIdentifiersList))
