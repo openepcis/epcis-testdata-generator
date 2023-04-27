@@ -170,49 +170,13 @@ export const mutations = {
     }
 
     // Check if the Sources values have been provided if so add it to the Test Data Input
-    if (payload.formData.sources.type != null) {
-      const sources = []
-      const sourceObj = {}
-      sourceObj.type = payload.formData.sources.type
-
-      if (payload.formData.sources.type === 'OWNING_PARTY' || payload.formData.sources.type === 'PROCESSING_PARTY') {
-        sourceObj.glnType = payload.formData.sources.glnType
-      }
-
-      if (payload.formData.sources.type === 'OWNING_PARTY' || payload.formData.sources.type === 'PROCESSING_PARTY' || payload.formData.sources.type === 'LOCATION') {
-        sourceObj.gln = payload.formData.sources.gln
-        sourceObj.extension = payload.formData.sources.extension
-        sourceObj.gcpLength = payload.formData.sources.gcpLength
-      } else {
-        sourceObj.manualType = payload.formData.sources.OtherSourceURI1
-        sourceObj.manualURI = payload.formData.sources.OtherSourceURI2
-      }
-
-      sources.push(sourceObj)
-      eventFormData.sources = sources
+    if (rootState.modules.SourceDestinationStore.sources != null && rootState.modules.SourceDestinationStore.sources.length > 0) {
+      eventFormData.sources = rootState.modules.SourceDestinationStore.sources
     }
 
     // Check if the Destinations values have been provided if so add it to the Test Data input
-    if (payload.formData.destinations.type != null) {
-      const destinations = []
-      const destinationObj = {}
-      destinationObj.type = payload.formData.destinations.type
-
-      if (payload.formData.destinations.type === 'OWNING_PARTY' || payload.formData.destinations.type === 'PROCESSING_PARTY') {
-        destinationObj.glnType = payload.formData.destinations.glnType
-      }
-
-      if (payload.formData.destinations.type === 'OWNING_PARTY' || payload.formData.destinations.type === 'PROCESSING_PARTY' || payload.formData.destinations.type === 'LOCATION') {
-        destinationObj.gln = payload.formData.destinations.gln
-        destinationObj.extension = payload.formData.destinations.extension
-        destinationObj.gcpLength = payload.formData.destinations.gcpLength
-      } else {
-        destinationObj.manualType = payload.formData.destinations.OtherDestinationURI1
-        destinationObj.manualURI = payload.formData.destinations.OtherDestinationURI2
-      }
-
-      destinations.push(destinationObj)
-      eventFormData.destinations = destinations
+    if (rootState.modules.SourceDestinationStore.destinations != null && rootState.modules.SourceDestinationStore.destinations.length > 0) {
+      eventFormData.destinations = rootState.modules.SourceDestinationStore.destinations
     }
 
     // Check if Sensor Informaiton have been provided if so add it to the Test data input
