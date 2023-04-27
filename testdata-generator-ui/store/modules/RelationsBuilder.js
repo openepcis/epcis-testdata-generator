@@ -253,7 +253,7 @@ export const actions = {
         }
 
         // If the available epc count in parent is less then child event requested then store the associated information.
-        if (parentEventTotalEpcCount < childEventTotalEpcCount) {
+        if (parentEventTotalEpcCount + parentEventInheritParentCount < childEventTotalEpcCount) {
           const epcErrObj = { type: 'Instance Identifiers', eventId: allEventsInfoArray[eventInfo].eventId, eventType: allEventsInfoArray[eventInfo].eventType, eventCount: childFormData.eventCount, bizStep: childFormData.businessStep, disposition: childFormData.disposition, parentCount: parentEventTotalEpcCount, childCount: childEventTotalEpcCount, message: 'Child node/event is inheriting more EPC identifiers than available in Parent node/event.' }
           identifiersInheritError.push(epcErrObj)
         }
