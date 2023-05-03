@@ -16,6 +16,9 @@
 package io.openepcis.testdata.api.resource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.openepcis.constants.EPCISFormat;
+import io.openepcis.constants.EPCISVersion;
+import io.openepcis.convert.VersionTransformer;
 import io.openepcis.model.epcis.EPCISDocument;
 import io.openepcis.model.rest.ProblemResponseBody;
 import io.openepcis.testdata.api.exception.TestDataGeneratorException;
@@ -23,6 +26,8 @@ import io.openepcis.testdata.generator.EPCISEventGenerator;
 import io.openepcis.testdata.generator.reactivestreams.StreamingEPCISDocument;
 import io.openepcis.testdata.generator.template.InputTemplate;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import io.smallrye.mutiny.Uni;
+import java.io.*;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,7 +36,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import org.eclipse.microprofile.context.ManagedExecutor;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -52,7 +56,7 @@ public class TestDataGeneratorResource {
 
   @Inject Validator validator;
 
-  @Inject ManagedExecutor executor;
+  @Inject VersionTransformer versionTransformer;
 
   // Method to Generator test data based on the provided JSON data template and show the appropriate
   // error messages
@@ -127,7 +131,6 @@ public class TestDataGeneratorResource {
           @QueryParam("pretty")
           final boolean pretty)
       throws TestDataGeneratorException {
-
     final InputTemplate inputTemplate;
 
     // Check if there are any error during the deserialization of JSON to Object if so then throw
@@ -166,5 +169,17 @@ public class TestDataGeneratorResource {
     } catch (Exception exception) {
       throw new TestDataGeneratorException(exception.getMessage());
     }
+  }
+
+  @Operation(summary = "Convert the generated JSON events to XML format.", hidden = true)
+  @Path("/generateTestDataXML")
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_XML)
+  public Uni<InputStream> convertToXml(final InputStream jsonEvents) throws IOException {
+    return Uni.createFrom()
+        .item(
+            versionTransformer.convert(
+                jsonEvents, EPCISFormat.JSON_LD, EPCISFormat.XML, EPCISVersion.VERSION_2_0_0));
   }
 }
