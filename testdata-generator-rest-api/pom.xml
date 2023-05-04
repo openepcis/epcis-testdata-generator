@@ -22,7 +22,7 @@
     <parent>
         <groupId>io.openepcis</groupId>
         <artifactId>openepcis-bom</artifactId>
-        <version>0.9.1-SNAPSHOT</version>
+        <version>0.9.2-SNAPSHOT</version>
         <relativePath></relativePath>
     </parent>
 
@@ -30,7 +30,7 @@
     <name>testdata-generator-rest-api</name>
     <description>web application and restful service to generate EPCIS test data based on the user provided templates.
     </description>
-    <version>0.9.1-SNAPSHOT</version>
+    <version>0.9.2-SNAPSHOT</version>
     <url>https://github.com/openepcis/epcis-testdata-generator</url>
 
     <licenses>
@@ -180,25 +180,20 @@
             <groupId>io.openepcis</groupId>
             <artifactId>openepcis-model-epcis</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
+
+        <!-- OpenEPCIS Test Data generator -->
         <dependency>
             <groupId>io.openepcis</groupId>
             <artifactId>testdata-generator-common</artifactId>
             <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>io.openepcis</groupId>
-            <artifactId>openepcis-model-epcis</artifactId>
-            <version>0.9.2-SNAPSHOT</version>
-        </dependency>
-
         <!-- Converting the EPCIS Document XML <-> JSON -->
         <dependency>
             <groupId>io.openepcis</groupId>
             <artifactId>openepcis-document-converter</artifactId>
-            <version>0.9.2-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- Jackson ObjectMapper dependency-->
