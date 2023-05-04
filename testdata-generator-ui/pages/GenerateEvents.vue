@@ -275,10 +275,8 @@ export default {
       // Check if the value is JSON/XML
       if (this.testDataOutputEditor !== null) {
         if (typeof this.testDataOutputEditor.getValue() === 'string' && this.testDataOutputEditor.getValue().trim().startsWith('<?xml')) {
-          console.log('Content Type Checker XML')
           this.testDataOutputEditor.setOption('mode', 'application/xml')
         } else {
-          console.log('Content Type Checker JSON')
           this.testDataOutputEditor.setOption('mode', 'applicaton/ld+json')
         }
       }
@@ -341,7 +339,6 @@ export default {
       try {
         document.execCommand('copy')
       } catch (err) {
-        console.error('Unable to copy to clipboard', err)
       }
       document.body.removeChild(copyTextArea)
     },
