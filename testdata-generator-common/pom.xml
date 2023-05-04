@@ -172,7 +172,7 @@
         <dependency>
             <groupId>io.openepcis</groupId>
             <artifactId>openepcis-event-hash-generator</artifactId>
-            <version>0.9.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

@@ -386,7 +386,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
           typeInfo.getHashAlgorithm() != null && !typeInfo.getHashAlgorithm().isEmpty()
               ? typeInfo.getHashAlgorithm()
               : "sha-256";
-      epcisEvent.setEventID(EventHashGenerator.fromObjectNode(objectNode, hashAlgorithm));
+      epcisEvent.setEventID(new EventHashGenerator().fromObjectNode(objectNode, hashAlgorithm));
     }
   }
 }
