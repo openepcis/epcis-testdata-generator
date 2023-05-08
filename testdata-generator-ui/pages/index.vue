@@ -72,7 +72,7 @@
           <div class="row d-flex">
             <div class="footerBar">
               <p>
-                Copyright © 2022 <a href="https://openepcis.io/" target="_blank">OpenEPCIS.io </a> - All Rights Reserved.
+                Copyright © 2023 <a href="https://openepcis.io/" target="_blank">OpenEPCIS.io </a> - All Rights Reserved.
               </p>
             </div>
           </div>

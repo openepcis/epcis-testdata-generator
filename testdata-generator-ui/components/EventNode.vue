@@ -106,6 +106,7 @@ export default {
       this.$store.commit('modules/ConfigureNodeEventInfoStore/populateCurrentEventType', { eventType: this.eventType, nodeId: this.ID })
 
       // For each event reset the data so all values are set to their default values
+      this.$store.commit('modules/SourceDestinationStore/resetSourceDestinationData')
       this.$store.commit('modules/ExtensionDataStore/resetExtensionsData')
       this.$store.commit('modules/SensorElementsStore/resetSensorData')
 
@@ -115,6 +116,9 @@ export default {
       // If the information is available then populate the store
       if (nodeEventInfo.eventInfo !== undefined) {
         const eventInfo = nodeEventInfo.eventInfo
+
+        // Populate the raw information related to source & destination
+        this.$store.commit('modules/SourceDestinationStore/populateRawData', { sources: eventInfo.sources, destinations: eventInfo.destinations })
 
         // Populate the raw information related to the Extensions
         this.$store.commit('modules/ExtensionDataStore/populateRawData', { userExtensions: eventInfo.userExtensions, ilmd: eventInfo.ilmd, errorExtensions: eventInfo.error.errorExtensions })

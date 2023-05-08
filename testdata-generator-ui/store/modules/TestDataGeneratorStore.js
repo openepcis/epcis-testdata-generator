@@ -18,7 +18,8 @@ import beautifier from 'js-beautify'
 
 export const state = () => ({
   testDataInput: '',
-  testDataOutput: ''
+  testDataOutput: '',
+  testDataOutputFormat: null
 })
 
 export const mutations = {
@@ -27,7 +28,13 @@ export const mutations = {
   },
   populateTestDataOutput (state, generatedTestData) {
     state.testDataOutput = generatedTestData
+  },
+
+  // On change of the Output generation format set the corresponding value
+  populateOutputFormat (state, outputFormat) {
+    state.testDataOutputFormat = outputFormat
   }
+
 }
 
 export const actions = {
@@ -45,13 +52,23 @@ export const actions = {
 
       // Make the call to service to generate the test data
       const headers = { 'Content-Type': 'application/json' }
+      const vm = this
 
       this.$axios.post('/generateTestData', { ...JSON.parse(state.testDataInput) }, { headers })
         .then((response) => {
-          commit('populateTestDataOutput', response.data)
+          if (state.testDataOutputFormat === 'application/xml') {
+            vm.$axios.post('/generateTestDataXML', { ...JSON.parse(JSON.stringify(response.data)) }, { headers })
+              .then((response) => {
+                commit('populateTestDataOutput', response.data)
+              })
+              .catch((error) => {
+                commit('populateTestDataOutput', 'Exception occured during the events generation in XML format, Error : ' + JSON.stringify(error, null, 4))
+              })
+          } else {
+            commit('populateTestDataOutput', response.data)
+          }
         })
         .catch((error) => {
-          console.log('Error : ' + JSON.stringify(error.data, null, 4))
           if (error.response !== undefined && error.response.data !== undefined && error.response.data.type !== undefined && error.response.data.detail !== undefined) {
             commit('populateTestDataOutput', error.response.data.type + ', ' + error.response.data.title + ':\n' + error.response.data.detail.replace(/(?![^\n]{1,75}$)([^\n]{1,75})\s/g, '$1\n'))
           } else if (error.response !== undefined) {

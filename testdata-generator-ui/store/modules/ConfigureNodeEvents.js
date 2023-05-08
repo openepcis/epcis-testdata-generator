@@ -181,49 +181,13 @@ export const mutations = {
         }
 
         // Check if the Sources values have been provided if so add it to the Test Data Input
-        if (parentEventData.sources.type != null) {
-          const sources = []
-          const sourceObj = {}
-          sourceObj.type = parentEventData.sources.type
-
-          if (parentEventData.sources.type === 'OWNING_PARTY' || parentEventData.sources.type === 'PROCESSING_PARTY') {
-            sourceObj.glnType = parentEventData.sources.glnType
-          }
-
-          if (parentEventData.sources.type === 'OWNING_PARTY' || parentEventData.sources.type === 'PROCESSING_PARTY' || parentEventData.sources.type === 'LOCATION') {
-            sourceObj.gln = parentEventData.sources.gln
-            sourceObj.extension = parentEventData.sources.extension
-            sourceObj.gcpLength = parentEventData.sources.gcpLength
-          } else {
-            sourceObj.manualType = parentEventData.sources.OtherSourceURI1
-            sourceObj.manualURI = parentEventData.sources.OtherSourceURI2
-          }
-
-          sources.push(sourceObj)
-          parentFormData.sources = sources
+        if (parentEventData.sources != null && parentEventData.sources.length > 0) {
+          parentFormData.sources = parentEventData.sources
         }
 
         // Check if the Destinations values have been provided if so add it to the Test Data input
-        if (parentEventData.destinations.type != null) {
-          const destinations = []
-          const destinationObj = {}
-          destinationObj.type = parentEventData.destinations.type
-
-          if (parentEventData.destinations.type === 'OWNING_PARTY' || parentEventData.destinations.type === 'PROCESSING_PARTY') {
-            destinationObj.glnType = parentEventData.destinations.glnType
-          }
-
-          if (parentEventData.destinations.type === 'OWNING_PARTY' || parentEventData.destinations.type === 'PROCESSING_PARTY' || parentEventData.destinations.type === 'LOCATION') {
-            destinationObj.gln = parentEventData.destinations.gln
-            destinationObj.extension = parentEventData.destinations.extension
-            destinationObj.gcpLength = parentEventData.destinations.gcpLength
-          } else {
-            destinationObj.manualType = parentEventData.destinations.OtherDestinationURI1
-            destinationObj.manualURI = parentEventData.destinations.OtherDestinationURI2
-          }
-
-          destinations.push(destinationObj)
-          parentFormData.destinations = destinations
+        if (parentEventData.destinations != null && parentEventData.destinations.length > 0) {
+          parentFormData.destinations = parentEventData.destinations
         }
 
         // Check if Sensor Informaiton have been provided if so add it to the Test data input
@@ -304,6 +268,11 @@ export const mutations = {
           if (parentEventData.ilmd !== undefined && parentEventData.ilmd.length > 0) {
             parentFormData.ilmd = parentEventData.ilmd
           }
+        }
+
+        // If event is TransformationEvent then add the TransformationID to it
+        if (parentEventData.eventType === 'TransformationEvent') {
+          parentFormData.transformationID = parentEventData.transformationXformId
         }
 
         parentObj = { ...parentObj, ...parentFormData }

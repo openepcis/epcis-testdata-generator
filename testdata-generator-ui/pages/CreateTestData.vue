@@ -1018,56 +1018,27 @@
               <td class="why">
                 Sources
               </td>
+
               <td>
-                <b-form-select v-model="formData.sources.type" :options="commonDropdownInfos.sources" />
-              </td>
+                <button class="btn-btn-info" @click="addSourceDestination($event, 'source')">
+                  Add Source
+                </button>
 
-              <td v-if="formData.sources.type !== null" class="form-inline">
-                <span v-if="formData.sources.type == 'OWNING_PARTY' || formData.sources.type == 'PROCESSING_PARTY'">
-                  <b-form-select v-model="formData.sources.glnType" class="form-control">
-                    <b-form-select-option value="SGLN">
-                      SGLN
-                    </b-form-select-option>
-                    <b-form-select-option value="PGLN">
-                      PGLN
-                    </b-form-select-option>
-                  </b-form-select>
-                </span>
+                <!-- Loop over the source destination to display the sources-->
 
-                <span v-if="formData.sources.type == 'OWNING_PARTY' || formData.sources.type == 'PROCESSING_PARTY' || formData.sources.type == 'LOCATION'">
-                  <span v-if="formData.sources.glnType == 'SGLN' || formData.sources.type == 'location&quot'" class="horizontalSpace"> (414) </span>
-                  <span v-if="formData.sources.glnType == 'PGLN'" class="horizontalSpace"> (417) </span>
-                  <input
-                    v-model="formData.sources.gln"
-                    type="text"
-                    pattern="\d{13}"
-                    oninput="this.value=this.value.replace(/[^0-9]/g,'');setCustomValidity('');"
-                    maxlength="13"
-                    oninvalid="this.setCustomValidity('Source GLN must be 13 digits')"
-                    placeholder="Source GLN 13 digits"
-                    class="form-control"
-                  >
-                  <span v-if="formData.sources.glnType == 'SGLN' || formData.sources.type == 'LOCATION'" class="horizontalSpace"> (254) </span>
-                  <span v-if="formData.sources.glnType == 'SGLN' || formData.sources.type == 'LOCATION'" class="horizontalSpace">
-                    <input
-                      v-model="formData.sources.extension"
-                      type="text"
-                      oninput="this.value=this.value.replace(/[^0-9]/g,'');setCustomValidity('');"
-                      maxlength="13"
-                      oninvalid="this.setCustomValidity('Sources Extension is required and must be in digits')"
-                      placeholder="Source GLN Extension digits"
-                      class="form-control"
-                    >
-                  </span>
-                  <span v-if="formData.vocabularySyntax == 'URN' " class="horizontalSpace">
-                    <b-form-select v-model="formData.sources.gcpLength" :options="commonDropdownInfos.companyPrefixs" />
-                  </span>
-                </span>
-
-                <span v-if="formData.sources.type == 'OTHER' ">
-                  <input v-model="formData.sources.OtherSourceURI1" type="text" placeholder="Enter Source Type" class="form-control">
-                  <input v-model="formData.sources.OtherSourceURI2" type="text" placeholder="Enter Source URI" class="form-control">
-                </span>
+                <div v-for="source in $store.state.modules.SourceDestinationStore.sources" :key="source.ID">
+                  <tr style="white-space:nowrap">
+                    <td>
+                      {{ source.type }}
+                      <button type="button" class="modifyButton" title="Modify Source" @click="modifySourceDestination($event, source.ID, 'source')">
+                        <em class="bi bi-pencil" />
+                      </button>
+                      <button type="button" class="deleteButton" title="Delete Source" @click="deleteSourceDestination($event, source.ID, 'source')">
+                        <em class="bi bi-trash" />
+                      </button>
+                    </td>
+                  </tr>
+                </div>
               </td>
             </tr>
 
@@ -1077,57 +1048,25 @@
               </td>
 
               <td>
-                {{ formData.destinationsType }}
-                <b-form-select v-model="formData.destinations.type" :options="commonDropdownInfos.sources" class="form-control" />
-              </td>
+                <button class="btn-btn-info" @click="addSourceDestination($event, 'destination')">
+                  Add Destination
+                </button>
 
-              <td v-if="formData.destinations.type !== null" class="form-inline">
-                <span v-if="formData.destinations.type == 'OWNING_PARTY' || formData.destinations.type == 'PROCESSING_PARTY'">
-                  <b-form-select v-model="formData.destinations.glnType" class="form-control">
-                    <b-form-select-option value="SGLN">
-                      SGLN
-                    </b-form-select-option>
-                    <b-form-select-option value="PGLN">
-                      PGLN
-                    </b-form-select-option>
-                  </b-form-select>
-                </span>
+                <!-- Loop over the destination destination to display the destinations-->
 
-                <span v-if="formData.destinations.type == 'OWNING_PARTY' || formData.destinations.type == 'PROCESSING_PARTY' || formData.destinations.type == 'LOCATION'">
-                  <span v-if="formData.destinations.glnType == 'SGLN' || formData.destinations.type == 'LOCATION'" class="horizontalSpace"> (414) </span>
-                  <span v-if="formData.destinations.glnType == 'PGLN'" class="horizontalSpace"> (417) </span>
-                  <input
-                    v-model="formData.destinations.gln"
-                    type="text"
-                    pattern="\d{13}"
-                    oninput="this.value=this.value.replace(/[^0-9]/g,'');setCustomValidity('');"
-                    maxlength="13"
-                    oninvalid="this.setCustomValidity('Destination GLN must be 13 digits')"
-                    placeholder="Destination GLN 13 digits"
-                    class="form-control"
-                  >
-                  <span v-if="formData.destinations.glnType == 'SGLN'" class="horizontalSpace"> (254) </span>
-                  <span v-if="formData.destinations.glnType == 'SGLN' || formData.destinations.type == 'LOCATION'">
-                    <input
-                      v-model="formData.destinations.extension"
-                      type="text"
-                      oninput="this.value=this.value.replace(/[^0-9]/g,'');setCustomValidity('');"
-                      maxlength="13"
-                      oninvalid="this.setCustomValidity('Destination Extension is required and must be in digits')"
-                      placeholder="Destination GLN Extension digits"
-                      class="form-control"
-                    >
-                  </span>
-
-                  <span v-if="formData.vocabularySyntax == 'URN' " class="horizontalSpace">
-                    <b-form-select v-model="formData.destinations.gcpLength" :options="commonDropdownInfos.companyPrefixs" />
-                  </span>
-                </span>
-
-                <span v-if="formData.destinations.type == 'OTHER'">
-                  <input v-model="formData.destinations.OtherDestinationURI1" type="text" placeholder="Enter Destination Type" class="form-control">
-                  <input v-model="formData.destinations.OtherDestinationURI2" type="text" placeholder="Enter Destination URI" class="form-control">
-                </span>
+                <div v-for="destination in $store.state.modules.SourceDestinationStore.destinations" :key="destination.ID">
+                  <tr style="white-space:nowrap">
+                    <td>
+                      {{ destination.type }}
+                      <button type="button" class="modifyButton" title="Modify Destination" @click="modifySourceDestination($event, destination.ID, 'destination')">
+                        <em class="bi bi-pencil" />
+                      </button>
+                      <button type="button" class="deleteButton" title="Delete Destination" @click="deleteSourceDestination($event, destination.ID, 'destination')">
+                        <em class="bi bi-trash" />
+                      </button>
+                    </td>
+                  </tr>
+                </div>
               </td>
             </tr>
             <!--WHY DIMESION END -->
@@ -1394,6 +1333,7 @@
       </form>
       <InstanceIdentifiersModal v-if="$store.state.modules.IdentifiersStore.instaceIdentifiersModal" />
       <ClassIdentifiersModal v-if="$store.state.modules.IdentifiersStore.classIdentifiersModal" />
+      <SourceDestinationModal v-if="$store.state.modules.SourceDestinationStore.sourceDestinationModal" />
       <ExtensionModal v-if="$store.state.modules.ExtensionDataStore.extensionModal" />
       <SensorElementsModal v-if="$store.state.modules.SensorElementsStore.sensorModal" />
     </div>
@@ -1404,6 +1344,7 @@
 import { mapState } from 'vuex'
 import InstanceIdentifiersModal from '@/components/InstanceIdentifiersModal.vue'
 import ClassIdentifiersModal from '@/components/ClassIdentifiersModal.vue'
+import SourceDestinationModal from '@/components/SourceDestinationModal.vue'
 import ExtensionModal from '@/components/ExtensionModal.vue'
 import ExtensionComponent from '@/components/ExtensionComponent.vue'
 import SensorElementsModal from '@/components/SensorElementsModal.vue'
@@ -1412,6 +1353,7 @@ export default {
   components: {
     InstanceIdentifiersModal,
     ClassIdentifiersModal,
+    SourceDestinationModal,
     ExtensionModal,
     ExtensionComponent,
     SensorElementsModal
@@ -1450,16 +1392,6 @@ export default {
         businessTransactionList: [],
         errorCorrectiveCount: 0,
         errorCorrectiveIdsList: [],
-        sources: {
-          type: null,
-          glnType: 'SGLN',
-          gcpLength: null
-        },
-        destinations: {
-          type: null,
-          glnType: 'SGLN',
-          gcpLength: null
-        },
         eventID: false,
         eventIdType: 'UUID',
         hashAlgorithm: 'sha-256',
@@ -1567,6 +1499,31 @@ export default {
       // On click of the delete Business Transaction button delete the respective persistent Disposition
       const index = this.formData.businessTransactionList.findIndex(obj => obj.ID === btID)
       this.formData.businessTransactionList.splice(index, 1)
+    },
+
+    // Add the source/destination based on the click on Add source/destination button
+    addSourceDestination (event, type) {
+      event.preventDefault()
+      this.$store.commit('modules/SourceDestinationStore/resetCurrentSourceDestination')
+      this.$store.commit('modules/SourceDestinationStore/sourceDestinationTypePopulator', type)
+      this.$store.commit('modules/SourceDestinationStore/setVocabularySyntax', this.formData.vocabularySyntax)
+      this.$store.commit('modules/SourceDestinationStore/showSourceDestinationModal')
+    },
+
+    // Modify source/destination based on the click on Modify Source/Destination button
+    modifySourceDestination (event, sourceDestinationID, type) {
+      event.preventDefault()
+      this.$store.commit('modules/SourceDestinationStore/resetCurrentSourceDestination')
+      this.$store.commit('modules/SourceDestinationStore/sourceDestinationTypePopulator', type)
+      this.$store.commit('modules/SourceDestinationStore/modifySourceDestination', sourceDestinationID)
+      this.$store.commit('modules/SourceDestinationStore/showSourceDestinationModal')
+    },
+
+    // Delete source/destination based on the click on Delete Source/Destination button
+    deleteSourceDestination (event, sourceDestinationID, type) {
+      event.preventDefault()
+      this.$store.commit('modules/SourceDestinationStore/sourceDestinationTypePopulator', type)
+      this.$store.commit('modules/SourceDestinationStore/deleteSourceDestination', sourceDestinationID)
     },
 
     // Add the Empty Persistent Disposition based on the click of ADD PD by user

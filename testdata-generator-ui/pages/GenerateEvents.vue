@@ -112,6 +112,17 @@
               <button class="btn btn-primary utility-button" title="Download Test Data Events" @click="downloadEvents()">
                 <em class="bi bi-file-arrow-down-fill" />
               </button>
+
+              <div class="col-xs-3">
+                <b-form-select
+                  class="form-control"
+                  :value="$store.state.modules.TestDataGeneratorStore.testDataOutputFormat"
+                  :options="outputFormat"
+                  title="Event generation format JSON or XML. Default version is JSON."
+                  required
+                  @change="onChangeOutputFormat($event)"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -144,7 +155,6 @@ if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
   require('codemirror/mode/xml/xml.js')
   require('codemirror/mode/javascript/javascript.js')
   require('codemirror/lib/codemirror.css')
-  require('codemirror/addon/display/autorefresh.js')
   require('codemirror/addon/lint/lint.js')
   require('codemirror/addon/lint/lint.css')
   require('codemirror/addon/lint/json-lint')
@@ -159,7 +169,13 @@ export default {
     return {
       vm: null,
       testDataInputEditor: null,
-      testDataOutputEditor: null
+      testDataOutputEditor: null,
+      outputFormat: [
+        { value: null, text: 'Event Generation Format', disabled: true },
+        { value: 'application/json', text: 'JSON' },
+        { value: 'application/xml', text: 'XML' }
+
+      ]
     }
   },
   computed: mapState([
@@ -180,14 +196,18 @@ export default {
     },
     '$store.state.modules.TestDataGeneratorStore.testDataOutput' (value) {
       if (value !== this.testDataOutputEditor.getValue()) {
-        this.testDataOutputEditor.setValue(JSON.stringify(value, null, 4))
+        if (typeof value === 'string' && value.trim().startsWith('<?xml')) {
+          this.testDataOutputEditor.setValue(beautifier.html(value, { indent_size: 2 }))
+        } else {
+          this.testDataOutputEditor.setValue(JSON.stringify(value, null, 4))
+        }
       }
     }
   },
   mounted () {
     // Add the CodeMirror styles to the TestData Generator input
     this.testDataInputEditor = CodeMirror.fromTextArea(this.$refs.testDataInput, {
-      mode: 'applicaton/ld+json',
+      mode: 'application/json',
       beautify: { initialBeautify: true, autoBeautify: true },
       lineNumbers: true,
       indentWithTabs: true,
@@ -208,7 +228,6 @@ export default {
 
     // Add the CodeMirror styles to the TestData Generator output
     this.testDataOutputEditor = CodeMirror.fromTextArea(this.$refs.testDataOutput, {
-      mode: 'applicaton/ld+json',
       beautify: { initialBeautify: true, autoBeautify: true },
       lineNumbers: true,
       indentWithTabs: true,
@@ -219,7 +238,6 @@ export default {
       autoCloseTags: true,
       styleActiveLine: true,
       styleActiveSelected: true
-      // readOnly: 'nocursor'
     })
 
     // Set the height for the TestData Generator output CodeMirror
@@ -229,6 +247,9 @@ export default {
     for (const s of document.getElementsByClassName('CodeMirror')) {
       s.style.border = '1px solid black'
     }
+
+    // Based on content type beautify the contents in CodeMirror textarea
+    this.testDataOutputEditor.on('change', this.contentTypeSetter)
   },
   methods: {
     ...mapActions(['modules/TestDataGeneratorStore/testdataGenerator']),
@@ -247,6 +268,18 @@ export default {
         this.$store.commit('modules/TestDataGeneratorStore/populateTestDataInput', JSON.stringify(response.data, undefined, '\t'))
         this.$store.dispatch('modules/TestDataGeneratorStore/testdataGenerator')
       })
+    },
+
+    // Check the content-type of the provided data based on it set the values
+    contentTypeSetter () {
+      // Check if the value is JSON/XML
+      if (this.testDataOutputEditor !== null) {
+        if (typeof this.testDataOutputEditor.getValue() === 'string' && this.testDataOutputEditor.getValue().trim().startsWith('<?xml')) {
+          this.testDataOutputEditor.setOption('mode', 'application/xml')
+        } else {
+          this.testDataOutputEditor.setOption('mode', 'applicaton/ld+json')
+        }
+      }
     },
 
     // Function to copy the test data template
@@ -289,6 +322,13 @@ export default {
       }
     },
 
+    // Function to set the value of output format based on the change
+    onChangeOutputFormat (event) {
+      // Set the value in store
+      this.$store.commit('modules/TestDataGeneratorStore/populateOutputFormat', event)
+      this.$store.dispatch('modules/TestDataGeneratorStore/testdataGenerator')
+    },
+
     // Function to copy the value to clipboard using the textarea used during the development
     unsecuredCopyToClipboard (text) {
       const copyTextArea = document.createElement('textarea')
@@ -299,7 +339,6 @@ export default {
       try {
         document.execCommand('copy')
       } catch (err) {
-        console.error('Unable to copy to clipboard', err)
       }
       document.body.removeChild(copyTextArea)
     },

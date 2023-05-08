@@ -18,7 +18,7 @@
     "bootstrap-vue": "^2.21.2",
     "codemirror": "^5.65.2",
     "core-js": "^3.21.1",
-    "drawflow": "^0.0.55",
+    "drawflow": "0.0.59",
     "element-ui": "^2.15.6",
     "js-beautify": "^1.14.0",
     "jsonlint-mod": "^1.7.6",
