@@ -30,7 +30,6 @@
     <artifactId>testdata-generator-common</artifactId>
     <name>testdata-generator-common</name>
     <description>Java library to generate EPCIS events in JSON format based on the provided InputTemplate.</description>
-    <version>0.9.2-SNAPSHOT</version>
     <url>https://github.com/openepcis/epcis-testdata-generator</url>
 
     <licenses>
@@ -61,6 +60,11 @@
         <url>https://github.com/openepcis/epcis-testdata-generator/tree/main</url>
     </scm>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <native.maven.plugin.version>0.9.13</native.maven.plugin.version>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -76,11 +80,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <native.maven.plugin.version>0.9.13</native.maven.plugin.version>
-    </properties>
 
     <dependencies>
 
