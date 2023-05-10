@@ -352,9 +352,11 @@ header a {
 	top: 40px;
 	background: var(--background-color);
 	background-size: 25px 25px;
-	background-image:
-		linear-gradient(to right, #f1f1f1 1px, transparent 1px),
-		linear-gradient(to bottom, #f1f1f1 1px, transparent 1px);
+}
+
+.gridImage  {
+	background-image:linear-gradient(to right, #f1f1f1 1px, transparent 1px),
+	linear-gradient(to bottom, #f1f1f1 1px, transparent 1px) !important;
 }
 
 @media only screen and (max-width: 768px) {
@@ -728,16 +730,6 @@ body {
 	border-right: 1px solid var(--border-color);
 	z-index: 5;
 	cursor: pointer;
-}
-
-#drawflow {
-	position: relative;
-	width: calc(100vw - 301px);
-	height: calc(100% - 50px);
-	top: 40px;
-	background: var(--background-color);
-	background-size: 25px 25px;
-	background-image: linear-gradient(to right, #f1f1f1 1px, transparent 1px), linear-gradient(to bottom, #f1f1f1 1px, transparent 1px);
 }
 
 @media only screen and (max-width: 768px) {

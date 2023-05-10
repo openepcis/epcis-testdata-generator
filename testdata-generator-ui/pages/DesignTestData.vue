@@ -43,6 +43,7 @@
         <div
           id="drawflow"
           ref="drawflow"
+          class="gridImage"
           @drop="drop($event)"
           @dragover="allowDrop($event)"
         >
@@ -74,12 +75,18 @@
         </div>
       </div>
       <div class="bar-zoom">
+        <button class="btn btn-light" title="Enable/Disable grid lines">
+          <input type="checkbox" checked @change="onChangeGridLines($event)">
+        </button>
+
         <button class="btn btn-light" title="Zoom-in Design" @click="zoomDesignInfo('in')">
           <em class="bi bi-zoom-in" />
         </button>
+
         <button class="btn btn-light" title="Reset Zoom" @click="zoomDesignInfo('reset')">
           <em class="bi bi-search" />
         </button>
+
         <button class="btn btn-light" title="Zoom-out Design" @click="zoomDesignInfo('out')">
           <em class="bi bi-zoom-out" />
         </button>
@@ -500,6 +507,17 @@ export default {
         this.$df.zoom_reset()
       } else if (type === 'in') {
         this.$df.zoom_in()
+      }
+    },
+
+    // Function to enable/disable the grid lines within the Drawflow
+    onChangeGridLines (e) {
+      // If false then remove gridlines class
+      if (e.target.checked === false) {
+        this.$refs.drawflow.classList.remove('gridImage')
+      } else {
+        // Else enable the grid lines
+        this.$refs.drawflow.classList.add('gridImage')
       }
     }
   }
