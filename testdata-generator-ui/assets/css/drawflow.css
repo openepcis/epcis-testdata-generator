@@ -249,7 +249,7 @@ header a {
 .btn-export {
 	float: right;
 	position: absolute;
-	right: 300px;
+	right: 32.5%;
 	color: white;
 	font-weight: bold;
 	border: 1px solid #0e5ba3;
@@ -260,14 +260,14 @@ header a {
 	z-index: 5;
 }
 
-.btn-clear {
+.btn-importEvents {
 	float: right;
 	position: absolute;
-	right: 10px;
+	right: 23.5%;
 	color: white;
 	font-weight: bold;
-	border: 1px solid #96015b;
-	background: #e3195a;
+	border: 1px solid #080007;
+	background: #434243;
 	padding: 5px 10px;
 	border-radius: 4px;
 	cursor: pointer;
@@ -277,7 +277,7 @@ header a {
 .btn-import {
 	float: right;
 	position: absolute;
-	right: 215px;
+	right: 15.5%;
 	color: white;
 	font-weight: bold;
 	border: 1px solid #012c0e;
@@ -288,14 +288,28 @@ header a {
 	z-index: 5;
 }
 
-.btn-importEvents {
+.btn-importInputTemplate {
 	float: right;
 	position: absolute;
-	right: 80px;
+	right:5.5%;
 	color: white;
 	font-weight: bold;
 	border: 1px solid #080007;
-	background: #434243;
+	background: #05a9e5;
+	padding: 5px 10px;
+	border-radius: 4px;
+	cursor: pointer;
+	z-index: 5;
+}
+
+.btn-clear {
+	float: right;
+	position: absolute;
+	right: 1%;
+	color: white;
+	font-weight: bold;
+	border: 1px solid #96015b;
+	background: #e3195a;
 	padding: 5px 10px;
 	border-radius: 4px;
 	cursor: pointer;
@@ -352,9 +366,11 @@ header a {
 	top: 40px;
 	background: var(--background-color);
 	background-size: 25px 25px;
-	background-image:
-		linear-gradient(to right, #f1f1f1 1px, transparent 1px),
-		linear-gradient(to bottom, #f1f1f1 1px, transparent 1px);
+}
+
+.gridImage  {
+	background-image:linear-gradient(to right, #f1f1f1 1px, transparent 1px),
+	linear-gradient(to bottom, #f1f1f1 1px, transparent 1px) !important;
 }
 
 @media only screen and (max-width: 768px) {
@@ -728,16 +744,6 @@ body {
 	border-right: 1px solid var(--border-color);
 	z-index: 5;
 	cursor: pointer;
-}
-
-#drawflow {
-	position: relative;
-	width: calc(100vw - 301px);
-	height: calc(100% - 50px);
-	top: 40px;
-	background: var(--background-color);
-	background-size: 25px 25px;
-	background-image: linear-gradient(to right, #f1f1f1 1px, transparent 1px), linear-gradient(to bottom, #f1f1f1 1px, transparent 1px);
 }
 
 @media only screen and (max-width: 768px) {

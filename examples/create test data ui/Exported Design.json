@@ -1,55 +1,90 @@
 {
-  "events": [
+  "identifierSyntax": "URN",
+  "eventType": "ObjectEvent",
+  "eventCount": "10",
+  "instanceIdentifiersList": [
     {
-      "nodeId": 1,
-      "eventType": "ObjectEvent",
-      "eventCount": 10,
-      "locationPartyIdentifierSyntax": "URN",
-      "ordinaryEvent": true,
-      "action": "ADD",
-      "eventID": false,
-      "eventTime": {
-        "timeZoneOffset": "+02:00",
-        "specificTime": "2022-09-14T16:59:56.000+02:00"
-      },
-      "referencedIdentifier": [
-        {
-          "identifierId": 1,
-          "epcCount": 10,
-          "classCount": 5
-        }
-      ],
-      "parentReferencedIdentifier": {},
-      "outputReferencedIdentifier": []
+      "ID": 1,
+      "name": "EPC : 1",
+      "type": "sgtin",
+      "sgtin": {
+        "identifierType": "sgtin",
+        "gcpLength": 10,
+        "sgtin": "89589598549889",
+        "serialType": "range",
+        "rangeFrom": 100,
+        "count": 10
+      }
     }
   ],
-  "identifiers": [
+  "classIdentifiersList": [
     {
-      "identifierId": 1,
-      "objectIdentifierSyntax": "URN",
-      "instanceData": {
-        "sgtin": {
-          "identifierType": "sgtin",
-          "gcpLength": 10,
-          "sgtin": "89589598549889",
-          "serialType": "range",
-          "rangeFrom": 100,
-          "count": 10
-        }
-      },
-      "classData": {
-        "lgtin": {
-          "identifierType": "lgtin",
-          "gcpLength": 10,
-          "quantityType": null,
-          "uom": null,
-          "lgtin": "78675867587685",
-          "serialType": "range",
-          "rangeFrom": 500,
-          "count": 5
-        }
-      },
-      "parentData": null
+      "ID": 2,
+      "name": "Quantity : 2",
+      "type": "lgtin",
+      "lgtin": {
+        "identifierType": "lgtin",
+        "gcpLength": 12,
+        "quantityType": null,
+        "uom": null,
+        "lgtin": "78675867587685",
+        "serialType": "range",
+        "rangeFrom": 500,
+        "count": 5
+      }
     }
-  ]
+  ],
+  "outputInstanceIdentifiersList": [],
+  "outputclassIdentifiersList": [],
+  "parentIdentifiersList": [],
+  "sensorElementList": [],
+  "userExtensions": [],
+  "ilmd": [],
+  "errorExtensions": [],
+  "formData": {
+    "vocabularySyntax": "URN",
+    "ordinaryEvent": true,
+    "eventTimeSelector": "SpecificTime",
+    "eventTime": {
+      "specificTime": "2022-06-02T11:58:58.000",
+      "fromTime": "2023-05-10T11:58:58.000",
+      "toTime": "2023-05-11T11:58:58.000",
+      "timeZoneOffset": "+02:00"
+    },
+    "RecordTimeOption": "no",
+    "recordTimeType": "SAME_AS_EVENT_TIME",
+    "readpointselector": "SGLN",
+    "readPoint": {
+      "gcpLength": 10,
+      "extensionType": "dynamic",
+      "extensionFrom": "100",
+      "gln": "8386747377498"
+    },
+    "businesslocationselector": null,
+    "bizLocation": {
+      "gcpLength": null
+    },
+    "businessStep": "COMMISSIONING",
+    "disposition": "ACTIVE",
+    "PersistentDispositionType": null,
+    "PersistentDisposition": null,
+    "persistentDispositionCount": 0,
+    "persistentDispositionList": [],
+    "businessTransactionCount": 0,
+    "businessTransactionList": [],
+    "errorCorrectiveCount": 0,
+    "errorCorrectiveIdsList": [],
+    "eventID": false,
+    "eventIdType": "UUID",
+    "hashAlgorithm": "sha-256",
+    "action": "ADD",
+    "error": {
+      "ErrorTimeZone": "+02:00",
+      "ErrorDeclarationTime": "2023-05-11T11:58:58.000",
+      "ErrorDeclarationTimeFrom": "2023-05-10T11:58:58.000",
+      "ErrorDeclarationTimeTo": "2023-05-11T11:58:58.000",
+      "ErrorReasonType": null,
+      "ErrorDeclarationTimeSelector": "SpecificTime"
+    }
+  }
 }
