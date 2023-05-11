@@ -47,7 +47,7 @@
           @drop="drop($event)"
           @dragover="allowDrop($event)"
         >
-          <div class="drawflowButton btn-export rounded-pill" @click="exportDesignInfo()">
+          <div class="drawflowButton btn-export rounded-pill" title="Export the design to local system" @click="exportDesignInfo()">
             Export
           </div>
           <span>
@@ -60,16 +60,19 @@
             >
             <div
               class="drawflowButton btn-import rounded-pill"
-              title="Upload Test Data Template from Local"
+              title="Import design template from local"
               @click="$refs.readDrawflowInfo.click()"
             >
-              Import
+              Import Local
             </div>
           </span>
-          <div class="drawflowButton btn-importEvents rounded-pill" @click="importEventsList($event)">
+          <div class="drawflowButton btn-importEvents rounded-pill" title="Import the list of events to design" @click="importEventsList($event)">
             Import Events
           </div>
-          <div class=" drawflowButton btn-clear rounded-pill" @click="clearDesignInfo()">
+          <div class="drawflowButton btn-importInputTemplate rounded-pill" title="Import design template from remote URL" @click="importInputTemplate($event)">
+            Import Template
+          </div>
+          <div class=" drawflowButton btn-clear rounded-pill" title="Clear the design" @click="clearDesignInfo()">
             Clear
           </div>
         </div>
@@ -97,6 +100,7 @@
     <ConfigureNodeEventInfoModal v-if="$store.state.modules.ConfigureNodeEventInfoStore.nodeEventInfoModal" />
     <ConfigureConnectorModal v-if="$store.state.modules.ConnectorStore.connectorModal" />
     <ConfigureImportEventsListModal v-if="$store.state.modules.ConfigureImportEventsListStore.eventsListModal" />
+    <ImportDesignInfoModal v-if="$store.state.modules.DesignTestDataStore.showImportDesignModal" />
   </div>
 </template>
 
@@ -110,6 +114,7 @@ import ConfigureConnectorModal from '~/components/ConfigureConnectorModal.vue'
 import ConfigureInstanceIdentifiersModal from '~/components/ConfigureInstanceIdentifiersModal.vue'
 import ConfigureClassIdentifiersModal from '~/components/ConfigureClassIdentifiersModal.vue'
 import ConfigureImportEventsListModal from '~/components/ConfigureImportEventsListModal.vue'
+import ImportDesignInfoModal from '~/components/ImportDesignInfoModal.vue'
 
 export default {
   name: 'DesignTestDataCanvas',
@@ -118,7 +123,8 @@ export default {
     ConfigureClassIdentifiersModal,
     ConfigureNodeEventInfoModal,
     ConfigureConnectorModal,
-    ConfigureImportEventsListModal
+    ConfigureImportEventsListModal,
+    ImportDesignInfoModal
   },
   data () {
     return {
@@ -201,6 +207,11 @@ export default {
           output: 1
         }
       ]
+    }
+  },
+  watch: {
+    '$store.state.modules.DesignTestDataStore.importedDesignData' (value) {
+      this.populateImportDesignData(value)
     }
   },
   async mounted () {
@@ -432,31 +443,37 @@ export default {
         // Parse the JSON to get the information related to each of the components in diagram such as EventNodes, IdentifiersNodes, Connector and Drawflow diagram
         const importData = JSON.parse(res.target.result)
 
-        // Populate identifiers node related information from import data
-        if (importData.identifiersNodeInfo !== undefined) {
-          this.$store.commit('modules/ConfigureIdentifiersInfoStore/populateIdentifiersArray', importData.identifiersNodeInfo)
-        }
-
-        // Populate event node related information from the import data
-        const finalNodeId = importData.drawflowInfo !== undefined ? Object.keys(importData.drawflowInfo.drawflow.Home.data).pop() : 1
-        if (importData.eventNodeInfo !== undefined) {
-          this.$store.commit('modules/ConfigureNodeEventInfoStore/populateNodeEventInfoArray', { eventInfoArray: importData.eventNodeInfo, finalNodeId })
-        }
-
-        // Populate connector related information from import data
-        if (importData.connectorsInfo !== undefined) {
-          this.$store.commit('modules/ConnectorStore/populateConnectorArray', importData.connectorsInfo)
-        }
-
-        // populate the drawflow diagram with the diagram info
-        if (importData.drawflowInfo !== undefined) {
-          this.$df.import(importData.drawflowInfo)
-        }
+        // Call the function to populate the data in respective variables
+        this.populateImportDesignData(importData)
       }
       reader.onerror = (err) => {
         alert('Error during the import of the TestData Generator Design : ' + err)
       }
       reader.readAsText(this.file)
+    },
+
+    // Function to populate the respective data in store and variables during the import of design info
+    populateImportDesignData (importData) {
+      // Populate identifiers node related information from import data
+      if (importData.identifiersNodeInfo !== undefined) {
+        this.$store.commit('modules/ConfigureIdentifiersInfoStore/populateIdentifiersArray', importData.identifiersNodeInfo)
+      }
+
+      // Populate event node related information from the import data
+      const finalNodeId = importData.drawflowInfo !== undefined ? Object.keys(importData.drawflowInfo.drawflow.Home.data).pop() : 1
+      if (importData.eventNodeInfo !== undefined) {
+        this.$store.commit('modules/ConfigureNodeEventInfoStore/populateNodeEventInfoArray', { eventInfoArray: importData.eventNodeInfo, finalNodeId })
+      }
+
+      // Populate connector related information from import data
+      if (importData.connectorsInfo !== undefined) {
+        this.$store.commit('modules/ConnectorStore/populateConnectorArray', importData.connectorsInfo)
+      }
+
+      // populate the drawflow diagram with the diagram info
+      if (importData.drawflowInfo !== undefined) {
+        this.$df.import(importData.drawflowInfo)
+      }
     },
 
     // On click of the Import Events button show the modal with text area to get the EPCIS events list information from the user
@@ -519,6 +536,11 @@ export default {
         // Else enable the grid lines
         this.$refs.drawflow.classList.add('gridImage')
       }
+    },
+
+    // Function to display modal and import the design from remote URL
+    importInputTemplate (e) {
+      this.$store.commit('modules/DesignTestDataStore/showImportDesignModal')
     }
   }
 }
