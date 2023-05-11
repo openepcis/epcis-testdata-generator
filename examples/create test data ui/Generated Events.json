@@ -1,432 +1,412 @@
-[
-  {
-    "type": "ObjectEvent",
-    "@context": [
-      "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
-    ],
-    "eventTime": "2022-09-06T05:12:56.026+02:00",
-    "eventTimeZoneOffset": "+02:00",
-    "epcList": [
-      "urn:epc:id:sgtin:9589598549.888.100",
-      "urn:epc:id:sgtin:9589598549.888.101",
-      "urn:epc:id:sgtin:9589598549.888.102",
-      "urn:epc:id:sgtin:9589598549.888.103",
-      "urn:epc:id:sgtin:9589598549.888.104",
-      "urn:epc:id:sgtin:9589598549.888.105",
-      "urn:epc:id:sgtin:9589598549.888.106",
-      "urn:epc:id:sgtin:9589598549.888.107",
-      "urn:epc:id:sgtin:9589598549.888.108",
-      "urn:epc:id:sgtin:9589598549.888.109"
-    ],
-    "action": "ADD",
-    "bizStep": "commissioning",
-    "disposition": "active",
-    "readPoint": {
-      "id": "urn:epc:id:sgln:8384839889.49.100"
-    },
-    "quantityList": [
+{
+  "@context": [
+    "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
+  ],
+  "type": "EPCISDocument",
+  "schemaVersion": "2.0",
+  "creationDate": "2023-05-11T10:30:35.215592Z",
+  "epcisBody": {
+    "eventList": [
       {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.500"
+        "type": "ObjectEvent",
+        "eventTime": "2022-06-02T11:58:58+02:00",
+        "eventTimeZoneOffset": "+02:00",
+        "epcList": [
+          "urn:epc:id:sgtin:9589598549.888.100",
+          "urn:epc:id:sgtin:9589598549.888.101",
+          "urn:epc:id:sgtin:9589598549.888.102",
+          "urn:epc:id:sgtin:9589598549.888.103",
+          "urn:epc:id:sgtin:9589598549.888.104",
+          "urn:epc:id:sgtin:9589598549.888.105",
+          "urn:epc:id:sgtin:9589598549.888.106",
+          "urn:epc:id:sgtin:9589598549.888.107",
+          "urn:epc:id:sgtin:9589598549.888.108",
+          "urn:epc:id:sgtin:9589598549.888.109"
+        ],
+        "action": "ADD",
+        "bizStep": "commissioning",
+        "disposition": "active",
+        "readPoint": {
+          "id": "urn:epc:id:sgln:8386747377.49.100"
+        },
+        "quantityList": [
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.500"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.501"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.502"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.503"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.504"
+          }
+        ]
       },
       {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.501"
+        "type": "ObjectEvent",
+        "eventTime": "2022-06-02T11:58:58+02:00",
+        "eventTimeZoneOffset": "+02:00",
+        "epcList": [
+          "urn:epc:id:sgtin:9589598549.888.110",
+          "urn:epc:id:sgtin:9589598549.888.111",
+          "urn:epc:id:sgtin:9589598549.888.112",
+          "urn:epc:id:sgtin:9589598549.888.113",
+          "urn:epc:id:sgtin:9589598549.888.114",
+          "urn:epc:id:sgtin:9589598549.888.115",
+          "urn:epc:id:sgtin:9589598549.888.116",
+          "urn:epc:id:sgtin:9589598549.888.117",
+          "urn:epc:id:sgtin:9589598549.888.118",
+          "urn:epc:id:sgtin:9589598549.888.119"
+        ],
+        "action": "ADD",
+        "bizStep": "commissioning",
+        "disposition": "active",
+        "readPoint": {
+          "id": "urn:epc:id:sgln:8386747377.49.101"
+        },
+        "quantityList": [
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.505"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.506"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.507"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.508"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.509"
+          }
+        ]
       },
       {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.502"
+        "type": "ObjectEvent",
+        "eventTime": "2022-06-02T11:58:58+02:00",
+        "eventTimeZoneOffset": "+02:00",
+        "epcList": [
+          "urn:epc:id:sgtin:9589598549.888.120",
+          "urn:epc:id:sgtin:9589598549.888.121",
+          "urn:epc:id:sgtin:9589598549.888.122",
+          "urn:epc:id:sgtin:9589598549.888.123",
+          "urn:epc:id:sgtin:9589598549.888.124",
+          "urn:epc:id:sgtin:9589598549.888.125",
+          "urn:epc:id:sgtin:9589598549.888.126",
+          "urn:epc:id:sgtin:9589598549.888.127",
+          "urn:epc:id:sgtin:9589598549.888.128",
+          "urn:epc:id:sgtin:9589598549.888.129"
+        ],
+        "action": "ADD",
+        "bizStep": "commissioning",
+        "disposition": "active",
+        "readPoint": {
+          "id": "urn:epc:id:sgln:8386747377.49.102"
+        },
+        "quantityList": [
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.510"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.511"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.512"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.513"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.514"
+          }
+        ]
       },
       {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.503"
+        "type": "ObjectEvent",
+        "eventTime": "2022-06-02T11:58:58+02:00",
+        "eventTimeZoneOffset": "+02:00",
+        "epcList": [
+          "urn:epc:id:sgtin:9589598549.888.130",
+          "urn:epc:id:sgtin:9589598549.888.131",
+          "urn:epc:id:sgtin:9589598549.888.132",
+          "urn:epc:id:sgtin:9589598549.888.133",
+          "urn:epc:id:sgtin:9589598549.888.134",
+          "urn:epc:id:sgtin:9589598549.888.135",
+          "urn:epc:id:sgtin:9589598549.888.136",
+          "urn:epc:id:sgtin:9589598549.888.137",
+          "urn:epc:id:sgtin:9589598549.888.138",
+          "urn:epc:id:sgtin:9589598549.888.139"
+        ],
+        "action": "ADD",
+        "bizStep": "commissioning",
+        "disposition": "active",
+        "readPoint": {
+          "id": "urn:epc:id:sgln:8386747377.49.103"
+        },
+        "quantityList": [
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.515"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.516"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.517"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.518"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.519"
+          }
+        ]
       },
       {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.504"
-      }
-    ]
-  },
-  {
-    "type": "ObjectEvent",
-    "@context": [
-      "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
-    ],
-    "eventTime": "2022-09-07T13:20:47.065+02:00",
-    "eventTimeZoneOffset": "+02:00",
-    "epcList": [
-      "urn:epc:id:sgtin:9589598549.888.110",
-      "urn:epc:id:sgtin:9589598549.888.111",
-      "urn:epc:id:sgtin:9589598549.888.112",
-      "urn:epc:id:sgtin:9589598549.888.113",
-      "urn:epc:id:sgtin:9589598549.888.114",
-      "urn:epc:id:sgtin:9589598549.888.115",
-      "urn:epc:id:sgtin:9589598549.888.116",
-      "urn:epc:id:sgtin:9589598549.888.117",
-      "urn:epc:id:sgtin:9589598549.888.118",
-      "urn:epc:id:sgtin:9589598549.888.119"
-    ],
-    "action": "ADD",
-    "bizStep": "commissioning",
-    "disposition": "active",
-    "readPoint": {
-      "id": "urn:epc:id:sgln:8384839889.49.101"
-    },
-    "quantityList": [
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.505"
+        "type": "ObjectEvent",
+        "eventTime": "2022-06-02T11:58:58+02:00",
+        "eventTimeZoneOffset": "+02:00",
+        "epcList": [
+          "urn:epc:id:sgtin:9589598549.888.140",
+          "urn:epc:id:sgtin:9589598549.888.141",
+          "urn:epc:id:sgtin:9589598549.888.142",
+          "urn:epc:id:sgtin:9589598549.888.143",
+          "urn:epc:id:sgtin:9589598549.888.144",
+          "urn:epc:id:sgtin:9589598549.888.145",
+          "urn:epc:id:sgtin:9589598549.888.146",
+          "urn:epc:id:sgtin:9589598549.888.147",
+          "urn:epc:id:sgtin:9589598549.888.148",
+          "urn:epc:id:sgtin:9589598549.888.149"
+        ],
+        "action": "ADD",
+        "bizStep": "commissioning",
+        "disposition": "active",
+        "readPoint": {
+          "id": "urn:epc:id:sgln:8386747377.49.104"
+        },
+        "quantityList": [
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.520"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.521"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.522"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.523"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.524"
+          }
+        ]
       },
       {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.506"
+        "type": "ObjectEvent",
+        "eventTime": "2022-06-02T11:58:58+02:00",
+        "eventTimeZoneOffset": "+02:00",
+        "epcList": [
+          "urn:epc:id:sgtin:9589598549.888.150",
+          "urn:epc:id:sgtin:9589598549.888.151",
+          "urn:epc:id:sgtin:9589598549.888.152",
+          "urn:epc:id:sgtin:9589598549.888.153",
+          "urn:epc:id:sgtin:9589598549.888.154",
+          "urn:epc:id:sgtin:9589598549.888.155",
+          "urn:epc:id:sgtin:9589598549.888.156",
+          "urn:epc:id:sgtin:9589598549.888.157",
+          "urn:epc:id:sgtin:9589598549.888.158",
+          "urn:epc:id:sgtin:9589598549.888.159"
+        ],
+        "action": "ADD",
+        "bizStep": "commissioning",
+        "disposition": "active",
+        "readPoint": {
+          "id": "urn:epc:id:sgln:8386747377.49.105"
+        },
+        "quantityList": [
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.525"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.526"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.527"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.528"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.529"
+          }
+        ]
       },
       {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.507"
+        "type": "ObjectEvent",
+        "eventTime": "2022-06-02T11:58:58+02:00",
+        "eventTimeZoneOffset": "+02:00",
+        "epcList": [
+          "urn:epc:id:sgtin:9589598549.888.160",
+          "urn:epc:id:sgtin:9589598549.888.161",
+          "urn:epc:id:sgtin:9589598549.888.162",
+          "urn:epc:id:sgtin:9589598549.888.163",
+          "urn:epc:id:sgtin:9589598549.888.164",
+          "urn:epc:id:sgtin:9589598549.888.165",
+          "urn:epc:id:sgtin:9589598549.888.166",
+          "urn:epc:id:sgtin:9589598549.888.167",
+          "urn:epc:id:sgtin:9589598549.888.168",
+          "urn:epc:id:sgtin:9589598549.888.169"
+        ],
+        "action": "ADD",
+        "bizStep": "commissioning",
+        "disposition": "active",
+        "readPoint": {
+          "id": "urn:epc:id:sgln:8386747377.49.106"
+        },
+        "quantityList": [
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.530"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.531"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.532"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.533"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.534"
+          }
+        ]
       },
       {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.508"
+        "type": "ObjectEvent",
+        "eventTime": "2022-06-02T11:58:58+02:00",
+        "eventTimeZoneOffset": "+02:00",
+        "epcList": [
+          "urn:epc:id:sgtin:9589598549.888.170",
+          "urn:epc:id:sgtin:9589598549.888.171",
+          "urn:epc:id:sgtin:9589598549.888.172",
+          "urn:epc:id:sgtin:9589598549.888.173",
+          "urn:epc:id:sgtin:9589598549.888.174",
+          "urn:epc:id:sgtin:9589598549.888.175",
+          "urn:epc:id:sgtin:9589598549.888.176",
+          "urn:epc:id:sgtin:9589598549.888.177",
+          "urn:epc:id:sgtin:9589598549.888.178",
+          "urn:epc:id:sgtin:9589598549.888.179"
+        ],
+        "action": "ADD",
+        "bizStep": "commissioning",
+        "disposition": "active",
+        "readPoint": {
+          "id": "urn:epc:id:sgln:8386747377.49.107"
+        },
+        "quantityList": [
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.535"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.536"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.537"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.538"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.539"
+          }
+        ]
       },
       {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.509"
-      }
-    ]
-  },
-  {
-    "type": "ObjectEvent",
-    "@context": [
-      "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
-    ],
-    "eventTime": "2022-09-03T11:12:30.922+02:00",
-    "eventTimeZoneOffset": "+02:00",
-    "epcList": [
-      "urn:epc:id:sgtin:9589598549.888.120",
-      "urn:epc:id:sgtin:9589598549.888.121",
-      "urn:epc:id:sgtin:9589598549.888.122",
-      "urn:epc:id:sgtin:9589598549.888.123",
-      "urn:epc:id:sgtin:9589598549.888.124",
-      "urn:epc:id:sgtin:9589598549.888.125",
-      "urn:epc:id:sgtin:9589598549.888.126",
-      "urn:epc:id:sgtin:9589598549.888.127",
-      "urn:epc:id:sgtin:9589598549.888.128",
-      "urn:epc:id:sgtin:9589598549.888.129"
-    ],
-    "action": "ADD",
-    "bizStep": "commissioning",
-    "disposition": "active",
-    "readPoint": {
-      "id": "urn:epc:id:sgln:8384839889.49.102"
-    },
-    "quantityList": [
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.510"
+        "type": "ObjectEvent",
+        "eventTime": "2022-06-02T11:58:58+02:00",
+        "eventTimeZoneOffset": "+02:00",
+        "epcList": [
+          "urn:epc:id:sgtin:9589598549.888.180",
+          "urn:epc:id:sgtin:9589598549.888.181",
+          "urn:epc:id:sgtin:9589598549.888.182",
+          "urn:epc:id:sgtin:9589598549.888.183",
+          "urn:epc:id:sgtin:9589598549.888.184",
+          "urn:epc:id:sgtin:9589598549.888.185",
+          "urn:epc:id:sgtin:9589598549.888.186",
+          "urn:epc:id:sgtin:9589598549.888.187",
+          "urn:epc:id:sgtin:9589598549.888.188",
+          "urn:epc:id:sgtin:9589598549.888.189"
+        ],
+        "action": "ADD",
+        "bizStep": "commissioning",
+        "disposition": "active",
+        "readPoint": {
+          "id": "urn:epc:id:sgln:8386747377.49.108"
+        },
+        "quantityList": [
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.540"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.541"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.542"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.543"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.544"
+          }
+        ]
       },
       {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.511"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.512"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.513"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.514"
-      }
-    ]
-  },
-  {
-    "type": "ObjectEvent",
-    "@context": [
-      "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
-    ],
-    "eventTime": "2022-09-05T06:07:21.913+02:00",
-    "eventTimeZoneOffset": "+02:00",
-    "epcList": [
-      "urn:epc:id:sgtin:9589598549.888.130",
-      "urn:epc:id:sgtin:9589598549.888.131",
-      "urn:epc:id:sgtin:9589598549.888.132",
-      "urn:epc:id:sgtin:9589598549.888.133",
-      "urn:epc:id:sgtin:9589598549.888.134",
-      "urn:epc:id:sgtin:9589598549.888.135",
-      "urn:epc:id:sgtin:9589598549.888.136",
-      "urn:epc:id:sgtin:9589598549.888.137",
-      "urn:epc:id:sgtin:9589598549.888.138",
-      "urn:epc:id:sgtin:9589598549.888.139"
-    ],
-    "action": "ADD",
-    "bizStep": "commissioning",
-    "disposition": "active",
-    "readPoint": {
-      "id": "urn:epc:id:sgln:8384839889.49.103"
-    },
-    "quantityList": [
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.515"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.516"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.517"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.518"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.519"
-      }
-    ]
-  },
-  {
-    "type": "ObjectEvent",
-    "@context": [
-      "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
-    ],
-    "eventTime": "2022-09-07T02:23:07.641+02:00",
-    "eventTimeZoneOffset": "+02:00",
-    "epcList": [
-      "urn:epc:id:sgtin:9589598549.888.140",
-      "urn:epc:id:sgtin:9589598549.888.141",
-      "urn:epc:id:sgtin:9589598549.888.142",
-      "urn:epc:id:sgtin:9589598549.888.143",
-      "urn:epc:id:sgtin:9589598549.888.144",
-      "urn:epc:id:sgtin:9589598549.888.145",
-      "urn:epc:id:sgtin:9589598549.888.146",
-      "urn:epc:id:sgtin:9589598549.888.147",
-      "urn:epc:id:sgtin:9589598549.888.148",
-      "urn:epc:id:sgtin:9589598549.888.149"
-    ],
-    "action": "ADD",
-    "bizStep": "commissioning",
-    "disposition": "active",
-    "readPoint": {
-      "id": "urn:epc:id:sgln:8384839889.49.104"
-    },
-    "quantityList": [
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.520"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.521"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.522"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.523"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.524"
-      }
-    ]
-  },
-  {
-    "type": "ObjectEvent",
-    "@context": [
-      "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
-    ],
-    "eventTime": "2022-09-09T17:32:10.957+02:00",
-    "eventTimeZoneOffset": "+02:00",
-    "epcList": [
-      "urn:epc:id:sgtin:9589598549.888.150",
-      "urn:epc:id:sgtin:9589598549.888.151",
-      "urn:epc:id:sgtin:9589598549.888.152",
-      "urn:epc:id:sgtin:9589598549.888.153",
-      "urn:epc:id:sgtin:9589598549.888.154",
-      "urn:epc:id:sgtin:9589598549.888.155",
-      "urn:epc:id:sgtin:9589598549.888.156",
-      "urn:epc:id:sgtin:9589598549.888.157",
-      "urn:epc:id:sgtin:9589598549.888.158",
-      "urn:epc:id:sgtin:9589598549.888.159"
-    ],
-    "action": "ADD",
-    "bizStep": "commissioning",
-    "disposition": "active",
-    "readPoint": {
-      "id": "urn:epc:id:sgln:8384839889.49.105"
-    },
-    "quantityList": [
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.525"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.526"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.527"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.528"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.529"
-      }
-    ]
-  },
-  {
-    "type": "ObjectEvent",
-    "@context": [
-      "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
-    ],
-    "eventTime": "2022-09-07T08:47:27.698+02:00",
-    "eventTimeZoneOffset": "+02:00",
-    "epcList": [
-      "urn:epc:id:sgtin:9589598549.888.160",
-      "urn:epc:id:sgtin:9589598549.888.161",
-      "urn:epc:id:sgtin:9589598549.888.162",
-      "urn:epc:id:sgtin:9589598549.888.163",
-      "urn:epc:id:sgtin:9589598549.888.164",
-      "urn:epc:id:sgtin:9589598549.888.165",
-      "urn:epc:id:sgtin:9589598549.888.166",
-      "urn:epc:id:sgtin:9589598549.888.167",
-      "urn:epc:id:sgtin:9589598549.888.168",
-      "urn:epc:id:sgtin:9589598549.888.169"
-    ],
-    "action": "ADD",
-    "bizStep": "commissioning",
-    "disposition": "active",
-    "readPoint": {
-      "id": "urn:epc:id:sgln:8384839889.49.106"
-    },
-    "quantityList": [
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.530"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.531"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.532"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.533"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.534"
-      }
-    ]
-  },
-  {
-    "type": "ObjectEvent",
-    "@context": [
-      "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
-    ],
-    "eventTime": "2022-09-07T17:46:57.897+02:00",
-    "eventTimeZoneOffset": "+02:00",
-    "epcList": [
-      "urn:epc:id:sgtin:9589598549.888.170",
-      "urn:epc:id:sgtin:9589598549.888.171",
-      "urn:epc:id:sgtin:9589598549.888.172",
-      "urn:epc:id:sgtin:9589598549.888.173",
-      "urn:epc:id:sgtin:9589598549.888.174",
-      "urn:epc:id:sgtin:9589598549.888.175",
-      "urn:epc:id:sgtin:9589598549.888.176",
-      "urn:epc:id:sgtin:9589598549.888.177",
-      "urn:epc:id:sgtin:9589598549.888.178",
-      "urn:epc:id:sgtin:9589598549.888.179"
-    ],
-    "action": "ADD",
-    "bizStep": "commissioning",
-    "disposition": "active",
-    "readPoint": {
-      "id": "urn:epc:id:sgln:8384839889.49.107"
-    },
-    "quantityList": [
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.535"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.536"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.537"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.538"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.539"
-      }
-    ]
-  },
-  {
-    "type": "ObjectEvent",
-    "@context": [
-      "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
-    ],
-    "eventTime": "2022-09-06T19:28:31.7+02:00",
-    "eventTimeZoneOffset": "+02:00",
-    "epcList": [
-      "urn:epc:id:sgtin:9589598549.888.180",
-      "urn:epc:id:sgtin:9589598549.888.181",
-      "urn:epc:id:sgtin:9589598549.888.182",
-      "urn:epc:id:sgtin:9589598549.888.183",
-      "urn:epc:id:sgtin:9589598549.888.184",
-      "urn:epc:id:sgtin:9589598549.888.185",
-      "urn:epc:id:sgtin:9589598549.888.186",
-      "urn:epc:id:sgtin:9589598549.888.187",
-      "urn:epc:id:sgtin:9589598549.888.188",
-      "urn:epc:id:sgtin:9589598549.888.189"
-    ],
-    "action": "ADD",
-    "bizStep": "commissioning",
-    "disposition": "active",
-    "readPoint": {
-      "id": "urn:epc:id:sgln:8384839889.49.108"
-    },
-    "quantityList": [
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.540"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.541"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.542"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.543"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.544"
-      }
-    ]
-  },
-  {
-    "type": "ObjectEvent",
-    "@context": [
-      "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
-    ],
-    "eventTime": "2022-09-03T15:38:52.023+02:00",
-    "eventTimeZoneOffset": "+02:00",
-    "epcList": [
-      "urn:epc:id:sgtin:9589598549.888.190",
-      "urn:epc:id:sgtin:9589598549.888.191",
-      "urn:epc:id:sgtin:9589598549.888.192",
-      "urn:epc:id:sgtin:9589598549.888.193",
-      "urn:epc:id:sgtin:9589598549.888.194",
-      "urn:epc:id:sgtin:9589598549.888.195",
-      "urn:epc:id:sgtin:9589598549.888.196",
-      "urn:epc:id:sgtin:9589598549.888.197",
-      "urn:epc:id:sgtin:9589598549.888.198",
-      "urn:epc:id:sgtin:9589598549.888.199"
-    ],
-    "action": "ADD",
-    "bizStep": "commissioning",
-    "disposition": "active",
-    "readPoint": {
-      "id": "urn:epc:id:sgln:8384839889.49.109"
-    },
-    "quantityList": [
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.545"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.546"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.547"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.548"
-      },
-      {
-        "epcClass": "urn:epc:class:lgtin:8675867587.768.549"
+        "type": "ObjectEvent",
+        "eventTime": "2022-06-02T11:58:58+02:00",
+        "eventTimeZoneOffset": "+02:00",
+        "epcList": [
+          "urn:epc:id:sgtin:9589598549.888.190",
+          "urn:epc:id:sgtin:9589598549.888.191",
+          "urn:epc:id:sgtin:9589598549.888.192",
+          "urn:epc:id:sgtin:9589598549.888.193",
+          "urn:epc:id:sgtin:9589598549.888.194",
+          "urn:epc:id:sgtin:9589598549.888.195",
+          "urn:epc:id:sgtin:9589598549.888.196",
+          "urn:epc:id:sgtin:9589598549.888.197",
+          "urn:epc:id:sgtin:9589598549.888.198",
+          "urn:epc:id:sgtin:9589598549.888.199"
+        ],
+        "action": "ADD",
+        "bizStep": "commissioning",
+        "disposition": "active",
+        "readPoint": {
+          "id": "urn:epc:id:sgln:8386747377.49.109"
+        },
+        "quantityList": [
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.545"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.546"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.547"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.548"
+          },
+          {
+            "epcClass": "urn:epc:class:lgtin:867586758768.7.549"
+          }
+        ]
       }
     ]
   }
-]
+}
