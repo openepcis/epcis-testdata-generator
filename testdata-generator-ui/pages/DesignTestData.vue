@@ -336,7 +336,7 @@ export default {
       this.designSupplychainFromEvents()
     })
 
-    // If user has passed parameter along with the page URL then query for the url and obtain the data and load the design
+    // If user has passed query parameter along with the page URL then query for the provided url and obtain the data and load the design
     if (this.$route.query.url !== undefined && this.$route.query.url !== null) {
       this.$store.dispatch('modules/DesignTestDataStore/obtainURLData', this.$route.query.url)
       this.$store.commit('modules/DesignTestDataStore/hideImportDesignModal')
