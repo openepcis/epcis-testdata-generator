@@ -1400,6 +1400,15 @@ export default {
       }
     }
   },
+  watch: {
+    '$store.state.modules.DesignTestDataStore.importedDesignData' (value) {
+      if (value !== '' && typeof value === 'string' && value.startsWith('Unable')) {
+        this.$alertify.alert('Create events import failed', value)
+      } else if (value !== '') {
+        this.populateImportData(value)
+      }
+    }
+  },
   computed: mapState([
     'modules.IdentifiersStore.identifierSyntax',
     'modules.DesignTestDataStore.eventType'
@@ -1420,6 +1429,12 @@ export default {
 
     this.formData.eventTime = { specificTime: now, fromTime: yesterday, toTime: now, timeZoneOffset: '+02:00' }
     this.formData.error = { ErrorTimeZone: '+02:00', ErrorDeclarationTime: now, ErrorDeclarationTimeFrom: yesterday, ErrorDeclarationTimeTo: now, ErrorReasonType: null, ErrorDeclarationTimeSelector: 'SpecificTime' }
+
+    // If user has passed query parameter along with the page URL then query for the provided url and obtain the data and load
+    if (this.$route.query.url !== undefined && this.$route.query.url !== null) {
+      this.$store.dispatch('modules/DesignTestDataStore/obtainURLData', this.$route.query.url)
+      this.$store.commit('modules/DesignTestDataStore/hideImportDesignModal')
+    }
   },
   methods: {
     // On change of the event count change the event count in store
@@ -1730,59 +1745,146 @@ export default {
         // Parse the JSON to get the information related to each of the components in table such as FormData, IdentifiersData, Extensions, Sensor, etc.
         const importData = JSON.parse(res.target.result)
 
-        // If identifierSyntax is present then populate the identifierSyntax accordingly
-        if (importData.identifierSyntax !== undefined) {
-          this.$store.commit('modules/IdentifiersStore/populateIdentifiersType', { identifierSyntax: importData.identifierSyntax })
-        }
-
-        // If eventType is present then populate the eventType accordingly
-        if (importData.eventType !== undefined) {
-          this.eventTypeChange(importData.eventType)
-        }
-
-        // Store the event count information based on the import information.
-        if (importData.eventCount !== undefined) {
-          this.$store.commit('modules/DesignTestDataStore/populateRawData', { eventCount: importData.eventCount })
-        }
-
-        // If the instanceIdentifiersList is present then populate the instanceIdentifiersList accordingly.
-        if (importData.instanceIdentifiersList !== undefined) {
-          this.$store.commit('modules/IdentifiersStore/populateInstanceIdentifiers', importData.instanceIdentifiersList)
-        }
-
-        // If identifiers information are present then add them to object accordingly
-        const identifiersObj = {}
-        identifiersObj.epc = importData.instanceIdentifiersList !== undefined ? importData.instanceIdentifiersList : []
-        identifiersObj.quantity = importData.classIdentifiersList !== undefined ? importData.classIdentifiersList : []
-        identifiersObj.outputEpc = importData.outputInstanceIdentifiersList !== undefined ? importData.outputInstanceIdentifiersList : []
-        identifiersObj.outputQuantity = importData.outputclassIdentifiersList !== undefined ? importData.outputclassIdentifiersList : []
-        identifiersObj.parentID = importData.parentIdentifiersList !== undefined ? importData.parentIdentifiersList : []
-        this.$store.commit('modules/IdentifiersStore/populateRawData', identifiersObj)
-
-        // If the error informations are present then add them to Extensions data store
-        const extensionsInfo = {}
-        extensionsInfo.userExtensions = importData.userExtensions !== undefined ? importData.userExtensions : []
-        extensionsInfo.ilmd = importData.ilmd !== undefined ? importData.ilmd : []
-        extensionsInfo.errorExtensions = importData.errorExtensions !== undefined ? importData.errorExtensions : []
-        this.$store.commit('modules/ExtensionDataStore/populateRawData', extensionsInfo)
-
-        // If the sensor informations are present then add them to SensorElementList
-        this.$store.commit('modules/SensorElementsStore/populateRawData', { sensorData: importData.sensorElementList })
-
-        // If formData is present then add it to the form
-        this.formData = importData.formData !== undefined ? importData.formData : {}
+        // Call the function to populate the data in respective variables
+        this.populateImportData(importData)
       }
 
       reader.onerror = (err) => {
         alert('Error during the import of the TestData Generator Create Data : ' + err)
       }
       reader.readAsText(this.file)
+    },
+
+    // Function to populate the respective data in store and variables during the import
+    populateImportData (importData) {
+      // If identifierSyntax is present then populate the identifierSyntax accordingly
+      if (importData.identifierSyntax !== undefined) {
+        this.$store.commit('modules/IdentifiersStore/populateIdentifiersType', { identifierSyntax: importData.identifierSyntax })
+      }
+
+      // If eventType is present then populate the eventType accordingly
+      if (importData.eventType !== undefined) {
+        this.eventTypeChange(importData.eventType)
+      }
+
+      // Store the event count information based on the import information.
+      if (importData.eventCount !== undefined) {
+        this.$store.commit('modules/DesignTestDataStore/populateRawData', { eventCount: importData.eventCount })
+      }
+
+      // If the instanceIdentifiersList is present then populate the instanceIdentifiersList accordingly.
+      if (importData.instanceIdentifiersList !== undefined) {
+        this.$store.commit('modules/IdentifiersStore/populateInstanceIdentifiers', importData.instanceIdentifiersList)
+      }
+
+      // If identifiers information are present then add them to object accordingly
+      const identifiersObj = {}
+      identifiersObj.epc = importData.instanceIdentifiersList !== undefined ? importData.instanceIdentifiersList : []
+      identifiersObj.quantity = importData.classIdentifiersList !== undefined ? importData.classIdentifiersList : []
+      identifiersObj.outputEpc = importData.outputInstanceIdentifiersList !== undefined ? importData.outputInstanceIdentifiersList : []
+      identifiersObj.outputQuantity = importData.outputclassIdentifiersList !== undefined ? importData.outputclassIdentifiersList : []
+      identifiersObj.parentID = importData.parentIdentifiersList !== undefined ? importData.parentIdentifiersList : []
+      this.$store.commit('modules/IdentifiersStore/populateRawData', identifiersObj)
+
+      // If the error informations are present then add them to Extensions data store
+      const extensionsInfo = {}
+      extensionsInfo.userExtensions = importData.userExtensions !== undefined ? importData.userExtensions : []
+      extensionsInfo.ilmd = importData.ilmd !== undefined ? importData.ilmd : []
+      extensionsInfo.errorExtensions = importData.errorExtensions !== undefined ? importData.errorExtensions : []
+      this.$store.commit('modules/ExtensionDataStore/populateRawData', extensionsInfo)
+
+      // If the sensor informations are present then add them to SensorElementList
+      this.$store.commit('modules/SensorElementsStore/populateRawData', { sensorData: importData.sensorElementList })
+
+      // If formData is present then add it to the form
+      this.formData = importData.formData !== undefined ? importData.formData : {}
     }
   }
 }
 </script>
 
 <style scoped>
+#eventForm{
+  display: flex;
+  zoom:85%;
+}
+
+.table-nonfluid {
+   width: auto !important;
+}
+
+.table td {
+   text-align: center;
+}
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+table td[class*=col-], table th[class*=col-] {
+    position: static;
+    display: table-cell;
+    float: none;
+}
+
+.table-bordered {
+   width: auto !important;
+}
+
+#eventDimension{
+  background-color: #F2F3F4;
+  text-align: center;
+}
+
+#whatDimension{
+  background-color: #607fbf;
+  text-align: center;
+}
+
+.what{
+  background-color: #dfe5f1;
+}
+
+.when{
+  background-color: #eedded;
+  text-align: center;
+}
+
+.why{
+background-color: #faf4d5;
+text-align: center;
+}
+
+.horizontalSpace{
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+.verticleSpace{
+  padding-top:8px;
+  padding-bottom: 8px;
+}
+
+.where{
+  background-color: #dae9e4;
+}
+
+::-webkit-input-placeholder {
+   text-align: center;
+}
+
+.errorDimension{
+  background-color: #f2c2c2;
+}
+
+.modifyButton{
+  color:#F8C471
+}
+
+.deleteButton{
+  color:#dc3545
+}
+
 #eventForm{
   display: flex;
   zoom:85%;

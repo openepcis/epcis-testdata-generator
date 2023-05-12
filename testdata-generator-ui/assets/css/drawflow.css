@@ -249,7 +249,7 @@ header a {
 .btn-export {
 	float: right;
 	position: absolute;
-	right: 32.5%;
+	right: 24.5%;
 	color: white;
 	font-weight: bold;
 	border: 1px solid #0e5ba3;
@@ -263,7 +263,7 @@ header a {
 .btn-importEvents {
 	float: right;
 	position: absolute;
-	right: 23.5%;
+	right: 15.5%;
 	color: white;
 	font-weight: bold;
 	border: 1px solid #080007;
@@ -277,7 +277,7 @@ header a {
 .btn-import {
 	float: right;
 	position: absolute;
-	right: 15.5%;
+	right: 5.4%;
 	color: white;
 	font-weight: bold;
 	border: 1px solid #012c0e;
@@ -288,10 +288,10 @@ header a {
 	z-index: 5;
 }
 
-.btn-importInputTemplate {
+/* .btn-importInputTemplate {
 	float: right;
 	position: absolute;
-	right:5.5%;
+	right:2%;
 	color: white;
 	font-weight: bold;
 	border: 1px solid #080007;
@@ -300,7 +300,7 @@ header a {
 	border-radius: 4px;
 	cursor: pointer;
 	z-index: 5;
-}
+}*/
 
 .btn-clear {
 	float: right;

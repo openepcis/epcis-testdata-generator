@@ -63,15 +63,15 @@
               title="Import design template from local"
               @click="$refs.readDrawflowInfo.click()"
             >
-              Import Local
+              Import Template
             </div>
           </span>
           <div class="drawflowButton btn-importEvents rounded-pill" title="Import the list of events to design" @click="importEventsList($event)">
             Import Events
           </div>
-          <div class="drawflowButton btn-importInputTemplate rounded-pill" title="Import design template from remote URL" @click="importInputTemplate($event)">
+          <!-- <div class="drawflowButton btn-importInputTemplate rounded-pill" title="Import design template from remote URL" @click="importInputTemplate($event)">
             Import Template
-          </div>
+          </div> -->
           <div class=" drawflowButton btn-clear rounded-pill" title="Clear the design" @click="clearDesignInfo()">
             Clear
           </div>
@@ -211,7 +211,11 @@ export default {
   },
   watch: {
     '$store.state.modules.DesignTestDataStore.importedDesignData' (value) {
-      this.populateImportDesignData(value)
+      if (value !== '' && typeof value === 'string' && value.startsWith('Unable')) {
+        this.$alertify.alert('Design template import failed', value)
+      } else if (value !== '') {
+        this.populateImportDesignData(value)
+      }
     }
   },
   async mounted () {
@@ -331,6 +335,12 @@ export default {
     this.$root.$on('drawSupplyChainDesign', () => {
       this.designSupplychainFromEvents()
     })
+
+    // If user has passed query parameter along with the page URL then query for the provided url and obtain the data and load the design
+    if (this.$route.query.url !== undefined && this.$route.query.url !== null) {
+      this.$store.dispatch('modules/DesignTestDataStore/obtainURLData', this.$route.query.url)
+      this.$store.commit('modules/DesignTestDataStore/hideImportDesignModal')
+    }
   },
   methods: {
     drag (event, eventType) {
