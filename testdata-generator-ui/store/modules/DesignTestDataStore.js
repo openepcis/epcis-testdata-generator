@@ -77,7 +77,7 @@ export const actions = {
         commit('populateImportDesignData', response.data)
       })
       .catch((error) => {
-        const message = 'Unable to obtain data, Error : ' + error + '\nPlease check the URL : ' + inputURL
+        const message = 'Unable to obtain data, request failed. \n' + error + '\n Please check the URL : ' + inputURL
         commit('populateImportDesignData', message)
       })
   }
