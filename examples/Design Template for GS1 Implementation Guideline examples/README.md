@@ -18,5 +18,4 @@ Following is the example for the demonstration purpose:
 https://test-data-generator.openepcis.io/ui/DesignTestData/?url=https://raw.githubusercontent.com/openepcis/epcis-testdata-generator/main/examples/design%20test%20data%20ui/Exported%20Design.json
 ```
 
-Each of the example file name contains the section/table number which corresponds to respective section/table within the GS1 EPCIS standard implementation guideline (https://ref.gs1.
-org/guidelines/epcis-cbv/2.0.0/).
+Each of the example file name contains the section/table number which corresponds to respective section/table within the GS1 EPCIS standard implementation guideline (https://ref.gs1.org/guidelines/epcis-cbv/2.0.0/).
