@@ -1725,6 +1725,8 @@ export default {
       createDataInfo.userExtensions = this.$store.state.modules.ExtensionDataStore.userExtensions
       createDataInfo.ilmd = this.$store.state.modules.ExtensionDataStore.ilmd
       createDataInfo.errorExtensions = this.$store.state.modules.ExtensionDataStore.errorExtensions
+      createDataInfo.sources = this.$store.state.modules.SourceDestinationStore.sources
+      createDataInfo.destinations = this.$store.state.modules.SourceDestinationStore.destinations
       createDataInfo.formData = this.formData
 
       const DateTime = new Date().toISOString().replace('Z', '').replace('T', '')
@@ -1795,6 +1797,12 @@ export default {
 
       // If the sensor informations are present then add them to SensorElementList
       this.$store.commit('modules/SensorElementsStore/populateRawData', { sensorData: importData.sensorElementList })
+
+      // If sources/destinations are present then add them to SourceDestination store
+      const sourceDestinationObj = {}
+      sourceDestinationObj.sources = importData.sources !== undefined ? importData.sources : []
+      sourceDestinationObj.destinations = importData.destinations !== undefined ? importData.destinations : []
+      this.$store.commit('modules/SourceDestinationStore/populateRawData', sourceDestinationObj)
 
       // If formData is present then add it to the form
       this.formData = importData.formData !== undefined ? importData.formData : {}

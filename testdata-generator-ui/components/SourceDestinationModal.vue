@@ -26,18 +26,15 @@
   >
     <b-form id="AddSourceDestination" @submit.prevent="submitSourceDestination">
       <div class="form-group">
-        <b-form-select v-model="sourceDestination.type" class="form-control">
-          <b-form-select-option value="OWNING_PARTY" selected>
-            Owning Party (CBV)
-          </b-form-select-option>
-          <b-form-select-option value="PROCESSING_PARTY">
-            Processing Party (CBV)
-          </b-form-select-option>
-          <b-form-select-option value="LOCATION">
-            Location (CBV)
-          </b-form-select-option>
-          <b-form-select-option value="OTHER">
-            Other
+        <b-form-select v-model="sourceDestination.type" class="form-control" required>
+          <b-form-select-option
+            v-for="option in typeOptions"
+            :key="option.value"
+            :value="option.value"
+            :disabled="option.disabled"
+            :selected="option.selected"
+          >
+            {{ option.text }}
           </b-form-select-option>
         </b-form-select>
       </div>
@@ -45,8 +42,15 @@
       <div class="form-group">
         <span v-if="sourceDestination.type == 'OWNING_PARTY' || sourceDestination.type == 'PROCESSING_PARTY'">
           <b-form-select v-model="sourceDestination.glnType" class="form-control" :required="sourceDestination.type == 'OWNING_PARTY' || sourceDestination.type == 'PROCESSING_PARTY'">
-            <b-form-select-option value="SGLN">SGLN</b-form-select-option>
-            <b-form-select-option value="PGLN">PGLN</b-form-select-option>
+            <b-form-select-option
+              v-for="option in identifierOptions"
+              :key="option.value"
+              :value="option.value"
+              :disabled="option.disabled"
+              :selected="option.selected"
+            >
+              {{ option.text }}
+            </b-form-select-option>
           </b-form-select>
         </span>
       </div>
@@ -112,10 +116,22 @@
 export default {
   data () {
     return {
+      typeOptions: [
+        { value: null, text: 'Select Type', disabled: true, selected: true },
+        { value: 'OWNING_PARTY', text: 'Owning Party (CBV)', disabled: false, selected: false },
+        { value: 'PROCESSING_PARTY', text: 'Processing Party (CBV)', disabled: false, selected: false },
+        { value: 'LOCATION', text: 'Location (CBV)', disabled: false, selected: false },
+        { value: 'OTHER', text: 'Other', disabled: false, selected: false }
+      ],
+      identifierOptions: [
+        { value: null, text: 'Select Identifier Type', disabled: true, selected: true },
+        { value: 'SGLN', text: 'SGLN', disabled: false, selected: false },
+        { value: 'PGLN', text: 'PGLN', disabled: false, selected: false }
+      ],
       dropdownValues: {},
       sourceDestination: {
-        type: 'OWNING_PARTY',
-        glnType: 'SGLN',
+        type: null,
+        glnType: null,
         gcpLength: null
       }
     }

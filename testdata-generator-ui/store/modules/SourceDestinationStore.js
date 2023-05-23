@@ -104,12 +104,12 @@ export const mutations = {
 
   // During modification Nodeevent info populate the SourceDestination store info with raw data
   populateRawData (state, payload) {
-    state.sources = payload.sources !== undefined ? payload.sources : []
-    state.destinations = payload.destinations !== undefined ? payload.destinations : []
+    state.sources = payload.sources !== undefined && Array.isArray(payload.sources) ? payload.sources : []
+    state.destinations = payload.destinations !== undefined && Array.isArray(payload.destinations) ? payload.destinations : []
 
     // Update the counter values for addition of the next values do not conflict with existing values
-    state.sourceCount = state.sources.length > 0 ? state.sources.at(-1).ID + 1 : 0
-    state.destinationCount = state.destinations.length > 0 ? state.destinations.at(-1).ID + 1 : 0
+    state.sourceCount = state.sources.length > 0 && Array.isArray(payload.sources) ? state.sources.at(-1).ID + 1 : 0
+    state.destinationCount = state.destinations.length > 0 && Array.isArray(payload.destinations) ? state.destinations.at(-1).ID + 1 : 0
   },
 
   resetCurrentSourceDestination (state) {
