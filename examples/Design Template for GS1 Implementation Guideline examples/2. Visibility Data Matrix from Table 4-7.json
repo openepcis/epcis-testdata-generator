@@ -348,8 +348,9 @@
             "instanceData": {
                 "identifierType": "sscc",
                 "gcpLength": 7,
-                "serialType": "random",
-                "gcp": "234567"
+                "serialType": "range",
+                "gcp": "234567",
+                "rangeFrom": 1
             }
         },
         {
@@ -359,7 +360,8 @@
                 "identifierType": "sscc",
                 "gcpLength": 7,
                 "gcp": "1234567",
-                "serialType": "random"
+                "serialType": "range",
+                "rangeFrom": 1
             }
         }
     ],
@@ -387,28 +389,6 @@
             "quantity": 0
         },
         {
-            "ID": 3,
-            "name": "connector3",
-            "source": "2",
-            "target": "4",
-            "hideInheritParentCount": false,
-            "epcCount": 1,
-            "inheritParentCount": 0,
-            "classCount": 0,
-            "quantity": 0
-        },
-        {
-            "ID": 5,
-            "name": "connector5",
-            "source": "4",
-            "target": "5",
-            "hideInheritParentCount": false,
-            "epcCount": 1,
-            "inheritParentCount": 0,
-            "classCount": 0,
-            "quantity": 0
-        },
-        {
             "ID": 6,
             "name": "connector6",
             "source": "7",
@@ -423,6 +403,17 @@
             "hideInheritParentCount": true,
             "epcCount": 1,
             "inheritParentCount": 1,
+            "classCount": 0,
+            "quantity": 0
+        },
+        {
+            "ID": 1,
+            "name": "connector1",
+            "source": "2",
+            "target": "5",
+            "hideInheritParentCount": false,
+            "epcCount": 1,
+            "inheritParentCount": 0,
             "classCount": 0,
             "quantity": 0
         }
@@ -479,8 +470,8 @@
                             "output_1": {
                                 "connections": [
                                     {
-                                        "node": "4",
-                                        "output": "input_1"
+                                        "node": "5",
+                                        "output": "input_2"
                                     }
                                 ]
                             }
@@ -509,8 +500,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 378,
-                        "pos_y": 33
+                        "pos_x": 20,
+                        "pos_y": 386
                     },
                     "4": {
                         "id": 4,
@@ -528,26 +519,17 @@
                                     {
                                         "node": "3",
                                         "input": "output_1"
-                                    },
-                                    {
-                                        "node": "2",
-                                        "input": "output_1"
                                     }
                                 ]
                             }
                         },
                         "outputs": {
                             "output_1": {
-                                "connections": [
-                                    {
-                                        "node": "5",
-                                        "output": "input_2"
-                                    }
-                                ]
+                                "connections": []
                             }
                         },
-                        "pos_x": 565,
-                        "pos_y": 236
+                        "pos_x": 412,
+                        "pos_y": 427
                     },
                     "5": {
                         "id": 5,
@@ -571,7 +553,7 @@
                             "input_2": {
                                 "connections": [
                                     {
-                                        "node": "4",
+                                        "node": "2",
                                         "input": "output_1"
                                     }
                                 ]
@@ -587,8 +569,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 889,
-                        "pos_y": 228
+                        "pos_x": 544,
+                        "pos_y": 223
                     },
                     "7": {
                         "id": 7,
@@ -611,8 +593,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 704,
-                        "pos_y": 37
+                        "pos_x": 272,
+                        "pos_y": 32
                     },
                     "8": {
                         "id": 8,
@@ -639,8 +621,8 @@
                                 "connections": []
                             }
                         },
-                        "pos_x": 1152,
-                        "pos_y": 228
+                        "pos_x": 907,
+                        "pos_y": 222
                     }
                 }
             }
