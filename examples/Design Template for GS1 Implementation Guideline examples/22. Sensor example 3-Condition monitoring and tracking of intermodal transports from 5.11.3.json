@@ -258,20 +258,12 @@
                 },
                 "businessStep": "ARRIVING",
                 "disposition": null,
-                "sources": {
-                    "type": null,
-                    "glnType": "SGLN",
-                    "gcpLength": null
-                },
-                "destinations": {
-                    "type": null,
-                    "glnType": "SGLN",
-                    "gcpLength": null
-                },
+                "sources": [],
+                "destinations": [],
                 "eventID": false,
                 "eventIdType": "UUID",
                 "hashAlgorithm": "sha-256",
-                "action": "ADD",
+                "action": "OBSERVE",
                 "error": {
                     "ErrorTimeZone": "+02:00",
                     "ErrorDeclarationTimeSelector": "SpecificTime",
@@ -559,6 +551,91 @@
                 "ordinaryEvent": true,
                 "eventTimeSelector": "SpecificTime",
                 "eventTime": {
+                    "specificTime": "2022-06-25T23:59:59",
+                    "fromTime": "2023-03-14T21:10:57.000",
+                    "toTime": "2023-03-15T21:10:57.000",
+                    "timeZoneOffset": "-05:00"
+                },
+                "RecordTimeOption": "no",
+                "recordTimeType": "SAME_AS_EVENT_TIME",
+                "readpointselector": null,
+                "readPoint": {
+                    "gcpLength": null
+                },
+                "businesslocationselector": null,
+                "bizLocation": {
+                    "gcpLength": null
+                },
+                "businessStep": "SENSOR_REPORTING",
+                "disposition": null,
+                "sources": [],
+                "destinations": [],
+                "eventID": false,
+                "eventIdType": "UUID",
+                "hashAlgorithm": "sha-256",
+                "action": "OBSERVE",
+                "error": {
+                    "ErrorTimeZone": "+02:00",
+                    "ErrorDeclarationTimeSelector": "SpecificTime",
+                    "ErrorReasonType": null,
+                    "errorCorrectiveIdsList": [],
+                    "errorCorrectiveCount": 0,
+                    "ErrorDeclarationTime": "2023-03-15T21:10:57.000",
+                    "ErrorDeclarationTimeFrom": "2023-03-14T21:10:57.000",
+                    "ErrorDeclarationTimeTo": "2023-03-15T21:10:57.000",
+                    "errorExtensions": []
+                },
+                "persistentDispositionCount": 0,
+                "persistentDispositionList": [],
+                "bizTransactionCount": 0,
+                "businessTransactionList": [],
+                "sensorElementList": [
+                    {
+                        "sensorMetadata": {
+                            "startTime": "2022-06-24T23:59:59",
+                            "endTime": "2022-06-25T23:59:59"
+                        },
+                        "sensorReport": [
+                            {
+                                "type": "Temperature",
+                                "minValue": "5.6",
+                                "maxValue": "14.9",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Humidity",
+                                "minValue": "4.6",
+                                "maxValue": "3.3",
+                                "uom": "A93"
+                            }
+                        ],
+                        "ID": 0
+                    }
+                ],
+                "referencedIdentifier": [],
+                "outputReferencedIdentifier": [],
+                "parentReferencedIdentifier": {},
+                "userExtensions": [],
+                "ilmd": [],
+                "parentID": "",
+                "epcList": [],
+                "quantityList": [],
+                "outputEPCList": [],
+                "outputQuantityList": []
+            }
+        },
+        {
+            "eventId": 20,
+            "eventType": "ObjectEvent",
+            "eventInfo": {
+                "eventCount": 1,
+                "identifierSyntax": "URN",
+                "vocabularySyntax": "URN",
+                "eventType": "ObjectEvent",
+                "importEvent": false,
+                "ordinaryEvent": true,
+                "eventTimeSelector": "SpecificTime",
+                "eventTime": {
                     "specificTime": "2022-06-24T23:59:59",
                     "fromTime": "2023-03-14T20:34:31.000",
                     "toTime": "2023-03-15T20:34:31.000",
@@ -576,16 +653,8 @@
                 },
                 "businessStep": "SENSOR_REPORTING",
                 "disposition": null,
-                "sources": {
-                    "type": null,
-                    "glnType": "SGLN",
-                    "gcpLength": null
-                },
-                "destinations": {
-                    "type": null,
-                    "glnType": "SGLN",
-                    "gcpLength": null
-                },
+                "sources": [],
+                "destinations": [],
                 "eventID": false,
                 "eventIdType": "UUID",
                 "hashAlgorithm": "sha-256",
@@ -701,99 +770,17 @@
                             }
                         ],
                         "ID": 10
-                    }
-                ],
-                "referencedIdentifier": [],
-                "outputReferencedIdentifier": [],
-                "parentReferencedIdentifier": {},
-                "userExtensions": [],
-                "ilmd": [],
-                "parentID": "",
-                "epcList": [],
-                "quantityList": [],
-                "outputEPCList": [],
-                "outputQuantityList": []
-            }
-        },
-        {
-            "eventId": 20,
-            "eventType": "ObjectEvent",
-            "eventInfo": {
-                "eventCount": 1,
-                "identifierSyntax": "URN",
-                "vocabularySyntax": "URN",
-                "eventType": "ObjectEvent",
-                "importEvent": false,
-                "ordinaryEvent": true,
-                "eventTimeSelector": "SpecificTime",
-                "eventTime": {
-                    "specificTime": "2022-06-25T23:59:59",
-                    "fromTime": "2023-03-14T21:10:57.000",
-                    "toTime": "2023-03-15T21:10:57.000",
-                    "timeZoneOffset": "-05:00"
-                },
-                "RecordTimeOption": "no",
-                "recordTimeType": "SAME_AS_EVENT_TIME",
-                "readpointselector": null,
-                "readPoint": {
-                    "gcpLength": null
-                },
-                "businesslocationselector": null,
-                "bizLocation": {
-                    "gcpLength": null
-                },
-                "businessStep": "SENSOR_REPORTING",
-                "disposition": null,
-                "sources": {
-                    "type": null,
-                    "glnType": "SGLN",
-                    "gcpLength": null
-                },
-                "destinations": {
-                    "type": null,
-                    "glnType": "SGLN",
-                    "gcpLength": null
-                },
-                "eventID": false,
-                "eventIdType": "UUID",
-                "hashAlgorithm": "sha-256",
-                "action": "OBSERVE",
-                "error": {
-                    "ErrorTimeZone": "+02:00",
-                    "ErrorDeclarationTimeSelector": "SpecificTime",
-                    "ErrorReasonType": null,
-                    "errorCorrectiveIdsList": [],
-                    "errorCorrectiveCount": 0,
-                    "ErrorDeclarationTime": "2023-03-15T21:10:57.000",
-                    "ErrorDeclarationTimeFrom": "2023-03-14T21:10:57.000",
-                    "ErrorDeclarationTimeTo": "2023-03-15T21:10:57.000",
-                    "errorExtensions": []
-                },
-                "persistentDispositionCount": 0,
-                "persistentDispositionList": [],
-                "bizTransactionCount": 0,
-                "businessTransactionList": [],
-                "sensorElementList": [
+                    },
                     {
                         "sensorMetadata": {
-                            "startTime": "2022-06-24T23:59:59",
-                            "endTime": "2022-06-25T23:59:59"
+                            "time": "2023-06-25T02:00"
                         },
                         "sensorReport": [
                             {
-                                "type": "Temperature",
-                                "minValue": "5.6",
-                                "maxValue": "14.9",
-                                "uom": "CEL"
-                            },
-                            {
-                                "type": "Humidity",
-                                "minValue": "4.6",
-                                "maxValue": "3.3",
-                                "uom": "23"
+                                "uriValue": "https://example.org/8004/401234599999"
                             }
                         ],
-                        "ID": 0
+                        "ID": 11
                     }
                 ],
                 "referencedIdentifier": [],
@@ -887,11 +874,12 @@
             "instanceData": {
                 "identifierType": "sgtin",
                 "gcpLength": 7,
-                "serialType": "random",
+                "serialType": "range",
                 "sgtin": "15647771756587",
                 "randomType": "NUMERIC",
                 "randomMinLength": 1,
-                "randomMaxLength": 5
+                "randomMaxLength": 5,
+                "rangeFrom": 100
             }
         },
         {
@@ -901,7 +889,8 @@
                 "identifierType": "sscc",
                 "gcpLength": 7,
                 "gcp": "98779811",
-                "serialType": "random"
+                "serialType": "range",
+                "rangeFrom": 200
             }
         },
         {
@@ -920,7 +909,15 @@
                 "identifierType": "giai",
                 "gcpLength": 7,
                 "gcp": "198769879",
-                "serialType": "random"
+                "serialType": "range",
+                "rangeFrom": 100
+            },
+            "instanceData": {
+                "identifierType": "giai",
+                "gcpLength": 7,
+                "gcp": "198769879",
+                "serialType": "range",
+                "rangeFrom": 100
             }
         },
         {
@@ -929,8 +926,9 @@
             "parentData": {
                 "identifierType": "giai",
                 "gcpLength": 7,
-                "serialType": "random",
-                "gcp": "1765761"
+                "serialType": "range",
+                "gcp": "198769879",
+                "rangeFrom": 100
             }
         },
         {
@@ -941,6 +939,24 @@
                 "gcpLength": 7,
                 "imovnOption": "imovnOptionA",
                 "imovn": "1576711"
+            }
+        },
+        {
+            "identifiersId": 22,
+            "identifierSyntax": "URN",
+            "instanceData": {
+                "identifierType": "bic",
+                "gcpLength": null,
+                "bic": "uzuiq76699"
+            }
+        },
+        {
+            "identifiersId": 23,
+            "identifierSyntax": "URN",
+            "instanceData": {
+                "identifierType": "bic",
+                "gcpLength": null,
+                "bic": "uzuiq76699"
             }
         }
     ],
@@ -1016,7 +1032,7 @@
             "source": "9",
             "target": "15",
             "hideInheritParentCount": true,
-            "epcCount": 1,
+            "epcCount": 0,
             "inheritParentCount": 0,
             "classCount": 0,
             "quantity": 0
@@ -1062,9 +1078,9 @@
             "name": "connector2",
             "source": "15",
             "target": "16",
-            "hideInheritParentCount": true,
-            "epcCount": 0,
-            "inheritParentCount": 1,
+            "hideInheritParentCount": false,
+            "epcCount": 1,
+            "inheritParentCount": 0,
             "classCount": 0,
             "quantity": 0
         },
@@ -1074,7 +1090,7 @@
             "source": "19",
             "target": "20",
             "hideInheritParentCount": false,
-            "epcCount": 1,
+            "epcCount": 0,
             "inheritParentCount": 0,
             "classCount": 0,
             "quantity": 0
@@ -1084,6 +1100,28 @@
             "name": "connector4",
             "source": "20",
             "target": "21",
+            "hideInheritParentCount": false,
+            "epcCount": 1,
+            "inheritParentCount": 0,
+            "classCount": 0,
+            "quantity": 0
+        },
+        {
+            "ID": 1,
+            "name": "connector1",
+            "source": "22",
+            "target": "15",
+            "hideInheritParentCount": false,
+            "epcCount": 1,
+            "inheritParentCount": 0,
+            "classCount": 0,
+            "quantity": 0
+        },
+        {
+            "ID": 1,
+            "name": "connector1",
+            "source": "23",
+            "target": "20",
             "hideInheritParentCount": false,
             "epcCount": 1,
             "inheritParentCount": 0,
@@ -1368,8 +1406,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 1084,
-                        "pos_y": 61
+                        "pos_x": 1081,
+                        "pos_y": 54
                     },
                     "15": {
                         "id": 15,
@@ -1394,6 +1432,10 @@
                                 "connections": [
                                     {
                                         "node": "9",
+                                        "input": "output_1"
+                                    },
+                                    {
+                                        "node": "22",
                                         "input": "output_1"
                                     }
                                 ]
@@ -1559,6 +1601,10 @@
                                     {
                                         "node": "19",
                                         "input": "output_1"
+                                    },
+                                    {
+                                        "node": "23",
+                                        "input": "output_1"
                                     }
                                 ]
                             }
@@ -1603,6 +1649,54 @@
                         },
                         "pos_x": 1165,
                         "pos_y": 481
+                    },
+                    "22": {
+                        "id": 22,
+                        "name": "Identifiers",
+                        "data": {
+                            "ID": 22,
+                            "eventType": "Identifiers"
+                        },
+                        "class": "Identifiers",
+                        "html": "Identifiers",
+                        "typenode": "vue",
+                        "inputs": {},
+                        "outputs": {
+                            "output_1": {
+                                "connections": [
+                                    {
+                                        "node": "15",
+                                        "output": "input_2"
+                                    }
+                                ]
+                            }
+                        },
+                        "pos_x": 1022,
+                        "pos_y": 278
+                    },
+                    "23": {
+                        "id": 23,
+                        "name": "Identifiers",
+                        "data": {
+                            "ID": 23,
+                            "eventType": "Identifiers"
+                        },
+                        "class": "Identifiers",
+                        "html": "Identifiers",
+                        "typenode": "vue",
+                        "inputs": {},
+                        "outputs": {
+                            "output_1": {
+                                "connections": [
+                                    {
+                                        "node": "20",
+                                        "output": "input_1"
+                                    }
+                                ]
+                            }
+                        },
+                        "pos_x": 698,
+                        "pos_y": 653
                     }
                 }
             }

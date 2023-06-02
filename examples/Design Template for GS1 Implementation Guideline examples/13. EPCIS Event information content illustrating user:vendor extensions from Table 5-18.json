@@ -30,16 +30,8 @@
                 },
                 "businessStep": "INSPECTING",
                 "disposition": "IN_PROGRESS",
-                "sources": {
-                    "type": null,
-                    "glnType": "SGLN",
-                    "gcpLength": null
-                },
-                "destinations": {
-                    "type": null,
-                    "glnType": "SGLN",
-                    "gcpLength": null
-                },
+                "sources": [],
+                "destinations": [],
                 "eventID": false,
                 "eventIdType": "UUID",
                 "hashAlgorithm": "sha-256",
@@ -68,7 +60,7 @@
                         "type": "userExtension",
                         "element": "extensionElement",
                         "dataType": "string",
-                        "namespace": "myvoc",
+                        "namespace": "http://epcis.example.org/myvoc",
                         "localName": "inspector_badge_nr",
                         "text": "244301128",
                         "complex": null,

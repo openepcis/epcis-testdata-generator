@@ -392,7 +392,7 @@
       }
     },
     {
-      "identifiersId": 15,
+      "identifiersId": 14,
       "identifierSyntax": "URN",
       "instanceData": {
         "identifierType": "sgtin",
@@ -403,33 +403,19 @@
       }
     },
     {
-      "identifiersId": 16,
+      "identifiersId": 15,
       "identifierSyntax": "URN",
-      "instanceData": {
-        "identifierType": "sscc",
-        "gcpLength": 7,
-        "gcp": "6514232222",
-        "serialType": "range",
-        "rangeFrom": 200
-      },
       "parentData": {
         "identifierType": "sscc",
         "gcpLength": 7,
-        "gcp": "6514232222",
         "serialType": "range",
+        "gcp": "6514232222",
         "rangeFrom": 200
       }
     },
     {
-      "identifiersId": 17,
+      "identifiersId": 16,
       "identifierSyntax": "URN",
-      "instanceData": {
-        "identifierType": "sscc",
-        "gcpLength": 7,
-        "gcp": "6514232222",
-        "serialType": "range",
-        "rangeFrom": 200
-      },
       "parentData": {
         "identifierType": "sscc",
         "gcpLength": 7,
@@ -466,6 +452,17 @@
       "hideInheritParentCount": false
     },
     {
+      "ID": 6,
+      "name": "connector6",
+      "source": "5",
+      "target": "6",
+      "hideInheritParentCount": false,
+      "epcCount": 0,
+      "inheritParentCount": 0,
+      "classCount": 0,
+      "quantity": 0
+    },
+    {
       "ID": 1,
       "name": "connector1",
       "source": "3",
@@ -490,7 +487,18 @@
     {
       "ID": 2,
       "name": "connector2",
-      "source": "15",
+      "source": "6",
+      "target": "13",
+      "hideInheritParentCount": true,
+      "epcCount": 0,
+      "inheritParentCount": 0,
+      "classCount": 0,
+      "quantity": 0
+    },
+    {
+      "ID": 1,
+      "name": "connector1",
+      "source": "14",
       "target": "6",
       "hideInheritParentCount": true,
       "epcCount": 5,
@@ -499,17 +507,17 @@
       "quantity": 0
     },
     {
+      "ID": 2,
+      "name": "connector2",
+      "source": "15",
+      "target": "12",
+      "hideInheritParentCount": false
+    },
+    {
       "ID": 3,
       "name": "connector3",
       "source": "16",
       "target": "13",
-      "hideInheritParentCount": false
-    },
-    {
-      "ID": 4,
-      "name": "connector4",
-      "source": "17",
-      "target": "12",
       "hideInheritParentCount": false
     }
   ],
@@ -579,8 +587,8 @@
                 ]
               }
             },
-            "pos_x": 276,
-            "pos_y": 237
+            "pos_x": 285,
+            "pos_y": 227
           },
           "3": {
             "id": 3,
@@ -628,11 +636,16 @@
             },
             "outputs": {
               "output_1": {
-                "connections": []
+                "connections": [
+                  {
+                    "node": "6",
+                    "output": "input_2"
+                  }
+                ]
               }
             },
             "pos_x": 511,
-            "pos_y": 235
+            "pos_y": 223
           },
           "6": {
             "id": 6,
@@ -650,13 +663,17 @@
                   {
                     "node": "7",
                     "input": "output_1"
+                  },
+                  {
+                    "node": "14",
+                    "input": "output_1"
                   }
                 ]
               },
               "input_2": {
                 "connections": [
                   {
-                    "node": "15",
+                    "node": "5",
                     "input": "output_1"
                   }
                 ]
@@ -668,12 +685,16 @@
                   {
                     "node": "12",
                     "output": "input_2"
+                  },
+                  {
+                    "node": "13",
+                    "output": "input_1"
                   }
                 ]
               }
             },
-            "pos_x": 780,
-            "pos_y": 241
+            "pos_x": 784,
+            "pos_y": 240
           },
           "7": {
             "id": 7,
@@ -696,8 +717,8 @@
                 ]
               }
             },
-            "pos_x": 509,
-            "pos_y": 72
+            "pos_x": 510,
+            "pos_y": 50
           },
           "12": {
             "id": 12,
@@ -713,7 +734,7 @@
               "input_1": {
                 "connections": [
                   {
-                    "node": "17",
+                    "node": "15",
                     "input": "output_1"
                   }
                 ]
@@ -749,6 +770,10 @@
               "input_1": {
                 "connections": [
                   {
+                    "node": "6",
+                    "input": "output_1"
+                  },
+                  {
                     "node": "16",
                     "input": "output_1"
                   }
@@ -766,11 +791,11 @@
             "pos_x": 1069,
             "pos_y": 291
           },
-          "15": {
-            "id": 15,
+          "14": {
+            "id": 14,
             "name": "Identifiers",
             "data": {
-              "ID": 15,
+              "ID": 14,
               "eventType": "Identifiers"
             },
             "class": "Identifiers",
@@ -782,13 +807,37 @@
                 "connections": [
                   {
                     "node": "6",
-                    "output": "input_2"
+                    "output": "input_1"
                   }
                 ]
               }
             },
-            "pos_x": 505,
-            "pos_y": 401
+            "pos_x": 515,
+            "pos_y": 378
+          },
+          "15": {
+            "id": 15,
+            "name": "ParentIdentifiers",
+            "data": {
+              "ID": 15,
+              "eventType": "ParentID"
+            },
+            "class": "ParentID",
+            "html": "ParentIdentifiers",
+            "typenode": "vue",
+            "inputs": {},
+            "outputs": {
+              "output_1": {
+                "connections": [
+                  {
+                    "node": "12",
+                    "output": "input_1"
+                  }
+                ]
+              }
+            },
+            "pos_x": 785,
+            "pos_y": 75
           },
           "16": {
             "id": 16,
@@ -811,32 +860,8 @@
                 ]
               }
             },
-            "pos_x": 774,
-            "pos_y": 416
-          },
-          "17": {
-            "id": 17,
-            "name": "ParentIdentifiers",
-            "data": {
-              "ID": 17,
-              "eventType": "ParentID"
-            },
-            "class": "ParentID",
-            "html": "ParentIdentifiers",
-            "typenode": "vue",
-            "inputs": {},
-            "outputs": {
-              "output_1": {
-                "connections": [
-                  {
-                    "node": "12",
-                    "output": "input_1"
-                  }
-                ]
-              }
-            },
-            "pos_x": 783,
-            "pos_y": 45
+            "pos_x": 795,
+            "pos_y": 391
           }
         }
       }
