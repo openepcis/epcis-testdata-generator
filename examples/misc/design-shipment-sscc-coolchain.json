@@ -493,7 +493,7 @@
             "identifiersId": 14,
             "identifierSyntax": "WebURI",
             "parentData": {
-                "identifierType": "giai",
+                "identifierType": "sscc",
                 "gcpLength": null,
                 "gcp": "4068194",
                 "serialType": "range",
