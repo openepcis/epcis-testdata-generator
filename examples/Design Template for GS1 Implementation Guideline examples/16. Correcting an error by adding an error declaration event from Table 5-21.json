@@ -33,24 +33,12 @@
                 },
                 "businessStep": "DESTROYING",
                 "disposition": "DESTROYED",
-                "sources": {
-                    "type": "OWNING_PARTY",
-                    "glnType": "SGLN",
-                    "gcpLength": 7,
-                    "gln": "8761868167816",
-                    "extension": "1118787871871"
-                },
-                "destinations": {
-                    "type": "OWNING_PARTY",
-                    "glnType": "SGLN",
-                    "gcpLength": 7,
-                    "gln": "9871186675126",
-                    "extension": "5715817517651"
-                },
+                "sources": [],
+                "destinations": [],
                 "eventID": false,
                 "eventIdType": "UUID",
                 "hashAlgorithm": "sha-256",
-                "action": "OBSERVE",
+                "action": "DELETE",
                 "error": {
                     "ErrorTimeZone": "+02:00",
                     "ErrorDeclarationTimeSelector": "SpecificTime",
@@ -96,7 +84,7 @@
                     "toTime": "2023-03-13T18:11:49.000",
                     "timeZoneOffset": "-05:00"
                 },
-                "RecordTimeOption": "yes",
+                "RecordTimeOption": "no",
                 "recordTimeType": "SAME_AS_EVENT_TIME",
                 "readpointselector": "SGLN",
                 "readPoint": {
@@ -116,20 +104,8 @@
                 },
                 "businessStep": "DESTROYING",
                 "disposition": "DESTROYED",
-                "sources": {
-                    "type": "OWNING_PARTY",
-                    "glnType": "SGLN",
-                    "gcpLength": 7,
-                    "gln": "8761868167816",
-                    "extension": "1118787871871"
-                },
-                "destinations": {
-                    "type": "OWNING_PARTY",
-                    "glnType": "SGLN",
-                    "gcpLength": 7,
-                    "gln": "9871186675126",
-                    "extension": "5715817517651"
-                },
+                "sources": [],
+                "destinations": [],
                 "eventID": false,
                 "eventIdType": "UUID",
                 "hashAlgorithm": "sha-256",
@@ -228,8 +204,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 15,
-                        "pos_y": 28
+                        "pos_x": 121,
+                        "pos_y": 79
                     },
                     "2": {
                         "id": 2,
@@ -261,8 +237,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 440,
-                        "pos_y": 113
+                        "pos_x": 386,
+                        "pos_y": 119
                     },
                     "3": {
                         "id": 3,
@@ -289,8 +265,8 @@
                                 "connections": []
                             }
                         },
-                        "pos_x": 656,
-                        "pos_y": 108
+                        "pos_x": 658,
+                        "pos_y": 117
                     }
                 }
             }

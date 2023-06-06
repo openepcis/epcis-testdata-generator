@@ -11,7 +11,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.PostConstruct;
@@ -33,6 +34,9 @@ public class StreamingEPCISDocumentWriter implements MessageBodyWriter<Streaming
   private final ObjectMapper objectMapper;
 
   private final JsonFactory factory = new JsonFactory();
+
+  private final DateTimeFormatter formatter =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
 
   @PostConstruct
   public void postConstruct() {
@@ -122,7 +126,8 @@ public class StreamingEPCISDocumentWriter implements MessageBodyWriter<Streaming
                   // Write Other header fields of JSON
                   jsonGenerator.writeStringField("type", "EPCISDocument");
                   jsonGenerator.writeStringField("schemaVersion", "2.0");
-                  jsonGenerator.writeStringField("creationDate", Instant.now().toString());
+                  jsonGenerator.writeStringField(
+                      "creationDate", formatter.format(ZonedDateTime.now()));
 
                   // Start epcisBody object
                   jsonGenerator.writeFieldName("epcisBody");

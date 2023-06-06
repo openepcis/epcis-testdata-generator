@@ -33,24 +33,62 @@
                 },
                 "businessStep": "SHIPPING",
                 "disposition": "IN_TRANSIT",
-                "sources": {
-                    "type": "OWNING_PARTY",
-                    "glnType": "SGLN",
-                    "gcpLength": 7,
-                    "gln": "1576157617157",
-                    "extension": "1"
-                },
-                "destinations": {
-                    "type": "OWNING_PARTY",
-                    "glnType": "SGLN",
-                    "gcpLength": 7,
-                    "gln": "8767868768769",
-                    "extension": "2"
-                },
+                "sources": [
+                    {
+                        "type": "OWNING_PARTY",
+                        "glnType": "SGLN",
+                        "gcpLength": 7,
+                        "gln": "7548748374384",
+                        "extension": "100",
+                        "ID": 0
+                    },
+                    {
+                        "type": "PROCESSING_PARTY",
+                        "glnType": "SGLN",
+                        "gcpLength": 7,
+                        "gln": "6347463677646",
+                        "extension": "4673",
+                        "ID": 1
+                    },
+                    {
+                        "type": "LOCATION",
+                        "glnType": null,
+                        "gcpLength": 10,
+                        "gln": "6743746673634",
+                        "extension": "6372",
+                        "ID": 2
+                    }
+                ],
+                "destinations": [
+                    {
+                        "type": "OWNING_PARTY",
+                        "glnType": "SGLN",
+                        "gcpLength": 7,
+                        "gln": "6746736767376",
+                        "extension": "100",
+                        "ID": 0
+                    },
+                    {
+                        "type": "PROCESSING_PARTY",
+                        "glnType": "SGLN",
+                        "gcpLength": 7,
+                        "gln": "6746736767376",
+                        "extension": "200",
+                        "ID": 1
+                    },
+                    {
+                        "type": "LOCATION",
+                        "glnType": null,
+                        "gcpLength": 7,
+                        "extension": "300",
+                        "gln": "6746736767376",
+                        "ID": 2
+                    }
+                ],
                 "eventID": false,
                 "eventIdType": "UUID",
                 "hashAlgorithm": "sha-256",
-                "action": "ADD",
+                "action": "OBSERVE",
                 "error": {
                     "ErrorTimeZone": "+02:00",
                     "ErrorDeclarationTimeSelector": "SpecificTime",
@@ -116,20 +154,58 @@
                 },
                 "businessStep": "ARRIVING",
                 "disposition": "IN_PROGRESS",
-                "sources": {
-                    "type": "OWNING_PARTY",
-                    "glnType": "SGLN",
-                    "gcpLength": 7,
-                    "gln": "1687618618616",
-                    "extension": "1"
-                },
-                "destinations": {
-                    "type": "OWNING_PARTY",
-                    "glnType": "SGLN",
-                    "gcpLength": 7,
-                    "gln": "9877197179817",
-                    "extension": "1"
-                },
+                "sources": [
+                    {
+                        "type": "OWNING_PARTY",
+                        "glnType": "SGLN",
+                        "gcpLength": 7,
+                        "gln": "6743643665345",
+                        "extension": "100",
+                        "ID": 0
+                    },
+                    {
+                        "type": "PROCESSING_PARTY",
+                        "glnType": "SGLN",
+                        "gcpLength": 7,
+                        "gln": "6743643665345",
+                        "extension": "200",
+                        "ID": 1
+                    },
+                    {
+                        "type": "LOCATION",
+                        "glnType": null,
+                        "gcpLength": 7,
+                        "gln": "6743643665345",
+                        "extension": "300",
+                        "ID": 2
+                    }
+                ],
+                "destinations": [
+                    {
+                        "type": "OWNING_PARTY",
+                        "glnType": "SGLN",
+                        "gcpLength": 7,
+                        "gln": "4345345345543",
+                        "extension": "100",
+                        "ID": 0
+                    },
+                    {
+                        "type": "OWNING_PARTY",
+                        "glnType": "SGLN",
+                        "gcpLength": 7,
+                        "gln": "4345345345543",
+                        "extension": "200",
+                        "ID": 1
+                    },
+                    {
+                        "type": "LOCATION",
+                        "glnType": null,
+                        "gcpLength": 7,
+                        "gln": "4345345345543",
+                        "extension": "300",
+                        "ID": 2
+                    }
+                ],
                 "eventID": false,
                 "eventIdType": "UUID",
                 "hashAlgorithm": "sha-256",
@@ -225,8 +301,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 159,
-                        "pos_y": 54
+                        "pos_x": 135,
+                        "pos_y": 149
                     },
                     "2": {
                         "id": 2,
@@ -286,8 +362,8 @@
                                 "connections": []
                             }
                         },
-                        "pos_x": 707,
-                        "pos_y": 181
+                        "pos_x": 708,
+                        "pos_y": 190
                     }
                 }
             }

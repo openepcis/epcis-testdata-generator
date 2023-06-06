@@ -33,16 +33,8 @@
                 },
                 "businessStep": "INSPECTING",
                 "disposition": "CONFORMANT",
-                "sources": {
-                    "type": null,
-                    "glnType": "SGLN",
-                    "gcpLength": null
-                },
-                "destinations": {
-                    "type": null,
-                    "glnType": "SGLN",
-                    "gcpLength": null
-                },
+                "sources": [],
+                "destinations": [],
                 "eventID": false,
                 "eventIdType": "UUID",
                 "hashAlgorithm": "sha-256",
@@ -65,27 +57,29 @@
                     {
                         "ID": 0,
                         "type": "testprd",
-                        "bizTransaction": "QUZTUZTU"
+                        "bizTransaction": "urn:epc:id:gdti:7473847783.78.100"
                     },
                     {
                         "ID": 1,
                         "type": "testres",
-                        "bizTransaction": "SUCCESSFUL"
+                        "bizTransaction": "urn:epc:id:gdti:7473847783.78.300"
                     }
                 ],
                 "sensorElementList": [
                     {
                         "sensorMetadata": {
-                            "deviceID": "GIAI"
+                            "deviceID": "urn:epc:id:giai:78437483.100"
                         },
                         "sensorReport": [
                             {
                                 "type": "Dimensionless_concentration",
-                                "value": "18"
+                                "value": "18",
+                                "microorganism": "https://wwww.ncbi.nlm.nih.gov/1118236%20T"
                             },
                             {
                                 "type": "Dimensionless_concentration",
-                                "value": "10.1"
+                                "value": "10.1",
+                                "microorganism": "https://identifiers.org/inchikey:CZMRCDWAGMR"
                             }
                         ],
                         "ID": 0
@@ -125,9 +119,9 @@
             "source": "2",
             "target": "1",
             "hideInheritParentCount": false,
-            "epcCount": 1,
+            "epcCount": 0,
             "inheritParentCount": 0,
-            "classCount": 0,
+            "classCount": 1,
             "quantity": 0
         }
     ],

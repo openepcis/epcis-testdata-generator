@@ -33,20 +33,26 @@
                 },
                 "businessStep": "SHIPPING",
                 "disposition": "IN_TRANSIT",
-                "sources": {
-                    "type": "OWNING_PARTY",
-                    "glnType": "SGLN",
-                    "gcpLength": 7,
-                    "gln": "8761868167816",
-                    "extension": "1118787871871"
-                },
-                "destinations": {
-                    "type": "OWNING_PARTY",
-                    "glnType": "SGLN",
-                    "gcpLength": 7,
-                    "gln": "9871186675126",
-                    "extension": "5715817517651"
-                },
+                "sources": [
+                    {
+                        "type": "OWNING_PARTY",
+                        "glnType": "SGLN",
+                        "gcpLength": 7,
+                        "gln": "6743667437643",
+                        "extension": "100",
+                        "ID": 0
+                    }
+                ],
+                "destinations": [
+                    {
+                        "type": "OWNING_PARTY",
+                        "glnType": "SGLN",
+                        "gcpLength": 7,
+                        "gln": "6743667437643",
+                        "extension": "200",
+                        "ID": 0
+                    }
+                ],
                 "eventID": false,
                 "eventIdType": "UUID",
                 "hashAlgorithm": "sha-256",
@@ -112,20 +118,26 @@
                 },
                 "businessStep": "SHIPPING",
                 "disposition": "IN_TRANSIT",
-                "sources": {
-                    "type": "OWNING_PARTY",
-                    "glnType": "SGLN",
-                    "gcpLength": 7,
-                    "gln": "8761868167816",
-                    "extension": "1118787871871"
-                },
-                "destinations": {
-                    "type": "OWNING_PARTY",
-                    "glnType": "SGLN",
-                    "gcpLength": 7,
-                    "gln": "9871186675126",
-                    "extension": "5715817517651"
-                },
+                "sources": [
+                    {
+                        "type": "OWNING_PARTY",
+                        "glnType": "SGLN",
+                        "gcpLength": 7,
+                        "gln": "6743667437643",
+                        "extension": "100",
+                        "ID": 0
+                    }
+                ],
+                "destinations": [
+                    {
+                        "type": "OWNING_PARTY",
+                        "glnType": "SGLN",
+                        "gcpLength": 7,
+                        "gln": "6743667437643",
+                        "extension": "200",
+                        "ID": 0
+                    }
+                ],
                 "eventID": false,
                 "eventIdType": "UUID",
                 "hashAlgorithm": "sha-256",
@@ -173,20 +185,6 @@
                 "randomMaxLength": 5,
                 "rangeFrom": 101
             }
-        },
-        {
-            "identifiersId": 4,
-            "identifierSyntax": "URN",
-            "instanceData": {
-                "identifierType": "sgtin",
-                "gcpLength": 7,
-                "sgtin": "16751567157157",
-                "serialType": "range",
-                "randomType": "NUMERIC",
-                "randomMinLength": 1,
-                "randomMaxLength": 5,
-                "rangeFrom": 104
-            }
         }
     ],
     "connectorsInfo": [
@@ -202,9 +200,9 @@
             "quantity": 0
         },
         {
-            "ID": 3,
-            "name": "connector3",
-            "source": "4",
+            "ID": 1,
+            "name": "connector1",
+            "source": "1",
             "target": "3",
             "hideInheritParentCount": false,
             "epcCount": 1,
@@ -234,12 +232,16 @@
                                     {
                                         "node": "2",
                                         "output": "input_1"
+                                    },
+                                    {
+                                        "node": "3",
+                                        "output": "input_1"
                                     }
                                 ]
                             }
                         },
-                        "pos_x": 15,
-                        "pos_y": 28
+                        "pos_x": 19,
+                        "pos_y": 179
                     },
                     "2": {
                         "id": 2,
@@ -266,8 +268,8 @@
                                 "connections": []
                             }
                         },
-                        "pos_x": 440,
-                        "pos_y": 113
+                        "pos_x": 453,
+                        "pos_y": 116
                     },
                     "3": {
                         "id": 3,
@@ -283,7 +285,7 @@
                             "input_1": {
                                 "connections": [
                                     {
-                                        "node": "4",
+                                        "node": "1",
                                         "input": "output_1"
                                     }
                                 ]
@@ -294,32 +296,8 @@
                                 "connections": []
                             }
                         },
-                        "pos_x": 237,
-                        "pos_y": 389
-                    },
-                    "4": {
-                        "id": 4,
-                        "name": "Identifiers",
-                        "data": {
-                            "ID": 4,
-                            "eventType": "Identifiers"
-                        },
-                        "class": "Identifiers",
-                        "html": "Identifiers",
-                        "typenode": "vue",
-                        "inputs": {},
-                        "outputs": {
-                            "output_1": {
-                                "connections": [
-                                    {
-                                        "node": "3",
-                                        "output": "input_1"
-                                    }
-                                ]
-                            }
-                        },
-                        "pos_x": 23,
-                        "pos_y": 300
+                        "pos_x": 462,
+                        "pos_y": 323
                     }
                 }
             }
