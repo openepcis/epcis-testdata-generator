@@ -23,20 +23,28 @@ export const state = () => ({
 export const mutations = {
   jsonPreparation (state, payload) {
     const offset = new Date().getTimezoneOffset()
-    const utcOffset = (offset < 0 ? '+' : '-') + ('00' + Math.floor(Math.abs(offset) / 60)).slice(-2) + ':' + ('00' + (Math.abs(offset) % 60)).slice(-2)
+    const utcOffset =
+      (offset < 0 ? '+' : '-') +
+      ('00' + Math.floor(Math.abs(offset) / 60)).slice(-2) +
+      ':' +
+      ('00' + (Math.abs(offset) % 60)).slice(-2)
 
     const events = []
 
     for (const parentNode in payload.eventsData) {
       const parentNodeInfo = payload.eventsData[parentNode]
-      let parentObj = { nodeId: parentNodeInfo.eventId, eventType: parentNodeInfo.eventType }
+      let parentObj = {
+        nodeId: parentNodeInfo.eventId,
+        eventType: parentNodeInfo.eventType
+      }
 
       // Add all the children and parent event node info data to the parent
       parentObj.parent = parentNodeInfo.parent
       parentObj.children = parentNodeInfo.children
 
       // Extract all other information and format them and then add it to the
-      const parentEventData = parentNodeInfo.formData[Object.keys(parentNodeInfo.formData)[0]]
+      const parentEventData =
+        parentNodeInfo.formData[Object.keys(parentNodeInfo.formData)[0]]
 
       if (parentEventData !== undefined) {
         const parentFormData = {
@@ -50,11 +58,20 @@ export const mutations = {
 
         // Based on the eventId set the type of eventId and Hash Algorithm
         if (parentEventData.eventID) {
-          parentFormData.eventIdType = parentEventData.eventIdType !== undefined ? parentEventData.eventIdType : 'UUID'
+          parentFormData.eventIdType =
+            parentEventData.eventIdType !== undefined
+              ? parentEventData.eventIdType
+              : 'UUID'
 
           // For Hash Algorithm set the hashAlgorithmType
-          if (parentEventData.eventIdType !== undefined && parentEventData.eventIdType === 'HashId') {
-            parentFormData.hashAlgorithm = parentEventData.hashAlgorithm !== undefined ? parentEventData.hashAlgorithm : 'sha-256'
+          if (
+            parentEventData.eventIdType !== undefined &&
+            parentEventData.eventIdType === 'HashId'
+          ) {
+            parentFormData.hashAlgorithm =
+              parentEventData.hashAlgorithm !== undefined
+                ? parentEventData.hashAlgorithm
+                : 'sha-256'
           }
         }
 
@@ -63,7 +80,8 @@ export const mutations = {
         eventTime.timeZoneOffset = parentEventData.eventTime.timeZoneOffset
         if (parentEventData.eventTimeSelector === 'SpecificTime') {
           // If the seconds is not provided then add along with offset
-          eventTime.specificTime = parentEventData.eventTime.specificTime + utcOffset
+          eventTime.specificTime =
+            parentEventData.eventTime.specificTime + utcOffset
         } else {
           eventTime.fromTime = parentEventData.eventTime.fromTime + utcOffset
           eventTime.toTime = parentEventData.eventTime.toTime + utcOffset
@@ -94,7 +112,10 @@ export const mutations = {
         }
 
         // Check if the readPoint value has been provided if so add to TestData input
-        if (parentEventData.readpointselector != null && parentEventData.readpointselector !== 'null') {
+        if (
+          parentEventData.readpointselector != null &&
+          parentEventData.readpointselector !== 'null'
+        ) {
           if (parentEventData.readpointselector === 'SGLN') {
             parentFormData.readPoint = parentEventData.readPoint
           } else {
@@ -105,7 +126,10 @@ export const mutations = {
         }
 
         // Check if bizLocation value has been provided if so add it to Test data input
-        if (parentEventData.businesslocationselector != null && parentEventData.businesslocationselector !== 'null') {
+        if (
+          parentEventData.businesslocationselector != null &&
+          parentEventData.businesslocationselector !== 'null'
+        ) {
           if (parentEventData.businesslocationselector === 'SGLN') {
             parentFormData.bizLocation = parentEventData.bizLocation
           } else {
@@ -121,11 +145,17 @@ export const mutations = {
           const declarationTime = {}
 
           // Set the error declaration time
-          if (parentEventData.error.ErrorDeclarationTimeSelector === 'SpecificTime') {
-            declarationTime.specificTime = parentEventData.error.ErrorDeclarationTime + utcOffset
+          if (
+            parentEventData.error.ErrorDeclarationTimeSelector ===
+            'SpecificTime'
+          ) {
+            declarationTime.specificTime =
+              parentEventData.error.ErrorDeclarationTime + utcOffset
           } else {
-            declarationTime.fromTime = parentEventData.error.ErrorDeclarationTimeFrom + utcOffset
-            declarationTime.toTime = parentEventData.error.ErrorDeclarationTimeTo + utcOffset
+            declarationTime.fromTime =
+              parentEventData.error.ErrorDeclarationTimeFrom + utcOffset
+            declarationTime.toTime =
+              parentEventData.error.ErrorDeclarationTimeTo + utcOffset
           }
           declarationTime.timeZoneOffset = parentEventData.error.ErrorTimeZone
           errorDeclaration.declarationTime = declarationTime
@@ -133,23 +163,32 @@ export const mutations = {
           // Set the declarationReason
           if (parentEventData.error.ErrorReasonType !== 'Other') {
             if (parentEventData.error.ErrorReasonType !== null) {
-              errorDeclaration.declarationReason = parentEventData.error.ErrorReasonType
+              errorDeclaration.declarationReason =
+                parentEventData.error.ErrorReasonType
             }
           } else {
-            errorDeclaration.declarationReason = parentEventData.error.ErrorReasonOther
+            errorDeclaration.declarationReason =
+              parentEventData.error.ErrorReasonOther
           }
 
           // Add the Error corrective ids
-          if (parentEventData.error.errorCorrectiveIdsList !== undefined && parentEventData.error.errorCorrectiveIdsList.length > 0) {
+          if (
+            parentEventData.error.errorCorrectiveIdsList !== undefined &&
+            parentEventData.error.errorCorrectiveIdsList.length > 0
+          ) {
             const correctiveIds = []
-            for (const correctiveID of parentEventData.error.errorCorrectiveIdsList) {
+            for (const correctiveID of parentEventData.error
+              .errorCorrectiveIdsList) {
               correctiveIds.push(correctiveID.value)
             }
             errorDeclaration.correctiveIds = correctiveIds
           }
 
           // Add the Error extensions if user has provided them
-          if (parentEventData.error.errorExtensions !== undefined && parentEventData.error.errorExtensions.length > 0) {
+          if (
+            parentEventData.error.errorExtensions !== undefined &&
+            parentEventData.error.errorExtensions.length > 0
+          ) {
             errorDeclaration.extensions = parentEventData.error.errorExtensions
           }
 
@@ -177,30 +216,41 @@ export const mutations = {
 
         // Check if BizTransactions values have been provided if so add it to the Test data input
         if (parentEventData.businessTransactionList.length > 0) {
-          parentFormData.bizTransactions = parentEventData.businessTransactionList
+          parentFormData.bizTransactions =
+            parentEventData.businessTransactionList
         }
 
         // Check if the Sources values have been provided if so add it to the Test Data Input
-        if (parentEventData.sources != null && parentEventData.sources.length > 0) {
+        if (
+          parentEventData.sources != null &&
+          parentEventData.sources.length > 0
+        ) {
           parentFormData.sources = parentEventData.sources
         }
 
         // Check if the Destinations values have been provided if so add it to the Test Data input
-        if (parentEventData.destinations != null && parentEventData.destinations.length > 0) {
+        if (
+          parentEventData.destinations != null &&
+          parentEventData.destinations.length > 0
+        ) {
           parentFormData.destinations = parentEventData.destinations
         }
 
         // Check if Sensor Informaiton have been provided if so add it to the Test data input
-        if (parentEventData.sensorElementList !== undefined && parentEventData.sensorElementList.length > 0) {
+        if (
+          parentEventData.sensorElementList !== undefined &&
+          parentEventData.sensorElementList.length > 0
+        ) {
           const sensorElementList = []
 
           for (const sensorItem of parentEventData.sensorElementList) {
             const sensorReportArray = []
+            const sensorMetaData = JSON.parse(
+              JSON.stringify(sensorItem.sensorMetadata)
+            )
             const sensorObj = { ID: sensorItem.ID }
 
             if (sensorItem.sensorMetadata !== undefined) {
-              const sensorMetaData = JSON.parse(JSON.stringify(sensorItem.sensorMetadata))
-
               // If the time value is present within the SensorMetaData then add the UTC Offset to it
               if (sensorMetaData.time !== undefined) {
                 sensorMetaData.time = sensorMetaData.time + utcOffset
@@ -215,13 +265,13 @@ export const mutations = {
               if (sensorMetaData.endTime !== undefined) {
                 sensorMetaData.endTime = sensorMetaData.endTime + utcOffset
               }
-
-              sensorObj.sensorMetadata = sensorMetaData
             }
 
             if (sensorItem.sensorReport !== undefined) {
               // Get all the sensor report elements
-              const sensorReportOld = JSON.parse(JSON.stringify(sensorItem.sensorReport))
+              const sensorReportOld = JSON.parse(
+                JSON.stringify(sensorItem.sensorReport)
+              )
 
               // Loop through all sensor report and change the time
               for (const reportItem of sensorReportOld) {
@@ -235,16 +285,28 @@ export const mutations = {
               }
             }
 
-            sensorObj.sensorReport = sensorReportArray
+            // Check if sensorMetadata has any values if so add it to sensorObj else skip
+            if (Object.keys(sensorMetaData).length > 0) {
+              sensorObj.sensorMetadata = sensorMetaData
+            }
+
+            // check if sensorReport has any values if so add it to sensorObj else skip
+            if (sensorReportArray.length > 0) {
+              sensorObj.sensorReport = sensorReportArray
+            }
+
             sensorElementList.push(sensorObj)
           }
           parentFormData.sensorElementList = sensorElementList
         }
 
         // Add the modified Instance/Class identifiers information into the ChildObject
-        parentFormData.referencedIdentifier = parentEventData.referencedIdentifier
-        parentFormData.outputReferencedIdentifier = parentEventData.outputReferencedIdentifier
-        parentFormData.parentReferencedIdentifier = parentEventData.parentReferencedIdentifier
+        parentFormData.referencedIdentifier =
+          parentEventData.referencedIdentifier
+        parentFormData.outputReferencedIdentifier =
+          parentEventData.outputReferencedIdentifier
+        parentFormData.parentReferencedIdentifier =
+          parentEventData.parentReferencedIdentifier
 
         // If user has imported existing event and it the identifiers are present in them then add it
         parentFormData.epcList = parentEventData.epcList
@@ -254,7 +316,10 @@ export const mutations = {
         parentFormData.outputQuantityList = parentEventData.outputQuantityList
 
         // If certificate info has been added then add it to the JSON
-        if (parentEventData.certificationInfo !== undefined && parentEventData.certificationInfo !== null) {
+        if (
+          parentEventData.certificationInfo !== undefined &&
+          parentEventData.certificationInfo !== null
+        ) {
           parentFormData.certificationInfo = parentEventData.certificationInfo
         }
 
@@ -264,15 +329,22 @@ export const mutations = {
         }
 
         // If event is Object/Transformation then add the ILMD if provided
-        if (parentEventData.eventType === 'ObjectEvent' || parentEventData.eventType === 'TransformationEvent') {
-          if (parentEventData.ilmd !== undefined && parentEventData.ilmd.length > 0) {
+        if (
+          parentEventData.eventType === 'ObjectEvent' ||
+          parentEventData.eventType === 'TransformationEvent'
+        ) {
+          if (
+            parentEventData.ilmd !== undefined &&
+            parentEventData.ilmd.length > 0
+          ) {
             parentFormData.ilmd = parentEventData.ilmd
           }
         }
 
         // If event is TransformationEvent then add the TransformationID to it
         if (parentEventData.eventType === 'TransformationEvent') {
-          parentFormData.transformationID = parentEventData.transformationXformId
+          parentFormData.transformationID =
+            parentEventData.transformationXformId
         }
 
         parentObj = { ...parentObj, ...parentFormData }
@@ -289,25 +361,44 @@ export const mutations = {
 
     for (const identifierCount in payload.identifiersData) {
       const identifiersInfo = payload.identifiersData[identifierCount]
-      const identifiersObj = { identifierId: identifiersInfo.identifiersId, objectIdentifierSyntax: identifiersInfo.identifierSyntax, instanceData: {}, classData: {}, parentData: {} }
+      const identifiersObj = {
+        identifierId: identifiersInfo.identifiersId,
+        objectIdentifierSyntax: identifiersInfo.identifierSyntax,
+        instanceData: {},
+        classData: {},
+        parentData: {}
+      }
 
       // Add the instanceData if provided
-      if (identifiersInfo.instanceData !== undefined && identifiersInfo.instanceData !== {}) {
-        identifiersObj.instanceData[identifiersInfo.instanceData.identifierType] = identifiersInfo.instanceData
+      if (
+        identifiersInfo.instanceData !== undefined &&
+        identifiersInfo.instanceData !== {}
+      ) {
+        identifiersObj.instanceData[
+          identifiersInfo.instanceData.identifierType
+        ] = identifiersInfo.instanceData
       } else {
         identifiersObj.instanceData = null
       }
 
       // Add the classData if provided
-      if (identifiersInfo.classData !== undefined && identifiersInfo.classData !== {}) {
-        identifiersObj.classData[identifiersInfo.classData.identifierType] = identifiersInfo.classData
+      if (
+        identifiersInfo.classData !== undefined &&
+        identifiersInfo.classData !== {}
+      ) {
+        identifiersObj.classData[identifiersInfo.classData.identifierType] =
+          identifiersInfo.classData
       } else {
         identifiersObj.classData = null
       }
 
       // Add the parentData if provided
-      if (identifiersInfo.parentData !== undefined && identifiersInfo.parentData !== {}) {
-        identifiersObj.parentData[identifiersInfo.parentData.identifierType] = identifiersInfo.parentData
+      if (
+        identifiersInfo.parentData !== undefined &&
+        identifiersInfo.parentData !== {}
+      ) {
+        identifiersObj.parentData[identifiersInfo.parentData.identifierType] =
+          identifiersInfo.parentData
       } else {
         identifiersObj.parentData = null
       }
@@ -327,10 +418,14 @@ export const mutations = {
 export const actions = {
   jsonPreparation ({ commit, rootState }, payload) {
     // Prepare the JSON for test input data
-    commit('jsonPreparation', { eventsData: rootState.modules.RelationsBuilder.eventsData })
+    commit('jsonPreparation', {
+      eventsData: rootState.modules.RelationsBuilder.eventsData
+    })
 
     // Prepare the JSON for identifiers data
-    commit('identifiersData', { identifiersData: rootState.modules.RelationsBuilder.identifiersData })
+    commit('identifiersData', {
+      identifiersData: rootState.modules.RelationsBuilder.identifiersData
+    })
 
     // Prepare the JSON test data input template
     commit('inputTemplatePreparation')
