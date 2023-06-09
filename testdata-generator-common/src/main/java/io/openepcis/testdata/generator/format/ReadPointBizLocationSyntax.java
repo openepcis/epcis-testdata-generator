@@ -18,7 +18,7 @@ package io.openepcis.testdata.generator.format;
 import io.openepcis.testdata.generator.annotations.ConditionalValidation;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.io.Serializable;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;

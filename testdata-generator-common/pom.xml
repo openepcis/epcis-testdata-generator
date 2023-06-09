@@ -23,7 +23,7 @@
     <parent>
         <groupId>io.openepcis</groupId>
         <artifactId>openepcis-bom</artifactId>
-        <version>0.9.2-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath></relativePath>
     </parent>
 
@@ -132,8 +132,8 @@
 
         <dependency>
             <groupId>org.reactivestreams</groupId>
-            <artifactId>reactive-streams-tck</artifactId>
-            <version>1.0.3</version>
+            <artifactId>reactive-streams-tck-flow</artifactId>
+            <version>1.0.4</version>
             <scope>test</scope>
         </dependency>
 
@@ -144,6 +144,11 @@
         </dependency>
 
         <!-- For adding the validation annotations -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-hibernate-validator</artifactId>

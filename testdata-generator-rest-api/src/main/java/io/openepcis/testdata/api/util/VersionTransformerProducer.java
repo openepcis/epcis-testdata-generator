@@ -4,9 +4,9 @@ import io.openepcis.convert.VersionTransformer;
 import io.quarkus.runtime.Startup;
 import jakarta.xml.bind.JAXBContext;
 import java.util.ResourceBundle;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.context.ManagedExecutor;
 

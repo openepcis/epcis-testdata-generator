@@ -17,8 +17,8 @@ package io.openepcis.testdata.generator.annotations;
 
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 

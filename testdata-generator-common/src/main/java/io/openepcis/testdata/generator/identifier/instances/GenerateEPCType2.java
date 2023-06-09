@@ -16,7 +16,7 @@
 package io.openepcis.testdata.generator.identifier.instances;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Pattern;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;

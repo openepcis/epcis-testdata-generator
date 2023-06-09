@@ -25,10 +25,10 @@ import io.quarkus.vertx.web.Route;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.FileSystemAccess;
 import io.vertx.ext.web.handler.StaticHandler;
-import javax.enterprise.inject.Produces;
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
-import javax.ws.rs.core.MediaType;
+import jakarta.enterprise.inject.Produces;
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
+import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.info.Info;
@@ -49,7 +49,7 @@ public class RESTApplication extends Application {
 
   @Route(regex = "/ui/.*", path = "ui/index.html", methods = Route.HttpMethod.GET)
   @Operation(summary = "Testdata Generator User Interface")
-  @javax.ws.rs.Produces(MediaType.TEXT_HTML)
+  @jakarta.ws.rs.Produces(MediaType.TEXT_HTML)
   void ui(RoutingContext rc) {
     StaticHandler.create(FileSystemAccess.RELATIVE, "static-web").handle(rc);
   }

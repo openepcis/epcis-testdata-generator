@@ -26,12 +26,12 @@ import io.openepcis.testdata.generator.reactivestreams.EPCISEventPublisher;
 import io.openepcis.testdata.generator.template.InputTemplate;
 import java.util.Collections;
 import lombok.extern.slf4j.Slf4j;
-import org.reactivestreams.Publisher;
-import org.reactivestreams.tck.PublisherVerification;
 import org.reactivestreams.tck.TestEnvironment;
+import org.reactivestreams.tck.flow.FlowPublisherVerification;
+import java.util.concurrent.Flow.Publisher;
 
 @Slf4j
-public class EPCISEventPublisherVerificationTest extends PublisherVerification<EPCISEvent> {
+public class EPCISEventPublisherVerificationTest extends FlowPublisherVerification<EPCISEvent> {
 
   private final ObjectMapper objectMapper =
       new ObjectMapper()
@@ -46,7 +46,7 @@ public class EPCISEventPublisherVerificationTest extends PublisherVerification<E
   }
 
   @Override
-  public Publisher<EPCISEvent> createPublisher(long l) {
+  public Publisher<EPCISEvent> createFlowPublisher(long l) {
     try {
       final InputTemplate inputTemplate =
           objectMapper.readValue(
@@ -62,7 +62,7 @@ public class EPCISEventPublisherVerificationTest extends PublisherVerification<E
   }
 
   @Override
-  public Publisher<EPCISEvent> createFailedPublisher() {
+  public Publisher<EPCISEvent> createFailedFlowPublisher() {
     return new EPCISEventPublisher(Collections.emptyList());
   }
 }
