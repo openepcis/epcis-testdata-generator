@@ -19,9 +19,13 @@
         },
         "RecordTimeOption": "no",
         "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": null,
+        "readpointselector": "SGLN",
         "readPoint": {
-          "gcpLength": null
+          "gcpLength": 10,
+          "gln": "3483987983749",
+          "extensionType": "dynamic",
+          "extension": "100",
+          "extensionFrom": "100"
         },
         "businesslocationselector": null,
         "bizLocation": {
@@ -82,9 +86,12 @@
         },
         "RecordTimeOption": "no",
         "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": null,
+        "readpointselector": "SGLN",
         "readPoint": {
-          "gcpLength": null
+          "gcpLength": 10,
+          "gln": "3483987983749",
+          "extensionType": "static",
+          "extension": "200"
         },
         "businesslocationselector": null,
         "bizLocation": {

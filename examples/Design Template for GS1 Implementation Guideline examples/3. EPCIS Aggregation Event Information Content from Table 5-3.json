@@ -19,9 +19,12 @@
         },
         "RecordTimeOption": "no",
         "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": null,
+        "readpointselector": "SGLN",
         "readPoint": {
-          "gcpLength": null
+          "gcpLength": 7,
+          "gln": "7847378478378",
+          "extensionType": "static",
+          "extension": "100"
         },
         "businesslocationselector": null,
         "bizLocation": {
@@ -29,16 +32,8 @@
         },
         "businessStep": "PACKING",
         "disposition": "IN_PROGRESS",
-        "sources": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
-        "destinations": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
+        "sources": [],
+        "destinations": [],
         "eventID": false,
         "eventIdType": "UUID",
         "hashAlgorithm": "sha-256",
@@ -90,9 +85,12 @@
         },
         "RecordTimeOption": "no",
         "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": null,
+        "readpointselector": "SGLN",
         "readPoint": {
-          "gcpLength": null
+          "gcpLength": 7,
+          "gln": "7847378478378",
+          "extensionType": "static",
+          "extension": "200"
         },
         "businesslocationselector": null,
         "bizLocation": {
@@ -100,16 +98,8 @@
         },
         "businessStep": "SHIPPING",
         "disposition": "IN_TRANSIT",
-        "sources": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
-        "destinations": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
+        "sources": [],
+        "destinations": [],
         "eventID": false,
         "eventIdType": "UUID",
         "hashAlgorithm": "sha-256",
@@ -161,9 +151,12 @@
         },
         "RecordTimeOption": "no",
         "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": null,
+        "readpointselector": "SGLN",
         "readPoint": {
-          "gcpLength": null
+          "gcpLength": 10,
+          "gln": "7847378478378",
+          "extensionType": "static",
+          "extension": "300"
         },
         "businesslocationselector": null,
         "bizLocation": {
@@ -224,9 +217,12 @@
         },
         "RecordTimeOption": "no",
         "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": null,
+        "readpointselector": "SGLN",
         "readPoint": {
-          "gcpLength": null
+          "gcpLength": 10,
+          "gln": "7847378478378",
+          "extensionType": "static",
+          "extension": "400"
         },
         "businesslocationselector": null,
         "bizLocation": {
@@ -234,16 +230,8 @@
         },
         "businessStep": "UNPACKING",
         "disposition": "IN_PROGRESS",
-        "sources": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
-        "destinations": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
+        "sources": [],
+        "destinations": [],
         "eventID": false,
         "eventIdType": "UUID",
         "hashAlgorithm": "sha-256",
@@ -295,9 +283,12 @@
         },
         "RecordTimeOption": "no",
         "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": null,
+        "readpointselector": "SGLN",
         "readPoint": {
-          "gcpLength": null
+          "gcpLength": 10,
+          "gln": "7847378478378",
+          "extensionType": "static",
+          "extension": "500"
         },
         "businesslocationselector": null,
         "bizLocation": {
@@ -305,16 +296,8 @@
         },
         "businessStep": "UNPACKING",
         "disposition": "IN_PROGRESS",
-        "sources": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
-        "destinations": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
+        "sources": [],
+        "destinations": [],
         "eventID": false,
         "eventIdType": "UUID",
         "hashAlgorithm": "sha-256",
