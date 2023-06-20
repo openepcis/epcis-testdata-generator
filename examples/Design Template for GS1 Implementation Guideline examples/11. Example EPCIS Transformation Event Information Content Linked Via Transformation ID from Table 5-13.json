@@ -19,9 +19,12 @@
         },
         "RecordTimeOption": "no",
         "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": null,
+        "readpointselector": "SGLN",
         "readPoint": {
-          "gcpLength": null
+          "gcpLength": 10,
+          "gln": "8473877394734",
+          "extensionType": "static",
+          "extension": "100"
         },
         "businesslocationselector": null,
         "bizLocation": {
@@ -29,16 +32,8 @@
         },
         "businessStep": "CREATING_CLASS_INSTANCE",
         "disposition": "ACTIVE",
-        "sources": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
-        "destinations": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
+        "sources": [],
+        "destinations": [],
         "eventID": false,
         "eventIdType": "UUID",
         "hashAlgorithm": "sha-256",
@@ -91,9 +86,12 @@
         },
         "RecordTimeOption": "no",
         "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": null,
+        "readpointselector": "SGLN",
         "readPoint": {
-          "gcpLength": null
+          "gcpLength": 10,
+          "gln": "8473877394734",
+          "extensionType": "static",
+          "extension": "200"
         },
         "businesslocationselector": null,
         "bizLocation": {
@@ -101,16 +99,8 @@
         },
         "businessStep": "CREATING_CLASS_INSTANCE",
         "disposition": "ACTIVE",
-        "sources": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
-        "destinations": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
+        "sources": [],
+        "destinations": [],
         "eventID": false,
         "eventIdType": "UUID",
         "hashAlgorithm": "sha-256",
@@ -163,9 +153,12 @@
         },
         "RecordTimeOption": "no",
         "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": null,
+        "readpointselector": "SGLN",
         "readPoint": {
-          "gcpLength": null
+          "gcpLength": 10,
+          "gln": "8473877394734",
+          "extensionType": "static",
+          "extension": "300"
         },
         "businesslocationselector": null,
         "bizLocation": {
@@ -173,16 +166,8 @@
         },
         "businessStep": "SHIPPING",
         "disposition": "IN_TRANSIT",
-        "sources": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
-        "destinations": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
+        "sources": [],
+        "destinations": [],
         "eventID": false,
         "eventIdType": "UUID",
         "hashAlgorithm": "sha-256",
@@ -234,9 +219,12 @@
         },
         "RecordTimeOption": "no",
         "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": null,
+        "readpointselector": "SGLN",
         "readPoint": {
-          "gcpLength": null
+          "gcpLength": 10,
+          "gln": "8473877394734",
+          "extensionType": "static",
+          "extension": "400"
         },
         "businesslocationselector": null,
         "bizLocation": {
