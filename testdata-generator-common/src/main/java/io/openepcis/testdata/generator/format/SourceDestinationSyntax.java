@@ -30,7 +30,7 @@ import lombok.Setter;
 @ConditionalValidation.List({
   @ConditionalValidation(
       fieldName = "type",
-      fieldValue = {"OWNING_PARTY", "PROCESSING_PARTY"},
+      fieldValue = {"OWNING_PARTY", "POSSESSING_PARTY"},
       dependFieldName = {"glnType", "gln"},
       message =
           "GLN type/GLN cannot be Null for Source/Destination if the type is OWNING_PARTY/PROCESSING_PARTY"),

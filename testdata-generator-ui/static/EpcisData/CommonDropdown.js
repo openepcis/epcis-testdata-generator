@@ -130,7 +130,7 @@ exports.dispositions = [
 exports.sources = [
   { value: null, text: 'Choose Type' },
   { value: 'OWNING_PARTY', text: 'Owning Party (CBV)' },
-  { value: 'PROCESSING_PARTY', text: 'Processing Party (CBV' },
+  { value: 'POSSESSING_PARTY', text: 'Possessing Party (CBV)' },
   { value: 'LOCATION', text: 'Location (CBV)' },
   { value: 'OTHER', text: 'Other' }
 ]

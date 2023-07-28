@@ -20,7 +20,7 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 @RegisterForReflection
 public enum SourceDestinationType {
   OWNING_PARTY("owning_party"),
-  PROCESSING_PARTY("processing_party"),
+  POSSESSING_PARTY("possessing_party"),
   LOCATION("location"),
   OTHER("other");
 

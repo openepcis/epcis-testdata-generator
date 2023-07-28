@@ -40,8 +40,8 @@
       </div>
 
       <div class="form-group">
-        <span v-if="sourceDestination.type == 'OWNING_PARTY' || sourceDestination.type == 'PROCESSING_PARTY'">
-          <b-form-select v-model="sourceDestination.glnType" class="form-control" :required="sourceDestination.type == 'OWNING_PARTY' || sourceDestination.type == 'PROCESSING_PARTY'">
+        <span v-if="sourceDestination.type == 'OWNING_PARTY' || sourceDestination.type == 'POSSESSING_PARTY'">
+          <b-form-select v-model="sourceDestination.glnType" class="form-control" :required="sourceDestination.type == 'OWNING_PARTY' || sourceDestination.type == 'POSSESSING_PARTY'">
             <b-form-select-option
               v-for="option in identifierOptions"
               :key="option.value"
@@ -56,7 +56,7 @@
       </div>
 
       <div class="form-group">
-        <span v-if="sourceDestination.type == 'OWNING_PARTY' || sourceDestination.type == 'PROCESSING_PARTY' || sourceDestination.type == 'LOCATION'">
+        <span v-if="sourceDestination.type == 'OWNING_PARTY' || sourceDestination.type == 'POSSESSING_PARTY' || sourceDestination.type == 'LOCATION'">
           <div class="d-flex align-items-center mb-3">
             <span v-if="sourceDestination.glnType == 'SGLN' || sourceDestination.type == 'location&quot'" class="col-auto mx-2"> (414) </span>
             <span v-if="sourceDestination.glnType == 'PGLN'" class="col-auto mx-2"> (417) </span>
@@ -69,7 +69,7 @@
               oninvalid="this.setCustomValidity('Source GLN must be 13 digits')"
               placeholder="Source GLN 13 digits"
               class="form-control"
-              :required="sourceDestination.type == 'OWNING_PARTY' || sourceDestination.type == 'PROCESSING_PARTY' || sourceDestination.type == 'LOCATION'"
+              :required="sourceDestination.type == 'OWNING_PARTY' || sourceDestination.type == 'POSSESSING_PARTY' || sourceDestination.type == 'LOCATION'"
             >
           </div>
 
@@ -119,7 +119,7 @@ export default {
       typeOptions: [
         { value: null, text: 'Select Type', disabled: true, selected: true },
         { value: 'OWNING_PARTY', text: 'Owning Party (CBV)', disabled: false, selected: false },
-        { value: 'PROCESSING_PARTY', text: 'Processing Party (CBV)', disabled: false, selected: false },
+        { value: 'POSSESSING_PARTY', text: 'Possessing Party (CBV)', disabled: false, selected: false },
         { value: 'LOCATION', text: 'Location (CBV)', disabled: false, selected: false },
         { value: 'OTHER', text: 'Other', disabled: false, selected: false }
       ],
