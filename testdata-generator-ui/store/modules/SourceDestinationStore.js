@@ -2,7 +2,6 @@ const getDefaultState = () => {
   return {
     sourceDestinationType: '',
     sourceCount: 0,
-    sourceDestinationModal: false,
     sources: [],
     source: {},
     destinationCount: 0,
@@ -17,7 +16,6 @@ const getDefaultState = () => {
 export const state = () => getDefaultState()
 
 export const mutations = {
-
   // Set the vocabulary syntax
   setVocabularySyntax (state, vocabularySyntax) {
     state.vocabularySyntax = vocabularySyntax
@@ -34,41 +32,41 @@ export const mutations = {
     state.sourceDestinationType = sourceDestinationType
   },
 
-  showSourceDestinationModal (state) {
-    // Function to show the SourceDestination Modal
-    state.sourceDestinationModal = true
-  },
-
-  hideSourceDestinationModal (state) {
-    // Function to show the SourceDestination Modal
-    state.sourceDestinationModal = false
-  },
-
   sourceDestinationAddition (state, sourceDestination) {
     // Function to add the source/destination information on submit of the modal
     // If value is source add to source
     if (state.sourceDestinationType === 'source') {
       // On submit of the modal if user is adding new Source element
-      if (state.currentSourceDestinationId == null && state.currentSourceDestinationInfo == null) {
+      if (
+        state.currentSourceDestinationId == null &&
+        state.currentSourceDestinationInfo == null
+      ) {
         sourceDestination.ID = state.sourceCount
         state.sources.push(sourceDestination)
         state.sourceCount++
       } else {
         // If user is trying to modify existing Source element information then replace particular source element
-        const replacementSourceInfo = state.sources.find(obj => obj.ID === state.currentSourceDestinationId)
+        const replacementSourceInfo = state.sources.find(
+          obj => obj.ID === state.currentSourceDestinationId
+        )
         Object.assign(replacementSourceInfo, sourceDestination)
         state.currentSourceDestinationInfo = null
         state.currentSourceDestinationId = null
       }
     } else if (state.sourceDestinationType === 'destination') {
       // On submit of the modal if user is adding new Destination element
-      if (state.currentSourceDestinationId == null && state.currentSourceDestinationInfo == null) {
+      if (
+        state.currentSourceDestinationId == null &&
+        state.currentSourceDestinationInfo == null
+      ) {
         sourceDestination.ID = state.destinationCount
         state.destinations.push(sourceDestination)
         state.destinationCount++
       } else {
         // If user is trying to modify existing Destination element information then replace particular Destination element
-        const replacementDestinationInfo = state.destinations.find(obj => obj.ID === state.currentSourceDestinationId)
+        const replacementDestinationInfo = state.destinations.find(
+          obj => obj.ID === state.currentSourceDestinationId
+        )
         Object.assign(replacementDestinationInfo, sourceDestination)
         state.currentSourceDestinationInfo = null
         state.currentSourceDestinationId = null
@@ -81,21 +79,29 @@ export const mutations = {
     state.currentSourceDestinationId = sourceDestinationID
 
     if (state.sourceDestinationType === 'source') {
-      state.currentSourceDestinationInfo = state.sources.find(obj => obj.ID === sourceDestinationID)
+      state.currentSourceDestinationInfo = state.sources.find(
+        obj => obj.ID === sourceDestinationID
+      )
     } else if (state.sourceDestinationType === 'destination') {
-      state.currentSourceDestinationInfo = state.destinations.find(obj => obj.ID === sourceDestinationID)
+      state.currentSourceDestinationInfo = state.destinations.find(
+        obj => obj.ID === sourceDestinationID
+      )
     }
   },
 
   deleteSourceDestination (state, sourceDestinationID) {
     // Based on user selection delete the respective source/destination ID
     if (state.sourceDestinationType === 'source') {
-      const idx = state.sources.findIndex(obj => obj.ID === sourceDestinationID)
+      const idx = state.sources.findIndex(
+        obj => obj.ID === sourceDestinationID
+      )
       if (idx !== -1) {
         state.sources.splice(idx, 1)
       }
     } else if (state.sourceDestinationType === 'destination') {
-      const idx = state.destinations.findIndex(obj => obj.ID === sourceDestinationID)
+      const idx = state.destinations.findIndex(
+        obj => obj.ID === sourceDestinationID
+      )
       if (idx !== -1) {
         state.destinations.splice(idx, 1)
       }
@@ -104,12 +110,24 @@ export const mutations = {
 
   // During modification Nodeevent info populate the SourceDestination store info with raw data
   populateRawData (state, payload) {
-    state.sources = payload.sources !== undefined && Array.isArray(payload.sources) ? payload.sources : []
-    state.destinations = payload.destinations !== undefined && Array.isArray(payload.destinations) ? payload.destinations : []
+    state.sources =
+      payload.sources !== undefined && Array.isArray(payload.sources)
+        ? payload.sources
+        : []
+    state.destinations =
+      payload.destinations !== undefined && Array.isArray(payload.destinations)
+        ? payload.destinations
+        : []
 
     // Update the counter values for addition of the next values do not conflict with existing values
-    state.sourceCount = state.sources.length > 0 && Array.isArray(payload.sources) ? state.sources.at(-1).ID + 1 : 0
-    state.destinationCount = state.destinations.length > 0 && Array.isArray(payload.destinations) ? state.destinations.at(-1).ID + 1 : 0
+    state.sourceCount =
+      state.sources.length > 0 && Array.isArray(payload.sources)
+        ? state.sources.at(-1).ID + 1
+        : 0
+    state.destinationCount =
+      state.destinations.length > 0 && Array.isArray(payload.destinations)
+        ? state.destinations.at(-1).ID + 1
+        : 0
   },
 
   resetCurrentSourceDestination (state) {

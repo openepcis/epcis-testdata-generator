@@ -21,18 +21,25 @@
     title="Add Event Information"
     size="xl"
     width="150%"
-    :visible="$store.state.modules.ConfigureNodeEventInfoStore.nodeEventInfoModal"
+    :visible="
+      $store.state.modules.ConfigureNodeEventInfoStore.nodeEventInfoModal
+    "
     modal-class="modal-fullscreen"
     @hide="cancel"
   >
-    <b-form id="configureEventInfoForm" class="form-horizontal" autocomplete="on" @submit.prevent="submitEventData">
+    <b-form
+      id="configureEventInfoForm"
+      class="form-horizontal"
+      autocomplete="on"
+      @submit.prevent="submitEventData"
+    >
       <table class="table table-bordered">
         <caption />
         <th id="eventInfoTable" />
         <tbody>
           <tr>
             <td id="eventDimension" :rowspan="EventTypeRowSpan" />
-            <td> Event Count </td>
+            <td>Event Count</td>
             <input
               v-model="formData.eventCount"
               type="number"
@@ -56,7 +63,10 @@
                   class="custom-control-input"
                   value="URN"
                 >
-                <label class="custom-control-label" for="vocabularySyntaxURN">URN</label>
+                <label
+                  class="custom-control-label"
+                  for="vocabularySyntaxURN"
+                >URN</label>
               </div>
               <div class="custom-control custom-radio custom-control-inline">
                 <input
@@ -66,7 +76,10 @@
                   class="custom-control-input"
                   value="WebURI"
                 >
-                <label class="custom-control-label" for="vocabularySyntaxWebURI">Web URI</label>
+                <label
+                  class="custom-control-label"
+                  for="vocabularySyntaxWebURI"
+                >Web URI</label>
               </div>
             </td>
           </tr>
@@ -76,7 +89,12 @@
               Event Type
             </td>
             <td>
-              <input v-model="formData.eventType" type="text" class="form-control" readonly>
+              <input
+                v-model="formData.eventType"
+                type="text"
+                class="form-control"
+                readonly
+              >
             </td>
           </tr>
 
@@ -91,7 +109,10 @@
                   value="ordinaryEvent"
                   @change="formData.ordinaryEvent = true"
                 >
-                <label class="custom-control-label" for="ordinaryEvent">Ordinary</label>
+                <label
+                  class="custom-control-label"
+                  for="ordinaryEvent"
+                >Ordinary</label>
               </div>
               <div class="custom-control custom-radio custom-control-inline">
                 <input
@@ -102,23 +123,35 @@
                   value="errorEvent"
                   @change="formData.ordinaryEvent = false"
                 >
-                <label class="custom-control-label" for="errorEvent">Error</label>
+                <label
+                  class="custom-control-label"
+                  for="errorEvent"
+                >Error</label>
               </div>
             </td>
           </tr>
 
-          <tr v-if="formData.eventType == 'ObjectEvent' || formData.eventType == 'AggregationEvent' || formData.eventType == 'TransactionEvent' || formData.eventType == 'AssociationEvent' ">
+          <tr
+            v-if="
+              formData.eventType == 'ObjectEvent' ||
+                formData.eventType == 'AggregationEvent' ||
+                formData.eventType == 'TransactionEvent' ||
+                formData.eventType == 'AssociationEvent'
+            "
+          >
+            <td>Action</td>
             <td>
-              Action
-            </td>
-            <td>
-              <b-form-select v-model="formData.action" :options="commonDropdownInfos.actions" class="form-control" />
+              <b-form-select
+                v-model="formData.action"
+                :options="commonDropdownInfos.actions"
+                class="form-control"
+              />
             </td>
           </tr>
 
           <tr>
-            <td> Event ID </td>
-            <td class="form-inline" style="display: block;margin: auto;">
+            <td>Event ID</td>
+            <td class="form-inline" style="display: block; margin: auto">
               <div class="custom-control custom-radio custom-control-inline">
                 <input
                   id="EventIDOption1"
@@ -129,7 +162,10 @@
                   name="eventID"
                   @change="formData.eventID = true"
                 >
-                <label class="custom-control-label" for="EventIDOption1">Yes</label>
+                <label
+                  class="custom-control-label"
+                  for="EventIDOption1"
+                >Yes</label>
               </div>
 
               <div class="custom-control custom-radio custom-control-inline">
@@ -142,7 +178,10 @@
                   name="eventID"
                   @change="formData.eventID = false"
                 >
-                <label class="custom-control-label" for="EventIDOption2">No</label>
+                <label
+                  class="custom-control-label"
+                  for="EventIDOption2"
+                >No</label>
               </div>
             </td>
 
@@ -159,7 +198,10 @@
                   :required="formData.eventID == true"
                   @change="formData.eventIdType = 'UUID'"
                 >
-                <label class="custom-control-label" for="EventIDTypeOption1">UUID</label>
+                <label
+                  class="custom-control-label"
+                  for="EventIDTypeOption1"
+                >UUID</label>
               </div>
 
               <div class="custom-control custom-radio custom-control-inline">
@@ -173,19 +215,35 @@
                   :required="formData.eventID == true"
                   @change="formData.eventIdType = 'HashId'"
                 >
-                <label class="custom-control-label" for="EventIDTypeOption2">Hash ID</label>
+                <label
+                  class="custom-control-label"
+                  for="EventIDTypeOption2"
+                >Hash ID</label>
               </div>
             </td>
 
             <!-- If eventId is true and if the eventIdType is Hash Id then display the Hash Algorithm types -->
-            <td v-if="formData.eventID == true && formData.eventIdType == 'HashId'">
-              <b-form-select v-model="formData.hashAlgorithm" :options="commonDropdownInfos.hashAlgorithmTypes" :required="formData.eventID == true && formData.eventIdType == 'HashId'" />
+            <td
+              v-if="
+                formData.eventID == true && formData.eventIdType == 'HashId'
+              "
+            >
+              <b-form-select
+                v-model="formData.hashAlgorithm"
+                :options="commonDropdownInfos.hashAlgorithmTypes"
+                :required="
+                  formData.eventID == true && formData.eventIdType == 'HashId'
+                "
+              />
             </td>
           </tr>
 
           <!-- WHEN DIMENSION FIELFDS START -->
           <tr>
-            <td rowspan="2" style="background-color: #a854a8;text-align: center;">
+            <td
+              rowspan="2"
+              style="background-color: #a854a8; text-align: center"
+            >
               <strong>WHEN</strong>
             </td>
 
@@ -194,10 +252,13 @@
             </td>
 
             <td>
-              <b-form-select v-model="formData.eventTimeSelector" :options="commonDropdownInfos.eventTimeSelector" />
+              <b-form-select
+                v-model="formData.eventTimeSelector"
+                :options="commonDropdownInfos.eventTimeSelector"
+              />
             </td>
 
-            <td v-if="formData.eventTimeSelector == 'SpecificTime' ">
+            <td v-if="formData.eventTimeSelector == 'SpecificTime'">
               <input
                 v-model="formData.eventTime.specificTime"
                 type="datetime-local"
@@ -208,7 +269,10 @@
               >
             </td>
 
-            <td v-if="formData.eventTimeSelector == 'TimeRange' " class="form-inline">
+            <td
+              v-if="formData.eventTimeSelector == 'TimeRange'"
+              class="form-inline"
+            >
               <span class="horizontalSpace"> From </span>
               <input
                 v-model="formData.eventTime.fromTime"
@@ -230,7 +294,10 @@
             </td>
 
             <td>
-              <b-form-select v-model="formData.eventTime.timeZoneOffset" :options="commonDropdownInfos.TimeZones" />
+              <b-form-select
+                v-model="formData.eventTime.timeZoneOffset"
+                :options="commonDropdownInfos.TimeZones"
+              />
             </td>
           </tr>
 
@@ -249,7 +316,10 @@
                   value="yes"
                   name="RecordTimeOption"
                 >
-                <label class="custom-control-label" for="RecordTimeOption1">Yes</label>
+                <label
+                  class="custom-control-label"
+                  for="RecordTimeOption1"
+                >Yes</label>
               </div>
 
               <div class="custom-control custom-radio custom-control-inline">
@@ -261,11 +331,18 @@
                   value="no"
                   name="RecordTimeOption"
                 >
-                <label class="custom-control-label" for="RecordTimeOption2">No</label>
+                <label
+                  class="custom-control-label"
+                  for="RecordTimeOption2"
+                >No</label>
               </div>
             </td>
 
-            <td v-if="formData.RecordTimeOption == 'yes'" class="form-inline" style="display: block;margin: auto;">
+            <td
+              v-if="formData.RecordTimeOption == 'yes'"
+              class="form-inline"
+              style="display: block; margin: auto"
+            >
               <div class="custom-control custom-radio custom-control-inline">
                 <input
                   id="RecordTimeOptionType1"
@@ -275,7 +352,10 @@
                   value="CURRENT_TIME"
                   name="recordTimeType"
                 >
-                <label class="custom-control-label" for="RecordTimeOptionType1">Current Time</label>
+                <label
+                  class="custom-control-label"
+                  for="RecordTimeOptionType1"
+                >Current Time</label>
               </div>
 
               <div class="custom-control custom-radio custom-control-inline">
@@ -287,7 +367,10 @@
                   value="SAME_AS_EVENT_TIME"
                   name="recordTimeType"
                 >
-                <label class="custom-control-label" for="RecordTimeOptionType2">Same As Event Time</label>
+                <label
+                  class="custom-control-label"
+                  for="RecordTimeOptionType2"
+                >Same As Event Time</label>
               </div>
             </td>
           </tr>
@@ -308,7 +391,13 @@
             </td>
 
             <!--Show option to remove Parent Identifier for AggregationEvent/AssociationEvent/TransactionEvent -->
-            <td v-if="formData.eventType === 'AggregationEvent' || formData.eventType === 'TransactionEvent' || formData.eventType === 'AssociationEvent'">
+            <td
+              v-if="
+                formData.eventType === 'AggregationEvent' ||
+                  formData.eventType === 'TransactionEvent' ||
+                  formData.eventType === 'AssociationEvent'
+              "
+            >
               Parent Identifiers
             </td>
 
@@ -318,15 +407,36 @@
             </td>
 
             <!--For ObjectEvent/TransformationEvent display the epcList delete button-->
-            <td v-if="formData.epcList.length > 0 && (formData.eventType === 'ObjectEvent' || formData.eventType === 'TransformationEvent')">
-              <button class="btn btn-danger" placeholder="Delete Instance Identifiers" @click="deleteInstanceIdentifiers($event ,'EPC')">
+            <td
+              v-if="
+                formData.epcList.length > 0 &&
+                  (formData.eventType === 'ObjectEvent' ||
+                    formData.eventType === 'TransformationEvent')
+              "
+            >
+              <button
+                class="btn btn-danger"
+                placeholder="Delete Instance Identifiers"
+                @click="deleteInstanceIdentifiers($event, 'EPC')"
+              >
                 <em class="bi bi-trash-fill" />
               </button>
             </td>
 
             <!--For AggregationEvent/TransactionEvent/AssociationEvent display the parentID delete button-->
-            <td v-if="formData.parentIdentifier != '' && (formData.eventType === 'AggregationEvent' || formData.eventType === 'TransactionEvent' || formData.eventType === 'AssociationEvent')">
-              <button class="btn btn-danger" placeholder="Delete Parent Identifiers" @click="deleteParentIdentifiers($event,'ParentIdentifier')">
+            <td
+              v-if="
+                formData.parentIdentifier != '' &&
+                  (formData.eventType === 'AggregationEvent' ||
+                    formData.eventType === 'TransactionEvent' ||
+                    formData.eventType === 'AssociationEvent')
+              "
+            >
+              <button
+                class="btn btn-danger"
+                placeholder="Delete Parent Identifiers"
+                @click="deleteParentIdentifiers($event, 'ParentIdentifier')"
+              >
                 <em class="bi bi-trash-fill" />
               </button>
             </td>
@@ -340,7 +450,12 @@
             </td>
 
             <!--Show option to remove ChildEPCs for AggregationEvent/AssociationEvent -->
-            <td v-if="formData.eventType === 'AggregationEvent' || formData.eventType === 'AssociationEvent'">
+            <td
+              v-if="
+                formData.eventType === 'AggregationEvent' ||
+                  formData.eventType === 'AssociationEvent'
+              "
+            >
               Child EPCs
             </td>
 
@@ -355,15 +470,36 @@
             </td>
 
             <!--For ObjectEvent/TransformationEvent display the QuantityList/Input Quantities delete button-->
-            <td v-if="formData.quantityList.length > 0 && (formData.eventType === 'ObjectEvent' || formData.eventType === 'TransformationEvent')">
-              <button class="btn btn-danger" placeholder="Delete Quantity/Class Identifiers" @click="deleteQuantityIdentifiers($event ,'Class')">
+            <td
+              v-if="
+                formData.quantityList.length > 0 &&
+                  (formData.eventType === 'ObjectEvent' ||
+                    formData.eventType === 'TransformationEvent')
+              "
+            >
+              <button
+                class="btn btn-danger"
+                placeholder="Delete Quantity/Class Identifiers"
+                @click="deleteQuantityIdentifiers($event, 'Class')"
+              >
                 <em class="bi bi-trash-fill" />
               </button>
             </td>
 
             <!--For AggregationEvent/TransactionEvent/AssociationEvent display the EPCList delete button-->
-            <td v-if="formData.epcList.length > 0 && (formData.eventType === 'AggregationEvent' || formData.eventType === 'TransactionEvent' || formData.eventType === 'AssociationEvent')">
-              <button class="btn btn-danger" placeholder="Delete Instance Identifiers" @click="deleteInstanceIdentifiers($event ,'EPC')">
+            <td
+              v-if="
+                formData.epcList.length > 0 &&
+                  (formData.eventType === 'AggregationEvent' ||
+                    formData.eventType === 'TransactionEvent' ||
+                    formData.eventType === 'AssociationEvent')
+              "
+            >
+              <button
+                class="btn btn-danger"
+                placeholder="Delete Instance Identifiers"
+                @click="deleteInstanceIdentifiers($event, 'EPC')"
+              >
                 <em class="bi bi-trash-fill" />
               </button>
             </td>
@@ -372,7 +508,12 @@
           <!-- Third Element of the EPCIS event WHAT dimension -->
           <tr v-if="formData.importEvent">
             <!--Show option to remove Child Quantities for AggregationEvent/AssociationEvent -->
-            <td v-if="formData.eventType === 'AggregationEvent' || formData.eventType === 'AssociationEvent'">
+            <td
+              v-if="
+                formData.eventType === 'AggregationEvent' ||
+                  formData.eventType === 'AssociationEvent'
+              "
+            >
               Child Quantities
             </td>
 
@@ -387,15 +528,35 @@
             </td>
 
             <!--For AggregationEvent/TransactionEvent/AssociationEvent display the Quantities delete button-->
-            <td v-if="formData.quantityList.length > 0 && (formData.eventType === 'AggregationEvent' || formData.eventType === 'TransactionEvent' || formData.eventType === 'AssociationEvent')">
-              <button class="btn btn-danger" placeholder="Delete Quantity/Class Identifiers" @click="deleteQuantityIdentifiers($event ,'Class')">
+            <td
+              v-if="
+                formData.quantityList.length > 0 &&
+                  (formData.eventType === 'AggregationEvent' ||
+                    formData.eventType === 'TransactionEvent' ||
+                    formData.eventType === 'AssociationEvent')
+              "
+            >
+              <button
+                class="btn btn-danger"
+                placeholder="Delete Quantity/Class Identifiers"
+                @click="deleteQuantityIdentifiers($event, 'Class')"
+              >
                 <em class="bi bi-trash-fill" />
               </button>
             </td>
 
             <!--For TransformationEvent display the Output EPCList delete button-->
-            <td v-if="formData.outputEPCList.length > 0 && formData.eventType === 'TransformationEvent'">
-              <button class="btn btn-danger" placeholder="Delete Quantity/Class Identifiers" @click="deleteInstanceIdentifiers($event ,'OutputEPC')">
+            <td
+              v-if="
+                formData.outputEPCList.length > 0 &&
+                  formData.eventType === 'TransformationEvent'
+              "
+            >
+              <button
+                class="btn btn-danger"
+                placeholder="Delete Quantity/Class Identifiers"
+                @click="deleteInstanceIdentifiers($event, 'OutputEPC')"
+              >
                 <em class="bi bi-trash-fill" />
               </button>
             </td>
@@ -409,8 +570,17 @@
             </td>
 
             <!--For TransformationEvent display the Output Quantities delete button-->
-            <td v-if="formData.outputQuantityList.length > 0 && formData.eventType === 'TransformationEvent'">
-              <button class="btn btn-danger" placeholder="Delete Quantity/Class Identifiers" @click="deleteQuantityIdentifiers($event ,'OutputClass')">
+            <td
+              v-if="
+                formData.outputQuantityList.length > 0 &&
+                  formData.eventType === 'TransformationEvent'
+              "
+            >
+              <button
+                class="btn btn-danger"
+                placeholder="Delete Quantity/Class Identifiers"
+                @click="deleteQuantityIdentifiers($event, 'OutputClass')"
+              >
                 <em class="bi bi-trash-fill" />
               </button>
             </td>
@@ -418,7 +588,10 @@
 
           <!-- WHERE DIMENSION FIELDS START -->
           <tr>
-            <td rowspan="2" style="background-color: #478f77;text-align: center;">
+            <td
+              rowspan="2"
+              style="background-color: #478f77; text-align: center"
+            >
               <strong>WHERE</strong>
             </td>
 
@@ -427,17 +600,29 @@
             </td>
 
             <td>
-              <b-form-select v-model="formData.readpointselector" class="form-control" @change="resetFields('readPoint')">
+              <b-form-select
+                v-model="formData.readpointselector"
+                class="form-control"
+                @change="resetFields('readPoint')"
+              >
                 <b-form-select-option value="null" selected>
                   Choose Read Point type
                 </b-form-select-option>
-                <b-form-select-option value="gs1Key" disabled style="font-weight:bold;">
+                <b-form-select-option
+                  value="gs1Key"
+                  disabled
+                  style="font-weight: bold"
+                >
                   GS1 Key
                 </b-form-select-option>
                 <b-form-select-option value="SGLN">
                   &nbsp; SGLN + ext (Al 414 + Al 254)
                 </b-form-select-option>
-                <b-form-select-option style="font-weight:bold;" disabled value="other">
+                <b-form-select-option
+                  style="font-weight: bold"
+                  disabled
+                  value="other"
+                >
                   Other
                 </b-form-select-option>
                 <b-form-select-option value="manually">
@@ -447,14 +632,20 @@
             </td>
 
             <td v-if="formData.readpointselector != null" class="form-inline">
-              <span v-if="formData.readpointselector == 'manually' ">
+              <span v-if="formData.readpointselector == 'manually'">
                 <span class="horizontalSpace"> URI </span>
-                <input v-model="formData.readPoint.manualURI" type="text" class="form-control" placeholder="Ex:urn:example:loc:123" :required="formData.readpointselector == 'manually'">
+                <input
+                  v-model="formData.readPoint.manualURI"
+                  type="text"
+                  class="form-control"
+                  placeholder="Ex:urn:example:loc:123"
+                  :required="formData.readpointselector == 'manually'"
+                >
               </span>
 
               <span v-if="formData.readpointselector == 'SGLN'">
                 <div class="form-group">
-                  <label class=" col-sm-2 col-xs-3">(414)</label>
+                  <label class="col-sm-2 col-xs-3">(414)</label>
                   <div class="col-sm-3 col-xs-3">
                     <input
                       v-model="formData.readPoint.gln"
@@ -471,16 +662,34 @@
                 </div>
 
                 <!-- GCP Length for ReadPoint if the vocabularySyntax is URN -->
-                <div v-if="formData.vocabularySyntax == 'URN' " class="form-group" style="white-space: pre">
-                  <label class=" col-sm-2 col-xs-3" />
+                <div
+                  v-if="formData.vocabularySyntax == 'URN'"
+                  class="form-group"
+                  style="white-space: pre"
+                >
+                  <label class="col-sm-2 col-xs-3" />
                   <div class="col-sm-3 col-xs-3">
-                    <b-form-select v-model="formData.readPoint.gcpLength" :options="commonDropdownInfos.companyPrefixs" :required="formData.vocabularySyntax == 'URN' && formData.readpointselector=='SGLN'" />
+                    <b-form-select
+                      v-model="formData.readPoint.gcpLength"
+                      :options="commonDropdownInfos.companyPrefixs"
+                      :required="
+                        formData.vocabularySyntax == 'URN' &&
+                          formData.readpointselector == 'SGLN'
+                      "
+                    />
                   </div>
                 </div>
 
                 <!-- Extension static value for Static ReadPoint type with GLN-->
-                <div v-if="formData.readpointselector == 'SGLN' && formData.readPoint.extensionType == 'static' " class="form-group" style="white-space: pre">
-                  <label class=" col-sm-2 col-xs-3">(254)</label>
+                <div
+                  v-if="
+                    formData.readpointselector == 'SGLN' &&
+                      formData.readPoint.extensionType == 'static'
+                  "
+                  class="form-group"
+                  style="white-space: pre"
+                >
+                  <label class="col-sm-2 col-xs-3">(254)</label>
                   <div class="col-sm-3 col-xs-3">
                     <input
                       v-model="formData.readPoint.extension"
@@ -492,18 +701,37 @@
                 </div>
 
                 <!-- Extension range value for Dynamic ReadPoint type with GLN-->
-                <div v-if="formData.readpointselector == 'SGLN' && formData.readPoint.extensionType == 'dynamic' ">
+                <div
+                  v-if="
+                    formData.readpointselector == 'SGLN' &&
+                      formData.readPoint.extensionType == 'dynamic'
+                  "
+                >
                   <div class="form-group">
-                    <label class=" col-sm-2 col-xs-3"> Range: </label>
+                    <label class="col-sm-2 col-xs-3"> Range: </label>
                     <div class="col-sm-3 col-xs-3">
-                      <input v-model="formData.readPoint.extensionFrom" type="text" class="form-control" placeholder="From extension" :required="formData.readpointselector == 'SGLN' && formData.readPoint.extensionType == 'dynamic'">
+                      <input
+                        v-model="formData.readPoint.extensionFrom"
+                        type="text"
+                        class="form-control"
+                        placeholder="From extension"
+                        :required="
+                          formData.readpointselector == 'SGLN' &&
+                            formData.readPoint.extensionType == 'dynamic'
+                        "
+                      >
                     </div>
                   </div>
 
                   <div class="form-group">
                     <label class="col-sm-2 col-xs-3"> Formatter: </label>
                     <div class="col-sm-3 col-xs-3">
-                      <input v-model="formData.readPoint.extensionFormat" type="text" class="form-control" placeholder="Extension Formatter like %03d,990%03d">
+                      <input
+                        v-model="formData.readPoint.extensionFormat"
+                        type="text"
+                        class="form-control"
+                        placeholder="Extension Formatter like %03d,990%03d"
+                      >
                     </div>
                   </div>
                 </div>
@@ -523,7 +751,10 @@
                           name="readPointType"
                         >
                         <span class="custom-control-indicator" />
-                        <label class="custom-control-label" for="readPointTypeStatic">Static</label>
+                        <label
+                          class="custom-control-label"
+                          for="readPointTypeStatic"
+                        >Static</label>
                       </label>
                     </div>
 
@@ -539,12 +770,14 @@
                           name="readPointType"
                         >
                         <span class="custom-control-indicator" />
-                        <label class="custom-control-label" for="readPointTypeDynamic">Dynamic</label>
+                        <label
+                          class="custom-control-label"
+                          for="readPointTypeDynamic"
+                        >Dynamic</label>
                       </label>
                     </div>
                   </div>
                 </div>
-
               </span>
             </td>
           </tr>
@@ -555,17 +788,29 @@
             </td>
 
             <td>
-              <b-form-select v-model="formData.businesslocationselector" class="form-control" @change="resetFields('bizLocation')">
+              <b-form-select
+                v-model="formData.businesslocationselector"
+                class="form-control"
+                @change="resetFields('bizLocation')"
+              >
                 <b-form-select-option value="null" selected>
                   Choose Business Location type
                 </b-form-select-option>
-                <b-form-select-option value="gs1Key" disabled style="font-weight:bold;">
+                <b-form-select-option
+                  value="gs1Key"
+                  disabled
+                  style="font-weight: bold"
+                >
                   GS1 Key
                 </b-form-select-option>
                 <b-form-select-option value="SGLN">
                   &nbsp; SGLN + ext (Al 414 + Al 254)
                 </b-form-select-option>
-                <b-form-select-option style="font-weight:bold;" disabled value="other">
+                <b-form-select-option
+                  style="font-weight: bold"
+                  disabled
+                  value="other"
+                >
                   Other
                 </b-form-select-option>
                 <b-form-select-option value="manually">
@@ -574,13 +819,22 @@
               </b-form-select>
             </td>
 
-            <td v-if="formData.businesslocationselector != null" class="form-inline">
-              <span v-if="formData.businesslocationselector == 'manually' ">
+            <td
+              v-if="formData.businesslocationselector != null"
+              class="form-inline"
+            >
+              <span v-if="formData.businesslocationselector == 'manually'">
                 <span class="horizontalSpace"> URI </span>
-                <input v-model="formData.bizLocation.manualURI" type="text" class="form-control" placeholder="Ex: urn:epc:id:1234.121" :required="formData.businesslocationselector =='manually'">
+                <input
+                  v-model="formData.bizLocation.manualURI"
+                  type="text"
+                  class="form-control"
+                  placeholder="Ex: urn:epc:id:1234.121"
+                  :required="formData.businesslocationselector == 'manually'"
+                >
               </span>
 
-              <span v-if="formData.businesslocationselector == 'SGLN' ">
+              <span v-if="formData.businesslocationselector == 'SGLN'">
                 <!-- GLN value for the Business Location -->
                 <span class="horizontalSpace"> (414) </span>
                 <input
@@ -592,20 +846,38 @@
                   oninput="this.value=this.value.replace(/[^0-9]/g,'');"
                   title="GLN must be 13 digits"
                   placeholder="13 digits GLN"
-                  :required="formData.businesslocationselector =='SGLN'"
+                  :required="formData.businesslocationselector == 'SGLN'"
                 >
 
                 <!-- GCP Length for bizLocation if the vocabularySyntax is URN -->
-                <div v-if="formData.vocabularySyntax == 'URN' " class="form-group" style="white-space: pre">
-                  <label class=" col-sm-2 col-xs-3" />
+                <div
+                  v-if="formData.vocabularySyntax == 'URN'"
+                  class="form-group"
+                  style="white-space: pre"
+                >
+                  <label class="col-sm-2 col-xs-3" />
                   <div class="col-sm-3 col-xs-3">
-                    <b-form-select v-model="formData.bizLocation.gcpLength" :options="commonDropdownInfos.companyPrefixs" :required="formData.vocabularySyntax == 'URN' && formData.businesslocationselector=='SGLN'" />
+                    <b-form-select
+                      v-model="formData.bizLocation.gcpLength"
+                      :options="commonDropdownInfos.companyPrefixs"
+                      :required="
+                        formData.vocabularySyntax == 'URN' &&
+                          formData.businesslocationselector == 'SGLN'
+                      "
+                    />
                   </div>
                 </div>
 
                 <!-- Extension static value for Static bizLocation type with GLN-->
-                <div v-if="formData.businesslocationselector == 'SGLN' && formData.bizLocation.extensionType == 'static' " class="form-group" style="white-space: pre">
-                  <label class=" col-sm-2 col-xs-3">(254)</label>
+                <div
+                  v-if="
+                    formData.businesslocationselector == 'SGLN' &&
+                      formData.bizLocation.extensionType == 'static'
+                  "
+                  class="form-group"
+                  style="white-space: pre"
+                >
+                  <label class="col-sm-2 col-xs-3">(254)</label>
                   <div class="col-sm-3 col-xs-3">
                     <input
                       v-model="formData.bizLocation.extension"
@@ -617,18 +889,37 @@
                 </div>
 
                 <!-- Extension range value for Dynamic bizLocation type with GLN-->
-                <div v-if="formData.businesslocationselector == 'SGLN' && formData.bizLocation.extensionType == 'dynamic' ">
+                <div
+                  v-if="
+                    formData.businesslocationselector == 'SGLN' &&
+                      formData.bizLocation.extensionType == 'dynamic'
+                  "
+                >
                   <div class="form-group">
-                    <label class=" col-sm-2 col-xs-3"> Range: </label>
+                    <label class="col-sm-2 col-xs-3"> Range: </label>
                     <div class="col-sm-3 col-xs-3">
-                      <input v-model="formData.bizLocation.extensionFrom" type="text" class="form-control" placeholder="From extension" :required="formData.businesslocationselector == 'SGLN' && formData.bizLocation.extensionType == 'dynamic'">
+                      <input
+                        v-model="formData.bizLocation.extensionFrom"
+                        type="text"
+                        class="form-control"
+                        placeholder="From extension"
+                        :required="
+                          formData.businesslocationselector == 'SGLN' &&
+                            formData.bizLocation.extensionType == 'dynamic'
+                        "
+                      >
                     </div>
                   </div>
 
                   <div class="form-group">
                     <label class="col-sm-2 col-xs-3"> Formatter: </label>
                     <div class="col-sm-3 col-xs-3">
-                      <input v-model="formData.bizLocation.extensionFormat" type="text" class="form-control" placeholder="Extension Formatter like %03d,990%03d">
+                      <input
+                        v-model="formData.bizLocation.extensionFormat"
+                        type="text"
+                        class="form-control"
+                        placeholder="Extension Formatter like %03d,990%03d"
+                      >
                     </div>
                   </div>
                 </div>
@@ -643,13 +934,18 @@
                           id="bizLocationStatic"
                           v-model="formData.bizLocation.extensionType"
                           type="radio"
-                          :required="formData.businesslocationselector == 'SGLN'"
+                          :required="
+                            formData.businesslocationselector == 'SGLN'
+                          "
                           class="custom-control-input"
                           value="static"
                           name="bizLocationType"
                         >
                         <span class="custom-control-indicator" />
-                        <label class="custom-control-label" for="bizLocationStatic">Static</label>
+                        <label
+                          class="custom-control-label"
+                          for="bizLocationStatic"
+                        >Static</label>
                       </label>
                     </div>
 
@@ -659,18 +955,22 @@
                           id="bizLocationDynamic"
                           v-model="formData.bizLocation.extensionType"
                           type="radio"
-                          :required="formData.businesslocationselector == 'SGLN'"
+                          :required="
+                            formData.businesslocationselector == 'SGLN'
+                          "
                           class="custom-control-input"
                           value="dynamic"
                           name="bizLocationType"
                         >
                         <span class="custom-control-indicator" />
-                        <label class="custom-control-label" for="bizLocationDynamic">Dynamic</label>
+                        <label
+                          class="custom-control-label"
+                          for="bizLocationDynamic"
+                        >Dynamic</label>
                       </label>
                     </div>
                   </div>
                 </div>
-
               </span>
             </td>
           </tr>
@@ -678,14 +978,20 @@
 
           <!--WHY DIMESION START -->
           <tr>
-            <td :rowspan="rowspanWHY" style="background-color: #F7DC6F;text-align: center;">
+            <td
+              :rowspan="rowspanWHY"
+              style="background-color: #f7dc6f; text-align: center"
+            >
               <strong>WHY</strong>
             </td>
             <td class="why">
               Business Step
             </td>
             <td>
-              <b-form-select v-model="formData.businessStep" :options="commonDropdownInfos.businessSteps" />
+              <b-form-select
+                v-model="formData.businessStep"
+                :options="commonDropdownInfos.businessSteps"
+              />
             </td>
             <td v-if="formData.businessStep == 'BUSINESSSTEPENTER'">
               <input
@@ -704,10 +1010,19 @@
               Disposition
             </td>
             <td>
-              <b-form-select v-model="formData.disposition" :options="commonDropdownInfos.dispositions" />
+              <b-form-select
+                v-model="formData.disposition"
+                :options="commonDropdownInfos.dispositions"
+              />
             </td>
             <td v-if="formData.disposition == 'DISPOSITIONENTER'">
-              <input v-model="formData.EnterDispositionText" type="text" class="form-control" placeholder="Enter Disposition URI" :required="formData.disposition == 'DISPOSITIONENTER'">
+              <input
+                v-model="formData.EnterDispositionText"
+                type="text"
+                class="form-control"
+                placeholder="Enter Disposition URI"
+                :required="formData.disposition == 'DISPOSITIONENTER'"
+              >
             </td>
           </tr>
 
@@ -719,19 +1034,36 @@
               <button class="btn-btn-info" @click="addPD($event)">
                 Add PD
               </button>
-              <span v-for="pd in formData.persistentDispositionList" :key="pd.ID" class="form-inline verticleSpace">
+              <span
+                v-for="pd in formData.persistentDispositionList"
+                :key="pd.ID"
+                class="form-inline verticleSpace"
+              >
                 <span class="horizontalSpace">
                   <select v-model="pd.type" class="form-control">
-                    <option class="dropdown-item" value="null" disabled> Choose </option>
-                    <option class="dropdown-item" value="set" selected> Set </option>
-                    <option class="dropdown-item" value="unset"> Unset </option>
+                    <option class="dropdown-item" value="null" disabled>
+                      Choose
+                    </option>
+                    <option class="dropdown-item" value="set" selected>
+                      Set
+                    </option>
+                    <option class="dropdown-item" value="unset">Unset</option>
                   </select>
                 </span>
                 <span class="horizontalSpace">
-                  <b-form-select v-model="pd.value" :options="commonDropdownInfos.dispositions" />
+                  <b-form-select
+                    v-model="pd.value"
+                    :options="commonDropdownInfos.dispositions"
+                  />
                 </span>
                 <span class="horizontalSpace">
-                  <button type="button" title="Delete Persistent Disposition" @click="deletePD(pd.ID)"><em class="bi bi-trash" /></button>
+                  <button
+                    type="button"
+                    title="Delete Persistent Disposition"
+                    @click="deletePD(pd.ID)"
+                  >
+                    <em class="bi bi-trash" />
+                  </button>
                 </span>
               </span>
             </td>
@@ -742,43 +1074,92 @@
               Business Transactions
             </td>
             <td>
-              <button class="btn-btn-info" @click="addBusinessTransaction($event)">
+              <button
+                class="btn-btn-info"
+                @click="addBusinessTransaction($event)"
+              >
                 Add BTT
               </button>
-              <span v-for="btt in formData.businessTransactionList" :key="btt.ID" class="form-inline verticleSpace">
+              <span
+                v-for="btt in formData.businessTransactionList"
+                :key="btt.ID"
+                class="form-inline verticleSpace"
+              >
                 <span class="horizontalSpace">
-                  <b-form-select v-model="btt.type" class="form-control" :options="commonDropdownInfos.BusinessTransactions" />&ensp;
+                  <b-form-select
+                    v-model="btt.type"
+                    class="form-control"
+                    :options="commonDropdownInfos.BusinessTransactions"
+                  />&ensp;
                 </span>
                 <span class="horizontalSpace">
-                  <input v-model="btt.bizTransaction" type="text" class="form-control">&ensp;
+                  <input
+                    v-model="btt.bizTransaction"
+                    type="text"
+                    class="form-control"
+                  >&ensp;
                 </span>
                 <span class="horizontalSpace">
-                  <button type="button" title="Delete Business Transaction" @click="deleteBusinessTransaction(btt.ID)"><em class="bi bi-trash" /></button>
+                  <button
+                    type="button"
+                    title="Delete Business Transaction"
+                    @click="deleteBusinessTransaction(btt.ID)"
+                  >
+                    <em class="bi bi-trash" />
+                  </button>
                 </span>
               </span>
             </td>
           </tr>
 
-          <tr v-if="formData.eventType === 'ObjectEvent' || formData.eventType === 'AggregationEvent' || formData.eventType === 'TransactionEvent' || formData.eventType === 'AssociationEvent' ">
+          <tr
+            v-if="
+              formData.eventType === 'ObjectEvent' ||
+                formData.eventType === 'AggregationEvent' ||
+                formData.eventType === 'TransactionEvent' ||
+                formData.eventType === 'AssociationEvent'
+            "
+          >
             <td class="why">
               Sources
             </td>
 
             <td>
-              <button class="btn-btn-info" @click="addSourceDestination($event, 'source')">
+              <button
+                class="btn-btn-info"
+                @click="addSourceDestination($event, 'source')"
+              >
                 Add Source
               </button>
 
               <!-- Loop over the source destination to display the sources-->
 
-              <div v-for="source in $store.state.modules.SourceDestinationStore.sources" :key="source.ID">
-                <tr style="white-space:nowrap">
+              <div
+                v-for="source in $store.state.modules.SourceDestinationStore
+                  .sources"
+                :key="source.ID"
+              >
+                <tr style="white-space: nowrap">
                   <td>
                     {{ source.type }}
-                    <button type="button" class="modifyButton" title="Modify Source" @click="modifySourceDestination($event, source.ID, 'source')">
+                    <button
+                      type="button"
+                      class="modifyButton"
+                      title="Modify Source"
+                      @click="
+                        modifySourceDestination($event, source.ID, 'source')
+                      "
+                    >
                       <em class="bi bi-pencil" />
                     </button>
-                    <button type="button" class="deleteButton" title="Delete Source" @click="deleteSourceDestination($event, source.ID, 'source')">
+                    <button
+                      type="button"
+                      class="deleteButton"
+                      title="Delete Source"
+                      @click="
+                        deleteSourceDestination($event, source.ID, 'source')
+                      "
+                    >
                       <em class="bi bi-trash" />
                     </button>
                   </td>
@@ -786,26 +1167,62 @@
               </div>
             </td>
           </tr>
-          <tr v-if="formData.eventType === 'ObjectEvent' || formData.eventType === 'AggregationEvent' || formData.eventType === 'TransactionEvent' || formData.eventType === 'AssociationEvent' ">
+          <tr
+            v-if="
+              formData.eventType === 'ObjectEvent' ||
+                formData.eventType === 'AggregationEvent' ||
+                formData.eventType === 'TransactionEvent' ||
+                formData.eventType === 'AssociationEvent'
+            "
+          >
             <td class="why">
               Destinations
             </td>
 
             <td>
-              <button class="btn-btn-info" @click="addSourceDestination($event, 'destination')">
+              <button
+                class="btn-btn-info"
+                @click="addSourceDestination($event, 'destination')"
+              >
                 Add Destination
               </button>
 
               <!-- Loop over the destination destination to display the destinations-->
 
-              <div v-for="destination in $store.state.modules.SourceDestinationStore.destinations" :key="destination.ID">
-                <tr style="white-space:nowrap">
+              <div
+                v-for="destination in $store.state.modules
+                  .SourceDestinationStore.destinations"
+                :key="destination.ID"
+              >
+                <tr style="white-space: nowrap">
                   <td>
                     {{ destination.type }}
-                    <button type="button" class="modifyButton" title="Modify Destination" @click="modifySourceDestination($event, destination.ID, 'destination')">
+                    <button
+                      type="button"
+                      class="modifyButton"
+                      title="Modify Destination"
+                      @click="
+                        modifySourceDestination(
+                          $event,
+                          destination.ID,
+                          'destination'
+                        )
+                      "
+                    >
                       <em class="bi bi-pencil" />
                     </button>
-                    <button type="button" class="deleteButton" title="Delete Destination" @click="deleteSourceDestination($event, destination.ID, 'destination')">
+                    <button
+                      type="button"
+                      class="deleteButton"
+                      title="Delete Destination"
+                      @click="
+                        deleteSourceDestination(
+                          $event,
+                          destination.ID,
+                          'destination'
+                        )
+                      "
+                    >
                       <em class="bi bi-trash" />
                     </button>
                   </td>
@@ -817,23 +1234,45 @@
 
           <!-- HOW DIMENSION -->
           <tr>
-            <td rowspan="1" style="background-color: #08A9A8;text-align: center;">
+            <td
+              rowspan="1"
+              style="background-color: #08a9a8; text-align: center"
+            >
               <strong>HOW</strong>
             </td>
-            <td style="background-color: #A5FBFA;">
+            <td style="background-color: #a5fbfa">
               Conditions
             </td>
             <td>
-              <button type="button" class="btn-btn-info" @click="addSensorInformation">
+              <button
+                type="button"
+                class="btn-btn-info"
+                @click="addSensorInformation"
+              >
                 Add Sensor Info
               </button>
-              <span v-for="sensorElement in $store.state.modules.SensorElementsStore.sensorElementList" :key="sensorElement.ID" class="form-inline verticleSpace">
-                <span>
-                  Sensor Information - {{ sensorElement.ID + 1 }}
-                </span>
+              <span
+                v-for="sensorElement in $store.state.modules.SensorElementsStore
+                  .sensorElementList"
+                :key="sensorElement.ID"
+                class="form-inline verticleSpace"
+              >
+                <span> Sensor Information - {{ sensorElement.ID + 1 }} </span>
                 <span class="horizontalSpace">
-                  <button type="button" title="Modify Sensor Element" @click="modifySensorElement($event, sensorElement.ID)"><em class="bi bi-pencil" /></button>
-                  <button type="button" title="Delete Sensor Element" @click="deleteSensorElement($event, sensorElement.ID)"><em class="bi bi-trash" /></button>
+                  <button
+                    type="button"
+                    title="Modify Sensor Element"
+                    @click="modifySensorElement($event, sensorElement.ID)"
+                  >
+                    <em class="bi bi-pencil" />
+                  </button>
+                  <button
+                    type="button"
+                    title="Delete Sensor Element"
+                    @click="deleteSensorElement($event, sensorElement.ID)"
+                  >
+                    <em class="bi bi-trash" />
+                  </button>
                 </span>
               </span>
             </td>
@@ -843,7 +1282,7 @@
           <!-- OTHER FIELDS START -->
           <tr>
             <!-- FIRST ELEMENT of OTHER FIELDS -->
-            <td :rowspan="rowSpanOtherFields" style="background-color: #F2F3F4;">
+            <td :rowspan="rowSpanOtherFields" style="background-color: #f2f3f4">
               <strong>OTHER</strong>
             </td>
 
@@ -859,23 +1298,39 @@
           </tr>
 
           <tr>
-            <td> Extensions </td>
+            <td>Extensions</td>
             <td>
-              <button type="button" class="btn-btn-info" @click="userExtensionAddition($event,'userExtension')">
+              <button
+                type="button"
+                class="btn-btn-info"
+                @click="userExtensionAddition($event, 'userExtension')"
+              >
                 Add Extension
               </button>
               <div
-                v-for="extension in $store.state.modules.ExtensionDataStore.userExtensions"
+                v-for="extension in $store.state.modules.ExtensionDataStore
+                  .userExtensions"
                 :key="extension.ID"
               >
-                <tr style="white-space:nowrap">
+                <tr style="white-space: nowrap">
                   <td v-if="extension.dataType == 'string'">
-                    <span>{{ extension.namespace + ":" + extension.localName }}</span>
-                    <input v-if="extension.dataType == 'string'" :value="extension.text" type="text" @input="extensionText($event, extension.ID, 'userExtension')">
+                    <span>{{
+                      extension.namespace + ":" + extension.localName
+                    }}</span>
+                    <input
+                      v-if="extension.dataType == 'string'"
+                      :value="extension.text"
+                      type="text"
+                      @input="
+                        extensionText($event, extension.ID, 'userExtension')
+                      "
+                    >
                   </td>
 
                   <td v-if="extension.dataType == 'complex'">
-                    <span>{{ extension.namespace + ":" + extension.localName }}</span>
+                    <span>{{
+                      extension.namespace + ":" + extension.localName
+                    }}</span>
                     <ExtensionComponent
                       v-if="extension.dataType == 'complex'"
                       :extension="extension"
@@ -883,10 +1338,24 @@
                   </td>
 
                   <td>
-                    <button type="button" class="modifyButton" title="Modify User Extension" @click="modifyExtension($event, extension.ID, 'userExtension')">
+                    <button
+                      type="button"
+                      class="modifyButton"
+                      title="Modify User Extension"
+                      @click="
+                        modifyExtension($event, extension.ID, 'userExtension')
+                      "
+                    >
                       <em class="bi bi-pencil" />
                     </button>
-                    <button type="button" class="deleteButton" title="Delete User Extension" @click="deleteExtension($event, extension.ID, 'userExtension')">
+                    <button
+                      type="button"
+                      class="deleteButton"
+                      title="Delete User Extension"
+                      @click="
+                        deleteExtension($event, extension.ID, 'userExtension')
+                      "
+                    >
                       <em class="bi bi-trash" />
                     </button>
                   </td>
@@ -896,24 +1365,43 @@
           </tr>
 
           <!-- SECOND ELEMENT of OTHER FIELDS -->
-          <tr v-if="formData.eventType == 'ObjectEvent' || formData.eventType == 'TransformationEvent' ">
-            <td> ILMD </td>
+          <tr
+            v-if="
+              formData.eventType == 'ObjectEvent' ||
+                formData.eventType == 'TransformationEvent'
+            "
+          >
+            <td>ILMD</td>
             <td>
-              <button type="button" class="btn-btn-info" @click="userExtensionAddition($event,'ilmd')">
+              <button
+                type="button"
+                class="btn-btn-info"
+                @click="userExtensionAddition($event, 'ilmd')"
+              >
                 Add ILMD
               </button>
               <div
-                v-for="extension in $store.state.modules.ExtensionDataStore.ilmd"
+                v-for="extension in $store.state.modules.ExtensionDataStore
+                  .ilmd"
                 :key="extension.ID"
               >
-                <tr style="white-space:nowrap">
+                <tr style="white-space: nowrap">
                   <td v-if="extension.dataType == 'string'">
-                    <span>{{ extension.namespace + ":" + extension.localName }}</span>
-                    <input v-if="extension.dataType == 'string'" :value="extension.text" type="text" @input="extensionText($event, extension.ID, 'ilmd')">
+                    <span>{{
+                      extension.namespace + ":" + extension.localName
+                    }}</span>
+                    <input
+                      v-if="extension.dataType == 'string'"
+                      :value="extension.text"
+                      type="text"
+                      @input="extensionText($event, extension.ID, 'ilmd')"
+                    >
                   </td>
 
                   <td v-if="extension.dataType == 'complex'">
-                    <span>{{ extension.namespace + ":" + extension.localName }}</span>
+                    <span>{{
+                      extension.namespace + ":" + extension.localName
+                    }}</span>
                     <ExtensionComponent
                       v-if="extension.dataType == 'complex'"
                       :extension="extension"
@@ -921,10 +1409,20 @@
                   </td>
 
                   <td>
-                    <button type="button" class="modifyButton" title="Modify ILMD Extension" @click="modifyExtension($event, extension.ID, 'ilmd')">
+                    <button
+                      type="button"
+                      class="modifyButton"
+                      title="Modify ILMD Extension"
+                      @click="modifyExtension($event, extension.ID, 'ilmd')"
+                    >
                       <em class="bi bi-pencil" />
                     </button>
-                    <button type="button" class="deleteButton" title="Delete ILMD Extension" @click="deleteExtension($event, extension.ID, 'ilmd')">
+                    <button
+                      type="button"
+                      class="deleteButton"
+                      title="Delete ILMD Extension"
+                      @click="deleteExtension($event, extension.ID, 'ilmd')"
+                    >
                       <em class="bi bi-trash" />
                     </button>
                   </td>
@@ -934,17 +1432,25 @@
           </tr>
 
           <!-- THIRD ELEMENT of OTHER FIELDS -->
-          <tr v-if="formData.eventType == 'TransformationEvent' ">
-            <td> Transformation ID </td>
+          <tr v-if="formData.eventType == 'TransformationEvent'">
+            <td>Transformation ID</td>
             <td>
-              <input v-model="formData.transformationXformId" type="text" class="form-control" placeholder="Transformation ID URI (Optional)">
+              <input
+                v-model="formData.transformationXformId"
+                type="text"
+                class="form-control"
+                placeholder="Transformation ID URI (Optional)"
+              >
             </td>
           </tr>
           <!-- OTHER FIELDS END -->
 
           <!-- ERROR DECLARATION FIELDS START -->
           <tr v-if="!formData.ordinaryEvent">
-            <td rowspan="4" style="background-color: #cc0000;text-align: center;">
+            <td
+              rowspan="4"
+              style="background-color: #cc0000; text-align: center"
+            >
               Error
             </td>
             <td class="errorDimension">
@@ -952,28 +1458,44 @@
             </td>
 
             <td>
-              <b-form-select v-model="formData.error.ErrorDeclarationTimeSelector" :options="commonDropdownInfos.eventTimeSelector" />
+              <b-form-select
+                v-model="formData.error.ErrorDeclarationTimeSelector"
+                :options="commonDropdownInfos.eventTimeSelector"
+              />
             </td>
 
-            <td v-if="formData.error.ErrorDeclarationTimeSelector == 'SpecificTime' ">
+            <td
+              v-if="
+                formData.error.ErrorDeclarationTimeSelector == 'SpecificTime'
+              "
+            >
               <input
                 v-model="formData.error.ErrorDeclarationTime"
                 type="datetime-local"
                 class="form-control"
                 title="Set Specific Event Time"
-                :required="formData.ordinaryEvent == false && formData.error.ErrorDeclarationTimeSelector == 'SpecificTime'"
+                :required="
+                  formData.ordinaryEvent == false &&
+                    formData.error.ErrorDeclarationTimeSelector == 'SpecificTime'
+                "
                 step="1"
               >
             </td>
 
-            <td v-if="formData.error.ErrorDeclarationTimeSelector == 'TimeRange' " class="form-inline">
+            <td
+              v-if="formData.error.ErrorDeclarationTimeSelector == 'TimeRange'"
+              class="form-inline"
+            >
               <span class="horizontalSpace"> From </span>
               <input
                 v-model="formData.error.ErrorDeclarationTimeFrom"
                 type="datetime-local"
                 class="form-control"
                 title="Error Declaration Time Range FROM"
-                :required="formData.ordinaryEvent == false && formData.error.ErrorDeclarationTimeSelector == 'TimeRange'"
+                :required="
+                  formData.ordinaryEvent == false &&
+                    formData.error.ErrorDeclarationTimeSelector == 'TimeRange'
+                "
                 step="1"
               >
               <span class="horizontalSpace"> To </span>
@@ -982,13 +1504,19 @@
                 type="datetime-local"
                 class="form-control"
                 title="Error Declaration Time Range TO"
-                :required="formData.ordinaryEvent == false && formData.error.ErrorDeclarationTimeSelector == 'TimeRange'"
+                :required="
+                  formData.ordinaryEvent == false &&
+                    formData.error.ErrorDeclarationTimeSelector == 'TimeRange'
+                "
                 step="1"
               >
             </td>
 
             <td>
-              <b-form-select v-model="formData.error.ErrorTimeZone" :options="commonDropdownInfos.TimeZones" />
+              <b-form-select
+                v-model="formData.error.ErrorTimeZone"
+                :options="commonDropdownInfos.TimeZones"
+              />
             </td>
           </tr>
 
@@ -997,11 +1525,19 @@
               Reason
             </td>
             <td>
-              <b-form-select v-model="formData.error.ErrorReasonType" :options="commonDropdownInfos.ErrorReasons" />
+              <b-form-select
+                v-model="formData.error.ErrorReasonType"
+                :options="commonDropdownInfos.ErrorReasons"
+              />
             </td>
 
-            <td v-if="formData.error.ErrorReasonType == 'Other' ">
-              <input v-model="formData.ErrorReasonOther" type="text" class="form-control" placeholder="Enter Error Reason">
+            <td v-if="formData.error.ErrorReasonType == 'Other'">
+              <input
+                v-model="formData.ErrorReasonOther"
+                type="text"
+                class="form-control"
+                placeholder="Enter Error Reason"
+              >
             </td>
           </tr>
 
@@ -1010,16 +1546,34 @@
               Corrective IDs
             </td>
             <td>
-              <button type="button" class="btn-btn-info" @click="addErrorCorrective($event)">
+              <button
+                type="button"
+                class="btn-btn-info"
+                @click="addErrorCorrective($event)"
+              >
                 Add Another
               </button>
 
-              <span v-for="errCorr in formData.error.errorCorrectiveIdsList" :key="errCorr.ID" class="form-inline verticleSpace">
+              <span
+                v-for="errCorr in formData.error.errorCorrectiveIdsList"
+                :key="errCorr.ID"
+                class="form-inline verticleSpace"
+              >
                 <span class="horizontalSpace">
-                  <input v-model="errCorr.value" type="text" class="form-control">
+                  <input
+                    v-model="errCorr.value"
+                    type="text"
+                    class="form-control"
+                  >
                 </span>
                 <span class="horizontalSpace">
-                  <button type="button" title="Delete Error Corretive" @click="deleteErrCorrectiveInfo(errCorr.ID)"><em class="bi bi-trash" /></button>
+                  <button
+                    type="button"
+                    title="Delete Error Corretive"
+                    @click="deleteErrCorrectiveInfo(errCorr.ID)"
+                  >
+                    <em class="bi bi-trash" />
+                  </button>
                 </span>
               </span>
             </td>
@@ -1030,21 +1584,37 @@
               Extension
             </td>
             <td>
-              <button type="button" class="btn-btn-info" @click="userExtensionAddition($event,'ErrorExtension')">
+              <button
+                type="button"
+                class="btn-btn-info"
+                @click="userExtensionAddition($event, 'ErrorExtension')"
+              >
                 Add Another
               </button>
               <div
-                v-for="extension in $store.state.modules.ExtensionDataStore.errorExtensions"
+                v-for="extension in $store.state.modules.ExtensionDataStore
+                  .errorExtensions"
                 :key="extension.ID"
               >
-                <tr style="white-space:nowrap">
+                <tr style="white-space: nowrap">
                   <td v-if="extension.dataType == 'string'">
-                    <span>{{ extension.namespace + ":" + extension.localName }}</span>
-                    <input v-if="extension.dataType == 'string'" :value="extension.text" type="text" @input="extensionText($event, extension.ID, 'ErrorExtension')">
+                    <span>{{
+                      extension.namespace + ":" + extension.localName
+                    }}</span>
+                    <input
+                      v-if="extension.dataType == 'string'"
+                      :value="extension.text"
+                      type="text"
+                      @input="
+                        extensionText($event, extension.ID, 'ErrorExtension')
+                      "
+                    >
                   </td>
 
                   <td v-if="extension.dataType == 'complex'">
-                    <span>{{ extension.namespace + ":" + extension.localName }}</span>
+                    <span>{{
+                      extension.namespace + ":" + extension.localName
+                    }}</span>
                     <ExtensionComponent
                       v-if="extension.dataType == 'complex'"
                       :extension="extension"
@@ -1052,10 +1622,24 @@
                   </td>
 
                   <td>
-                    <button type="button" class="modifyButton" title="Modify Error Extension" @click="modifyExtension($event, extension.ID, 'ErrorExtension')">
+                    <button
+                      type="button"
+                      class="modifyButton"
+                      title="Modify Error Extension"
+                      @click="
+                        modifyExtension($event, extension.ID, 'ErrorExtension')
+                      "
+                    >
                       <em class="bi bi-pencil" />
                     </button>
-                    <button type="button" class="deleteButton" title="Delete Error Extension" @click="deleteExtension($event, extension.ID, 'ErrorExtension')">
+                    <button
+                      type="button"
+                      class="deleteButton"
+                      title="Delete Error Extension"
+                      @click="
+                        deleteExtension($event, extension.ID, 'ErrorExtension')
+                      "
+                    >
                       <em class="bi bi-trash" />
                     </button>
                   </td>
@@ -1075,9 +1659,16 @@
         OK
       </b-btn>
     </template>
-    <SourceDestinationModal v-if="$store.state.modules.SourceDestinationStore.sourceDestinationModal" />
-    <ExtensionModal v-if="$store.state.modules.ExtensionDataStore.extensionModal" />
-    <SensorElementsModal v-if="$store.state.modules.SensorElementsStore.sensorModal" />
+    <SourceDestinationModal
+      :show-modal="showsourceDestinationModal"
+      @close="closeSourceDestinationModal"
+    />
+    <ExtensionModal
+      v-if="$store.state.modules.ExtensionDataStore.extensionModal"
+    />
+    <SensorElementsModal
+      v-if="$store.state.modules.SensorElementsStore.sensorModal"
+    />
   </b-modal>
 </template>
 
@@ -1150,7 +1741,8 @@ function initialState () {
       quantityList: [],
       outputEPCList: [],
       outputQuantityList: []
-    }
+    },
+    showsourceDestinationModal: false
   }
 }
 
@@ -1172,11 +1764,25 @@ export default {
     this.commonDropdownInfos = require('~/static/EpcisData/CommonDropdown.js')
 
     // Get the current eventType based on the EventNode on which user has clicked and assign the value
-    const currentEventInfo = JSON.parse(JSON.stringify(this.$store.state.modules.ConfigureNodeEventInfoStore.currentNodeInfo))
+    const currentEventInfo = JSON.parse(
+      JSON.stringify(
+        this.$store.state.modules.ConfigureNodeEventInfoStore.currentNodeInfo
+      )
+    )
 
     // Check if user is trying to modify the values if so then populate the modal with existing information
-    if (JSON.stringify(this.$store.state.modules.ConfigureNodeEventInfoStore.getExistingNodeInfo) !== '{}') {
-      this.formData = JSON.parse(JSON.stringify(this.$store.state.modules.ConfigureNodeEventInfoStore.getExistingNodeInfo))
+    if (
+      JSON.stringify(
+        this.$store.state.modules.ConfigureNodeEventInfoStore
+          .getExistingNodeInfo
+      ) !== '{}'
+    ) {
+      this.formData = JSON.parse(
+        JSON.stringify(
+          this.$store.state.modules.ConfigureNodeEventInfoStore
+            .getExistingNodeInfo
+        )
+      )
       this.eventTypeChange(this.formData.eventType)
     } else {
       this.formData.eventType = currentEventInfo.eventType
@@ -1189,11 +1795,18 @@ export default {
 
       let yesterday = new Date()
       yesterday.setDate(new Date().getDate() - 1)
-      yesterday.setMinutes(yesterday.getMinutes() - yesterday.getTimezoneOffset())
+      yesterday.setMinutes(
+        yesterday.getMinutes() - yesterday.getTimezoneOffset()
+      )
       yesterday.setSeconds(yesterday.getSeconds(), 0)
       yesterday = yesterday.toISOString().slice(0, -1)
 
-      this.formData.eventTime = { specificTime: now, fromTime: yesterday, toTime: now, timeZoneOffset: '+02:00' }
+      this.formData.eventTime = {
+        specificTime: now,
+        fromTime: yesterday,
+        toTime: now,
+        timeZoneOffset: '+02:00'
+      }
       this.formData.error.ErrorDeclarationTime = now
       this.formData.error.ErrorDeclarationTimeFrom = yesterday
       this.formData.error.ErrorDeclarationTimeTo = now
@@ -1202,24 +1815,36 @@ export default {
   methods: {
     // Function to change the identifier syntax based on user selection
     identifierSyntaxChange (identifierSyntax) {
-      this.$store.commit('modules/IdentifiersStore/populateIdentifiersType', { identifierSyntax })
+      this.$store.commit('modules/IdentifiersStore/populateIdentifiersType', {
+        identifierSyntax
+      })
     },
 
     // Actions to perform after the submission of the event information for each event
     submitEventData (event) {
       // Add the values for the form for further modification of the Node info if user tries to modify
-      this.formData.sources = this.$store.state.modules.SourceDestinationStore.sources
-      this.formData.destinations = this.$store.state.modules.SourceDestinationStore.destinations
-      this.formData.sensorElementList = this.$store.state.modules.SensorElementsStore.sensorElementList
-      this.formData.userExtensions = this.$store.state.modules.ExtensionDataStore.userExtensions
+      this.formData.sources =
+        this.$store.state.modules.SourceDestinationStore.sources
+      this.formData.destinations =
+        this.$store.state.modules.SourceDestinationStore.destinations
+      this.formData.sensorElementList =
+        this.$store.state.modules.SensorElementsStore.sensorElementList
+      this.formData.userExtensions =
+        this.$store.state.modules.ExtensionDataStore.userExtensions
       this.formData.ilmd = this.$store.state.modules.ExtensionDataStore.ilmd
-      this.formData.error.errorExtensions = this.$store.state.modules.ExtensionDataStore.errorExtensions
+      this.formData.error.errorExtensions =
+        this.$store.state.modules.ExtensionDataStore.errorExtensions
 
       // On Sumission of the modal toggle the  to hide the modal
-      this.$store.commit('modules/ConfigureNodeEventInfoStore/hideNodeEventInfoModal')
+      this.$store.commit(
+        'modules/ConfigureNodeEventInfoStore/hideNodeEventInfoModal'
+      )
 
       // On Submission of the modal store the infromation related to event in an Array
-      this.$store.commit('modules/ConfigureNodeEventInfoStore/populateNodeEventInfo', { eventInfo: this.formData })
+      this.$store.commit(
+        'modules/ConfigureNodeEventInfoStore/populateNodeEventInfo',
+        { eventInfo: this.formData }
+      )
 
       // Emit the function to update the Annotations based on event info
       this.$root.$emit('populateNodeInfo')
@@ -1266,14 +1891,19 @@ export default {
     // Based on user click show the Sensor Element modal to modify the existing information
     modifySensorElement (event, sensorElementID) {
       event.preventDefault()
-      this.$store.commit('modules/SensorElementsStore/modifySensorElement', { sensorElementID })
+      this.$store.commit('modules/SensorElementsStore/modifySensorElement', {
+        sensorElementID
+      })
       this.$store.commit('modules/SensorElementsStore/showSensorModal')
     },
 
     // Based on user click remove the respective sensor element information
     deleteSensorElement (event, sensorElementID) {
       event.preventDefault()
-      this.$store.commit('modules/SensorElementsStore/deleteSensorElement', sensorElementID)
+      this.$store.commit(
+        'modules/SensorElementsStore/deleteSensorElement',
+        sensorElementID
+      )
     },
 
     // Function to add the Disposition for the respective event
@@ -1289,7 +1919,12 @@ export default {
 
     // Delete Persistnet Disposition based on user click of the respective PD
     deletePD (pdID) {
-      this.formData.persistentDispositionList.splice(this.formData.persistentDispositionList.findIndex(pd => pd.ID === pdID), 1)
+      this.formData.persistentDispositionList.splice(
+        this.formData.persistentDispositionList.findIndex(
+          pd => pd.ID === pdID
+        ),
+        1
+      )
     },
 
     // Add the Business Trasactions based on the addition by user
@@ -1305,32 +1940,63 @@ export default {
 
     // Delete Business Transactions based on user click of the respective Business Transaction element
     deleteBusinessTransaction (bttID) {
-      this.formData.businessTransactionList.splice(this.formData.businessTransactionList.findIndex(btt => btt.ID === bttID), 1)
+      this.formData.businessTransactionList.splice(
+        this.formData.businessTransactionList.findIndex(
+          btt => btt.ID === bttID
+        ),
+        1
+      )
     },
 
     // Add the source/destination based on the click on Add source/destination button
     addSourceDestination (event, type) {
       event.preventDefault()
-      this.$store.commit('modules/SourceDestinationStore/resetCurrentSourceDestination')
-      this.$store.commit('modules/SourceDestinationStore/sourceDestinationTypePopulator', type)
-      this.$store.commit('modules/SourceDestinationStore/setVocabularySyntax', this.formData.vocabularySyntax)
-      this.$store.commit('modules/SourceDestinationStore/showSourceDestinationModal')
+      this.$store.commit(
+        'modules/SourceDestinationStore/resetCurrentSourceDestination'
+      )
+      this.$store.commit(
+        'modules/SourceDestinationStore/sourceDestinationTypePopulator',
+        type
+      )
+      this.$store.commit(
+        'modules/SourceDestinationStore/setVocabularySyntax',
+        this.formData.vocabularySyntax
+      )
+      this.showsourceDestinationModal = true
+    },
+
+    closeSourceDestinationModal () {
+      this.showsourceDestinationModal = false
     },
 
     // Modify source/destination based on the click on Modify Source/Destination button
     modifySourceDestination (event, sourceDestinationID, type) {
       event.preventDefault()
-      this.$store.commit('modules/SourceDestinationStore/resetCurrentSourceDestination')
-      this.$store.commit('modules/SourceDestinationStore/sourceDestinationTypePopulator', type)
-      this.$store.commit('modules/SourceDestinationStore/modifySourceDestination', sourceDestinationID)
-      this.$store.commit('modules/SourceDestinationStore/showSourceDestinationModal')
+      this.$store.commit(
+        'modules/SourceDestinationStore/resetCurrentSourceDestination'
+      )
+      this.$store.commit(
+        'modules/SourceDestinationStore/sourceDestinationTypePopulator',
+        type
+      )
+      this.$store.commit(
+        'modules/SourceDestinationStore/modifySourceDestination',
+        sourceDestinationID
+      )
+      this.showsourceDestinationModal = true
     },
 
     // Delete source/destination based on the click on Delete Source/Destination button
     deleteSourceDestination (event, sourceDestinationID, type) {
       event.preventDefault()
-      this.$store.commit('modules/SourceDestinationStore/sourceDestinationTypePopulator', type)
-      this.$store.commit('modules/SourceDestinationStore/deleteSourceDestination', sourceDestinationID)
+      this.$store.commit(
+        'modules/SourceDestinationStore/sourceDestinationTypePopulator',
+        type
+      )
+      this.$store.commit(
+        'modules/SourceDestinationStore/deleteSourceDestination',
+        sourceDestinationID
+      )
     },
 
     // Add the Error Corrective information
@@ -1345,39 +2011,65 @@ export default {
 
     // Delete Error CorrectiveIDs based on user click of the respective Business Transaction element
     deleteErrCorrectiveInfo (correctiveID) {
-      this.formData.error.errorCorrectiveIdsList.splice(this.formData.error.errorCorrectiveIdsList.findIndex(corrective => corrective.ID === correctiveID), 1)
+      this.formData.error.errorCorrectiveIdsList.splice(
+        this.formData.error.errorCorrectiveIdsList.findIndex(
+          corrective => corrective.ID === correctiveID
+        ),
+        1
+      )
     },
 
     // Function to add the User extension onclick of the Add button
     userExtensionAddition (event, type) {
       event.preventDefault()
       this.$store.commit('modules/ExtensionDataStore/showExtensionModal')
-      this.$store.commit('modules/ExtensionDataStore/extensionTypePopulator', type)
+      this.$store.commit(
+        'modules/ExtensionDataStore/extensionTypePopulator',
+        type
+      )
       this.$store.commit('modules/ExtensionDataStore/setParentExtension', null)
     },
 
     // Based on the text change in String extension input change the value in List
     extensionText (event, extensionID, type) {
       this.$store.commit('modules/ExtensionDataStore/setParentExtension', null)
-      this.$store.commit('modules/ExtensionDataStore/extensionTypePopulator', type)
-      this.$store.commit('modules/ExtensionDataStore/extensionText', { text: event.target.value, extensionID })
+      this.$store.commit(
+        'modules/ExtensionDataStore/extensionTypePopulator',
+        type
+      )
+      this.$store.commit('modules/ExtensionDataStore/extensionText', {
+        text: event.target.value,
+        extensionID
+      })
     },
 
     // Function to modify the User Extension onClick of the modify button
     modifyExtension (event, extensionID, type) {
       event.preventDefault()
-      this.$store.commit('modules/ExtensionDataStore/extensionTypePopulator', type)
+      this.$store.commit(
+        'modules/ExtensionDataStore/extensionTypePopulator',
+        type
+      )
       this.$store.commit('modules/ExtensionDataStore/setParentExtension', null)
-      this.$store.commit('modules/ExtensionDataStore/modifyExtension', extensionID)
+      this.$store.commit(
+        'modules/ExtensionDataStore/modifyExtension',
+        extensionID
+      )
       this.$store.commit('modules/ExtensionDataStore/showExtensionModal')
     },
 
     // Function to delete the User extension onclick of the Delete button
     deleteExtension (event, extensionID, type) {
       event.preventDefault()
-      this.$store.commit('modules/ExtensionDataStore/extensionTypePopulator', type)
+      this.$store.commit(
+        'modules/ExtensionDataStore/extensionTypePopulator',
+        type
+      )
       this.$store.commit('modules/ExtensionDataStore/setParentExtension', null)
-      this.$store.commit('modules/ExtensionDataStore/deleteExtension', extensionID)
+      this.$store.commit(
+        'modules/ExtensionDataStore/deleteExtension',
+        extensionID
+      )
     },
 
     // Function to delete parent identifiers during the import of events -> design
@@ -1421,91 +2113,94 @@ export default {
 
     // Onclick of the cancel/ESC button hide the modal and toggle the modal flag
     cancel () {
-      this.$store.commit('modules/ConfigureNodeEventInfoStore/hideNodeEventInfoModal')
+      this.$store.commit(
+        'modules/ConfigureNodeEventInfoStore/hideNodeEventInfoModal'
+      )
     }
   }
 }
 </script>
 
 <style>
-#eventForm{
+#eventForm {
   display: flex;
-  zoom:85%;
+  zoom: 85%;
 }
 
 .table-nonfluid {
-   width: auto !important;
+  width: auto !important;
 }
 
 .table td {
-   text-align: center;
-}
-
-.table > tbody > tr > td {
-    vertical-align: middle;
-}
-
-table td[class*=col-], table th[class*=col-] {
-    position: static;
-    display: table-cell;
-    float: none;
-}
-
-.table-bordered {
-   width: auto !important;
-}
-
-#eventDimension{
-  background-color: #F2F3F4;
   text-align: center;
 }
 
-#whatDimension{
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+table td[class*="col-"],
+table th[class*="col-"] {
+  position: static;
+  display: table-cell;
+  float: none;
+}
+
+.table-bordered {
+  width: auto !important;
+}
+
+#eventDimension {
+  background-color: #f2f3f4;
+  text-align: center;
+}
+
+#whatDimension {
   background-color: #607fbf;
   text-align: center;
 }
 
-.what{
+.what {
   background-color: #dfe5f1;
 }
 
-.when{
+.when {
   background-color: #eedded;
   text-align: center;
 }
 
-.why{
-background-color: #faf4d5;
-text-align: center;
+.why {
+  background-color: #faf4d5;
+  text-align: center;
 }
 
-.horizontalSpace{
+.horizontalSpace {
   padding-right: 8px;
   padding-left: 8px;
 }
 
-.verticleSpace{
-  padding-top:8px;
+.verticleSpace {
+  padding-top: 8px;
   padding-bottom: 8px;
 }
 
-.where{
+.where {
   background-color: #dae9e4;
 }
 
 ::-webkit-input-placeholder {
-   text-align: center;
+  text-align: center;
 }
 
-.errorDimension{
+.errorDimension {
   background-color: #f2c2c2;
 }
 
-.modifyButton{
-  color:#F8C471
+.modifyButton {
+  color: #f8c471;
 }
 
-.deleteButton{
-  color:#dc3545
+.deleteButton {
+  color: #dc3545;
 }
 </style>

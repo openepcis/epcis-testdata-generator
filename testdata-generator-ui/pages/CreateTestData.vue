@@ -19,7 +19,12 @@
   <div>
     <div class="row float-right">
       <div class="col-5">
-        <button type="button" class="btn btn-info" title="Export Test Data Info to Local" @click="exportData()">
+        <button
+          type="button"
+          class="btn btn-info"
+          title="Export Test Data Info to Local"
+          @click="exportData()"
+        >
           Export
         </button>
       </div>
@@ -43,8 +48,13 @@
         </span>
       </div>
     </div>
-    <div id="eventForm" class="row" style="margin-top:1%">
-      <form ref="testDataForm" class="form-horizontal" autocomplete="on" @submit.prevent="generateTestData">
+    <div id="eventForm" class="row" style="margin-top: 1%">
+      <form
+        ref="testDataForm"
+        class="form-horizontal"
+        autocomplete="on"
+        @submit.prevent="generateTestData"
+      >
         <table class="table table-bordered">
           <caption />
           <th id="tableHeader" />
@@ -52,7 +62,7 @@
             <!-- COMMON INFORMATION APPLICABLE FOR ALL TYPE OF EVENTS -->
             <tr>
               <td id="eventDimension" :rowspan="EventTypeRowSpan" />
-              <td> Event Count </td>
+              <td>Event Count</td>
               <td>
                 <input
                   :value="$store.state.modules.DesignTestDataStore.eventCount"
@@ -74,27 +84,39 @@
                 <div class="custom-control custom-radio custom-control-inline">
                   <input
                     id="identifierSyntaxURN"
-                    :checked="$store.state.modules.IdentifiersStore.identifierSyntax == 'URN'"
+                    :checked="
+                      $store.state.modules.IdentifiersStore.identifierSyntax ==
+                        'URN'
+                    "
                     type="radio"
                     class="custom-control-input"
                     value="URN"
                     name="identifierSyntax"
                     @change="identifierSyntaxChange('URN')"
                   >
-                  <label class="custom-control-label" for="identifierSyntaxURN">URN</label>
+                  <label
+                    class="custom-control-label"
+                    for="identifierSyntaxURN"
+                  >URN</label>
                 </div>
 
                 <div class="custom-control custom-radio custom-control-inline">
                   <input
                     id="identifierSyntaxWebURI"
-                    :checked="$store.state.modules.IdentifiersStore.identifierSyntax == 'WebURI'"
+                    :checked="
+                      $store.state.modules.IdentifiersStore.identifierSyntax ==
+                        'WebURI'
+                    "
                     type="radio"
                     class="custom-control-input"
                     value="WebURI"
                     name="identifierSyntax"
                     @change="identifierSyntaxChange('WebURI')"
                   >
-                  <label class="custom-control-label" for="identifierSyntaxWebURI">Web URI</label>
+                  <label
+                    class="custom-control-label"
+                    for="identifierSyntaxWebURI"
+                  >Web URI</label>
                 </div>
               </td>
             </tr>
@@ -109,7 +131,10 @@
                     class="custom-control-input"
                     value="URN"
                   >
-                  <label class="custom-control-label" for="vocabularySyntaxURN">URN</label>
+                  <label
+                    class="custom-control-label"
+                    for="vocabularySyntaxURN"
+                  >URN</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
                   <input
@@ -119,7 +144,10 @@
                     class="custom-control-input"
                     value="WebURI"
                   >
-                  <label class="custom-control-label" for="vocabularySyntaxWebURI">Web URI</label>
+                  <label
+                    class="custom-control-label"
+                    for="vocabularySyntaxWebURI"
+                  >Web URI</label>
                 </div>
               </td>
             </tr>
@@ -128,7 +156,12 @@
                 Event Type
               </td>
               <td>
-                <b-form-select :value="$store.state.modules.DesignTestDataStore.eventType" :options="commonDropdownInfos.eventType" required @change="eventTypeChange($event)" />
+                <b-form-select
+                  :value="$store.state.modules.DesignTestDataStore.eventType"
+                  :options="commonDropdownInfos.eventType"
+                  required
+                  @change="eventTypeChange($event)"
+                />
               </td>
             </tr>
             <tr>
@@ -142,7 +175,10 @@
                     value="ordinaryEvent"
                     @change="formData.ordinaryEvent = true"
                   >
-                  <label class="custom-control-label" for="ordinaryEvent">Ordinary</label>
+                  <label
+                    class="custom-control-label"
+                    for="ordinaryEvent"
+                  >Ordinary</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
                   <input
@@ -153,23 +189,39 @@
                     value="errorEvent"
                     @change="formData.ordinaryEvent = false"
                   >
-                  <label class="custom-control-label" for="errorEvent">Error</label>
+                  <label
+                    class="custom-control-label"
+                    for="errorEvent"
+                  >Error</label>
                 </div>
               </td>
             </tr>
 
-            <tr v-if="$store.state.modules.DesignTestDataStore.eventType == 'ObjectEvent' || $store.state.modules.DesignTestDataStore.eventType == 'AggregationEvent' || $store.state.modules.DesignTestDataStore.eventType == 'TransactionEvent' || $store.state.modules.DesignTestDataStore.eventType == 'AssociationEvent' ">
+            <tr
+              v-if="
+                $store.state.modules.DesignTestDataStore.eventType ==
+                  'ObjectEvent' ||
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                  'AggregationEvent' ||
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                  'TransactionEvent' ||
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                  'AssociationEvent'
+              "
+            >
+              <td>Action</td>
               <td>
-                Action
-              </td>
-              <td>
-                <b-form-select v-model="formData.action" :options="commonDropdownInfos.actions" class="form-control" />
+                <b-form-select
+                  v-model="formData.action"
+                  :options="commonDropdownInfos.actions"
+                  class="form-control"
+                />
               </td>
             </tr>
 
             <tr>
-              <td> Event ID </td>
-              <td class="form-inline" style="display: block;margin: auto;">
+              <td>Event ID</td>
+              <td class="form-inline" style="display: block; margin: auto">
                 <div class="custom-control custom-radio custom-control-inline">
                   <input
                     id="EventIDOption1"
@@ -180,7 +232,10 @@
                     name="eventID"
                     @change="formData.eventID = true"
                   >
-                  <label class="custom-control-label" for="EventIDOption1">Yes</label>
+                  <label
+                    class="custom-control-label"
+                    for="EventIDOption1"
+                  >Yes</label>
                 </div>
 
                 <div class="custom-control custom-radio custom-control-inline">
@@ -193,7 +248,10 @@
                     name="eventID"
                     @change="formData.eventID = false"
                   >
-                  <label class="custom-control-label" for="EventIDOption2">No</label>
+                  <label
+                    class="custom-control-label"
+                    for="EventIDOption2"
+                  >No</label>
                 </div>
               </td>
 
@@ -210,7 +268,10 @@
                     :required="formData.eventID == true"
                     @change="formData.eventIdType = 'UUID'"
                   >
-                  <label class="custom-control-label" for="EventIDTypeOption1">UUID</label>
+                  <label
+                    class="custom-control-label"
+                    for="EventIDTypeOption1"
+                  >UUID</label>
                 </div>
 
                 <div class="custom-control custom-radio custom-control-inline">
@@ -224,13 +285,26 @@
                     :required="formData.eventID == true"
                     @change="formData.eventIdType = 'HashId'"
                   >
-                  <label class="custom-control-label" for="EventIDTypeOption2">Hash ID</label>
+                  <label
+                    class="custom-control-label"
+                    for="EventIDTypeOption2"
+                  >Hash ID</label>
                 </div>
               </td>
 
               <!-- If eventId is true and if the eventIdType is Hash Id then display the Hash Algorithm types -->
-              <td v-if="formData.eventID == true && formData.eventIdType == 'HashId'">
-                <b-form-select v-model="formData.hashAlgorithm" :options="commonDropdownInfos.hashAlgorithmTypes" :required="formData.eventID == true && formData.eventIdType == 'HashId'" />
+              <td
+                v-if="
+                  formData.eventID == true && formData.eventIdType == 'HashId'
+                "
+              >
+                <b-form-select
+                  v-model="formData.hashAlgorithm"
+                  :options="commonDropdownInfos.hashAlgorithmTypes"
+                  :required="
+                    formData.eventID == true && formData.eventIdType == 'HashId'
+                  "
+                />
               </td>
             </tr>
 
@@ -241,58 +315,140 @@
               </td>
 
               <!--When No EVENT TYPE has been selected-->
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == null" class="what" />
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == null">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType == null
+                "
+                class="what"
+              />
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType == null
+                "
+              >
                 Please Select the required Event type
               </td>
 
               <!-- When OBJECT EVENT has been selected -->
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'ObjectEvent' " class="what">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'ObjectEvent'
+                "
+                class="what"
+              >
                 EPCs
               </td>
 
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'ObjectEvent' ">
-                <button v-show="$store.state.modules.IdentifiersStore.instanceIdentifiersList.length === 0" type="button" class="btn-btn-info" @click="showInstanceIdentifiersModal('ObjectEventEPC')">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'ObjectEvent'
+                "
+              >
+                <button
+                  v-show="
+                    $store.state.modules.IdentifiersStore
+                      .instanceIdentifiersList.length === 0
+                  "
+                  type="button"
+                  class="btn-btn-info"
+                  @click="showInstanceIdentifiersModal('ObjectEventEPC')"
+                >
                   Add EPCs
                 </button>
 
-                <span v-for="epc in $store.state.modules.IdentifiersStore.instanceIdentifiersList" :key="epc.ID" class="verticleSpace">
+                <span
+                  v-for="epc in $store.state.modules.IdentifiersStore
+                    .instanceIdentifiersList"
+                  :key="epc.ID"
+                  class="verticleSpace"
+                >
                   <span class="form-inline">
                     <span class="horizontalSpace">
                       {{ Object.keys(epc)[3].toUpperCase() }}
                     </span>
 
                     <span class="horizontalSpace">
-                      <button type="button" title="Modify Instance Identifier" @click="modifyInstanceIdentifier(epc.ID, 'ObjectEvent')"><em class="bi bi-pencil" /></button>
-                      <button type="button" title="Delete Instance Identifier" @click="deleteInstanceIdentifier(epc.ID, 'ObjectEvent')"><em class="bi bi-trash" /></button>
+                      <button
+                        type="button"
+                        title="Modify Instance Identifier"
+                        @click="modifyInstanceIdentifier(epc.ID, 'ObjectEvent')"
+                      >
+                        <em class="bi bi-pencil" />
+                      </button>
+                      <button
+                        type="button"
+                        title="Delete Instance Identifier"
+                        @click="deleteInstanceIdentifier(epc.ID, 'ObjectEvent')"
+                      >
+                        <em class="bi bi-trash" />
+                      </button>
                     </span>
                   </span>
                 </span>
               </td>
 
               <!-- When AGGREGATION EVENT has been selected -->
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'AggregationEvent' " class="what">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'AggregationEvent'
+                "
+                class="what"
+              >
                 Parent ID
               </td>
 
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'AggregationEvent' ">
-                <div v-if="$store.state.modules.IdentifiersStore.parentIdentifiersList == 0">
-                  <button type="button" class="btn-btn-info" @click="parentIdPopulator('AggregationEvent')">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'AggregationEvent'
+                "
+              >
+                <div
+                  v-if="
+                    $store.state.modules.IdentifiersStore
+                      .parentIdentifiersList == 0
+                  "
+                >
+                  <button
+                    type="button"
+                    class="btn-btn-info"
+                    @click="parentIdPopulator('AggregationEvent')"
+                  >
                     Add Parent ID
                   </button>
                 </div>
 
-                <span v-for="parent in $store.state.modules.IdentifiersStore.parentIdentifiersList" :key="parent.ID" class="verticleSpace">
+                <span
+                  v-for="parent in $store.state.modules.IdentifiersStore
+                    .parentIdentifiersList"
+                  :key="parent.ID"
+                  class="verticleSpace"
+                >
                   <span class="form-inline">
                     <span class="horizontalSpace">
                       {{ Object.keys(parent)[3].toUpperCase() }}
                     </span>
 
                     <span class="horizontalSpace">
-                      <button type="button" title="Modify Parent Identifier" @click="modifyParentID(parent.ID, 'AggregationEventParentID')">
+                      <button
+                        type="button"
+                        title="Modify Parent Identifier"
+                        @click="
+                          modifyParentID(parent.ID, 'AggregationEventParentID')
+                        "
+                      >
                         <em class="bi bi-pencil" />
                       </button>
-                      <button type="button" title="Delete Parent Identifier" @click="deleteParentID(parent.ID, 'AggregationEventParentID')">
+                      <button
+                        type="button"
+                        title="Delete Parent Identifier"
+                        @click="
+                          deleteParentID(parent.ID, 'AggregationEventParentID')
+                        "
+                      >
                         <em class="bi bi-trash" />
                       </button>
                     </span>
@@ -301,26 +457,62 @@
               </td>
 
               <!-- When TRANSACTION EVENT has been Selected show PARENT ID -->
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'TransactionEvent' " class="what">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'TransactionEvent'
+                "
+                class="what"
+              >
                 Parent ID
               </td>
 
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'TransactionEvent' ">
-                <button v-if="$store.state.modules.IdentifiersStore.parentIdentifiersList == 0" type="button" class="btn-btn-info" @click="parentIdPopulator('TransactionEventParentID')">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'TransactionEvent'
+                "
+              >
+                <button
+                  v-if="
+                    $store.state.modules.IdentifiersStore
+                      .parentIdentifiersList == 0
+                  "
+                  type="button"
+                  class="btn-btn-info"
+                  @click="parentIdPopulator('TransactionEventParentID')"
+                >
                   Add Parent ID
                 </button>
 
-                <span v-for="parent in $store.state.modules.IdentifiersStore.parentIdentifiersList" :key="parent.ID" class="verticleSpace">
+                <span
+                  v-for="parent in $store.state.modules.IdentifiersStore
+                    .parentIdentifiersList"
+                  :key="parent.ID"
+                  class="verticleSpace"
+                >
                   <span class="form-inline">
                     <span class="horizontalSpace">
                       {{ Object.keys(parent)[3].toUpperCase() }}
                     </span>
 
                     <span class="horizontalSpace">
-                      <button type="button" title="Modify Parent Identifier" @click="modifyParentID(parent.ID, 'TransactionEventParentID')">
+                      <button
+                        type="button"
+                        title="Modify Parent Identifier"
+                        @click="
+                          modifyParentID(parent.ID, 'TransactionEventParentID')
+                        "
+                      >
                         <em class="bi bi-pencil" />
                       </button>
-                      <button type="button" title="Delete Parent Identifier" @click="deleteParentID(parent.ID, 'TransactionEventParentID')">
+                      <button
+                        type="button"
+                        title="Delete Parent Identifier"
+                        @click="
+                          deleteParentID(parent.ID, 'TransactionEventParentID')
+                        "
+                      >
                         <em class="bi bi-trash" />
                       </button>
                     </span>
@@ -329,48 +521,132 @@
               </td>
 
               <!-- When TRANSFORMATION EVENT has been selected -->
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'TransformationEvent' " class="what">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'TransformationEvent'
+                "
+                class="what"
+              >
                 Input EPCs
               </td>
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'TransformationEvent' ">
-                <button v-show="$store.state.modules.IdentifiersStore.instanceIdentifiersList.length == 0" type="button" class="btn-btn-info" @click="showInstanceIdentifiersModal('TransformationEventInputEPC')">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'TransformationEvent'
+                "
+              >
+                <button
+                  v-show="
+                    $store.state.modules.IdentifiersStore
+                      .instanceIdentifiersList.length == 0
+                  "
+                  type="button"
+                  class="btn-btn-info"
+                  @click="
+                    showInstanceIdentifiersModal('TransformationEventInputEPC')
+                  "
+                >
                   Add Input EPCs
                 </button>
 
-                <span v-for="epc in $store.state.modules.IdentifiersStore.instanceIdentifiersList" :key="epc.ID" class="verticleSpace">
+                <span
+                  v-for="epc in $store.state.modules.IdentifiersStore
+                    .instanceIdentifiersList"
+                  :key="epc.ID"
+                  class="verticleSpace"
+                >
                   <span class="form-inline">
                     <span class="horizontalSpace">
                       {{ Object.keys(epc)[3].toUpperCase() }}
                     </span>
 
                     <span class="horizontalSpace">
-                      <button type="button" title="Modify InputEPCs Identifier" @click="modifyInstanceIdentifier(epc.ID, 'TransformationEvent')"><em class="bi bi-pencil" /></button>
-                      <button type="button" title="Delete InputEPCs Identifier" @click="deleteInstanceIdentifier(epc.ID, 'TransformationEvent')"><em class="bi bi-trash" /></button>
+                      <button
+                        type="button"
+                        title="Modify InputEPCs Identifier"
+                        @click="
+                          modifyInstanceIdentifier(
+                            epc.ID,
+                            'TransformationEvent'
+                          )
+                        "
+                      >
+                        <em class="bi bi-pencil" />
+                      </button>
+                      <button
+                        type="button"
+                        title="Delete InputEPCs Identifier"
+                        @click="
+                          deleteInstanceIdentifier(
+                            epc.ID,
+                            'TransformationEvent'
+                          )
+                        "
+                      >
+                        <em class="bi bi-trash" />
+                      </button>
                     </span>
                   </span>
                 </span>
               </td>
 
               <!-- When ASSOCIATION EVENT has been selected -->
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'AssociationEvent' " class="what">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'AssociationEvent'
+                "
+                class="what"
+              >
                 Parent ID
               </td>
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'AssociationEvent' ">
-                <button v-if="$store.state.modules.IdentifiersStore.parentIdentifiersList == 0" type="button" class="btn-btn-info" @click="parentIdPopulator('AssociationEventParentID')">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'AssociationEvent'
+                "
+              >
+                <button
+                  v-if="
+                    $store.state.modules.IdentifiersStore
+                      .parentIdentifiersList == 0
+                  "
+                  type="button"
+                  class="btn-btn-info"
+                  @click="parentIdPopulator('AssociationEventParentID')"
+                >
                   Add Parent ID
                 </button>
 
-                <span v-for="parent in $store.state.modules.IdentifiersStore.parentIdentifiersList" :key="parent.ID" class="verticleSpace">
+                <span
+                  v-for="parent in $store.state.modules.IdentifiersStore
+                    .parentIdentifiersList"
+                  :key="parent.ID"
+                  class="verticleSpace"
+                >
                   <span class="form-inline">
                     <span class="horizontalSpace">
                       {{ Object.keys(parent)[3].toUpperCase() }}
                     </span>
 
                     <span class="horizontalSpace">
-                      <button type="button" title="Modify Parent Identifier" @click="modifyParentID(parent.ID,'AssociationEventParentID')">
+                      <button
+                        type="button"
+                        title="Modify Parent Identifier"
+                        @click="
+                          modifyParentID(parent.ID, 'AssociationEventParentID')
+                        "
+                      >
                         <em class="bi bi-pencil" />
                       </button>
-                      <button type="button" title="Delete Parent Identifier" @click="deleteParentID(parent.ID,'AssociationEventParentID')">
+                      <button
+                        type="button"
+                        title="Delete Parent Identifier"
+                        @click="
+                          deleteParentID(parent.ID, 'AssociationEventParentID')
+                        "
+                      >
                         <em class="bi bi-trash" />
                       </button>
                     </span>
@@ -380,118 +656,340 @@
             </tr>
 
             <!-- 2nd ELEMENT OF THE WHAT DIMENSION -->
-            <tr ng-show="$store.state.modules.DesignTestDataStore.eventType !== null ">
+            <tr
+              ng-show="$store.state.modules.DesignTestDataStore.eventType !== null "
+            >
               <!-- When OBJECT EVENT has been selected -->
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'ObjectEvent' " class="what">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'ObjectEvent'
+                "
+                class="what"
+              >
                 Quantities
               </td>
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'ObjectEvent' ">
-                <button v-show="$store.state.modules.IdentifiersStore.classIdentifiersList.length == 0" type="button" class="btn-btn-info" @click="showClassIdentifiersModal('ObjectEventQuantity')">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'ObjectEvent'
+                "
+              >
+                <button
+                  v-show="
+                    $store.state.modules.IdentifiersStore.classIdentifiersList
+                      .length == 0
+                  "
+                  type="button"
+                  class="btn-btn-info"
+                  @click="showClassIdentifiersModal('ObjectEventQuantity')"
+                >
                   Add Quantites
                 </button>
 
-                <span v-for="quantity in $store.state.modules.IdentifiersStore.classIdentifiersList" :key="quantity.ID" class="verticleSpace">
+                <span
+                  v-for="quantity in $store.state.modules.IdentifiersStore
+                    .classIdentifiersList"
+                  :key="quantity.ID"
+                  class="verticleSpace"
+                >
                   <span class="form-inline">
                     <span class="horizontalSpace">
                       {{ Object.keys(quantity)[3].toUpperCase() }}
                     </span>
 
                     <span class="horizontalSpace">
-                      <button type="button" title="Modify Quantities" @click="modifyClassIdentifier(quantity.ID, 'ObjectEventQuantity')"><em class="bi bi-pencil" /></button>
-                      <button type="button" title="Delete Quantities" @click="deleteClassIdentifier(quantity.ID, 'ObjectEventQuantity')"><em class="bi bi-trash" /></button>
+                      <button
+                        type="button"
+                        title="Modify Quantities"
+                        @click="
+                          modifyClassIdentifier(
+                            quantity.ID,
+                            'ObjectEventQuantity'
+                          )
+                        "
+                      >
+                        <em class="bi bi-pencil" />
+                      </button>
+                      <button
+                        type="button"
+                        title="Delete Quantities"
+                        @click="
+                          deleteClassIdentifier(
+                            quantity.ID,
+                            'ObjectEventQuantity'
+                          )
+                        "
+                      >
+                        <em class="bi bi-trash" />
+                      </button>
                     </span>
                   </span>
                 </span>
               </td>
 
               <!-- When AGGREGATION EVENT has been selected -->
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'AggregationEvent' " class="what">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'AggregationEvent'
+                "
+                class="what"
+              >
                 Child EPCs
               </td>
 
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'AggregationEvent' ">
-                <button v-show="$store.state.modules.IdentifiersStore.instanceIdentifiersList.length == 0" type="button" class="btn-btn-info" @click="showInstanceIdentifiersModal('AggregationEventChildEPC')">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'AggregationEvent'
+                "
+              >
+                <button
+                  v-show="
+                    $store.state.modules.IdentifiersStore
+                      .instanceIdentifiersList.length == 0
+                  "
+                  type="button"
+                  class="btn-btn-info"
+                  @click="
+                    showInstanceIdentifiersModal('AggregationEventChildEPC')
+                  "
+                >
                   Add Child EPCs
                 </button>
 
-                <span v-for="epc in $store.state.modules.IdentifiersStore.instanceIdentifiersList" :key="epc.ID" class="verticleSpace">
+                <span
+                  v-for="epc in $store.state.modules.IdentifiersStore
+                    .instanceIdentifiersList"
+                  :key="epc.ID"
+                  class="verticleSpace"
+                >
                   <span class="form-inline">
                     <span class="horizontalSpace">
                       {{ Object.keys(epc)[3].toUpperCase() }}
                     </span>
 
                     <span class="horizontalSpace">
-                      <button type="button" title="Modify Child EPCs" @click="modifyInstanceIdentifier(epc.ID, 'AggregationEvent')"><em class="bi bi-pencil" /></button>
-                      <button type="button" title="Delete Child EPCs" @click="deleteInstanceIdentifier(epc.ID, 'AggregationEvent')"><em class="bi bi-trash" /></button>
+                      <button
+                        type="button"
+                        title="Modify Child EPCs"
+                        @click="
+                          modifyInstanceIdentifier(epc.ID, 'AggregationEvent')
+                        "
+                      >
+                        <em class="bi bi-pencil" />
+                      </button>
+                      <button
+                        type="button"
+                        title="Delete Child EPCs"
+                        @click="
+                          deleteInstanceIdentifier(epc.ID, 'AggregationEvent')
+                        "
+                      >
+                        <em class="bi bi-trash" />
+                      </button>
                     </span>
                   </span>
                 </span>
               </td>
 
               <!-- When TRANSACTION EVENT has been Selected show EPCS -->
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'TransactionEvent' " class="what">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'TransactionEvent'
+                "
+                class="what"
+              >
                 EPCs
               </td>
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'TransactionEvent' ">
-                <button v-show="$store.state.modules.IdentifiersStore.instanceIdentifiersList.length == 0" type="button" class="btn-btn-info" @click="showInstanceIdentifiersModal('TransactionEventEPC')">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'TransactionEvent'
+                "
+              >
+                <button
+                  v-show="
+                    $store.state.modules.IdentifiersStore
+                      .instanceIdentifiersList.length == 0
+                  "
+                  type="button"
+                  class="btn-btn-info"
+                  @click="showInstanceIdentifiersModal('TransactionEventEPC')"
+                >
                   Add EPCs
                 </button>
 
-                <span v-for="epc in $store.state.modules.IdentifiersStore.instanceIdentifiersList" :key="epc.ID" class="verticleSpace">
+                <span
+                  v-for="epc in $store.state.modules.IdentifiersStore
+                    .instanceIdentifiersList"
+                  :key="epc.ID"
+                  class="verticleSpace"
+                >
                   <span class="form-inline">
                     <span class="horizontalSpace">
                       {{ Object.keys(epc)[3].toUpperCase() }}
                     </span>
 
                     <span class="horizontalSpace">
-                      <button type="button" title="Modify Instance Identifier" @click="modifyInstanceIdentifier(epc.ID, 'TransactionEvent')"><em class="bi bi-pencil" /></button>
-                      <button type="button" title="Delete Instance Identifier" @click="deleteInstanceIdentifier(epc.ID, 'TransactionEvent')"><em class="bi bi-trash" /></button>
+                      <button
+                        type="button"
+                        title="Modify Instance Identifier"
+                        @click="
+                          modifyInstanceIdentifier(epc.ID, 'TransactionEvent')
+                        "
+                      >
+                        <em class="bi bi-pencil" />
+                      </button>
+                      <button
+                        type="button"
+                        title="Delete Instance Identifier"
+                        @click="
+                          deleteInstanceIdentifier(epc.ID, 'TransactionEvent')
+                        "
+                      >
+                        <em class="bi bi-trash" />
+                      </button>
                     </span>
                   </span>
                 </span>
               </td>
 
               <!-- Transformation Event OUTPUT EPCS -->
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'TransformationEvent' " class="what">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'TransformationEvent'
+                "
+                class="what"
+              >
                 Input Quantities
               </td>
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'TransformationEvent' ">
-                <button v-show="$store.state.modules.IdentifiersStore.classIdentifiersList.length == 0" type="button" class="btn-btn-info" @click="showClassIdentifiersModal('TransformationEventInputQuantities')">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'TransformationEvent'
+                "
+              >
+                <button
+                  v-show="
+                    $store.state.modules.IdentifiersStore.classIdentifiersList
+                      .length == 0
+                  "
+                  type="button"
+                  class="btn-btn-info"
+                  @click="
+                    showClassIdentifiersModal(
+                      'TransformationEventInputQuantities'
+                    )
+                  "
+                >
                   Add Input Quantities
                 </button>
 
-                <span v-for="quantity in $store.state.modules.IdentifiersStore.classIdentifiersList" :key="quantity.ID" class="verticleSpace">
+                <span
+                  v-for="quantity in $store.state.modules.IdentifiersStore
+                    .classIdentifiersList"
+                  :key="quantity.ID"
+                  class="verticleSpace"
+                >
                   <span class="form-inline">
                     <span class="horizontalSpace">
                       {{ Object.keys(quantity)[3].toUpperCase() }}
                     </span>
 
                     <span class="horizontalSpace">
-                      <button type="button" title="Modify Input Quantities" @click="modifyClassIdentifier(quantity.ID, 'TransformationEvent')"><em class="bi bi-pencil" /></button>
-                      <button type="button" title="Delete Input Quantities" @click="deleteClassIdentifier(quantity.ID, 'TransformationEvent')"><em class="bi bi-trash" /></button>
+                      <button
+                        type="button"
+                        title="Modify Input Quantities"
+                        @click="
+                          modifyClassIdentifier(
+                            quantity.ID,
+                            'TransformationEvent'
+                          )
+                        "
+                      >
+                        <em class="bi bi-pencil" />
+                      </button>
+                      <button
+                        type="button"
+                        title="Delete Input Quantities"
+                        @click="
+                          deleteClassIdentifier(
+                            quantity.ID,
+                            'TransformationEvent'
+                          )
+                        "
+                      >
+                        <em class="bi bi-trash" />
+                      </button>
                     </span>
                   </span>
                 </span>
               </td>
 
               <!-- When ASSOCIATION EVENT has been selected -->
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'AssociationEvent' " class="what">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'AssociationEvent'
+                "
+                class="what"
+              >
                 Child EPCs
               </td>
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'AssociationEvent' ">
-                <button v-show="$store.state.modules.IdentifiersStore.instanceIdentifiersList.length == 0" type="button" class="btn-btn-info" @click="showInstanceIdentifiersModal('AssociationEventChildEPC')">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'AssociationEvent'
+                "
+              >
+                <button
+                  v-show="
+                    $store.state.modules.IdentifiersStore
+                      .instanceIdentifiersList.length == 0
+                  "
+                  type="button"
+                  class="btn-btn-info"
+                  @click="
+                    showInstanceIdentifiersModal('AssociationEventChildEPC')
+                  "
+                >
                   Add Child EPCs
                 </button>
 
-                <span v-for="quantity in $store.state.modules.IdentifiersStore.instanceIdentifiersList" :key="quantity.ID" class="verticleSpace">
+                <span
+                  v-for="quantity in $store.state.modules.IdentifiersStore
+                    .instanceIdentifiersList"
+                  :key="quantity.ID"
+                  class="verticleSpace"
+                >
                   <span class="form-inline">
                     <span class="horizontalSpace">
                       {{ Object.keys(quantity)[3].toUpperCase() }}
                     </span>
 
                     <span class="horizontalSpace">
-                      <button type="button" title="Modify Child EPCs" @click="modifyInstanceIdentifier(epc.ID, 'AssociationEvent')"><em class="bi bi-pencil" /></button>
-                      <button type="button" title="Delete Child EPCs" @click="deleteInstanceIdentifier(epc.ID, 'AssociationEvent')"><em class="bi bi-trash" /></button>
+                      <button
+                        type="button"
+                        title="Modify Child EPCs"
+                        @click="
+                          modifyInstanceIdentifier(epc.ID, 'AssociationEvent')
+                        "
+                      >
+                        <em class="bi bi-pencil" />
+                      </button>
+                      <button
+                        type="button"
+                        title="Delete Child EPCs"
+                        @click="
+                          deleteInstanceIdentifier(epc.ID, 'AssociationEvent')
+                        "
+                      >
+                        <em class="bi bi-trash" />
+                      </button>
                     </span>
                   </span>
                 </span>
@@ -501,92 +999,278 @@
             <!-- 3rd ELEMENT OF THE WHAT DIMENSION -->
             <tr>
               <!-- AGGREGATION EVENT Child Quantites -->
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'AggregationEvent' " class="what">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'AggregationEvent'
+                "
+                class="what"
+              >
                 Child Quantities
               </td>
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'AggregationEvent' ">
-                <button v-show="$store.state.modules.IdentifiersStore.classIdentifiersList.length == 0" type="button" class="btn-btn-info" @click="showClassIdentifiersModal('AggregationEventQuantity')">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'AggregationEvent'
+                "
+              >
+                <button
+                  v-show="
+                    $store.state.modules.IdentifiersStore.classIdentifiersList
+                      .length == 0
+                  "
+                  type="button"
+                  class="btn-btn-info"
+                  @click="showClassIdentifiersModal('AggregationEventQuantity')"
+                >
                   Add Child Quantities
                 </button>
 
-                <span v-for="quantity in $store.state.modules.IdentifiersStore.classIdentifiersList" :key="quantity.ID" class="verticleSpace">
+                <span
+                  v-for="quantity in $store.state.modules.IdentifiersStore
+                    .classIdentifiersList"
+                  :key="quantity.ID"
+                  class="verticleSpace"
+                >
                   <span class="form-inline">
                     <span class="horizontalSpace">
                       {{ Object.keys(quantity)[3].toUpperCase() }}
                     </span>
 
                     <span class="horizontalSpace">
-                      <button type="button" title="Modify Quantities" @click="modifyClassIdentifier(quantity.ID, 'AggregationEventQuantity')"><em class="bi bi-pencil" /></button>
-                      <button type="button" title="Delete Quantities" @click="deleteClassIdentifier(quantity.ID, 'AggregationEventQuantity')"><em class="bi bi-trash" /></button>
+                      <button
+                        type="button"
+                        title="Modify Quantities"
+                        @click="
+                          modifyClassIdentifier(
+                            quantity.ID,
+                            'AggregationEventQuantity'
+                          )
+                        "
+                      >
+                        <em class="bi bi-pencil" />
+                      </button>
+                      <button
+                        type="button"
+                        title="Delete Quantities"
+                        @click="
+                          deleteClassIdentifier(
+                            quantity.ID,
+                            'AggregationEventQuantity'
+                          )
+                        "
+                      >
+                        <em class="bi bi-trash" />
+                      </button>
                     </span>
                   </span>
                 </span>
               </td>
 
               <!-- TRANSACTION EVENT Quantities -->
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'TransactionEvent' " class="what">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'TransactionEvent'
+                "
+                class="what"
+              >
                 Quantities
               </td>
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'TransactionEvent' ">
-                <button v-show="$store.state.modules.IdentifiersStore.classIdentifiersList.length == 0" type="button" class="btn-btn-info" @click="showClassIdentifiersModal('TransactionEventQuantity')">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'TransactionEvent'
+                "
+              >
+                <button
+                  v-show="
+                    $store.state.modules.IdentifiersStore.classIdentifiersList
+                      .length == 0
+                  "
+                  type="button"
+                  class="btn-btn-info"
+                  @click="showClassIdentifiersModal('TransactionEventQuantity')"
+                >
                   Add Quantities
                 </button>
 
-                <span v-for="quantity in $store.state.modules.IdentifiersStore.classIdentifiersList" :key="quantity.ID" class="verticleSpace">
+                <span
+                  v-for="quantity in $store.state.modules.IdentifiersStore
+                    .classIdentifiersList"
+                  :key="quantity.ID"
+                  class="verticleSpace"
+                >
                   <span class="form-inline">
                     <span class="horizontalSpace">
                       {{ Object.keys(quantity)[3].toUpperCase() }}
                     </span>
 
                     <span class="horizontalSpace">
-                      <button type="button" title="Modify Quantities" @click="modifyClassIdentifier(quantity.ID, 'TransactionEventQuantity')"><em class="bi bi-pencil" /></button>
-                      <button type="button" title="Delete Quantities" @click="deleteClassIdentifier(quantity.ID, 'TransactionEventQuantity')"><em class="bi bi-trash" /></button>
+                      <button
+                        type="button"
+                        title="Modify Quantities"
+                        @click="
+                          modifyClassIdentifier(
+                            quantity.ID,
+                            'TransactionEventQuantity'
+                          )
+                        "
+                      >
+                        <em class="bi bi-pencil" />
+                      </button>
+                      <button
+                        type="button"
+                        title="Delete Quantities"
+                        @click="
+                          deleteClassIdentifier(
+                            quantity.ID,
+                            'TransactionEventQuantity'
+                          )
+                        "
+                      >
+                        <em class="bi bi-trash" />
+                      </button>
                     </span>
                   </span>
                 </span>
               </td>
 
               <!-- Transformation Event OUTPUT EPCS -->
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'TransformationEvent' " class="what">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'TransformationEvent'
+                "
+                class="what"
+              >
                 Output EPCs
               </td>
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'TransformationEvent' ">
-                <button v-show="$store.state.modules.IdentifiersStore.outputInstanceIdentifiersList.length == 0" type="button" class="btn-btn-info" @click="showInstanceIdentifiersModal('TransformationEventOutputEPC')">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'TransformationEvent'
+                "
+              >
+                <button
+                  v-show="
+                    $store.state.modules.IdentifiersStore
+                      .outputInstanceIdentifiersList.length == 0
+                  "
+                  type="button"
+                  class="btn-btn-info"
+                  @click="
+                    showInstanceIdentifiersModal('TransformationEventOutputEPC')
+                  "
+                >
                   Add Output EPCs
                 </button>
 
-                <span v-for="epc in $store.state.modules.IdentifiersStore.outputInstanceIdentifiersList" :key="epc.ID" class="verticleSpace">
+                <span
+                  v-for="epc in $store.state.modules.IdentifiersStore
+                    .outputInstanceIdentifiersList"
+                  :key="epc.ID"
+                  class="verticleSpace"
+                >
                   <span class="form-inline">
                     <span class="horizontalSpace">
                       {{ Object.keys(epc)[3].toUpperCase() }}
                     </span>
 
                     <span class="horizontalSpace">
-                      <button type="button" title="Modify Output EPC" @click="modifyInstanceIdentifier(epc.ID, 'TransformationEventOutputEPC')"><em class="bi bi-pencil" /></button>
-                      <button type="button" title="Delete Output EPC" @click="deleteInstanceIdentifier(epc.ID, 'TransformationEventOutputEPC')"><em class="bi bi-trash" /></button>
+                      <button
+                        type="button"
+                        title="Modify Output EPC"
+                        @click="
+                          modifyInstanceIdentifier(
+                            epc.ID,
+                            'TransformationEventOutputEPC'
+                          )
+                        "
+                      >
+                        <em class="bi bi-pencil" />
+                      </button>
+                      <button
+                        type="button"
+                        title="Delete Output EPC"
+                        @click="
+                          deleteInstanceIdentifier(
+                            epc.ID,
+                            'TransformationEventOutputEPC'
+                          )
+                        "
+                      >
+                        <em class="bi bi-trash" />
+                      </button>
                     </span>
                   </span>
                 </span>
               </td>
 
               <!-- When ASSOCIATION EVENT has been selected -->
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'AssociationEvent' " class="what">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'AssociationEvent'
+                "
+                class="what"
+              >
                 Child Quantities
               </td>
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'AssociationEvent' ">
-                <button v-show="$store.state.modules.IdentifiersStore.classIdentifiersList.length == 0" type="button" class="btn-btn-info" @click="showClassIdentifiersModal('AssociationEventQuantity')">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'AssociationEvent'
+                "
+              >
+                <button
+                  v-show="
+                    $store.state.modules.IdentifiersStore.classIdentifiersList
+                      .length == 0
+                  "
+                  type="button"
+                  class="btn-btn-info"
+                  @click="showClassIdentifiersModal('AssociationEventQuantity')"
+                >
                   Add Child Quantities
                 </button>
 
-                <span v-for="quantity in $store.state.modules.IdentifiersStore.classIdentifiersList" :key="quantity.ID" class="verticleSpace">
+                <span
+                  v-for="quantity in $store.state.modules.IdentifiersStore
+                    .classIdentifiersList"
+                  :key="quantity.ID"
+                  class="verticleSpace"
+                >
                   <span class="form-inline">
                     <span class="horizontalSpace">
                       {{ Object.keys(quantity)[3].toUpperCase() }}
                     </span>
 
                     <span class="horizontalSpace">
-                      <button type="button" title="Modify Child Quantities" @click="modifyClassIdentifier(quantity.ID, 'AssociationEventQuantity')"><em class="bi bi-pencil" /></button>
-                      <button type="button" title="Delete Child Quantities" @click="deleteClassIdentifier(quantity.ID, 'AssociationEventQuantity')"><em class="bi bi-trash" /></button>
+                      <button
+                        type="button"
+                        title="Modify Child Quantities"
+                        @click="
+                          modifyClassIdentifier(
+                            quantity.ID,
+                            'AssociationEventQuantity'
+                          )
+                        "
+                      >
+                        <em class="bi bi-pencil" />
+                      </button>
+                      <button
+                        type="button"
+                        title="Delete Child Quantities"
+                        @click="
+                          deleteClassIdentifier(
+                            quantity.ID,
+                            'AssociationEventQuantity'
+                          )
+                        "
+                      >
+                        <em class="bi bi-trash" />
+                      </button>
                     </span>
                   </span>
                 </span>
@@ -595,23 +1279,73 @@
 
             <!-- 4th ELEMENT OF THE WHAT DIMENSION -->
             <tr>
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'TransformationEvent' " class="what">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'TransformationEvent'
+                "
+                class="what"
+              >
                 Ouput Quantities
               </td>
-              <td v-if="$store.state.modules.DesignTestDataStore.eventType == 'TransformationEvent' ">
-                <button v-show="$store.state.modules.IdentifiersStore.outputclassIdentifiersList.length == 0" type="button" class="btn-btn-info" @click="showClassIdentifiersModal('TransformationEventOutputQuantity')">
+              <td
+                v-if="
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                    'TransformationEvent'
+                "
+              >
+                <button
+                  v-show="
+                    $store.state.modules.IdentifiersStore
+                      .outputclassIdentifiersList.length == 0
+                  "
+                  type="button"
+                  class="btn-btn-info"
+                  @click="
+                    showClassIdentifiersModal(
+                      'TransformationEventOutputQuantity'
+                    )
+                  "
+                >
                   Add Output Quantites
                 </button>
 
-                <span v-for="quantity in $store.state.modules.IdentifiersStore.outputclassIdentifiersList" :key="quantity.ID" class="verticleSpace">
+                <span
+                  v-for="quantity in $store.state.modules.IdentifiersStore
+                    .outputclassIdentifiersList"
+                  :key="quantity.ID"
+                  class="verticleSpace"
+                >
                   <span class="form-inline">
                     <span class="horizontalSpace">
                       {{ Object.keys(quantity)[3].toUpperCase() }}
                     </span>
 
                     <span class="horizontalSpace">
-                      <button type="button" title="Modify Output Quantities" @click="modifyClassIdentifier(quantity.ID, 'TransformationEventOutputQuantity')"><em class="bi bi-pencil" /></button>
-                      <button type="button" title="Delete Output Quantities" @click="deleteClassIdentifier(quantity.ID, 'TransformationEventOutputQuantity')"><em class="bi bi-trash" /></button>
+                      <button
+                        type="button"
+                        title="Modify Output Quantities"
+                        @click="
+                          modifyClassIdentifier(
+                            quantity.ID,
+                            'TransformationEventOutputQuantity'
+                          )
+                        "
+                      >
+                        <em class="bi bi-pencil" />
+                      </button>
+                      <button
+                        type="button"
+                        title="Delete Output Quantities"
+                        @click="
+                          deleteClassIdentifier(
+                            quantity.ID,
+                            'TransformationEventOutputQuantity'
+                          )
+                        "
+                      >
+                        <em class="bi bi-trash" />
+                      </button>
                     </span>
                   </span>
                 </span>
@@ -620,7 +1354,10 @@
 
             <!-- WHEN DIMENSION FIELFDS -->
             <tr>
-              <td rowspan="2" style="background-color: #a854a8;text-align: center;">
+              <td
+                rowspan="2"
+                style="background-color: #a854a8; text-align: center"
+              >
                 <strong>WHEN</strong>
               </td>
 
@@ -629,10 +1366,13 @@
               </td>
 
               <td>
-                <b-form-select v-model="formData.eventTimeSelector" :options="commonDropdownInfos.eventTimeSelector" />
+                <b-form-select
+                  v-model="formData.eventTimeSelector"
+                  :options="commonDropdownInfos.eventTimeSelector"
+                />
               </td>
 
-              <td v-if="formData.eventTimeSelector == 'SpecificTime' ">
+              <td v-if="formData.eventTimeSelector == 'SpecificTime'">
                 <input
                   v-model="formData.eventTime.specificTime"
                   type="datetime-local"
@@ -643,7 +1383,10 @@
                 >
               </td>
 
-              <td v-if="formData.eventTimeSelector == 'TimeRange' " class="form-inline">
+              <td
+                v-if="formData.eventTimeSelector == 'TimeRange'"
+                class="form-inline"
+              >
                 <span class="horizontalSpace"> From </span>
                 <input
                   v-model="formData.eventTime.fromTime"
@@ -665,7 +1408,10 @@
               </td>
 
               <td>
-                <b-form-select v-model="formData.eventTime.timeZoneOffset" :options="commonDropdownInfos.TimeZones" />
+                <b-form-select
+                  v-model="formData.eventTime.timeZoneOffset"
+                  :options="commonDropdownInfos.TimeZones"
+                />
               </td>
             </tr>
 
@@ -684,7 +1430,10 @@
                     value="yes"
                     name="RecordTimeOption"
                   >
-                  <label class="custom-control-label" for="RecordTimeOption1">Yes</label>
+                  <label
+                    class="custom-control-label"
+                    for="RecordTimeOption1"
+                  >Yes</label>
                 </div>
 
                 <div class="custom-control custom-radio custom-control-inline">
@@ -696,11 +1445,18 @@
                     value="no"
                     name="RecordTimeOption"
                   >
-                  <label class="custom-control-label" for="RecordTimeOption2">No</label>
+                  <label
+                    class="custom-control-label"
+                    for="RecordTimeOption2"
+                  >No</label>
                 </div>
               </td>
 
-              <td v-if="formData.RecordTimeOption == 'yes'" class="form-inline" style="display: block;margin: auto;">
+              <td
+                v-if="formData.RecordTimeOption == 'yes'"
+                class="form-inline"
+                style="display: block; margin: auto"
+              >
                 <div class="custom-control custom-radio custom-control-inline">
                   <input
                     id="RecordTimeOptionType1"
@@ -710,7 +1466,10 @@
                     value="CURRENT_TIME"
                     name="recordTimeType"
                   >
-                  <label class="custom-control-label" for="RecordTimeOptionType1">Current Time</label>
+                  <label
+                    class="custom-control-label"
+                    for="RecordTimeOptionType1"
+                  >Current Time</label>
                 </div>
 
                 <div class="custom-control custom-radio custom-control-inline">
@@ -722,14 +1481,20 @@
                     value="SAME_AS_EVENT_TIME"
                     name="recordTimeType"
                   >
-                  <label class="custom-control-label" for="RecordTimeOptionType2">Same As Event Time</label>
+                  <label
+                    class="custom-control-label"
+                    for="RecordTimeOptionType2"
+                  >Same As Event Time</label>
                 </div>
               </td>
             </tr>
 
             <!-- WHERE DIMENSION START -->
             <tr>
-              <td rowspan="2" style="background-color: #478f77;text-align: center;">
+              <td
+                rowspan="2"
+                style="background-color: #478f77; text-align: center"
+              >
                 <strong>WHERE</strong>
               </td>
               <td class="where">
@@ -737,17 +1502,29 @@
               </td>
 
               <td>
-                <b-form-select v-model="formData.readpointselector" class="form-control" @change="resetFields('readPoint')">
+                <b-form-select
+                  v-model="formData.readpointselector"
+                  class="form-control"
+                  @change="resetFields('readPoint')"
+                >
                   <b-form-select-option value="null" selected>
                     Choose Read Point type
                   </b-form-select-option>
-                  <b-form-select-option value="gs1Key" disabled style="font-weight:bold;">
+                  <b-form-select-option
+                    value="gs1Key"
+                    disabled
+                    style="font-weight: bold"
+                  >
                     GS1 Key
                   </b-form-select-option>
                   <b-form-select-option value="SGLN">
                     &nbsp; SGLN + ext (Al 414 + Al 254)
                   </b-form-select-option>
-                  <b-form-select-option style="font-weight:bold;" disabled value="other">
+                  <b-form-select-option
+                    style="font-weight: bold"
+                    disabled
+                    value="other"
+                  >
                     Other
                   </b-form-select-option>
                   <b-form-select-option value="manually">
@@ -757,9 +1534,15 @@
               </td>
 
               <td v-if="formData.readpointselector != null" class="form-inline">
-                <span v-if="formData.readpointselector == 'manually' ">
+                <span v-if="formData.readpointselector == 'manually'">
                   <span class="horizontalSpace"> URI </span>
-                  <input v-model="formData.readPoint.manualURI" type="text" class="form-control" placeholder="Ex:urn:example:loc:123" :required="formData.readpointselector == 'manually'">
+                  <input
+                    v-model="formData.readPoint.manualURI"
+                    type="text"
+                    class="form-control"
+                    placeholder="Ex:urn:example:loc:123"
+                    :required="formData.readpointselector == 'manually'"
+                  >
                 </span>
 
                 <span v-if="formData.readpointselector == 'SGLN'">
@@ -777,23 +1560,64 @@
                   >
 
                   <!-- GCP Length for ReadPoint if the vocabularySyntax is URN -->
-                  <span v-if="formData.vocabularySyntax == 'URN' " class="horizontalSpace">
-                    <b-form-select v-model="formData.readPoint.gcpLength" :options="commonDropdownInfos.companyPrefixs" :required="formData.vocabularySyntax == 'URN' && formData.readpointselector=='SGLN'" />
+                  <span
+                    v-if="formData.vocabularySyntax == 'URN'"
+                    class="horizontalSpace"
+                  >
+                    <b-form-select
+                      v-model="formData.readPoint.gcpLength"
+                      :options="commonDropdownInfos.companyPrefixs"
+                      :required="
+                        formData.vocabularySyntax == 'URN' &&
+                          formData.readpointselector == 'SGLN'
+                      "
+                    />
                   </span>
 
                   <!-- Extension static value for Static ReadPoint type with GLN-->
-                  <span v-if="formData.readpointselector == 'SGLN' && formData.readPoint.extensionType == 'static' " class="horizontalSpace">
+                  <span
+                    v-if="
+                      formData.readpointselector == 'SGLN' &&
+                        formData.readPoint.extensionType == 'static'
+                    "
+                    class="horizontalSpace"
+                  >
                     <span> (254) </span>
-                    <input v-model="formData.readPoint.extension" type="text" class="form-control" placeholder="Extension">
+                    <input
+                      v-model="formData.readPoint.extension"
+                      type="text"
+                      class="form-control"
+                      placeholder="Extension"
+                    >
                   </span>
 
                   <!-- Extension range value for Dynamic ReadPoint type with GLN-->
-                  <span v-if="formData.readpointselector == 'SGLN' && formData.readPoint.extensionType == 'dynamic' " class="horizontalSpace">
+                  <span
+                    v-if="
+                      formData.readpointselector == 'SGLN' &&
+                        formData.readPoint.extensionType == 'dynamic'
+                    "
+                    class="horizontalSpace"
+                  >
                     <span> Range: </span>
-                    <input v-model="formData.readPoint.extensionFrom" type="text" class="form-control" placeholder="From extension" :required="formData.readpointselector == 'SGLN' && formData.readPoint.extensionType == 'dynamic'">
+                    <input
+                      v-model="formData.readPoint.extensionFrom"
+                      type="text"
+                      class="form-control"
+                      placeholder="From extension"
+                      :required="
+                        formData.readpointselector == 'SGLN' &&
+                          formData.readPoint.extensionType == 'dynamic'
+                      "
+                    >
 
                     <span> Formatter: </span>
-                    <input v-model="formData.readPoint.extensionFormat" type="text" class="form-control" placeholder="Extension Formatter like %03d,990%03d">
+                    <input
+                      v-model="formData.readPoint.extensionFormat"
+                      type="text"
+                      class="form-control"
+                      placeholder="Extension Formatter like %03d,990%03d"
+                    >
                   </span>
 
                   <div class="form-inline horizontalSpace verticleSpace">
@@ -808,7 +1632,10 @@
                         value="static"
                         name="readPointType"
                       >
-                      <label class="custom-control-label" for="readPointTypeStatic">Static</label>
+                      <label
+                        class="custom-control-label"
+                        for="readPointTypeStatic"
+                      >Static</label>
                     </div>
                     <div class="custom-control custom-radio">
                       <div class="custom-control custom-radio">
@@ -821,11 +1648,13 @@
                           value="dynamic"
                           name="readPointType"
                         >
-                        <label class="custom-control-label" for="readPointTypeDynamic">Dynamic</label>
+                        <label
+                          class="custom-control-label"
+                          for="readPointTypeDynamic"
+                        >Dynamic</label>
                       </div>
                     </div>
                   </div>
-
                 </span>
               </td>
             </tr>
@@ -836,17 +1665,29 @@
               </td>
 
               <td>
-                <b-form-select v-model="formData.businesslocationselector" class="form-control" @change="resetFields('bizLocation')">
+                <b-form-select
+                  v-model="formData.businesslocationselector"
+                  class="form-control"
+                  @change="resetFields('bizLocation')"
+                >
                   <b-form-select-option value="null" disabled selected>
                     Choose Business Location type
                   </b-form-select-option>
-                  <b-form-select-option value="gs1Key" disabled style="font-weight:bold;">
+                  <b-form-select-option
+                    value="gs1Key"
+                    disabled
+                    style="font-weight: bold"
+                  >
                     GS1 Key
                   </b-form-select-option>
                   <b-form-select-option value="SGLN">
                     &nbsp; SGLN + ext (Al 414 + Al 254)
                   </b-form-select-option>
-                  <b-form-select-option style="font-weight:bold;" disabled value="other">
+                  <b-form-select-option
+                    style="font-weight: bold"
+                    disabled
+                    value="other"
+                  >
                     Other
                   </b-form-select-option>
                   <b-form-select-option value="manually">
@@ -855,13 +1696,22 @@
                 </b-form-select>
               </td>
 
-              <td v-if="formData.businesslocationselector != null" class="form-inline">
-                <span v-if="formData.businesslocationselector == 'manually' ">
+              <td
+                v-if="formData.businesslocationselector != null"
+                class="form-inline"
+              >
+                <span v-if="formData.businesslocationselector == 'manually'">
                   <span class="horizontalSpace"> URI </span>
-                  <input v-model="formData.bizLocation.manualURI" type="text" class="form-control" placeholder="Ex: urn:epc:id:1234.121" :required="formData.businesslocationselector =='manually'">
+                  <input
+                    v-model="formData.bizLocation.manualURI"
+                    type="text"
+                    class="form-control"
+                    placeholder="Ex: urn:epc:id:1234.121"
+                    :required="formData.businesslocationselector == 'manually'"
+                  >
                 </span>
 
-                <span v-if="formData.businesslocationselector == 'SGLN' ">
+                <span v-if="formData.businesslocationselector == 'SGLN'">
                   <!-- GLN value for the Business Location -->
                   <span class="horizontalSpace"> (414) </span>
                   <input
@@ -873,27 +1723,68 @@
                     oninput="this.value=this.value.replace(/[^0-9]/g,'');"
                     title="GLN must be 13 digits"
                     placeholder="13 digits GLN"
-                    :required="formData.businesslocationselector =='SGLN'"
+                    :required="formData.businesslocationselector == 'SGLN'"
                   >
 
                   <!-- GCP Length for BizLocation if the vocabularySyntax is URN -->
-                  <span v-if="formData.vocabularySyntax == 'URN' " class="horizontalSpace">
-                    <b-form-select v-model="formData.bizLocation.gcpLength" :options="commonDropdownInfos.companyPrefixs" :required="formData.vocabularySyntax == 'URN' && formData.businesslocationselector =='SGLN'" />
+                  <span
+                    v-if="formData.vocabularySyntax == 'URN'"
+                    class="horizontalSpace"
+                  >
+                    <b-form-select
+                      v-model="formData.bizLocation.gcpLength"
+                      :options="commonDropdownInfos.companyPrefixs"
+                      :required="
+                        formData.vocabularySyntax == 'URN' &&
+                          formData.businesslocationselector == 'SGLN'
+                      "
+                    />
                   </span>
 
                   <!-- Extension static value for Static BizLocation type with GLN-->
-                  <span v-if="formData.businesslocationselector == 'SGLN' && formData.bizLocation.extensionType == 'static' " class="horizontalSpace">
+                  <span
+                    v-if="
+                      formData.businesslocationselector == 'SGLN' &&
+                        formData.bizLocation.extensionType == 'static'
+                    "
+                    class="horizontalSpace"
+                  >
                     <span> (254) </span>
-                    <input v-model="formData.bizLocation.extension" type="text" class="form-control" placeholder="Extension">
+                    <input
+                      v-model="formData.bizLocation.extension"
+                      type="text"
+                      class="form-control"
+                      placeholder="Extension"
+                    >
                   </span>
 
                   <!-- Extension range value for Dynamic BizLocation type with GLN-->
-                  <span v-if="formData.businesslocationselector == 'SGLN' && formData.bizLocation.extensionType == 'dynamic' " class="horizontalSpace">
+                  <span
+                    v-if="
+                      formData.businesslocationselector == 'SGLN' &&
+                        formData.bizLocation.extensionType == 'dynamic'
+                    "
+                    class="horizontalSpace"
+                  >
                     <span> Range: </span>
-                    <input v-model="formData.bizLocation.extensionFrom" type="text" class="form-control" placeholder="From extension" :required="formData.businesslocationselector == 'SGLN' && formData.bizLocation.extensionType == 'dynamic'">
+                    <input
+                      v-model="formData.bizLocation.extensionFrom"
+                      type="text"
+                      class="form-control"
+                      placeholder="From extension"
+                      :required="
+                        formData.businesslocationselector == 'SGLN' &&
+                          formData.bizLocation.extensionType == 'dynamic'
+                      "
+                    >
 
                     <span> Formatter: </span>
-                    <input v-model="formData.bizLocation.extensionFormat" type="text" class="form-control" placeholder="Extension Formatter like %03d,990%03d">
+                    <input
+                      v-model="formData.bizLocation.extensionFormat"
+                      type="text"
+                      class="form-control"
+                      placeholder="Extension Formatter like %03d,990%03d"
+                    >
                   </span>
 
                   <div class="form-inline horizontalSpace verticleSpace">
@@ -908,7 +1799,10 @@
                         value="static"
                         name="bizLocationType"
                       >
-                      <label class="custom-control-label" for="bizLocationStatic">Static</label>
+                      <label
+                        class="custom-control-label"
+                        for="bizLocationStatic"
+                      >Static</label>
                     </div>
                     <div class="custom-control custom-radio">
                       <div class="custom-control custom-radio">
@@ -916,16 +1810,20 @@
                           id="bizLocationDynamic"
                           v-model="formData.bizLocation.extensionType"
                           type="radio"
-                          :required="formData.businesslocationselector == 'SGLN'"
+                          :required="
+                            formData.businesslocationselector == 'SGLN'
+                          "
                           class="custom-control-input"
                           value="dynamic"
                           name="bizLocationType"
                         >
-                        <label class="custom-control-label" for="bizLocationDynamic">Dynamic</label>
+                        <label
+                          class="custom-control-label"
+                          for="bizLocationDynamic"
+                        >Dynamic</label>
                       </div>
                     </div>
                   </div>
-
                 </span>
               </td>
             </tr>
@@ -933,14 +1831,20 @@
 
             <!--WHY DIMESION START -->
             <tr>
-              <td :rowspan="rowspanWHY" style="background-color: #F7DC6F;text-align: center;">
+              <td
+                :rowspan="rowspanWHY"
+                style="background-color: #f7dc6f; text-align: center"
+              >
                 <strong>WHY</strong>
               </td>
               <td class="why">
                 Business Step
               </td>
               <td>
-                <b-form-select v-model="formData.businessStep" :options="commonDropdownInfos.businessSteps" />
+                <b-form-select
+                  v-model="formData.businessStep"
+                  :options="commonDropdownInfos.businessSteps"
+                />
               </td>
               <td v-if="formData.businessStep == 'BUSINESSSTEPENTER'">
                 <input
@@ -959,10 +1863,19 @@
                 Disposition
               </td>
               <td>
-                <b-form-select v-model="formData.disposition" :options="commonDropdownInfos.dispositions" />
+                <b-form-select
+                  v-model="formData.disposition"
+                  :options="commonDropdownInfos.dispositions"
+                />
               </td>
               <td v-if="formData.disposition == 'DISPOSITIONENTER'">
-                <input v-model="formData.EnterDispositionText" type="text" class="form-control" placeholder="Enter Disposition URI" :required="formData.disposition == 'DISPOSITIONENTER'">
+                <input
+                  v-model="formData.EnterDispositionText"
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter Disposition URI"
+                  :required="formData.disposition == 'DISPOSITIONENTER'"
+                >
               </td>
             </tr>
 
@@ -975,19 +1888,36 @@
                   Add PD
                 </button>
 
-                <span v-for="pd in formData.persistentDispositionList" :key="pd.ID" class="form-inline verticleSpace">
+                <span
+                  v-for="pd in formData.persistentDispositionList"
+                  :key="pd.ID"
+                  class="form-inline verticleSpace"
+                >
                   <span class="horizontalSpace">
                     <select v-model="pd.type" class="form-control">
-                      <option class="dropdown-item" value="null" disabled> Choose </option>
-                      <option class="dropdown-item" value="set" selected> Set </option>
-                      <option class="dropdown-item" value="unset"> Unset </option>
+                      <option class="dropdown-item" value="null" disabled>
+                        Choose
+                      </option>
+                      <option class="dropdown-item" value="set" selected>
+                        Set
+                      </option>
+                      <option class="dropdown-item" value="unset">Unset</option>
                     </select>
                   </span>
                   <span class="horizontalSpace">
-                    <b-form-select v-model="pd.value" :options="commonDropdownInfos.dispositions" />
+                    <b-form-select
+                      v-model="pd.value"
+                      :options="commonDropdownInfos.dispositions"
+                    />
                   </span>
                   <span class="horizontalSpace">
-                    <button type="button" title="Delete Persistent Disposition" @click="deletePD(pd.ID)"><em class="bi bi-trash" /></button>
+                    <button
+                      type="button"
+                      title="Delete Persistent Disposition"
+                      @click="deletePD(pd.ID)"
+                    >
+                      <em class="bi bi-trash" />
+                    </button>
                   </span>
                 </span>
               </td>
@@ -1000,40 +1930,90 @@
                 <button class="btn-btn-info" @click="addBTT($event)">
                   Add BTT
                 </button>
-                <span v-for="btt in formData.businessTransactionList" :key="btt.ID" class="form-inline verticleSpace">
+                <span
+                  v-for="btt in formData.businessTransactionList"
+                  :key="btt.ID"
+                  class="form-inline verticleSpace"
+                >
                   <span class="horizontalSpace">
-                    <b-form-select v-model="btt.type" class="form-control" :options="commonDropdownInfos.BusinessTransactions" />&ensp;
+                    <b-form-select
+                      v-model="btt.type"
+                      class="form-control"
+                      :options="commonDropdownInfos.BusinessTransactions"
+                    />&ensp;
                   </span>
                   <span class="horizontalSpace">
-                    <input v-model="btt.bizTransaction" type="text" class="form-control">&ensp;
+                    <input
+                      v-model="btt.bizTransaction"
+                      type="text"
+                      class="form-control"
+                    >&ensp;
                   </span>
                   <span class="horizontalSpace">
-                    <button type="button" title="Delete Business Transaction" @click="deleteBizTransaction(btt.ID)"><em class="bi bi-trash" /></button>
+                    <button
+                      type="button"
+                      title="Delete Business Transaction"
+                      @click="deleteBizTransaction(btt.ID)"
+                    >
+                      <em class="bi bi-trash" />
+                    </button>
                   </span>
                 </span>
               </td>
             </tr>
 
-            <tr v-if="$store.state.modules.DesignTestDataStore.eventType === 'ObjectEvent' || $store.state.modules.DesignTestDataStore.eventType === 'AggregationEvent' || $store.state.modules.DesignTestDataStore.eventType === 'TransactionEvent' || $store.state.modules.DesignTestDataStore.eventType === 'AssociationEvent' ">
+            <tr
+              v-if="
+                $store.state.modules.DesignTestDataStore.eventType ===
+                  'ObjectEvent' ||
+                  $store.state.modules.DesignTestDataStore.eventType ===
+                  'AggregationEvent' ||
+                  $store.state.modules.DesignTestDataStore.eventType ===
+                  'TransactionEvent' ||
+                  $store.state.modules.DesignTestDataStore.eventType ===
+                  'AssociationEvent'
+              "
+            >
               <td class="why">
                 Sources
               </td>
 
               <td>
-                <button class="btn-btn-info" @click="addSourceDestination($event, 'source')">
+                <button
+                  class="btn-btn-info"
+                  @click="addSourceDestination($event, 'source')"
+                >
                   Add Source
                 </button>
 
                 <!-- Loop over the source destination to display the sources-->
 
-                <div v-for="source in $store.state.modules.SourceDestinationStore.sources" :key="source.ID">
-                  <tr style="white-space:nowrap">
+                <div
+                  v-for="source in $store.state.modules.SourceDestinationStore
+                    .sources"
+                  :key="source.ID"
+                >
+                  <tr style="white-space: nowrap">
                     <td>
                       {{ source.type }}
-                      <button type="button" class="modifyButton" title="Modify Source" @click="modifySourceDestination($event, source.ID, 'source')">
+                      <button
+                        type="button"
+                        class="modifyButton"
+                        title="Modify Source"
+                        @click="
+                          modifySourceDestination($event, source.ID, 'source')
+                        "
+                      >
                         <em class="bi bi-pencil" />
                       </button>
-                      <button type="button" class="deleteButton" title="Delete Source" @click="deleteSourceDestination($event, source.ID, 'source')">
+                      <button
+                        type="button"
+                        class="deleteButton"
+                        title="Delete Source"
+                        @click="
+                          deleteSourceDestination($event, source.ID, 'source')
+                        "
+                      >
                         <em class="bi bi-trash" />
                       </button>
                     </td>
@@ -1042,26 +2022,66 @@
               </td>
             </tr>
 
-            <tr v-if="$store.state.modules.DesignTestDataStore.eventType === 'ObjectEvent' || $store.state.modules.DesignTestDataStore.eventType === 'AggregationEvent' || $store.state.modules.DesignTestDataStore.eventType === 'TransactionEvent' || $store.state.modules.DesignTestDataStore.eventType === 'AssociationEvent' ">
+            <tr
+              v-if="
+                $store.state.modules.DesignTestDataStore.eventType ===
+                  'ObjectEvent' ||
+                  $store.state.modules.DesignTestDataStore.eventType ===
+                  'AggregationEvent' ||
+                  $store.state.modules.DesignTestDataStore.eventType ===
+                  'TransactionEvent' ||
+                  $store.state.modules.DesignTestDataStore.eventType ===
+                  'AssociationEvent'
+              "
+            >
               <td class="why">
                 Destinations
               </td>
 
               <td>
-                <button class="btn-btn-info" @click="addSourceDestination($event, 'destination')">
+                <button
+                  class="btn-btn-info"
+                  @click="addSourceDestination($event, 'destination')"
+                >
                   Add Destination
                 </button>
 
                 <!-- Loop over the destination destination to display the destinations-->
 
-                <div v-for="destination in $store.state.modules.SourceDestinationStore.destinations" :key="destination.ID">
-                  <tr style="white-space:nowrap">
+                <div
+                  v-for="destination in $store.state.modules
+                    .SourceDestinationStore.destinations"
+                  :key="destination.ID"
+                >
+                  <tr style="white-space: nowrap">
                     <td>
                       {{ destination.type }}
-                      <button type="button" class="modifyButton" title="Modify Destination" @click="modifySourceDestination($event, destination.ID, 'destination')">
+                      <button
+                        type="button"
+                        class="modifyButton"
+                        title="Modify Destination"
+                        @click="
+                          modifySourceDestination(
+                            $event,
+                            destination.ID,
+                            'destination'
+                          )
+                        "
+                      >
                         <em class="bi bi-pencil" />
                       </button>
-                      <button type="button" class="deleteButton" title="Delete Destination" @click="deleteSourceDestination($event, destination.ID, 'destination')">
+                      <button
+                        type="button"
+                        class="deleteButton"
+                        title="Delete Destination"
+                        @click="
+                          deleteSourceDestination(
+                            $event,
+                            destination.ID,
+                            'destination'
+                          )
+                        "
+                      >
                         <em class="bi bi-trash" />
                       </button>
                     </td>
@@ -1073,23 +2093,45 @@
 
             <!-- HOW DIMENSION -->
             <tr>
-              <td rowspan="1" style="background-color: #08A9A8;text-align: center;">
+              <td
+                rowspan="1"
+                style="background-color: #08a9a8; text-align: center"
+              >
                 <strong>HOW</strong>
               </td>
-              <td style="background-color: #A5FBFA;">
+              <td style="background-color: #a5fbfa">
                 Conditions
               </td>
               <td>
-                <button type="button" class="btn-btn-info" @click="addSensorInformation">
+                <button
+                  type="button"
+                  class="btn-btn-info"
+                  @click="addSensorInformation"
+                >
                   Add Sensor Info
                 </button>
-                <span v-for="sensorElement in $store.state.modules.SensorElementsStore.sensorElementList" :key="sensorElement.ID" class="form-inline verticleSpace">
-                  <span>
-                    Sensor Information - {{ sensorElement.ID + 1 }}
-                  </span>
+                <span
+                  v-for="sensorElement in $store.state.modules
+                    .SensorElementsStore.sensorElementList"
+                  :key="sensorElement.ID"
+                  class="form-inline verticleSpace"
+                >
+                  <span> Sensor Information - {{ sensorElement.ID + 1 }} </span>
                   <span class="horizontalSpace">
-                    <button type="button" title="Modify Sensor Element" @click="modifySensorElement($event, sensorElement.ID)"><em class="bi bi-pencil" /></button>
-                    <button type="button" title="Delete Sensor Element" @click="deleteSensorElement($event, sensorElement.ID)"><em class="bi bi-trash" /></button>
+                    <button
+                      type="button"
+                      title="Modify Sensor Element"
+                      @click="modifySensorElement($event, sensorElement.ID)"
+                    >
+                      <em class="bi bi-pencil" />
+                    </button>
+                    <button
+                      type="button"
+                      title="Delete Sensor Element"
+                      @click="deleteSensorElement($event, sensorElement.ID)"
+                    >
+                      <em class="bi bi-trash" />
+                    </button>
                   </span>
                 </span>
               </td>
@@ -1099,7 +2141,10 @@
             <!-- OTHER FIELDS START -->
             <tr>
               <!-- FIRST ELEMENT of OTHER FIELDS -->
-              <td :rowspan="rowSpanOtherFields" style="background-color: #F2F3F4;">
+              <td
+                :rowspan="rowSpanOtherFields"
+                style="background-color: #f2f3f4"
+              >
                 <strong>OTHER</strong>
               </td>
 
@@ -1115,23 +2160,39 @@
             </tr>
 
             <tr>
-              <td> Extensions </td>
+              <td>Extensions</td>
               <td>
-                <button type="button" class="btn-btn-info" @click="userExtensionAddition($event,'userExtension')">
+                <button
+                  type="button"
+                  class="btn-btn-info"
+                  @click="userExtensionAddition($event, 'userExtension')"
+                >
                   Add Extension
                 </button>
                 <div
-                  v-for="extension in $store.state.modules.ExtensionDataStore.userExtensions"
+                  v-for="extension in $store.state.modules.ExtensionDataStore
+                    .userExtensions"
                   :key="extension.ID"
                 >
-                  <tr style="white-space:nowrap">
+                  <tr style="white-space: nowrap">
                     <td v-if="extension.dataType == 'string'">
-                      <span>{{ extension.namespace + ":" + extension.localName }}</span>
-                      <input v-if="extension.dataType == 'string'" :value="extension.text" type="text" @input="extensionText($event, extension.ID, 'userExtension')">
+                      <span>{{
+                        extension.namespace + ":" + extension.localName
+                      }}</span>
+                      <input
+                        v-if="extension.dataType == 'string'"
+                        :value="extension.text"
+                        type="text"
+                        @input="
+                          extensionText($event, extension.ID, 'userExtension')
+                        "
+                      >
                     </td>
 
                     <td v-if="extension.dataType == 'complex'">
-                      <span>{{ extension.namespace + ":" + extension.localName }}</span>
+                      <span>{{
+                        extension.namespace + ":" + extension.localName
+                      }}</span>
                       <ExtensionComponent
                         v-if="extension.dataType == 'complex'"
                         :extension="extension"
@@ -1139,10 +2200,24 @@
                     </td>
 
                     <td>
-                      <button type="button" class="modifyButton" title="Modify User Extension" @click="modifyExtension($event, extension.ID, 'userExtension')">
+                      <button
+                        type="button"
+                        class="modifyButton"
+                        title="Modify User Extension"
+                        @click="
+                          modifyExtension($event, extension.ID, 'userExtension')
+                        "
+                      >
                         <em class="bi bi-pencil" />
                       </button>
-                      <button type="button" class="deleteButton" title="Delete User Extension" @click="deleteExtension($event, extension.ID, 'userExtension')">
+                      <button
+                        type="button"
+                        class="deleteButton"
+                        title="Delete User Extension"
+                        @click="
+                          deleteExtension($event, extension.ID, 'userExtension')
+                        "
+                      >
                         <em class="bi bi-trash" />
                       </button>
                     </td>
@@ -1152,24 +2227,45 @@
             </tr>
 
             <!-- Second ELEMENT of OTHER FIELDS -->
-            <tr v-if="$store.state.modules.DesignTestDataStore.eventType == 'ObjectEvent' || $store.state.modules.DesignTestDataStore.eventType == 'TransformationEvent' ">
-              <td> ILMD </td>
+            <tr
+              v-if="
+                $store.state.modules.DesignTestDataStore.eventType ==
+                  'ObjectEvent' ||
+                  $store.state.modules.DesignTestDataStore.eventType ==
+                  'TransformationEvent'
+              "
+            >
+              <td>ILMD</td>
               <td>
-                <button type="button" class="btn-btn-info" @click="userExtensionAddition($event,'ilmd')">
+                <button
+                  type="button"
+                  class="btn-btn-info"
+                  @click="userExtensionAddition($event, 'ilmd')"
+                >
                   Add ILMD
                 </button>
                 <div
-                  v-for="extension in $store.state.modules.ExtensionDataStore.ilmd"
+                  v-for="extension in $store.state.modules.ExtensionDataStore
+                    .ilmd"
                   :key="extension.ID"
                 >
-                  <tr style="white-space:nowrap">
+                  <tr style="white-space: nowrap">
                     <td v-if="extension.dataType == 'string'">
-                      <span>{{ extension.namespace + ":" + extension.localName }}</span>
-                      <input v-if="extension.dataType == 'string'" :value="extension.text" type="text" @input="extensionText($event, extension.ID, 'ilmd')">
+                      <span>{{
+                        extension.namespace + ":" + extension.localName
+                      }}</span>
+                      <input
+                        v-if="extension.dataType == 'string'"
+                        :value="extension.text"
+                        type="text"
+                        @input="extensionText($event, extension.ID, 'ilmd')"
+                      >
                     </td>
 
                     <td v-if="extension.dataType == 'complex'">
-                      <span>{{ extension.namespace + ":" + extension.localName }}</span>
+                      <span>{{
+                        extension.namespace + ":" + extension.localName
+                      }}</span>
                       <ExtensionComponent
                         v-if="extension.dataType == 'complex'"
                         :extension="extension"
@@ -1177,10 +2273,20 @@
                     </td>
 
                     <td>
-                      <button type="button" class="modifyButton" title="Modify ILMD Extension" @click="modifyExtension($event, extension.ID, 'ilmd')">
+                      <button
+                        type="button"
+                        class="modifyButton"
+                        title="Modify ILMD Extension"
+                        @click="modifyExtension($event, extension.ID, 'ilmd')"
+                      >
                         <em class="bi bi-pencil" />
                       </button>
-                      <button type="button" class="deleteButton" title="Delete ILMD Extension" @click="deleteExtension($event, extension.ID, 'ilmd')">
+                      <button
+                        type="button"
+                        class="deleteButton"
+                        title="Delete ILMD Extension"
+                        @click="deleteExtension($event, extension.ID, 'ilmd')"
+                      >
                         <em class="bi bi-trash" />
                       </button>
                     </td>
@@ -1190,17 +2296,30 @@
             </tr>
 
             <!-- Third ELEMENT of OTHER FIELDS -->
-            <tr v-if="$store.state.modules.DesignTestDataStore.eventType == 'TransformationEvent' ">
-              <td> Transformation ID </td>
+            <tr
+              v-if="
+                $store.state.modules.DesignTestDataStore.eventType ==
+                  'TransformationEvent'
+              "
+            >
+              <td>Transformation ID</td>
               <td>
-                <input v-model="formData.transformationXformId" type="text" class="form-control" placeholder="Transformation ID URI (Optional)">
+                <input
+                  v-model="formData.transformationXformId"
+                  type="text"
+                  class="form-control"
+                  placeholder="Transformation ID URI (Optional)"
+                >
               </td>
             </tr>
             <!-- OTHER FIELDS END -->
 
             <!-- ERROR DECLARATION FIELDS START -->
             <tr v-if="!formData.ordinaryEvent">
-              <td rowspan="4" style="background-color: #cc0000;text-align: center;">
+              <td
+                rowspan="4"
+                style="background-color: #cc0000; text-align: center"
+              >
                 Error
               </td>
               <td class="errorDimension">
@@ -1208,28 +2327,47 @@
               </td>
 
               <td>
-                <b-form-select v-model="formData.error.ErrorDeclarationTimeSelector" :options="commonDropdownInfos.eventTimeSelector" />
+                <b-form-select
+                  v-model="formData.error.ErrorDeclarationTimeSelector"
+                  :options="commonDropdownInfos.eventTimeSelector"
+                />
               </td>
 
-              <td v-if="formData.error.ErrorDeclarationTimeSelector == 'SpecificTime' ">
+              <td
+                v-if="
+                  formData.error.ErrorDeclarationTimeSelector == 'SpecificTime'
+                "
+              >
                 <input
                   v-model="formData.error.ErrorDeclarationTime"
                   type="datetime-local"
                   class="form-control"
                   title="Set Specific Event Time"
-                  :required="formData.ordinaryEvent == false && formData.error.ErrorDeclarationTimeSelector == 'SpecificTime'"
+                  :required="
+                    formData.ordinaryEvent == false &&
+                      formData.error.ErrorDeclarationTimeSelector ==
+                      'SpecificTime'
+                  "
                   step="1"
                 >
               </td>
 
-              <td v-if="formData.error.ErrorDeclarationTimeSelector == 'TimeRange' " class="form-inline">
+              <td
+                v-if="
+                  formData.error.ErrorDeclarationTimeSelector == 'TimeRange'
+                "
+                class="form-inline"
+              >
                 <span class="horizontalSpace"> From </span>
                 <input
                   v-model="formData.error.ErrorDeclarationTimeFrom"
                   type="datetime-local"
                   class="form-control"
                   title="Error Declaration Time Range FROM"
-                  :required="formData.ordinaryEvent == false && formData.error.ErrorDeclarationTimeSelector == 'TimeRange'"
+                  :required="
+                    formData.ordinaryEvent == false &&
+                      formData.error.ErrorDeclarationTimeSelector == 'TimeRange'
+                  "
                   step="1"
                 >
                 <span class="horizontalSpace"> To </span>
@@ -1238,13 +2376,19 @@
                   type="datetime-local"
                   class="form-control"
                   title="Error Declaration Time Range TO"
-                  :required="formData.ordinaryEvent == false && formData.error.ErrorDeclarationTimeSelector == 'TimeRange'"
+                  :required="
+                    formData.ordinaryEvent == false &&
+                      formData.error.ErrorDeclarationTimeSelector == 'TimeRange'
+                  "
                   step="1"
                 >
               </td>
 
               <td>
-                <b-form-select v-model="formData.error.ErrorTimeZone" :options="commonDropdownInfos.TimeZones" />
+                <b-form-select
+                  v-model="formData.error.ErrorTimeZone"
+                  :options="commonDropdownInfos.TimeZones"
+                />
               </td>
             </tr>
 
@@ -1253,11 +2397,19 @@
                 Reason
               </td>
               <td>
-                <b-form-select v-model="formData.error.ErrorReasonType" :options="commonDropdownInfos.ErrorReasons" />
+                <b-form-select
+                  v-model="formData.error.ErrorReasonType"
+                  :options="commonDropdownInfos.ErrorReasons"
+                />
               </td>
 
-              <td v-if="formData.error.ErrorReasonType == 'Other' ">
-                <input v-model="formData.ErrorReasonOther" type="text" class="form-control" placeholder="Enter Error Reason">
+              <td v-if="formData.error.ErrorReasonType == 'Other'">
+                <input
+                  v-model="formData.ErrorReasonOther"
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter Error Reason"
+                >
               </td>
             </tr>
 
@@ -1266,16 +2418,30 @@
                 Corrective IDs
               </td>
               <td>
-                <button type="button" class="btn-btn-info" @click="addErrorCorrective($event)">
+                <button
+                  type="button"
+                  class="btn-btn-info"
+                  @click="addErrorCorrective($event)"
+                >
                   Add Another
                 </button>
 
-                <span v-for="errCorr in formData.errorCorrectiveIdsList" :key="errCorr.ID" class="form-inline verticleSpace">
+                <span
+                  v-for="errCorr in formData.errorCorrectiveIdsList"
+                  :key="errCorr.ID"
+                  class="form-inline verticleSpace"
+                >
                   <span class="horizontalSpace">
                     <input v-model="errCorr.correctiveId">
                   </span>
                   <span class="horizontalSpace">
-                    <button type="button" title="Delete Error Corretive" @click="deleteErrCorrectiveInfo(errCorr.ID)"><em class="bi bi-trash" /></button>
+                    <button
+                      type="button"
+                      title="Delete Error Corretive"
+                      @click="deleteErrCorrectiveInfo(errCorr.ID)"
+                    >
+                      <em class="bi bi-trash" />
+                    </button>
                   </span>
                 </span>
               </td>
@@ -1286,32 +2452,70 @@
                 Extension
               </td>
               <td>
-                <button type="button" class="btn-btn-info" @click="userExtensionAddition($event,'ErrorExtension')">
+                <button
+                  type="button"
+                  class="btn-btn-info"
+                  @click="userExtensionAddition($event, 'ErrorExtension')"
+                >
                   Add Another
                 </button>
                 <div
-                  v-for="extension in $store.state.modules.ExtensionDataStore.errorExtensions"
+                  v-for="extension in $store.state.modules.ExtensionDataStore
+                    .errorExtensions"
                   :key="extension.ID"
                 >
-                  <tr style="white-space:nowrap">
+                  <tr style="white-space: nowrap">
                     <td v-if="extension.dataType == 'string'">
-                      <span>{{ extension.namespace + ":" + extension.localName }}</span>
-                      <input v-if="extension.dataType == 'string'" :value="extension.text" type="text" @input="extensionText($event, extension.ID, 'ErrorExtension')">
+                      <span>{{
+                        extension.namespace + ":" + extension.localName
+                      }}</span>
+                      <input
+                        v-if="extension.dataType == 'string'"
+                        :value="extension.text"
+                        type="text"
+                        @input="
+                          extensionText($event, extension.ID, 'ErrorExtension')
+                        "
+                      >
                     </td>
 
                     <td v-if="extension.dataType == 'complex'">
-                      <span>{{ extension.namespace + ":" + extension.localName }}</span>
+                      <span>{{
+                        extension.namespace + ":" + extension.localName
+                      }}</span>
                       <ExtensionComponent
                         v-if="extension.dataType == 'complex'"
                         :extension="extension"
                       />
                     </td>
 
-                    <td style="width:100%">
-                      <button type="button" class="modifyButton" title="Modify Error Extension" @click="modifyExtension($event, extension.ID, 'ErrorExtension')">
+                    <td style="width: 100%">
+                      <button
+                        type="button"
+                        class="modifyButton"
+                        title="Modify Error Extension"
+                        @click="
+                          modifyExtension(
+                            $event,
+                            extension.ID,
+                            'ErrorExtension'
+                          )
+                        "
+                      >
                         <em class="bi bi-pencil" />
                       </button>
-                      <button type="button" class="deleteButton" title="Delete Error Extension" @click="deleteExtension($event, extension.ID, 'ErrorExtension')">
+                      <button
+                        type="button"
+                        class="deleteButton"
+                        title="Delete Error Extension"
+                        @click="
+                          deleteExtension(
+                            $event,
+                            extension.ID,
+                            'ErrorExtension'
+                          )
+                        "
+                      >
                         <em class="bi bi-trash" />
                       </button>
                     </td>
@@ -1319,7 +2523,7 @@
                 </div>
               </td>
             </tr>
-          <!-- ERROR DECLARATION FIELDS END -->
+            <!-- ERROR DECLARATION FIELDS END -->
           </tbody>
         </table>
         <div class="row">
@@ -1331,11 +2535,22 @@
           </div>
         </div>
       </form>
-      <InstanceIdentifiersModal v-if="$store.state.modules.IdentifiersStore.instaceIdentifiersModal" />
-      <ClassIdentifiersModal v-if="$store.state.modules.IdentifiersStore.classIdentifiersModal" />
-      <SourceDestinationModal v-if="$store.state.modules.SourceDestinationStore.sourceDestinationModal" />
-      <ExtensionModal v-if="$store.state.modules.ExtensionDataStore.extensionModal" />
-      <SensorElementsModal v-if="$store.state.modules.SensorElementsStore.sensorModal" />
+      <InstanceIdentifiersModal
+        v-if="$store.state.modules.IdentifiersStore.instaceIdentifiersModal"
+      />
+      <ClassIdentifiersModal
+        v-if="$store.state.modules.IdentifiersStore.classIdentifiersModal"
+      />
+      <SourceDestinationModal
+        :show-modal="showsourceDestinationModal"
+        @close="closeSourceDestinationModal"
+      />
+      <ExtensionModal
+        v-if="$store.state.modules.ExtensionDataStore.extensionModal"
+      />
+      <SensorElementsModal
+        v-if="$store.state.modules.SensorElementsStore.sensorModal"
+      />
     </div>
   </div>
 </template>
@@ -1397,25 +2612,31 @@ export default {
         hashAlgorithm: 'sha-256',
         action: 'ADD',
         error: {}
-      }
-    }
-  },
-  watch: {
-    '$store.state.modules.DesignTestDataStore.importedDesignData' (value) {
-      if (value !== '' && typeof value === 'string' && value.startsWith('Unable')) {
-        this.$alertify.alert('Create events import failed', value)
-      } else if (value !== '') {
-        this.populateImportData(value)
-      }
+      },
+      showsourceDestinationModal: false
     }
   },
   computed: mapState([
     'modules.IdentifiersStore.identifierSyntax',
     'modules.DesignTestDataStore.eventType'
   ]),
+  watch: {
+    '$store.state.modules.DesignTestDataStore.importedDesignData' (value) {
+      if (
+        value !== '' &&
+        typeof value === 'string' &&
+        value.startsWith('Unable')
+      ) {
+        this.$alertify.alert('Create events import failed', value)
+      } else if (value !== '') {
+        this.populateImportData(value)
+      }
+    }
+  },
   mounted () {
     this.$store.dispatch('modules/DesignTestDataStore/readStaticData')
-    this.commonDropdownInfos = this.$store.state.modules.DesignTestDataStore.commonDropdownInfos
+    this.commonDropdownInfos =
+      this.$store.state.modules.DesignTestDataStore.commonDropdownInfos
     let now = new Date()
     now.setMinutes(now.getMinutes() - now.getTimezoneOffset())
     now.setSeconds(now.getSeconds(), 0)
@@ -1423,29 +2644,54 @@ export default {
 
     let yesterday = new Date()
     yesterday.setDate(new Date().getDate() - 1)
-    yesterday.setMinutes(yesterday.getMinutes() - yesterday.getTimezoneOffset())
+    yesterday.setMinutes(
+      yesterday.getMinutes() - yesterday.getTimezoneOffset()
+    )
     yesterday.setSeconds(yesterday.getSeconds(), 0)
     yesterday = yesterday.toISOString().slice(0, -1)
 
-    this.formData.eventTime = { specificTime: now, fromTime: yesterday, toTime: now, timeZoneOffset: '+02:00' }
-    this.formData.error = { ErrorTimeZone: '+02:00', ErrorDeclarationTime: now, ErrorDeclarationTimeFrom: yesterday, ErrorDeclarationTimeTo: now, ErrorReasonType: null, ErrorDeclarationTimeSelector: 'SpecificTime' }
+    this.formData.eventTime = {
+      specificTime: now,
+      fromTime: yesterday,
+      toTime: now,
+      timeZoneOffset: '+02:00'
+    }
+    this.formData.error = {
+      ErrorTimeZone: '+02:00',
+      ErrorDeclarationTime: now,
+      ErrorDeclarationTimeFrom: yesterday,
+      ErrorDeclarationTimeTo: now,
+      ErrorReasonType: null,
+      ErrorDeclarationTimeSelector: 'SpecificTime'
+    }
 
     // If user has passed query parameter along with the page URL then query for the provided url and obtain the data and load
     if (this.$route.query.url !== undefined && this.$route.query.url !== null) {
-      this.$store.dispatch('modules/DesignTestDataStore/obtainURLData', this.$route.query.url)
+      this.$store.dispatch(
+        'modules/DesignTestDataStore/obtainURLData',
+        this.$route.query.url
+      )
       this.$store.commit('modules/DesignTestDataStore/hideImportDesignModal')
     }
   },
   methods: {
     // On change of the event count change the event count in store
     eventCountChange (event) {
-      this.$store.commit('modules/DesignTestDataStore/eventCountPopulator', event.target.value)
-      this.$store.commit('modules/IdentifiersStore/populateEventCount', event.target.value)
+      this.$store.commit(
+        'modules/DesignTestDataStore/eventCountPopulator',
+        event.target.value
+      )
+      this.$store.commit(
+        'modules/IdentifiersStore/populateEventCount',
+        event.target.value
+      )
     },
 
     // Function to change the identifier syntax based on user selection
     identifierSyntaxChange (identifierSyntax) {
-      this.$store.commit('modules/IdentifiersStore/populateIdentifiersType', { identifierSyntax })
+      this.$store.commit('modules/IdentifiersStore/populateIdentifiersType', {
+        identifierSyntax
+      })
     },
 
     // Function to generate Test data onclick of the submit button
@@ -1454,10 +2700,17 @@ export default {
       this.$router.push('/GenerateEvents')
 
       // Generate the Test Data input based on user provided information
-      this.$store.dispatch('modules/TestDataJsonPreparator/jsonPreparation', { formData: this.formData })
+      this.$store.dispatch('modules/TestDataJsonPreparator/jsonPreparation', {
+        formData: this.formData
+      })
 
       // Send the data to the Generate Test Data
-      this.$store.commit('modules/TestDataGeneratorStore/populateTestDataInput', JSON.stringify(this.$store.state.modules.TestDataJsonPreparator.testDataInputTemplate))
+      this.$store.commit(
+        'modules/TestDataGeneratorStore/populateTestDataInput',
+        JSON.stringify(
+          this.$store.state.modules.TestDataJsonPreparator.testDataInputTemplate
+        )
+      )
 
       // Call the action to convert the provided Test Data JSON input to Test Data events
       this.$store.dispatch('modules/TestDataGeneratorStore/testdataGenerator')
@@ -1466,7 +2719,10 @@ export default {
     // Trigger the function based on the change of the event Object/Aggregation/Transaction/Transformation
     eventTypeChange (event) {
       // Populate the eventType based on the change to eventType
-      this.$store.commit('modules/DesignTestDataStore/eventTypePopulator', event)
+      this.$store.commit(
+        'modules/DesignTestDataStore/eventTypePopulator',
+        event
+      )
 
       this.$store.commit('modules/IdentifiersStore/resetIdentifiersData')
 
@@ -1504,7 +2760,11 @@ export default {
     // Add the Business Trasactions based on the addition by user
     addBTT (event) {
       event.preventDefault()
-      const BTTObj = { ID: this.formData.businessTransactionCount, type: '', bizTransaction: '' }
+      const BTTObj = {
+        ID: this.formData.businessTransactionCount,
+        type: '',
+        bizTransaction: ''
+      }
       this.formData.businessTransactionList.push(BTTObj)
       this.formData.businessTransactionCount++
     },
@@ -1512,40 +2772,72 @@ export default {
     // Delete Business Transaction based on user selection
     deleteBizTransaction (btID) {
       // On click of the delete Business Transaction button delete the respective persistent Disposition
-      const index = this.formData.businessTransactionList.findIndex(obj => obj.ID === btID)
+      const index = this.formData.businessTransactionList.findIndex(
+        obj => obj.ID === btID
+      )
       this.formData.businessTransactionList.splice(index, 1)
     },
 
     // Add the source/destination based on the click on Add source/destination button
     addSourceDestination (event, type) {
       event.preventDefault()
-      this.$store.commit('modules/SourceDestinationStore/resetCurrentSourceDestination')
-      this.$store.commit('modules/SourceDestinationStore/sourceDestinationTypePopulator', type)
-      this.$store.commit('modules/SourceDestinationStore/setVocabularySyntax', this.formData.vocabularySyntax)
-      this.$store.commit('modules/SourceDestinationStore/showSourceDestinationModal')
+      this.$store.commit(
+        'modules/SourceDestinationStore/resetCurrentSourceDestination'
+      )
+      this.$store.commit(
+        'modules/SourceDestinationStore/sourceDestinationTypePopulator',
+        type
+      )
+      this.$store.commit(
+        'modules/SourceDestinationStore/setVocabularySyntax',
+        this.formData.vocabularySyntax
+      )
+      this.showsourceDestinationModal = true
+    },
+
+    closeSourceDestinationModal () {
+      this.showsourceDestinationModal = false
     },
 
     // Modify source/destination based on the click on Modify Source/Destination button
     modifySourceDestination (event, sourceDestinationID, type) {
       event.preventDefault()
-      this.$store.commit('modules/SourceDestinationStore/resetCurrentSourceDestination')
-      this.$store.commit('modules/SourceDestinationStore/sourceDestinationTypePopulator', type)
-      this.$store.commit('modules/SourceDestinationStore/modifySourceDestination', sourceDestinationID)
-      this.$store.commit('modules/SourceDestinationStore/showSourceDestinationModal')
+      this.$store.commit(
+        'modules/SourceDestinationStore/resetCurrentSourceDestination'
+      )
+      this.$store.commit(
+        'modules/SourceDestinationStore/sourceDestinationTypePopulator',
+        type
+      )
+      this.$store.commit(
+        'modules/SourceDestinationStore/modifySourceDestination',
+        sourceDestinationID
+      )
+      this.showsourceDestinationModal = true
     },
 
     // Delete source/destination based on the click on Delete Source/Destination button
     deleteSourceDestination (event, sourceDestinationID, type) {
       event.preventDefault()
-      this.$store.commit('modules/SourceDestinationStore/sourceDestinationTypePopulator', type)
-      this.$store.commit('modules/SourceDestinationStore/deleteSourceDestination', sourceDestinationID)
+      this.$store.commit(
+        'modules/SourceDestinationStore/sourceDestinationTypePopulator',
+        type
+      )
+      this.$store.commit(
+        'modules/SourceDestinationStore/deleteSourceDestination',
+        sourceDestinationID
+      )
     },
 
     // Add the Empty Persistent Disposition based on the click of ADD PD by user
     addPD (event) {
       // On click of the add Persistent Disposition button and an element into Persistent Disposition List
       event.preventDefault()
-      const persistentDispObj = { ID: this.formData.persistentDispositionCount, type: '', value: '' }
+      const persistentDispObj = {
+        ID: this.formData.persistentDispositionCount,
+        type: '',
+        value: ''
+      }
       this.formData.persistentDispositionList.push(persistentDispObj)
       this.formData.persistentDispositionCount++
     },
@@ -1553,31 +2845,43 @@ export default {
     // Delete Persistnet Disposition based on user click of the respective PD
     deletePD (pdID) {
       // On click of the delete Persistent Disposition button delete the respective persistent Disposition
-      const index = this.formData.persistentDispositionList.findIndex(obj => obj.ID === pdID)
+      const index = this.formData.persistentDispositionList.findIndex(
+        obj => obj.ID === pdID
+      )
       this.formData.persistentDispositionList.splice(index, 1)
     },
 
     // Add the Empty Error Corrective based on the click of ADD Error Corrective by user
     addErrorCorrective (event) {
       // On click of the add Error Corrective id button and an element into CorrectiveIDs List
-      const errCorrectiveObj = { ID: this.formData.errorCorrectiveCount, value: '' }
+      const errCorrectiveObj = {
+        ID: this.formData.errorCorrectiveCount,
+        value: ''
+      }
       this.formData.errorCorrectiveIdsList.push(errCorrectiveObj)
       this.formData.errorCorrectiveCount++
     },
 
     // Delete Error Corrective based on user click of the respective Error Corrective
     deleteErrCorrectiveInfo (corrID) {
-      const index = this.formData.errorCorrectiveIdsList.findIndex(obj => obj.ID === corrID)
+      const index = this.formData.errorCorrectiveIdsList.findIndex(
+        obj => obj.ID === corrID
+      )
       this.formData.errorCorrectiveIdsList.splice(index, 1)
     },
 
     // Method to show the Instance Identifiers modal on click of the Instance Identifiers button
     showInstanceIdentifiersModal (flagType) {
       // Populate the flagType to indicate which event information are being currently filled
-      this.$store.commit('modules/IdentifiersStore/populateIdentifiersFlagType', flagType)
+      this.$store.commit(
+        'modules/IdentifiersStore/populateIdentifiersFlagType',
+        flagType
+      )
 
       // Show the modal for adding the information for Instance Identifiers
-      this.$store.commit('modules/IdentifiersStore/showInstanceIdentifiersModal')
+      this.$store.commit(
+        'modules/IdentifiersStore/showInstanceIdentifiersModal'
+      )
     },
 
     // Method to show the Instance Identifiers modal on click of the Parent Identifiers
@@ -1586,7 +2890,9 @@ export default {
       this.$store.commit('modules/IdentifiersStore/parentFlagToggle')
 
       // Show the modal for adding the information related to the ParentID
-      this.$store.commit('modules/IdentifiersStore/showInstanceIdentifiersModal')
+      this.$store.commit(
+        'modules/IdentifiersStore/showInstanceIdentifiersModal'
+      )
     },
 
     // Method to modify the Parent Identifiers on click of the Modiy Parent ID button
@@ -1595,21 +2901,31 @@ export default {
       this.$store.commit('modules/IdentifiersStore/parentFlagToggle')
 
       // Send the Id for the instance identifier based on which Instance Identifiers modul should be populated.
-      this.$store.commit('modules/IdentifiersStore/modifyParentIdentifiersInformation', { parentId })
+      this.$store.commit(
+        'modules/IdentifiersStore/modifyParentIdentifiersInformation',
+        { parentId }
+      )
 
       // Show the modal for adding the information for Instance Identifiers
-      this.$store.commit('modules/IdentifiersStore/showInstanceIdentifiersModal')
+      this.$store.commit(
+        'modules/IdentifiersStore/showInstanceIdentifiersModal'
+      )
     },
 
     // Method to delete the Instance Identifiers modal on click of the delete parent ID button
     deleteParentID (parentId, flagType) {
-      this.$store.commit('modules/IdentifiersStore/deleteParentIdentifiersInformation')
+      this.$store.commit(
+        'modules/IdentifiersStore/deleteParentIdentifiersInformation'
+      )
     },
 
     // Function to show the Class Identifiers modal on click of the Quantites Identifiers button
     showClassIdentifiersModal (flagType) {
       // Populate the flagType to indicate which event information are being currently filled
-      this.$store.commit('modules/IdentifiersStore/populateIdentifiersFlagType', flagType)
+      this.$store.commit(
+        'modules/IdentifiersStore/populateIdentifiersFlagType',
+        flagType
+      )
 
       // Show the modal for adding the information for Class Identifiers
       this.$store.commit('modules/IdentifiersStore/showClassIdentifiersModal')
@@ -1617,28 +2933,45 @@ export default {
 
     // Function to delete Instance Identifiers based on the user selection
     deleteInstanceIdentifier (instanceID, flagType) {
-      this.$store.commit('modules/IdentifiersStore/deleteInstnaceIdentifiersInformation', { instanceID, flagType })
+      this.$store.commit(
+        'modules/IdentifiersStore/deleteInstnaceIdentifiersInformation',
+        { instanceID, flagType }
+      )
     },
 
     // Function to modify Instance Identifiers based on the user selection. Display the Instance Identifiers modal with currently provided values for modification.
     modifyInstanceIdentifier (instanceID, flagType) {
       // Populate the flagType to indicate which event information are being currently filled
-      this.$store.commit('modules/IdentifiersStore/populateIdentifiersFlagType', flagType)
+      this.$store.commit(
+        'modules/IdentifiersStore/populateIdentifiersFlagType',
+        flagType
+      )
 
       // Send the Id for the instance identifier based on which Instance Identifiers modul should be populated.
-      this.$store.commit('modules/IdentifiersStore/modifyInstanceIdentifiersInformation', { instanceID, flagType })
+      this.$store.commit(
+        'modules/IdentifiersStore/modifyInstanceIdentifiersInformation',
+        { instanceID, flagType }
+      )
 
       // Show the modal for modifying the information for Instance Identifiers
-      this.$store.commit('modules/IdentifiersStore/showInstanceIdentifiersModal')
+      this.$store.commit(
+        'modules/IdentifiersStore/showInstanceIdentifiersModal'
+      )
     },
 
     // Function to modify class identifiers based on user selection. Display the Class identifiers modal with currently provided values for modification.
     modifyClassIdentifier (classId, flagType) {
       // Populate the flagType to indicate which event information are being currently filled
-      this.$store.commit('modules/IdentifiersStore/populateIdentifiersFlagType', flagType)
+      this.$store.commit(
+        'modules/IdentifiersStore/populateIdentifiersFlagType',
+        flagType
+      )
 
       // Send the Id for the instance identifier based on which Instance Identifiers modul should be populated.
-      this.$store.commit('modules/IdentifiersStore/modifyClassIdentifiersInformation', { classId, flagType })
+      this.$store.commit(
+        'modules/IdentifiersStore/modifyClassIdentifiersInformation',
+        { classId, flagType }
+      )
 
       // Show the modal for modifying the information for Class Identifiers
       this.$store.commit('modules/IdentifiersStore/showClassIdentifiersModal')
@@ -1646,39 +2979,63 @@ export default {
 
     // Function to delete Class Identifiers based on user selection
     deleteClassIdentifier (classId, flagType) {
-      this.$store.commit('modules/IdentifiersStore/deleteClassIdentifiersInformation', { classId, flagType })
+      this.$store.commit(
+        'modules/IdentifiersStore/deleteClassIdentifiersInformation',
+        { classId, flagType }
+      )
     },
 
     // Function to add the User extension onclick of the Add button
     userExtensionAddition (event, type) {
       event.preventDefault()
       this.$store.commit('modules/ExtensionDataStore/showExtensionModal')
-      this.$store.commit('modules/ExtensionDataStore/extensionTypePopulator', type)
+      this.$store.commit(
+        'modules/ExtensionDataStore/extensionTypePopulator',
+        type
+      )
       this.$store.commit('modules/ExtensionDataStore/setParentExtension', null)
     },
 
     // Based on the text change in String extension input change the value in List
     extensionText (event, extensionID, type) {
       this.$store.commit('modules/ExtensionDataStore/setParentExtension', null)
-      this.$store.commit('modules/ExtensionDataStore/extensionTypePopulator', type)
-      this.$store.commit('modules/ExtensionDataStore/extensionText', { text: event.target.value, extensionID })
+      this.$store.commit(
+        'modules/ExtensionDataStore/extensionTypePopulator',
+        type
+      )
+      this.$store.commit('modules/ExtensionDataStore/extensionText', {
+        text: event.target.value,
+        extensionID
+      })
     },
 
     // Function to modify the User Extension onClick of the modify button
     modifyExtension (event, extensionID, type) {
       event.preventDefault()
-      this.$store.commit('modules/ExtensionDataStore/extensionTypePopulator', type)
+      this.$store.commit(
+        'modules/ExtensionDataStore/extensionTypePopulator',
+        type
+      )
       this.$store.commit('modules/ExtensionDataStore/setParentExtension', null)
-      this.$store.commit('modules/ExtensionDataStore/modifyExtension', extensionID)
+      this.$store.commit(
+        'modules/ExtensionDataStore/modifyExtension',
+        extensionID
+      )
       this.$store.commit('modules/ExtensionDataStore/showExtensionModal')
     },
 
     // Function to delete the User extension onclick of the Delete button
     deleteExtension (event, extensionID, type) {
       event.preventDefault()
-      this.$store.commit('modules/ExtensionDataStore/extensionTypePopulator', type)
+      this.$store.commit(
+        'modules/ExtensionDataStore/extensionTypePopulator',
+        type
+      )
       this.$store.commit('modules/ExtensionDataStore/setParentExtension', null)
-      this.$store.commit('modules/ExtensionDataStore/deleteExtension', extensionID)
+      this.$store.commit(
+        'modules/ExtensionDataStore/deleteExtension',
+        extensionID
+      )
     },
 
     // Function that will be triggered on click of the Add sensor Information
@@ -1689,14 +3046,19 @@ export default {
     // Based on user click show the Sensor Element modal to modify the existing information
     modifySensorElement (event, sensorElementID) {
       event.preventDefault()
-      this.$store.commit('modules/SensorElementsStore/modifySensorElement', { sensorElementID })
+      this.$store.commit('modules/SensorElementsStore/modifySensorElement', {
+        sensorElementID
+      })
       this.$store.commit('modules/SensorElementsStore/showSensorModal')
     },
 
     // Based on user click remove the respective sensor element information
     deleteSensorElement (event, sensorElementID) {
       event.preventDefault()
-      this.$store.commit('modules/SensorElementsStore/deleteSensorElement', sensorElementID)
+      this.$store.commit(
+        'modules/SensorElementsStore/deleteSensorElement',
+        sensorElementID
+      )
     },
 
     // On change of the readPoint/BizLocation reset the values present within the formData so only required data are present within the formData
@@ -1713,26 +3075,46 @@ export default {
     // On click of the export button export the JSON file containing the information what users have provided in the form
     exportData () {
       const createDataInfo = {}
-      createDataInfo.identifierSyntax = this.$store.state.modules.IdentifiersStore.identifierSyntax
-      createDataInfo.eventType = this.$store.state.modules.DesignTestDataStore.eventType
-      createDataInfo.eventCount = this.$store.state.modules.DesignTestDataStore.eventCount
-      createDataInfo.instanceIdentifiersList = this.$store.state.modules.IdentifiersStore.instanceIdentifiersList
-      createDataInfo.classIdentifiersList = this.$store.state.modules.IdentifiersStore.classIdentifiersList
-      createDataInfo.outputInstanceIdentifiersList = this.$store.state.modules.IdentifiersStore.outputInstanceIdentifiersList
-      createDataInfo.outputclassIdentifiersList = this.$store.state.modules.IdentifiersStore.outputclassIdentifiersList
-      createDataInfo.parentIdentifiersList = this.$store.state.modules.IdentifiersStore.parentIdentifiersList
-      createDataInfo.sensorElementList = this.$store.state.modules.SensorElementsStore.sensorElementList
-      createDataInfo.userExtensions = this.$store.state.modules.ExtensionDataStore.userExtensions
+      createDataInfo.identifierSyntax =
+        this.$store.state.modules.IdentifiersStore.identifierSyntax
+      createDataInfo.eventType =
+        this.$store.state.modules.DesignTestDataStore.eventType
+      createDataInfo.eventCount =
+        this.$store.state.modules.DesignTestDataStore.eventCount
+      createDataInfo.instanceIdentifiersList =
+        this.$store.state.modules.IdentifiersStore.instanceIdentifiersList
+      createDataInfo.classIdentifiersList =
+        this.$store.state.modules.IdentifiersStore.classIdentifiersList
+      createDataInfo.outputInstanceIdentifiersList =
+        this.$store.state.modules.IdentifiersStore.outputInstanceIdentifiersList
+      createDataInfo.outputclassIdentifiersList =
+        this.$store.state.modules.IdentifiersStore.outputclassIdentifiersList
+      createDataInfo.parentIdentifiersList =
+        this.$store.state.modules.IdentifiersStore.parentIdentifiersList
+      createDataInfo.sensorElementList =
+        this.$store.state.modules.SensorElementsStore.sensorElementList
+      createDataInfo.userExtensions =
+        this.$store.state.modules.ExtensionDataStore.userExtensions
       createDataInfo.ilmd = this.$store.state.modules.ExtensionDataStore.ilmd
-      createDataInfo.errorExtensions = this.$store.state.modules.ExtensionDataStore.errorExtensions
-      createDataInfo.sources = this.$store.state.modules.SourceDestinationStore.sources
-      createDataInfo.destinations = this.$store.state.modules.SourceDestinationStore.destinations
+      createDataInfo.errorExtensions =
+        this.$store.state.modules.ExtensionDataStore.errorExtensions
+      createDataInfo.sources =
+        this.$store.state.modules.SourceDestinationStore.sources
+      createDataInfo.destinations =
+        this.$store.state.modules.SourceDestinationStore.destinations
       createDataInfo.formData = this.formData
 
-      const DateTime = new Date().toISOString().replace('Z', '').replace('T', '')
-      const textFileAsBlob = new Blob([JSON.stringify(createDataInfo, null, 4)], { type: 'text/json' })
+      const DateTime = new Date()
+        .toISOString()
+        .replace('Z', '')
+        .replace('T', '')
+      const textFileAsBlob = new Blob(
+        [JSON.stringify(createDataInfo, null, 4)],
+        { type: 'text/json' }
+      )
       const downloadLink = document.createElement('a')
-      downloadLink.download = 'Test_Data_Generator_Create_' + DateTime + '.json'
+      downloadLink.download =
+        'Test_Data_Generator_Create_' + DateTime + '.json'
       downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob)
       downloadLink.click()
     },
@@ -1752,7 +3134,10 @@ export default {
       }
 
       reader.onerror = (err) => {
-        alert('Error during the import of the TestData Generator Create Data : ' + err)
+        alert(
+          'Error during the import of the TestData Generator Create Data : ' +
+            err
+        )
       }
       reader.readAsText(this.file)
     },
@@ -1761,7 +3146,9 @@ export default {
     populateImportData (importData) {
       // If identifierSyntax is present then populate the identifierSyntax accordingly
       if (importData.identifierSyntax !== undefined) {
-        this.$store.commit('modules/IdentifiersStore/populateIdentifiersType', { identifierSyntax: importData.identifierSyntax })
+        this.$store.commit('modules/IdentifiersStore/populateIdentifiersType', {
+          identifierSyntax: importData.identifierSyntax
+        })
       }
 
       // If eventType is present then populate the eventType accordingly
@@ -1771,206 +3158,249 @@ export default {
 
       // Store the event count information based on the import information.
       if (importData.eventCount !== undefined) {
-        this.$store.commit('modules/DesignTestDataStore/populateRawData', { eventCount: importData.eventCount })
+        this.$store.commit('modules/DesignTestDataStore/populateRawData', {
+          eventCount: importData.eventCount
+        })
       }
 
       // If the instanceIdentifiersList is present then populate the instanceIdentifiersList accordingly.
       if (importData.instanceIdentifiersList !== undefined) {
-        this.$store.commit('modules/IdentifiersStore/populateInstanceIdentifiers', importData.instanceIdentifiersList)
+        this.$store.commit(
+          'modules/IdentifiersStore/populateInstanceIdentifiers',
+          importData.instanceIdentifiersList
+        )
       }
 
       // If identifiers information are present then add them to object accordingly
       const identifiersObj = {}
-      identifiersObj.epc = importData.instanceIdentifiersList !== undefined ? importData.instanceIdentifiersList : []
-      identifiersObj.quantity = importData.classIdentifiersList !== undefined ? importData.classIdentifiersList : []
-      identifiersObj.outputEpc = importData.outputInstanceIdentifiersList !== undefined ? importData.outputInstanceIdentifiersList : []
-      identifiersObj.outputQuantity = importData.outputclassIdentifiersList !== undefined ? importData.outputclassIdentifiersList : []
-      identifiersObj.parentID = importData.parentIdentifiersList !== undefined ? importData.parentIdentifiersList : []
-      this.$store.commit('modules/IdentifiersStore/populateRawData', identifiersObj)
+      identifiersObj.epc =
+        importData.instanceIdentifiersList !== undefined
+          ? importData.instanceIdentifiersList
+          : []
+      identifiersObj.quantity =
+        importData.classIdentifiersList !== undefined
+          ? importData.classIdentifiersList
+          : []
+      identifiersObj.outputEpc =
+        importData.outputInstanceIdentifiersList !== undefined
+          ? importData.outputInstanceIdentifiersList
+          : []
+      identifiersObj.outputQuantity =
+        importData.outputclassIdentifiersList !== undefined
+          ? importData.outputclassIdentifiersList
+          : []
+      identifiersObj.parentID =
+        importData.parentIdentifiersList !== undefined
+          ? importData.parentIdentifiersList
+          : []
+      this.$store.commit(
+        'modules/IdentifiersStore/populateRawData',
+        identifiersObj
+      )
 
       // If the error informations are present then add them to Extensions data store
       const extensionsInfo = {}
-      extensionsInfo.userExtensions = importData.userExtensions !== undefined ? importData.userExtensions : []
-      extensionsInfo.ilmd = importData.ilmd !== undefined ? importData.ilmd : []
-      extensionsInfo.errorExtensions = importData.errorExtensions !== undefined ? importData.errorExtensions : []
-      this.$store.commit('modules/ExtensionDataStore/populateRawData', extensionsInfo)
+      extensionsInfo.userExtensions =
+        importData.userExtensions !== undefined
+          ? importData.userExtensions
+          : []
+      extensionsInfo.ilmd =
+        importData.ilmd !== undefined ? importData.ilmd : []
+      extensionsInfo.errorExtensions =
+        importData.errorExtensions !== undefined
+          ? importData.errorExtensions
+          : []
+      this.$store.commit(
+        'modules/ExtensionDataStore/populateRawData',
+        extensionsInfo
+      )
 
       // If the sensor informations are present then add them to SensorElementList
-      this.$store.commit('modules/SensorElementsStore/populateRawData', { sensorData: importData.sensorElementList })
+      this.$store.commit('modules/SensorElementsStore/populateRawData', {
+        sensorData: importData.sensorElementList
+      })
 
       // If sources/destinations are present then add them to SourceDestination store
       const sourceDestinationObj = {}
-      sourceDestinationObj.sources = importData.sources !== undefined ? importData.sources : []
-      sourceDestinationObj.destinations = importData.destinations !== undefined ? importData.destinations : []
-      this.$store.commit('modules/SourceDestinationStore/populateRawData', sourceDestinationObj)
+      sourceDestinationObj.sources =
+        importData.sources !== undefined ? importData.sources : []
+      sourceDestinationObj.destinations =
+        importData.destinations !== undefined ? importData.destinations : []
+      this.$store.commit(
+        'modules/SourceDestinationStore/populateRawData',
+        sourceDestinationObj
+      )
 
       // If formData is present then add it to the form
-      this.formData = importData.formData !== undefined ? importData.formData : {}
+      this.formData =
+        importData.formData !== undefined ? importData.formData : {}
     }
   }
 }
 </script>
 
 <style scoped>
-#eventForm{
+#eventForm {
   display: flex;
-  zoom:85%;
+  zoom: 85%;
 }
 
 .table-nonfluid {
-   width: auto !important;
+  width: auto !important;
 }
 
 .table td {
-   text-align: center;
-}
-
-.table > tbody > tr > td {
-    vertical-align: middle;
-}
-
-table td[class*=col-], table th[class*=col-] {
-    position: static;
-    display: table-cell;
-    float: none;
-}
-
-.table-bordered {
-   width: auto !important;
-}
-
-#eventDimension{
-  background-color: #F2F3F4;
   text-align: center;
 }
 
-#whatDimension{
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+table td[class*="col-"],
+table th[class*="col-"] {
+  position: static;
+  display: table-cell;
+  float: none;
+}
+
+.table-bordered {
+  width: auto !important;
+}
+
+#eventDimension {
+  background-color: #f2f3f4;
+  text-align: center;
+}
+
+#whatDimension {
   background-color: #607fbf;
   text-align: center;
 }
 
-.what{
+.what {
   background-color: #dfe5f1;
 }
 
-.when{
+.when {
   background-color: #eedded;
   text-align: center;
 }
 
-.why{
-background-color: #faf4d5;
-text-align: center;
+.why {
+  background-color: #faf4d5;
+  text-align: center;
 }
 
-.horizontalSpace{
+.horizontalSpace {
   padding-right: 8px;
   padding-left: 8px;
 }
 
-.verticleSpace{
-  padding-top:8px;
+.verticleSpace {
+  padding-top: 8px;
   padding-bottom: 8px;
 }
 
-.where{
+.where {
   background-color: #dae9e4;
 }
 
 ::-webkit-input-placeholder {
-   text-align: center;
-}
-
-.errorDimension{
-  background-color: #f2c2c2;
-}
-
-.modifyButton{
-  color:#F8C471
-}
-
-.deleteButton{
-  color:#dc3545
-}
-
-#eventForm{
-  display: flex;
-  zoom:85%;
-}
-
-.table-nonfluid {
-   width: auto !important;
-}
-
-.table td {
-   text-align: center;
-}
-
-.table > tbody > tr > td {
-    vertical-align: middle;
-}
-
-table td[class*=col-], table th[class*=col-] {
-    position: static;
-    display: table-cell;
-    float: none;
-}
-
-.table-bordered {
-   width: auto !important;
-}
-
-#eventDimension{
-  background-color: #F2F3F4;
   text-align: center;
 }
 
-#whatDimension{
+.errorDimension {
+  background-color: #f2c2c2;
+}
+
+.modifyButton {
+  color: #f8c471;
+}
+
+.deleteButton {
+  color: #dc3545;
+}
+
+#eventForm {
+  display: flex;
+  zoom: 85%;
+}
+
+.table-nonfluid {
+  width: auto !important;
+}
+
+.table td {
+  text-align: center;
+}
+
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+table td[class*="col-"],
+table th[class*="col-"] {
+  position: static;
+  display: table-cell;
+  float: none;
+}
+
+.table-bordered {
+  width: auto !important;
+}
+
+#eventDimension {
+  background-color: #f2f3f4;
+  text-align: center;
+}
+
+#whatDimension {
   background-color: #607fbf;
   text-align: center;
 }
 
-.what{
+.what {
   background-color: #dfe5f1;
 }
 
-.when{
+.when {
   background-color: #eedded;
   text-align: center;
 }
 
-.why{
-background-color: #faf4d5;
-text-align: center;
+.why {
+  background-color: #faf4d5;
+  text-align: center;
 }
 
-.horizontalSpace{
+.horizontalSpace {
   padding-right: 8px;
   padding-left: 8px;
 }
 
-.verticleSpace{
-  padding-top:8px;
+.verticleSpace {
+  padding-top: 8px;
   padding-bottom: 8px;
 }
 
-.where{
+.where {
   background-color: #dae9e4;
 }
 
 ::-webkit-input-placeholder {
-   text-align: center;
+  text-align: center;
 }
 
-.errorDimension{
+.errorDimension {
   background-color: #f2c2c2;
 }
 
-.modifyButton{
-  color:#F8C471
+.modifyButton {
+  color: #f8c471;
 }
 
-.deleteButton{
-  color:#dc3545
+.deleteButton {
+  color: #dc3545;
 }
 </style>
