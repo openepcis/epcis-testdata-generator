@@ -16,6 +16,7 @@
 package io.openepcis.testdata.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -37,15 +38,23 @@ import org.eclipse.microprofile.openapi.annotations.info.Info;
 @ApplicationPath("/")
 public class RESTApplication extends Application {
 
+  private final ObjectMapper objectMapper = new ObjectMapper()
+          .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+          .registerModule(new Jdk8Module())
+          .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+          .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+          .registerModule(new JavaTimeModule());
+
   @Produces
   public ObjectMapper createObjectMapper() {
-    return new ObjectMapper()
-        .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-        .registerModule(new Jdk8Module())
-        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-        .registerModule(new JavaTimeModule());
+    return objectMapper;
   }
+
+  @Produces
+  public JsonFactory createJsonFactory() {
+    return new JsonFactory().setCodec(objectMapper);
+  }
+
 
   @Route(regex = "/ui/.*", path = "ui/index.html", methods = Route.HttpMethod.GET)
   @Operation(summary = "Testdata Generator User Interface")
