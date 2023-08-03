@@ -57,11 +57,16 @@
 
     <properties>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+        <jackson.version>2.14.2</jackson.version>
+        <commons.beanutils.version>1.9.4</commons.beanutils.version>
+        <reactive.streams.tck.flow>1.0.4</reactive.streams.tck.flow>
+        <openepcis.github.version>1.0.0-SNAPSHOT</openepcis.github.version>
     </properties>
 
     <modules>
         <module>testdata-generator-common</module>
         <module>testdata-generator-rest-api</module>
+        <module>testdata-generator-test-common</module>
     </modules>
 
     <build>
@@ -86,6 +91,109 @@
         </plugins>
     </build>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- OpenEPCIS dependency for classes and data-->
+            <dependency>
+                <groupId>io.openepcis</groupId>
+                <artifactId>openepcis-model-epcis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- OpenEPCIS Test Data generator -->
+            <dependency>
+                <groupId>io.openepcis</groupId>
+                <artifactId>testdata-generator-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Converting the EPCIS Document XML <-> JSON -->
+            <dependency>
+                <groupId>io.openepcis</groupId>
+                <artifactId>openepcis-document-converter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Jackson ObjectMapper dependency-->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jdk8</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <!-- Quarkus Service related dependency-->
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-arc</artifactId>
+                <version>${quarkus.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+                <version>${quarkus.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-resteasy-reactive</artifactId>
+                <version>${quarkus.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-config-yaml</artifactId>
+                <version>${quarkus.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-smallrye-openapi</artifactId>
+                <version>${quarkus.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-container-image-jib</artifactId>
+                <version>${quarkus.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-hibernate-validator</artifactId>
+                <version>${quarkus.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.quarkus</groupId>
+                <artifactId>quarkus-reactive-routes</artifactId>
+                <version>${quarkus.platform.version}</version>
+            </dependency>
+
+
+            <!-- OpenEPCIS dependency for Hash-Id generator -->
+            <dependency>
+                <groupId>io.openepcis</groupId>
+                <artifactId>openepcis-event-hash-generator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.openepcis</groupId>
+                <artifactId>openepcis-test-resources</artifactId>
+                <version>${openepcis.github.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${commons.beanutils.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.reactivestreams</groupId>
+                <artifactId>reactive-streams-tck-flow</artifactId>
+                <scope>test</scope>
+                <version>${reactive.streams.tck.flow}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
     <repositories>
         <!-- sonatype snapshots -->
         <repository>

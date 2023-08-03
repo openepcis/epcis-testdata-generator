@@ -21,9 +21,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.openepcis</groupId>
-        <artifactId>openepcis-bom</artifactId>
+        <artifactId>testdata-generator-build</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath></relativePath>
     </parent>
 
     <artifactId>testdata-generator-rest-api</artifactId>
@@ -239,6 +238,13 @@
             <artifactId>quarkus-reactive-routes</artifactId>
         </dependency>
 
+        <!-- OpenEPCIS dependency for Hash-Id generator -->
+        <dependency>
+            <groupId>io.openepcis</groupId>
+            <artifactId>openepcis-event-hash-generator</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!-- Quarkus Test Dependency-->
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -250,7 +256,24 @@
             <artifactId>rest-assured</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>io.openepcis</groupId>
+            <artifactId>testdata-generator-test-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <repositories>
