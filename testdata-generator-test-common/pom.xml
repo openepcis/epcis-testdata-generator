@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>testdata-generator-test-common</artifactId>
-    <name>testdata-generator-restassured</name>
+    <name>testdata-generator-test-common</name>
     <description>Java library to generate EPCIS events in JSON format based on the provided InputTemplate.</description>
     <url>https://github.com/openepcis/epcis-testdata-generator</url>
 
