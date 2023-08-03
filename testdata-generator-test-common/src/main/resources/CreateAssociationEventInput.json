@@ -51,7 +51,7 @@
       ],
       "destinations": [
         {
-          "type": "PROCESSING_PARTY",
+          "type": "POSSESSING_PARTY",
           "glnType": "PGLN",
           "gln": "8493849384938",
           "gcpLength": "10"

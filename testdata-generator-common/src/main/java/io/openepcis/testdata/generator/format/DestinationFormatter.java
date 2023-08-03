@@ -79,7 +79,7 @@ public class DestinationFormatter {
       String destination = "";
 
       // For ProcessingParty and OwningParty add the 417 as application identifier.
-      if (input.getType().equals(SourceDestinationType.PROCESSING_PARTY)
+      if (input.getType().equals(SourceDestinationType.POSSESSING_PARTY)
           || input.getType().equals(SourceDestinationType.OWNING_PARTY)) {
         destination = DomainName.IDENTIFIER_DOMAIN + "/417/" + gln;
       } else if (input.getType().equals(SourceDestinationType.LOCATION)) {
