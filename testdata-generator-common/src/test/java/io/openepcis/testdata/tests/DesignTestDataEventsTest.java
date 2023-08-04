@@ -57,8 +57,7 @@ public class DesignTestDataEventsTest {
     final String designEventsOutput =
         new String(
             getClass()
-                .getClassLoader()
-                .getResourceAsStream("./DesignTestDataEventsOutput1.json")
+                .getResourceAsStream("/DesignTestDataEventsOutput1.json")
                 .readAllBytes(),
             StandardCharsets.UTF_8);
 
@@ -111,8 +110,7 @@ public class DesignTestDataEventsTest {
     final String designEventsOutput =
         new String(
             getClass()
-                .getClassLoader()
-                .getResourceAsStream("./DesignTestDataEventsOutput2.json")
+                .getResourceAsStream("/DesignTestDataEventsOutput2.json")
                 .readAllBytes(),
             StandardCharsets.UTF_8);
 

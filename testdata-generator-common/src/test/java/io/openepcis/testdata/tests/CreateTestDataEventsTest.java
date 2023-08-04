@@ -55,8 +55,7 @@ public class CreateTestDataEventsTest {
     final String objectEventOutput =
         new String(
             getClass()
-                .getClassLoader()
-                .getResourceAsStream("./CreateObjectEventOutput.json")
+                .getResourceAsStream("/CreateObjectEventOutput.json")
                 .readAllBytes(),
             StandardCharsets.UTF_8);
 
@@ -105,8 +104,7 @@ public class CreateTestDataEventsTest {
     final String aggregationEventOutput =
         new String(
             getClass()
-                .getClassLoader()
-                .getResourceAsStream("./CreateAggregationEventOutput.json")
+                .getResourceAsStream("/CreateAggregationEventOutput.json")
                 .readAllBytes(),
             StandardCharsets.UTF_8);
 
@@ -192,8 +190,7 @@ public class CreateTestDataEventsTest {
     final String transformationEventOutput =
         new String(
             getClass()
-                .getClassLoader()
-                .getResourceAsStream("./CreateTransformationEventOutput.json")
+                .getResourceAsStream("/CreateTransformationEventOutput.json")
                 .readAllBytes(),
             StandardCharsets.UTF_8);
 
