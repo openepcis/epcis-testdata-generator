@@ -63,7 +63,7 @@ public class GenerateEventsTest {
   @Test
   public void responseContentTypeTest() {
     // Check if the HTTP POST is sending the response with response content type JSON
-    assertEquals("text/plain;charset=UTF-8", response.getContentType());
+    assertEquals("application/json;charset=UTF-8", response.getContentType());
   }
 
   @Test

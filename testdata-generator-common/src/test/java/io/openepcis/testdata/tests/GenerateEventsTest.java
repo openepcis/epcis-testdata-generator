@@ -78,47 +78,4 @@ public class GenerateEventsTest {
               }
             });
   }
-
-  @Test
-  @SuppressWarnings("squid:S2699")
-  public void SampleTest() throws IOException {
-    InputTemplate inputTemplate = null;
-    final ObjectMapper objectMapper = new ObjectMapper();
-    try {
-      objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-      objectMapper.registerModule(new Jdk8Module());
-      objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-      objectMapper.configure(
-              DeserializationFeature.FAIL_ON_MISSING_EXTERNAL_TYPE_ID_PROPERTY, false);
-      objectMapper.registerModule(new JavaTimeModule());
-      objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-      inputTemplate =
-              objectMapper.readValue(
-                      getClass().getResourceAsStream("/SampleTemplate.json"), InputTemplate.class);
-    } catch (Exception e) {
-      throw new TestDataGeneratorException(
-              "Error occurred during the parsing of JSON InputTemplate : " + e.getMessage());
-    }
-
-    final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-    final Set<ConstraintViolation<InputTemplate>> violations = validator.validate(inputTemplate);
-    final String message =
-            violations.stream().map(cv -> cv.getMessage()).collect(Collectors.joining(", "));
-    System.out.println(message);
-
-    EPCISEventGenerator.generate(inputTemplate)
-            .collect()
-            .asList()
-            .await()
-            .indefinitely()
-            .forEach(
-                    e -> {
-                      try {
-                        System.out.println(
-                                objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(e));
-                      } catch (JsonProcessingException ex) {
-                        throw new CompletionException(ex);
-                      }
-                    });
-  }
 }

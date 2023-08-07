@@ -255,16 +255,11 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
     for (ReferencedIdentifier epc : typeInfo.getReferencedIdentifier()) {
       // When user wants to inherit Parent-Ids from parent node into child node get the matching
       if (epc.getParentNodeId() != 0 && epc.getInheritParentCount() != null && epc.getInheritParentCount() > 0) {
-       /* parentTracker.stream().forEach(parent -> {
-          parentList.addAll(EventModelUtil.parentIdentifiers(parent, epc.getInheritParentCount()));
-        });*/
-
         parentTracker.stream()
                 .filter(i -> i.getEventTypeInfo().getNodeId() == epc.getParentNodeId())
                 .findFirst()
                 .ifPresent(
                         t -> parentList.addAll(EventModelUtil.parentIdentifiers(t, epc.getInheritParentCount())));
-
         epc.setInheritParentCount(0);
       }
     }
