@@ -211,6 +211,12 @@ public class EventModelUtil {
         && !associationEvent.getParentID().isEmpty()) {
       // For AssociationEvent add the Parent-Ids
       parentIdentifiersList.add(associationEvent.getParentID());
+    }else if(parentTracker.getEvent() instanceof ObjectEvent objectEvent && objectEvent.getEpcList() != null && !objectEvent.getEpcList().isEmpty()){
+      //For objectEvent inherit from EPCS
+      parentIdentifiersList.addAll(objectEvent.getEpcList());
+    }else if(parentTracker.getEvent() instanceof TransformationEvent transformationEvent && transformationEvent.getOutputEPCList() != null && !transformationEvent.getOutputEPCList().isEmpty()){
+      //For TransformationEvent inherit from InputEPCs
+      parentIdentifiersList.addAll(transformationEvent.getOutputEPCList());
     }
 
     if (!parentIdentifiersList.isEmpty()

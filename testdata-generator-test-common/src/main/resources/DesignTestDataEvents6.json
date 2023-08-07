@@ -74,8 +74,8 @@
       "disposition": "CONFORMANT",
       "referencedIdentifier": [{
         "parentNodeId": 3,
-        "epcCount": 0,
-        "inheritParentCount": 1,
+        "epcCount": 2,
+        "inheritParentCount": 0,
         "classCount": 0,
         "quantity": 0
       }],
@@ -105,8 +105,8 @@
       "disposition": "IN_PROGRESS",
       "referencedIdentifier": [{
         "parentNodeId": 4,
-        "epcCount": 0,
-        "inheritParentCount": 1,
+        "epcCount": 1,
+        "inheritParentCount": 0,
         "classCount": 0,
         "quantity": 0
       }],

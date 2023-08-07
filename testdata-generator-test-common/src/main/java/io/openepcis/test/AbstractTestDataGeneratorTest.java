@@ -181,11 +181,11 @@ public abstract class AbstractTestDataGeneratorTest {
     Response response = executeRestAPI("DesignTestDataEvents6.json", testDataGeneratorApi);
     validateStatusCode(response);
 
-    assertEquals(response.jsonPath().getList("epcisBody.eventList").size(), 7);
+    assertEquals(response.jsonPath().getList("epcisBody.eventList").size(), 11);
 
-    assertEquals(3, getEventTypeCount(response.jsonPath(), "ObjectEvent"));
+    assertEquals(5, getEventTypeCount(response.jsonPath(), "ObjectEvent"));
     assertEquals(2, getEventTypeCount(response.jsonPath(), "AggregationEvent"));
-    assertEquals(2, getEventTypeCount(response.jsonPath(), "TransactionEvent"));
+    assertEquals(4, getEventTypeCount(response.jsonPath(), "TransactionEvent"));
   }
 
   /*
