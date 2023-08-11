@@ -307,15 +307,17 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
             .findFirst()
             .ifPresent(
                 t -> epcList.addAll(EventModelUtil.instanceIdentifiers(t, epc.getEpcCount())));
-      }else if (epc.getParentNodeId() != 0 && epc.getInheritParentCount() != null && epc.getInheritParentCount() > 0) {
+      }
+
+      if (epc.getParentNodeId() != 0 && epc.getInheritParentCount() != null && epc.getInheritParentCount() > 0) {
         // When user wants to inherit Parent-Ids from parent node into child node get the matching
         // Parent Identifiers. (AggregationEvent -> ObjectEvent)
         parentTracker.stream()
-            .forEach(
-                parent -> {
-                  epcList.addAll(
-                      EventModelUtil.parentIdentifiers(parent, epc.getInheritParentCount()));
-                });
+                .forEach(
+                        parent -> {
+                          epcList.addAll(
+                                  EventModelUtil.parentIdentifiers(parent, epc.getInheritParentCount()));
+                        });
       }
     }
 
@@ -339,7 +341,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
 
       // If the EventNode is directly connected to the IdentifiersNode then create the class
       // identifiers based on the provided identifiers info
-      if (quantity.getIdentifierId() != 0) {
+      if (quantity.getIdentifierId() != 0 && quantity.getClassCount() != null && quantity.getClassCount() > 0) {
 
         // Get the matching identifiers from the IdentifiersList based on the Identifiers present in
         // the ReferencedIdentifier
@@ -362,7 +364,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
                       quantity.getClassCount(),
                       quantity.getQuantity()));
         }
-      } else if (quantity.getParentNodeId() != 0) {
+      } else if (quantity.getParentNodeId() != 0  && quantity.getClassCount() != null && quantity.getClassCount() > 0) {
         // If referenced identifier contains the parent node id then obtain the identifiers from its
         // parent event and add it
 
