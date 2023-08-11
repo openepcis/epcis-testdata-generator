@@ -1822,6 +1822,17 @@ export default {
 
     // Actions to perform after the submission of the event information for each event
     submitEventData (event) {
+      // If TransactionEvent and does not contain bizTransaction then show alert message.
+      if (
+        this.formData.eventType === 'TransactionEvent' &&
+        this.formData.businessTransactionList.length === 0
+      ) {
+        this.$alertify.alert(
+          'Test Data Generator Error',
+          'TransactionEvent should consist of at least 1 bizTransaction element'
+        )
+        return
+      }
       // Add the values for the form for further modification of the Node info if user tries to modify
       this.formData.sources =
         this.$store.state.modules.SourceDestinationStore.sources

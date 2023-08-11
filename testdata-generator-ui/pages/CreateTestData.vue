@@ -2696,6 +2696,19 @@ export default {
 
     // Function to generate Test data onclick of the submit button
     generateTestData () {
+      // If TransactionEvent and does not contain bizTransaction then show alert message.
+      if (
+        this.$store.state.modules.DesignTestDataStore.eventType ===
+          'TransactionEvent' &&
+        this.formData.businessTransactionList.length === 0
+      ) {
+        this.$alertify.alert(
+          'Test Data Generator Error',
+          'TransactionEvent should consist of at least 1 bizTransaction element'
+        )
+        return
+      }
+
       // Navigate to Generate Test data page to display the inputTemplate and Generated output events
       this.$router.push('/GenerateEvents')
 
