@@ -307,9 +307,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
             .findFirst()
             .ifPresent(
                 t -> epcList.addAll(EventModelUtil.instanceIdentifiers(t, epc.getEpcCount())));
-      }
-
-      if (epc.getParentNodeId() != 0 && epc.getInheritParentCount() != null && epc.getInheritParentCount() > 0) {
+      }else if (epc.getParentNodeId() != 0 && epc.getInheritParentCount() != null && epc.getInheritParentCount() > 0) {
         // When user wants to inherit Parent-Ids from parent node into child node get the matching
         // Parent Identifiers. (AggregationEvent -> ObjectEvent)
         parentTracker.stream()

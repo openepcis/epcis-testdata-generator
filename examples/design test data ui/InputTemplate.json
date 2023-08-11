@@ -176,7 +176,7 @@
       },
       "sources": [
         {
-          "type": "PROCESSING_PARTY",
+          "type": "POSSESSING_PARTY",
           "glnType": "SGLN",
           "gln": "4012345000009",
           "gcpLength": null
@@ -184,7 +184,7 @@
       ],
       "destinations": [
         {
-          "type": "PROCESSING_PARTY",
+          "type": "POSSESSING_PARTY",
           "glnType": "SGLN",
           "gln": "0061414100007",
           "gcpLength": null

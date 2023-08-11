@@ -43,7 +43,7 @@
                         "ID": 0
                     },
                     {
-                        "type": "PROCESSING_PARTY",
+                        "type": "POSSESSING_PARTY",
                         "glnType": "SGLN",
                         "gcpLength": 7,
                         "gln": "6347463677646",
@@ -69,7 +69,7 @@
                         "ID": 0
                     },
                     {
-                        "type": "PROCESSING_PARTY",
+                        "type": "POSSESSING_PARTY",
                         "glnType": "SGLN",
                         "gcpLength": 7,
                         "gln": "6746736767376",
@@ -164,7 +164,7 @@
                         "ID": 0
                     },
                     {
-                        "type": "PROCESSING_PARTY",
+                        "type": "POSSESSING_PARTY",
                         "glnType": "SGLN",
                         "gcpLength": 7,
                         "gln": "6743643665345",
