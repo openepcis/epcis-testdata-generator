@@ -180,6 +180,6 @@ public class TestDataGeneratorResource {
     return Uni.createFrom()
         .item(
             versionTransformer.convert(
-                jsonEvents, EPCISFormat.JSON_LD, EPCISFormat.XML, EPCISVersion.VERSION_2_0_0));
+                jsonEvents, EPCISFormat.JSON_LD, EPCISFormat.XML, EPCISVersion.VERSION_2_0_0, false));
   }
 }
