@@ -18,10 +18,8 @@ package io.openepcis.testdata.generator.model;
 import io.openepcis.model.epcis.*;
 import io.openepcis.testdata.generator.reactivestreams.*;
 import io.openepcis.testdata.generator.template.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+
+import java.util.*;
 
 public class EventModelUtil {
 
@@ -196,21 +194,24 @@ public class EventModelUtil {
     List<String> parentIdentifiersList = new ArrayList<>();
 
     // Check the type of event based on which obtain relative Parent Identifiers
-    if (parentTracker.getEvent() instanceof AggregationEvent aggregationEvent
-        && aggregationEvent.getParentID() != null
-        && !aggregationEvent.getParentID().isEmpty()) {
-      // For AggregationEvent add the Parent-Ids
-      parentIdentifiersList.add(aggregationEvent.getParentID());
-    } else if (parentTracker.getEvent() instanceof TransactionEvent transactionEvent
-        && transactionEvent.getParentID() != null
-        && !transactionEvent.getParentID().isEmpty()) {
-      // For TransactionEvent add the Parent-Ids
-      parentIdentifiersList.add(transactionEvent.getParentID());
-    } else if (parentTracker.getEvent() instanceof AssociationEvent associationEvent
-        && associationEvent.getParentID() != null
-        && !associationEvent.getParentID().isEmpty()) {
+    if (parentTracker.getEvent() instanceof AggregationEvent aggregationEvent) {
+      // For AggregationEvent add the Parent-Ids/Child EPCs if value exists
+      parentIdentifiersList.add( aggregationEvent.getParentID() != null && !aggregationEvent.getParentID().isEmpty() ? aggregationEvent.getParentID() : null); //add parent id
+      parentIdentifiersList.addAll(aggregationEvent.getChildEPCs() != null && !aggregationEvent.getChildEPCs().isEmpty() ? aggregationEvent.getChildEPCs() :  Collections.emptyList()); //add child epcs
+    } else if (parentTracker.getEvent() instanceof TransactionEvent transactionEvent) {
+      // For TransactionEvent add the Parent-Ids/EPC list if value exists
+      parentIdentifiersList.add( transactionEvent.getParentID() != null && !transactionEvent.getParentID().isEmpty() ? transactionEvent.getParentID() : null); //add parent id
+      parentIdentifiersList.addAll(transactionEvent.getEpcList() != null && !transactionEvent.getEpcList().isEmpty() ? transactionEvent.getEpcList() :  Collections.emptyList()); //add child epcs
+    } else if (parentTracker.getEvent() instanceof AssociationEvent associationEvent) {
       // For AssociationEvent add the Parent-Ids
-      parentIdentifiersList.add(associationEvent.getParentID());
+      parentIdentifiersList.add(associationEvent.getParentID() != null && !associationEvent.getParentID().isEmpty() ? associationEvent.getParentID() : null); //add parent id
+      parentIdentifiersList.addAll(associationEvent.getChildEPCs() != null && !associationEvent.getChildEPCs().isEmpty() ? associationEvent.getChildEPCs() :  Collections.emptyList()); //add child epcs
+    }else if(parentTracker.getEvent() instanceof ObjectEvent objectEvent && objectEvent.getEpcList() != null && !objectEvent.getEpcList().isEmpty()){
+      //For objectEvent inherit from EPCS
+      parentIdentifiersList.addAll(objectEvent.getEpcList());
+    }else if(parentTracker.getEvent() instanceof TransformationEvent transformationEvent && transformationEvent.getOutputEPCList() != null && !transformationEvent.getOutputEPCList().isEmpty()){
+      //For TransformationEvent inherit from InputEPCs
+      parentIdentifiersList.addAll(transformationEvent.getOutputEPCList());
     }
 
     if (!parentIdentifiersList.isEmpty()

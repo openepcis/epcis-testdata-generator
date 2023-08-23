@@ -34,16 +34,8 @@
         },
         "businessStep": "RESERVING",
         "disposition": null,
-        "sources": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
-        "destinations": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
+        "sources": [],
+        "destinations": [],
         "eventID": false,
         "action": "ADD",
         "error": {
@@ -107,16 +99,8 @@
         },
         "businessStep": "PACKING",
         "disposition": null,
-        "sources": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
-        "destinations": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
+        "sources": [],
+        "destinations": [],
         "eventID": false,
         "action": "ADD",
         "error": {
@@ -180,16 +164,8 @@
         },
         "businessStep": "SHIPPING",
         "disposition": null,
-        "sources": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
-        "destinations": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
+        "sources": [],
+        "destinations": [],
         "eventID": false,
         "action": "ADD",
         "error": {

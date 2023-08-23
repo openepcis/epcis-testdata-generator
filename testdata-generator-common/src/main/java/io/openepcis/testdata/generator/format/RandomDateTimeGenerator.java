@@ -44,11 +44,7 @@ public class RandomDateTimeGenerator implements Serializable {
           .toOffsetDateTime();
     }
     try {
-      return Instant.ofEpochMilli(
-              randomData.nextLong(
-                  fromTime.toInstant().toEpochMilli(), toTime.toInstant().toEpochMilli()))
-          .atZone(ZoneId.systemDefault())
-          .toOffsetDateTime();
+      return Instant.ofEpochMilli(randomData.nextLong(fromTime.toInstant().toEpochMilli(), toTime.toInstant().toEpochMilli())).atZone(ZoneId.systemDefault()).toOffsetDateTime();
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during creation of Random Event Time, Please check the values provided values for EventTime : "

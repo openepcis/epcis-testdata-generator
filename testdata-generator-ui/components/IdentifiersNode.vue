@@ -21,7 +21,7 @@
       Identifier
     </div>
     <div class="nodeContainer">
-      <div style="font-size:12px;text-align:center;">
+      <div style="font-size: 12px; text-align: center">
         <input
           :id="`identifierTypeURN-${ID}`"
           value="URN"
@@ -30,7 +30,10 @@
           :checked="identifierSyntax === 'URN'"
           @input="instanceIdentifiersSyntaxChange($event, 'URN')"
         >
-        <label class="radio-inline control-label" :for="`identifierTypeURN-${ID}`">URN</label>
+        <label
+          class="radio-inline control-label"
+          :for="`identifierTypeURN-${ID}`"
+        >URN</label>
         <input
           :id="`identifierTypeWebURI-${ID}`"
           value="WebURI"
@@ -39,13 +42,16 @@
           :checked="identifierSyntax === 'WebURI'"
           @input="instanceIdentifiersSyntaxChange($event, 'WebURI')"
         >
-        <label class="radio-inline control-label" :for="`identifierTypeWebURI-${ID}`">WebURI</label>
+        <label
+          class="radio-inline control-label"
+          :for="`identifierTypeWebURI-${ID}`"
+        >WebURI</label>
       </div>
 
       <div class="col text-center" style="">
         <button
           ref="Btn"
-          class="btn btn-info rounded-pill"
+          class="btn btn-info btn-sm rounded-pill"
           df-ID
           :value="ID"
           title="Add Instance Identifiers"
@@ -56,7 +62,7 @@
         <pre>{{ instanceIdentifierType }}</pre>
         <button
           ref="Btn"
-          class="btn btn-info rounded-pill"
+          class="btn btn-info btn-sm rounded-pill"
           df-ID
           :value="ID"
           title="Add Class Identifiers"
@@ -71,7 +77,6 @@
 </template>
 
 <script>
-
 export default {
   data () {
     return {
@@ -90,54 +95,97 @@ export default {
       const data = this.$df.getNodeFromId(id.slice(5))
       this.ID = data.data.ID
 
-      this.allNodeInfo = JSON.parse(JSON.stringify(this.$store.state.modules.ConfigureIdentifiersInfoStore.identifiersArray, null, 4))
-      const identifierNode = this.allNodeInfo.find(node => parseInt(node.identifiersId) === parseInt(this.ID))
+      this.allNodeInfo = JSON.parse(
+        JSON.stringify(
+          this.$store.state.modules.ConfigureIdentifiersInfoStore
+            .identifiersArray,
+          null,
+          4
+        )
+      )
+      const identifierNode = this.allNodeInfo.find(
+        node => parseInt(node.identifiersId) === parseInt(this.ID)
+      )
 
       if (identifierNode !== undefined) {
         this.identifierSyntax = identifierNode.identifierSyntax
 
         if (identifierNode.instanceData !== undefined) {
-          this.instanceIdentifierType = identifierNode.instanceData.identifierType
+          this.instanceIdentifierType =
+            identifierNode.instanceData.identifierType
         }
       }
 
       // Watch for the changes on the identifiers array if the values are changed then add the respective information onto the identifiers node
-      this.$watch('$store.state.modules.ConfigureIdentifiersInfoStore.identifiersArray', (val) => {
-        const currentIdentifiersNode = val.find(node => node.identifiersId === this.ID)
+      this.$watch(
+        '$store.state.modules.ConfigureIdentifiersInfoStore.identifiersArray',
+        (val) => {
+          const currentIdentifiersNode = val.find(
+            node => node.identifiersId === this.ID
+          )
 
-        if (currentIdentifiersNode !== undefined && currentIdentifiersNode !== null) {
-          this.instanceIdentifierType = currentIdentifiersNode.instanceData !== undefined && currentIdentifiersNode.instanceData !== null ? currentIdentifiersNode.instanceData.identifierType.toUpperCase() : ''
-          this.classIdentifierType = currentIdentifiersNode.classData !== undefined && currentIdentifiersNode.classData !== null ? currentIdentifiersNode.classData.identifierType.toUpperCase() : ''
+          if (
+            currentIdentifiersNode !== undefined &&
+            currentIdentifiersNode !== null
+          ) {
+            this.instanceIdentifierType =
+              currentIdentifiersNode.instanceData !== undefined &&
+              currentIdentifiersNode.instanceData !== null
+                ? currentIdentifiersNode.instanceData.identifierType.toUpperCase()
+                : ''
+            this.classIdentifierType =
+              currentIdentifiersNode.classData !== undefined &&
+              currentIdentifiersNode.classData !== null
+                ? currentIdentifiersNode.classData.identifierType.toUpperCase()
+                : ''
 
-          // Update the connections so it is always attached to the port
-          this.$df.updateConnectionNodes('node-' + this.ID)
-        }
-      }, { immediate: true, deep: true })
+            // Update the connections so it is always attached to the port
+            this.$df.updateConnectionNodes('node-' + this.ID)
+          }
+        },
+        { immediate: true, deep: true }
+      )
     })
   },
   methods: {
     // On click of the button show the modal
     instanceIdentifiersModal (nodeId) {
       // Store the current IdentifiersNode information based on the click of the respective Identifiers node
-      this.$store.commit('modules/ConfigureIdentifiersInfoStore/populateCurrentIdentifierInfo', { identifierType: 'identifier', nodeId })
+      this.$store.commit(
+        'modules/ConfigureIdentifiersInfoStore/populateCurrentIdentifierInfo',
+        { identifierType: 'identifier', nodeId }
+      )
 
       // Store the CurrentNodeid so it can be tracked which node is clicked
-      this.$store.commit('modules/ConfigureIdentifiersInfoStore/populateCurrentNodeId', nodeId)
+      this.$store.commit(
+        'modules/ConfigureIdentifiersInfoStore/populateCurrentNodeId',
+        nodeId
+      )
 
       // Show the Instance identifiers modal and obtain the respective information
-      this.$store.commit('modules/ConfigureIdentifiersInfoStore/showInstanceIdentifiersModal')
+      this.$store.commit(
+        'modules/ConfigureIdentifiersInfoStore/showInstanceIdentifiersModal'
+      )
     },
 
     // On click of the button show class identifiers modal
     classIdentifiersModal (nodeId) {
       // Store the current IdentifiersNode information based on the click of the respective Identifiers node
-      this.$store.commit('modules/ConfigureIdentifiersInfoStore/populateCurrentIdentifierInfo', { identifierType: 'identifier', nodeId })
+      this.$store.commit(
+        'modules/ConfigureIdentifiersInfoStore/populateCurrentIdentifierInfo',
+        { identifierType: 'identifier', nodeId }
+      )
 
       // Store the CurrentNodeid so it can be tracked which node is clicked
-      this.$store.commit('modules/ConfigureIdentifiersInfoStore/populateCurrentNodeId', nodeId)
+      this.$store.commit(
+        'modules/ConfigureIdentifiersInfoStore/populateCurrentNodeId',
+        nodeId
+      )
 
       // Show the Class identifiers modal and obtain the respective information
-      this.$store.commit('modules/ConfigureIdentifiersInfoStore/showClassIdentifiersModal')
+      this.$store.commit(
+        'modules/ConfigureIdentifiersInfoStore/showClassIdentifiersModal'
+      )
     },
 
     // On change of the IdentifierSyntax change, change the value in the respective node info
@@ -145,7 +193,10 @@ export default {
       // Change the value based on changes
       this.identifierSyntax = syntaxValue
       // Change the value of the respective syntax within the Node information in IdentifiersNode array
-      this.$store.commit('modules/ConfigureIdentifiersInfoStore/identifiersSyntaxChange', { nodeId: this.ID, syntaxValue })
+      this.$store.commit(
+        'modules/ConfigureIdentifiersInfoStore/identifiersSyntaxChange',
+        { nodeId: this.ID, syntaxValue }
+      )
     }
   }
 }

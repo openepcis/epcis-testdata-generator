@@ -31,16 +31,8 @@
         },
         "businessStep": "COMMISSIONING",
         "disposition": "ACTIVE",
-        "sources": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
-        "destinations": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
+        "sources": [],
+        "destinations": [],
         "eventID": false,
         "eventIdType": "UUID",
         "hashAlgorithm": "sha-256",
@@ -104,16 +96,8 @@
         },
         "businessStep": "PACKING",
         "disposition": "IN_PROGRESS",
-        "sources": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
-        "destinations": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
+        "sources": [],
+        "destinations": [],
         "eventID": false,
         "eventIdType": "UUID",
         "hashAlgorithm": "sha-256",
@@ -177,16 +161,8 @@
         },
         "businessStep": "PACKING",
         "disposition": null,
-        "sources": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
-        "destinations": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
+        "sources": [],
+        "destinations": [],
         "eventID": false,
         "eventIdType": "UUID",
         "hashAlgorithm": "sha-256",
@@ -248,16 +224,8 @@
         },
         "businessStep": "LOADING",
         "disposition": null,
-        "sources": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
-        "destinations": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
+        "sources": [],
+        "destinations": [],
         "eventID": false,
         "eventIdType": "UUID",
         "hashAlgorithm": "sha-256",
@@ -321,18 +289,22 @@
         },
         "businessStep": "SHIPPING",
         "disposition": "IN_TRANSIT",
-        "sources": {
-          "type": "PROCESSING_PARTY",
-          "glnType": "SGLN",
-          "gcpLength": null,
-          "gln": "4012345000009"
-        },
-        "destinations": {
-          "type": "PROCESSING_PARTY",
-          "glnType": "SGLN",
-          "gcpLength": null,
-          "gln": "0061414100007"
-        },
+        "sources": [
+          {
+            "type": "POSSESSING_PARTY",
+            "glnType": "SGLN",
+            "gcpLength": null,
+            "gln": "4012345000009"
+          }
+        ],
+        "destinations": [
+          {
+            "type": "POSSESSING_PARTY",
+            "glnType": "SGLN",
+            "gcpLength": null,
+            "gln": "0061414100007"
+          }
+        ],
         "eventID": false,
         "eventIdType": "UUID",
         "hashAlgorithm": "sha-256",

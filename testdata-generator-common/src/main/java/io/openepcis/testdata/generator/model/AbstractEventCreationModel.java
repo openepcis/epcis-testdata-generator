@@ -32,8 +32,7 @@ import io.openepcis.testdata.generator.template.Identifier;
 import io.openepcis.testdata.generator.template.ReferencedIdentifier;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,8 +60,8 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
 
   private EPCISEventDownstreamHandler epcisEventDownstreamHandler = null;
 
-  private final DateTimeFormatter formatter =
-      DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSXXX");
+  private final DateTimeFormatter dateFormatter =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
   @Override
   public EPCISEventDownstreamHandler toEPCISDownstreamHandler() {
@@ -125,7 +124,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
     if (typeInfo.getRecordTimeType() == RecordTimeType.SAME_AS_EVENT_TIME) {
       epcisEvent.setRecordTime(epcisEvent.getEventTime());
     } else if (typeInfo.getRecordTimeType() == RecordTimeType.CURRENT_TIME) {
-      epcisEvent.setRecordTime(OffsetDateTime.parse(formatter.format(ZonedDateTime.now())));
+      epcisEvent.setRecordTime(OffsetDateTime.parse(dateFormatter.format(OffsetDateTime.now())));
     }
   }
 
@@ -246,6 +245,26 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
     }
   }
 
+  //Method used for creating the parentID based on the value provided for the parentReferenceIdentifier
+  public List<String> referencedParentIdentifier(final List<EventIdentifierTracker> parentTracker){
+    // Create a List to store values related to Parent Identifiers
+    List<String> parentList = new ArrayList<>();
+
+    //Loop over the referenced identifier to get the parent identifiers
+    for (ReferencedIdentifier epc : typeInfo.getReferencedIdentifier()) {
+      // When user wants to inherit Parent-Ids from parent node into child node get the matching
+      if (epc.getParentNodeId() != 0 && epc.getInheritParentCount() != null && epc.getInheritParentCount() > 0) {
+        parentTracker.stream()
+                .filter(i -> i.getEventTypeInfo().getNodeId() == epc.getParentNodeId())
+                .findFirst()
+                .ifPresent(
+                        t -> parentList.addAll(EventModelUtil.parentIdentifiers(t, epc.getInheritParentCount())));
+        epc.setInheritParentCount(0);
+      }
+    }
+    return parentList;
+  }
+
   // Method used for creating the EPCs based on the value provided for the field
   // ReferencedIdentifier
   public List<String> referencedEpcsIdentifierGenerator(
@@ -259,7 +278,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
 
       // If the EventNode is directly connected to the IdentifiersNode then create the class
       // identifiers based on the provided identifiers info
-      if (epc.getIdentifierId() != 0 && epc.getEpcCount() > 0) {
+      if (epc.getIdentifierId() != 0 && epc.getEpcCount() != null && epc.getEpcCount() > 0) {
         // Get the matching identifiers
         var matchingIdentifier =
             identifiers.stream()
@@ -289,17 +308,15 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
                 t -> epcList.addAll(EventModelUtil.instanceIdentifiers(t, epc.getEpcCount())));
       }
 
-      // When user wants to inherit Parent-Ids from parent node into child node get the matching
-      // Parent Identifiers. (AggregationEvent -> ObjectEvent)
-      if (epc.getParentNodeId() != 0
-          && epc.getInheritParentCount() != null
-          && epc.getInheritParentCount() > 0) {
+      if (epc.getParentNodeId() != 0 && epc.getInheritParentCount() != null && epc.getInheritParentCount() > 0) {
+        // When user wants to inherit Parent-Ids from parent node into child node get the matching
+        // Parent Identifiers. (AggregationEvent -> ObjectEvent)
         parentTracker.stream()
-            .forEach(
-                parent -> {
-                  epcList.addAll(
-                      EventModelUtil.parentIdentifiers(parent, epc.getInheritParentCount()));
-                });
+                .forEach(
+                        parent -> {
+                          epcList.addAll(
+                                  EventModelUtil.parentIdentifiers(parent, epc.getInheritParentCount()));
+                        });
       }
     }
 
@@ -323,7 +340,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
 
       // If the EventNode is directly connected to the IdentifiersNode then create the class
       // identifiers based on the provided identifiers info
-      if (quantity.getIdentifierId() != 0) {
+      if (quantity.getIdentifierId() != 0 && quantity.getClassCount() != null && quantity.getClassCount() > 0) {
 
         // Get the matching identifiers from the IdentifiersList based on the Identifiers present in
         // the ReferencedIdentifier
@@ -346,7 +363,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
                       quantity.getClassCount(),
                       quantity.getQuantity()));
         }
-      } else if (quantity.getParentNodeId() != 0) {
+      } else if (quantity.getParentNodeId() != 0  && quantity.getClassCount() != null && quantity.getClassCount() > 0) {
         // If referenced identifier contains the parent node id then obtain the identifiers from its
         // parent event and add it
 

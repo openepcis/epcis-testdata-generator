@@ -68,59 +68,6 @@ public class EPCISEventDownstreamHandler {
 
     // run only if all upstream nodes have provided a tracker
     if (upstreamTrackers.size() == upstreamHandlers.size()) {
-
-      // Check if the Child node event inherits multiple parent event ids from parent node event
-      if (model.getTypeInfo().getReferencedIdentifier().stream()
-          .anyMatch(
-              ref -> ref.getInheritParentCount() != null && ref.getInheritParentCount() > 0)) {
-        // Get all the ReferencedIdentifiers object information from Child Event Nodes which
-        // inherits the Parent Identifiers from Parent Event Node
-        final List<ReferencedIdentifier> inheritParentIdentifiers =
-            model.getTypeInfo().getReferencedIdentifier().stream()
-                .filter(
-                    childConnector ->
-                        childConnector.getInheritParentCount() > 0
-                            && childConnector.getParentNodeId()
-                                == parentTracker.getEventTypeInfo().getNodeId())
-                .toList();
-
-        // Loop over the list of Child Event Nodes ReferencedIdentifiers which is inheriting
-        // Parent-Ids from Parent Event Node.
-        inheritParentIdentifiers.forEach(
-            inheritParentRefIdentifier -> {
-              // Get the event information from associated with Parent Node-Id stored in
-              // inheritParentTrackers
-              List<EventIdentifierTracker> inheritedTrackers =
-                  inheritParentTrackers.get(parentTracker.getEventTypeInfo().getNodeId());
-
-              // If no information associated with Parent Node-Id found then create new ArrayList
-              if (inheritedTrackers == null) {
-                inheritedTrackers = new ArrayList<>();
-              }
-
-              // Store the created Parent event in the ArrayList
-              inheritedTrackers.add(
-                  new EventIdentifierTracker(
-                      parentTracker.getEventTypeInfo(), parentTracker.getEvent()));
-
-              // Add the information within the Map inheritParentTrackers along with the Parent
-              // Node-Id
-              inheritParentTrackers.put(
-                  parentTracker.getEventTypeInfo().getNodeId(), inheritedTrackers);
-
-              // If the number of events in inheritParentTrackers matches the count of Inherited
-              // Parent count then create the child event
-              if (inheritedTrackers.size() == inheritParentRefIdentifier.getInheritParentCount()) {
-                final EPCISEvent event = model.create(inheritedTrackers);
-                final var nextTracker = new EventIdentifierTracker(model.getTypeInfo(), event);
-                upstreamHandlers.forEach(u -> u.next(event));
-                if (!downstreamHandlers.isEmpty()) {
-                  downstreamHandlers.forEach(h -> h.next(nextTracker));
-                }
-                inheritedTrackers.clear();
-              }
-            });
-      } else {
         for (var i = 0; i < model.getTypeInfo().getEventCount(); i++) {
           final EPCISEvent event = model.create(upstreamTrackers);
           final var nextTracker = new EventIdentifierTracker(model.getTypeInfo(), event);
@@ -129,21 +76,23 @@ public class EPCISEventDownstreamHandler {
             downstreamHandlers.forEach(h -> h.next(nextTracker));
           }
         }
-      }
       upstreamTrackers.clear();
     }
   }
 
   public void addDownstreamHandler(final EPCISEventDownstreamHandler handler) {
-    downstreamHandlers.add(handler);
-    handler.addUpstream(upstreamHandlers);
+      downstreamHandlers.add(handler);
+
+      //Adding unique upstream handles to avoid duplication and missing events
+      final HashSet<EPCISEventUpstreamHandler> uniqueUpstreamHandlers = new HashSet(upstreamHandlers.stream().toList());
+      handler.addUpstream(uniqueUpstreamHandlers.stream().toList());
   }
 
   public void addUpstream(final EPCISEventUpstreamHandler upstream) {
-    upstreamHandlers.add(upstream);
+      upstreamHandlers.add(upstream);
   }
 
   public void addUpstream(final List<EPCISEventUpstreamHandler> upstream) {
-    upstreamHandlers.addAll(upstream);
+    upstream.forEach(this::addUpstream);
   }
 }
