@@ -32,8 +32,7 @@ import io.openepcis.testdata.generator.template.Identifier;
 import io.openepcis.testdata.generator.template.ReferencedIdentifier;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,8 +60,8 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
 
   private EPCISEventDownstreamHandler epcisEventDownstreamHandler = null;
 
-  private final DateTimeFormatter formatter =
-      DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSXXX");
+  private final DateTimeFormatter dateFormatter =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
   @Override
   public EPCISEventDownstreamHandler toEPCISDownstreamHandler() {
@@ -125,7 +124,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
     if (typeInfo.getRecordTimeType() == RecordTimeType.SAME_AS_EVENT_TIME) {
       epcisEvent.setRecordTime(epcisEvent.getEventTime());
     } else if (typeInfo.getRecordTimeType() == RecordTimeType.CURRENT_TIME) {
-      epcisEvent.setRecordTime(OffsetDateTime.parse(formatter.format(ZonedDateTime.now())));
+      epcisEvent.setRecordTime(OffsetDateTime.parse(dateFormatter.format(OffsetDateTime.now())));
     }
   }
 
