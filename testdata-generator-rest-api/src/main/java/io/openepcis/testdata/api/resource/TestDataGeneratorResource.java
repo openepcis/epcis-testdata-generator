@@ -178,8 +178,7 @@ public class TestDataGeneratorResource {
   @Produces(MediaType.APPLICATION_XML)
   public Uni<InputStream> convertToXml(final InputStream jsonEvents) throws IOException {
     return Uni.createFrom()
-        .item(
-            versionTransformer.convert(
-                jsonEvents, EPCISFormat.JSON_LD, EPCISFormat.XML, EPCISVersion.VERSION_2_0_0, false));
+        .item(versionTransformer.convert(jsonEvents,
+                b -> b.fromMediaType(EPCISFormat.JSON_LD).toMediaType(EPCISFormat.XML).toVersion(EPCISVersion.VERSION_2_0_0)));
   }
 }
