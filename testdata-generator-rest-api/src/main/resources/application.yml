@@ -3,7 +3,9 @@ quarkus:
     always-include: true
   http:
     cors:
-      enabled: true
+      ~: true
+      methods: GET,POST
+      origins: "/.*/"
     port: 8080
 
   container-image:
@@ -13,12 +15,9 @@ quarkus:
       - latest
 
   native:
-    additional-build-args: "--initialize-at-run-time=org.apache.commons.math3.random.RandomDataGenerator\\,io.openepcis.testdata.generator.format.RandomValueGenerator,-H:ReflectionConfigurationFiles=reflection-config.json"
+    additional-build-args: "--initialize-at-run-time=org.apache.commons.math3.random.RandomDataGenerator\\,io.openepcis.testdata.generator.format.RandomValueGenerator"
     resources:
       includes: static/**,static-web/**
-
-  class-loading:
-    parent-first-artifacts: "org.eclipse.persistence:eclipselink,jakarta.xml.bind:jakarta.xml.bind-api,xml-apis:xml-apis"
 
 mp:
   openapi:
