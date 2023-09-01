@@ -1,4 +1,4 @@
-package io.openepcis.test;
+package io.openepcis.testdata.api.test;
 
 import com.google.common.net.HttpHeaders;
 import io.openepcis.model.epcis.EPCISEvent;

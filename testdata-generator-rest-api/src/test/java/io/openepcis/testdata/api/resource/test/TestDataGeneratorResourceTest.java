@@ -1,4 +1,6 @@
-import io.openepcis.test.AbstractTestDataGeneratorTest;
+package io.openepcis.testdata.api.resource.test;
+
+import io.openepcis.testdata.api.test.AbstractTestDataGeneratorTest;
 import io.openepcis.testdata.api.resource.TestDataGeneratorResource;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.common.http.TestHTTPResource;

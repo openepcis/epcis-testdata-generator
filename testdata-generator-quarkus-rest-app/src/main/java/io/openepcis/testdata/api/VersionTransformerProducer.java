@@ -1,4 +1,4 @@
-package io.openepcis.testdata.api.util;
+package io.openepcis.testdata.api;
 
 import io.openepcis.convert.VersionTransformer;
 import io.quarkus.runtime.Startup;

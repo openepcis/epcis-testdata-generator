@@ -48,7 +48,10 @@ jobs:
             --batch-mode \
             -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
             -Popenepcis-ossrh \
-            -B deploy -Popenepcis-ossrh
+            -Pcoverage \
+            -Dsonar.host.url=$CG_SONAR_HOST_URL \
+            -Dsonar.login=$CG_SONAR_LOGIN \
+            -B clean verify deploy sonar:sonar
       - name: vus.js ui build
         uses: actions/setup-node@v3
         with:
@@ -60,16 +63,17 @@ jobs:
           npm install
           npm run-script build
           cd ..
-          rm -Rf testdata-generator-rest-api/src/main/resources/static-web/ui
-          mv testdata-generator-ui/dist testdata-generator-rest-api/src/main/resources/static-web/ui
+          rm -Rf testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
+          mv testdata-generator-ui/dist testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
       - name: create Quarkus runtime image
         run: |
           mvn \
             -s .mvn/settings.xml \
             --no-transfer-progress \
             --batch-mode \
-            -f testdata-generator-rest-api/pom.xml \
+            -f testdata-generator-quarkus-rest-app/pom.xml \
             -Dquarkus.container-image.build=true \
+            -Dquarkus.container-image.name=testdata-generator \
             -DskipTests \
             -B package
       - name: create Quarkus native runtime image
@@ -78,7 +82,7 @@ jobs:
             -s .mvn/settings.xml \
             --no-transfer-progress \
             --batch-mode \
-            -f testdata-generator-rest-api/pom.xml \
+            -f testdata-generator-quarkus-rest-app/pom.xml \
             -Dquarkus.container-image.build=true \
             -DskipTests \
             -Pnative \
@@ -91,7 +95,7 @@ jobs:
             -s .mvn/settings.xml \
             --no-transfer-progress \
             --batch-mode \
-            -f testdata-generator-rest-api/pom.xml \
+            -f testdata-generator-quarkus-rest-app/pom.xml \
             -Dquarkus.container-image.build=true \
             -DskipTests \
             -Pnative \

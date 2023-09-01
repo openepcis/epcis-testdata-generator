@@ -78,7 +78,7 @@ public class GenerateGSIN extends GenerateEPCType2 {
           append = StringUtils.repeat("0", 16 - append.length()) + randomID;
           formattedGSIN.add(GSIN_URN_PART + gcp + "." + append);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         // NONE selection
         for (var noneCounter = 0; noneCounter < count.longValue(); noneCounter++) {
           String append = gcp + "." + serialNumber;
@@ -122,7 +122,7 @@ public class GenerateGSIN extends GenerateEPCType2 {
           append = StringUtils.repeat("0", 17 - append.length()) + randomID;
           formattedGSIN.add(DomainName.IDENTIFIER_DOMAIN + GSIN_URI_PART + gcp + append);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         // None selection
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           var append = gcp + serialNumber;

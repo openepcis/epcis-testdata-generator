@@ -18,9 +18,10 @@ package io.openepcis.testdata.generator.format;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -28,7 +29,7 @@ import lombok.NoArgsConstructor;
 @RegisterForReflection
 public class RandomValueGenerator {
 
-  private static final Random random = new Random();
+  private static final SecureRandom random = new SecureRandom();
 
   public static List<String> randomGenerator(
       RandomizationType type, int minLength, int maxLength, int randomCount) {
