@@ -251,8 +251,14 @@
 
         <!-- Moxy for Jakarta implementation -->
         <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.moxy</artifactId>
+            <scope>compile</scope>
         </dependency>
 
         <!-- Quarkus Test Dependency-->
