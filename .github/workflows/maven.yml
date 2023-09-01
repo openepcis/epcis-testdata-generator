@@ -49,8 +49,8 @@ jobs:
             -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
             -Popenepcis-ossrh \
             -Pcoverage \
-            -Dsonar.host.url=$CG_SONAR_HOST_URL \
-            -Dsonar.login=$CG_SONAR_LOGIN \
+            -Dsonar.host.url=${{ secrets.CG_SONAR_HOST_URL }} \
+            -Dsonar.login=${{ secrets.CG_SONAR_LOGIN }} \
             -B clean verify deploy sonar:sonar
       - name: vus.js ui build
         uses: actions/setup-node@v3
