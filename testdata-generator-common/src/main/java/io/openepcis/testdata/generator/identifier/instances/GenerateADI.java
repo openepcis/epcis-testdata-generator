@@ -124,7 +124,7 @@ public class GenerateADI implements EPCStrategy {
         for (var randomID : randomSerialNumbers) {
           formattedADI.add(ADI_URN_PART + adiCage + "." + adiPNO + "." + randomID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           formattedADI.add(ADI_URN_PART + adiCage + "." + adiPNO + "." + serialNumber);
         }

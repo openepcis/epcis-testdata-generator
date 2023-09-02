@@ -77,7 +77,7 @@ public class GenerateGIAI extends GenerateEPCType2 {
         for (var randomID : randomSerialNumbers) {
           formattedGIAI.add(GIAI_URN_PART + gcp + "." + randomID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         // Return the single GIAI values for None selection
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           formattedGIAI.add(GIAI_URN_PART + gcp + "." + serialNumber);
@@ -118,7 +118,7 @@ public class GenerateGIAI extends GenerateEPCType2 {
         for (var randomID : randomSerialNumbers) {
           formattedGIAI.add(DomainName.IDENTIFIER_DOMAIN + GIAI_URI_PART + gcp + randomID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         // Return the single GIAI values for None selection
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           formattedGIAI.add(DomainName.IDENTIFIER_DOMAIN + GIAI_URI_PART + gcp + serialNumber);

@@ -50,7 +50,7 @@ public class StreamingEPCISDocumentOutput {
 
     private StreamingEPCISDocumentOutput( final Executor executor, final ObjectMapper objectMapper, final OutputStream outputStream, final Writer writer) {
         this.executor = executor;
-        this.objectMapper = objectMapper;
+        this.objectMapper = objectMapper.copy();
         this.outputStream = outputStream;
         this.writer = writer;
     }
@@ -77,7 +77,7 @@ public class StreamingEPCISDocumentOutput {
         return jsonGenerator;
     }
 
-    void writeTo(final StreamingEPCISDocument streamingEPCISDocument) throws IOException {
+    void write(final StreamingEPCISDocument streamingEPCISDocument) throws IOException {
         // If user requested for pretty print of EPCIS document then add the pretty print
         if (streamingEPCISDocument.isPrettyPrint()) {
             objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -93,14 +93,14 @@ public class StreamingEPCISDocumentOutput {
             epcisEventMulti = epcisEventMulti.runSubscriptionOn(executor);
         }
         epcisEventMulti.subscribe()
-                .withSubscriber(createSubsriber(createJsonGenerator(), running));
+                .withSubscriber(createSubscriber(createJsonGenerator(), running));
 
         while (running.get()) {
             Thread.yield();
         }
     }
 
-    private Flow.Subscriber<EPCISEvent> createSubsriber(final JsonGenerator jsonGenerator, final AtomicBoolean running)  {
+    public Flow.Subscriber<EPCISEvent> createSubscriber(final JsonGenerator jsonGenerator, final AtomicBoolean running)  {
         return new Flow.Subscriber<>() {
             final AtomicReference<Flow.Subscription> refSubscription = new AtomicReference<>();
 

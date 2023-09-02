@@ -77,7 +77,7 @@ public class GenerateSSCC extends GenerateEPCType2 {
         for (var randomID : randomSerialNumbers) {
           formattedSSCC.add(SSCC_URN_PART + gcp + "." + randomID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           var append = gcp + serialNumber;
           append = StringUtils.repeat("0", 17 - append.length()) + serialNumber;
@@ -118,7 +118,7 @@ public class GenerateSSCC extends GenerateEPCType2 {
         for (var randomID : randomSerialNumbers) {
           formattedSSCC.add(DomainName.IDENTIFIER_DOMAIN + SSCC_URI_PART + gcp + randomID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           var append = gcp + serialNumber;
           append = StringUtils.repeat("0", 17 - append.length()) + serialNumber;

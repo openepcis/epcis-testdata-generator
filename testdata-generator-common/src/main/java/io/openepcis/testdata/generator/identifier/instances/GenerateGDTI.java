@@ -90,7 +90,7 @@ public class GenerateGDTI extends GenerateEPC {
         for (var randomID : randomSerialNumbers) {
           formattedGDTI.add(GDTI_URN_PART + modifiedGDTI + randomID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         // Return the single GDTI values for None selection
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           formattedGDTI.add(GDTI_URN_PART + modifiedGDTI + serialNumber);
@@ -137,7 +137,7 @@ public class GenerateGDTI extends GenerateEPC {
         for (var randomID : randomSerialNumbers) {
           formattedGDTI.add(DomainName.IDENTIFIER_DOMAIN + GDTI_URI_PART + modifiedGDTI + randomID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         // Return the single GDTI values for None selection
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           formattedGDTI.add(

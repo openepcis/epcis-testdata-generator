@@ -94,7 +94,7 @@ public class GenerateITIP extends GenerateEPC {
         for (var rangeID : randomSerialNumbers) {
           formattedITIP.add(ITIP_URN_PART + modifiedITIP + "." + rangeID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           formattedITIP.add(ITIP_URN_PART + modifiedITIP + "." + serialNumber);
         }
@@ -145,7 +145,7 @@ public class GenerateITIP extends GenerateEPC {
                   + ITIP_SERIAL_PART
                   + randomID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           formattedITIP.add(
               DomainName.IDENTIFIER_DOMAIN

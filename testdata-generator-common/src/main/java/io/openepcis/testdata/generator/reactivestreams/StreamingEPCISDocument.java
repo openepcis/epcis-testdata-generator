@@ -89,7 +89,7 @@ public class StreamingEPCISDocument {
      * @throws IOException
      */
     public void writeToOutputStream(Function<StreamingEPCISDocumentOutput.OutputStreamBuilder, StreamingEPCISDocumentOutput> fn) throws IOException {
-        fn.apply(StreamingEPCISDocumentOutput.outputStreamBuilder()).writeTo(this);
+        fn.apply(StreamingEPCISDocumentOutput.outputStreamBuilder()).write(this);
     }
 
     /**
@@ -98,7 +98,7 @@ public class StreamingEPCISDocument {
      * @throws IOException
      */
     public void writeToWriter(Function<StreamingEPCISDocumentOutput.WriterBuilder, StreamingEPCISDocumentOutput> fn) throws IOException {
-        fn.apply(StreamingEPCISDocumentOutput.writerBuilder()).writeTo(this);
+        fn.apply(StreamingEPCISDocumentOutput.writerBuilder()).write(this);
     }
 
 }

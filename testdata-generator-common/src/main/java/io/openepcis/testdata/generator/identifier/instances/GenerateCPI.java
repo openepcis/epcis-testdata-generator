@@ -89,7 +89,7 @@ public class GenerateCPI extends GenerateEPC {
         for (String randomID : randomSerialNumbers) {
           formattedCPI.add(CPI_URN_PART + modifiedCPI + "." + randomID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         // Return the single CPI values for None selection
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           formattedCPI.add(CPI_URN_PART + modifiedCPI + "." + serialNumber);
@@ -133,7 +133,7 @@ public class GenerateCPI extends GenerateEPC {
           formattedCPI.add(
               DomainName.IDENTIFIER_DOMAIN + CPI_URI_PART + cpi + SERIAL_URI_PART + randomID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         // Return the single CPI values for None selection
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           formattedCPI.add(

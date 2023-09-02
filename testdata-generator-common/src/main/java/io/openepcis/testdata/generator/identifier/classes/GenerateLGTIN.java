@@ -106,7 +106,7 @@ public class GenerateLGTIN extends GenerateQuantity {
               quantityUrnCreator(
                   IdentifierVocabularyType.URN,
                   formattedLgtin,
-                  Long.valueOf(rangeID).toString(),
+                  Long.toString(rangeID),
                   quantity,
                   uom));
         }
@@ -168,7 +168,7 @@ public class GenerateLGTIN extends GenerateQuantity {
               quantityUrnCreator(
                   IdentifierVocabularyType.WEBURI,
                   lgtinWebURI,
-                  Long.valueOf(rangeID).toString(),
+                  Long.toString(rangeID),
                   quantity,
                   uom));
         }

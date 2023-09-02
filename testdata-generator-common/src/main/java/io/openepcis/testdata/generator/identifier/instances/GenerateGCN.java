@@ -84,7 +84,7 @@ public class GenerateGCN extends GenerateEPCType2 {
           final String gcnID = URN_SGCN_PART + finalSerial;
           formattedGCN.add(gcnID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           formattedGCN.add(URN_SGCN_PART + gcp + "." + serialNumber);
         }
@@ -122,7 +122,7 @@ public class GenerateGCN extends GenerateEPCType2 {
         for (var randomID : randomSerialNumbers) {
           formattedGCN.add(DomainName.IDENTIFIER_DOMAIN + URI_SGCN_PART + gcp + randomID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           formattedGCN.add(DomainName.IDENTIFIER_DOMAIN + URI_SGCN_PART + gcp + serialNumber);
         }

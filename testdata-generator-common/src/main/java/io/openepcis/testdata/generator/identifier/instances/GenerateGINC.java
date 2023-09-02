@@ -76,7 +76,7 @@ public class GenerateGINC extends GenerateEPCType2 {
         for (var randomID : randomSerialNumbers) {
           formattedGINC.add(GINC_URN_PART + gcp + "." + randomID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         // Return the single GINC values for None selection
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           formattedGINC.add(GINC_URN_PART + gcp + "." + serialNumber);
@@ -116,7 +116,7 @@ public class GenerateGINC extends GenerateEPCType2 {
         for (var randomID : randomSerialNumbers) {
           formattedGINC.add(DomainName.IDENTIFIER_DOMAIN + GINC_URI_PART + gcp + randomID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         // None selection
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           formattedGINC.add(DomainName.IDENTIFIER_DOMAIN + GINC_URI_PART + gcp + serialNumber);

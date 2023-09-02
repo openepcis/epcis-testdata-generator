@@ -76,7 +76,7 @@ public class GenerateGSRNP extends GenerateEPCType2 {
           final String gsrnpID = GSRNP_URN_PART + gcp + "." + randomID;
           formattedGSRNP.add(gsrnpID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           String append = gcp + serialNumber;
           append = StringUtils.repeat("0", 17 - append.length()) + serialNumber;
@@ -119,7 +119,7 @@ public class GenerateGSRNP extends GenerateEPCType2 {
           final String gsrnpID = DomainName.IDENTIFIER_DOMAIN + GSRNP_URI_PART + gcp + randomID;
           formattedGSRNP.add(gsrnpID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
+      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           String append = gcp + serialNumber;
           append = StringUtils.repeat("0", 18 - append.length()) + serialNumber;
