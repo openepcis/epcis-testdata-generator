@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import io.openepcis.model.epcis.EPCISEvent;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.smallrye.mutiny.Multi;
-import lombok.Builder;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -41,14 +40,20 @@ public class StreamingEPCISDocumentOutput {
         this.writer = writer;
     }
 
-    @Builder(builderClassName = "OutputStreamBuilder", builderMethodName = "outputStreamBuilder")
     StreamingEPCISDocumentOutput(final Executor executor, final ObjectMapper objectMapper, final OutputStream outputStream) {
         this(executor, objectMapper, outputStream, null);
     }
 
-    @Builder(builderClassName = "WriterBuilder", builderMethodName = "writerBuilder")
     StreamingEPCISDocumentOutput(final Executor executor, final ObjectMapper objectMapper, final Writer writer) {
         this(executor, objectMapper, null, writer);
+    }
+
+    public static OutputStreamBuilder outputStreamBuilder() {
+        return new OutputStreamBuilder();
+    }
+
+    public static WriterBuilder writerBuilder() {
+        return new WriterBuilder();
     }
 
     private JsonGenerator createJsonGenerator() throws IOException {
@@ -191,4 +196,67 @@ public class StreamingEPCISDocumentOutput {
         };
     }
 
+    public static class OutputStreamBuilder {
+        private Executor executor;
+        private ObjectMapper objectMapper;
+        private OutputStream outputStream;
+
+        OutputStreamBuilder() {
+        }
+
+        public OutputStreamBuilder executor(Executor executor) {
+            this.executor = executor;
+            return this;
+        }
+
+        public OutputStreamBuilder objectMapper(ObjectMapper objectMapper) {
+            this.objectMapper = objectMapper;
+            return this;
+        }
+
+        public OutputStreamBuilder outputStream(OutputStream outputStream) {
+            this.outputStream = outputStream;
+            return this;
+        }
+
+        public StreamingEPCISDocumentOutput build() {
+            return new StreamingEPCISDocumentOutput(executor, objectMapper, outputStream);
+        }
+
+        public String toString() {
+            return "StreamingEPCISDocumentOutput.OutputStreamBuilder(executor=" + this.executor + ", objectMapper=" + this.objectMapper + ", outputStream=" + this.outputStream + ")";
+        }
+    }
+
+    public static class WriterBuilder {
+        private Executor executor;
+        private ObjectMapper objectMapper;
+        private Writer writer;
+
+        WriterBuilder() {
+        }
+
+        public WriterBuilder executor(Executor executor) {
+            this.executor = executor;
+            return this;
+        }
+
+        public WriterBuilder objectMapper(ObjectMapper objectMapper) {
+            this.objectMapper = objectMapper;
+            return this;
+        }
+
+        public WriterBuilder writer(Writer writer) {
+            this.writer = writer;
+            return this;
+        }
+
+        public StreamingEPCISDocumentOutput build() {
+            return new StreamingEPCISDocumentOutput(executor, objectMapper, writer);
+        }
+
+        public String toString() {
+            return "StreamingEPCISDocumentOutput.WriterBuilder(executor=" + this.executor + ", objectMapper=" + this.objectMapper + ", writer=" + this.writer + ")";
+        }
+    }
 }
