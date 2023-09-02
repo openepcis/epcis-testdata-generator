@@ -19,7 +19,6 @@ import io.openepcis.model.epcis.EPCISEvent;
 import io.openepcis.testdata.generator.model.EventCreationModel;
 import io.openepcis.testdata.generator.model.EventModelUtil;
 import io.openepcis.testdata.generator.template.EPCISEventType;
-import io.openepcis.testdata.generator.template.ReferencedIdentifier;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -84,7 +83,7 @@ public class EPCISEventDownstreamHandler {
       downstreamHandlers.add(handler);
 
       //Adding unique upstream handles to avoid duplication and missing events
-      final HashSet<EPCISEventUpstreamHandler> uniqueUpstreamHandlers = new HashSet(upstreamHandlers.stream().toList());
+      final HashSet<EPCISEventUpstreamHandler> uniqueUpstreamHandlers = new HashSet<>(upstreamHandlers.stream().toList());
       handler.addUpstream(uniqueUpstreamHandlers.stream().toList());
   }
 

@@ -26,12 +26,14 @@ import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 @Slf4j
 public class ExceptionMapper {
 
+  public static final String EXCEPTION_OCCURRED_DURING_CREATION_OF_EPCIS_TEST_DATA_EVENTS = "Exception occurred during creation of EPCIS Test Data events";
+
   @ServerExceptionMapper
   public final RestResponse<ProblemResponseBody> mapException(
       final TestDataGeneratorException exception) {
     log.info(exception.getMessage());
     final ProblemResponseBody responseBody = new ProblemResponseBody();
-    responseBody.setType("Exception occurred during creation of EPCIS Test Data events");
+    responseBody.setType(EXCEPTION_OCCURRED_DURING_CREATION_OF_EPCIS_TEST_DATA_EVENTS);
     responseBody.title("Bad request to Test Data Generator");
     responseBody.setStatus(RestResponse.StatusCode.BAD_REQUEST);
     responseBody.setDetail(exception.getMessage());
@@ -39,10 +41,11 @@ public class ExceptionMapper {
   }
 
   @ServerExceptionMapper
+
   public final RestResponse<ProblemResponseBody> mapException(final SecurityException exception) {
     log.info(exception.getMessage());
     final ProblemResponseBody responseBody = new ProblemResponseBody();
-    responseBody.setType("Exception occurred during creation of EPCIS Test Data events");
+    responseBody.setType(EXCEPTION_OCCURRED_DURING_CREATION_OF_EPCIS_TEST_DATA_EVENTS);
     responseBody.title("Access denied for Test Data Generator");
     responseBody.setStatus(RestResponse.StatusCode.UNAUTHORIZED);
     responseBody.setDetail(exception.getMessage());
@@ -54,7 +57,7 @@ public class ExceptionMapper {
       final ResourceNotFoundException exception) {
     log.info(exception.getMessage());
     final ProblemResponseBody responseBody = new ProblemResponseBody();
-    responseBody.setType("Exception occurred during creation of EPCIS Test Data events");
+    responseBody.setType(EXCEPTION_OCCURRED_DURING_CREATION_OF_EPCIS_TEST_DATA_EVENTS);
     responseBody.title("Resource not found for Test Data Generator");
     responseBody.setStatus(RestResponse.StatusCode.NOT_FOUND);
     responseBody.setDetail(exception.getMessage());
@@ -66,7 +69,7 @@ public class ExceptionMapper {
       final NotAcceptedException exception) {
     log.info(exception.getMessage());
     final ProblemResponseBody responseBody = new ProblemResponseBody();
-    responseBody.setType("Exception occurred during creation of EPCIS Test Data events");
+    responseBody.setType(EXCEPTION_OCCURRED_DURING_CREATION_OF_EPCIS_TEST_DATA_EVENTS);
     responseBody.title("Error in data format for Test Data Generator");
     responseBody.setStatus(RestResponse.StatusCode.NOT_ACCEPTABLE);
     responseBody.setDetail(exception.getMessage());
@@ -77,7 +80,7 @@ public class ExceptionMapper {
   public final RestResponse<ProblemResponseBody> mapException(final Exception exception) {
     log.error(exception.getMessage(), exception);
     final ProblemResponseBody responseBody = new ProblemResponseBody();
-    responseBody.setType("Exception occurred during creation of EPCIS Test Data events");
+    responseBody.setType(EXCEPTION_OCCURRED_DURING_CREATION_OF_EPCIS_TEST_DATA_EVENTS);
     responseBody.setTitle("Internal server error for Test Data Generator");
     responseBody.setStatus(RestResponse.StatusCode.INTERNAL_SERVER_ERROR);
     responseBody.setDetail(exception.getMessage());

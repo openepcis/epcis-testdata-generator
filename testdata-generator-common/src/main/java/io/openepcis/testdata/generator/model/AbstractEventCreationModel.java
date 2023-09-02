@@ -313,10 +313,10 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
         // Parent Identifiers. (AggregationEvent -> ObjectEvent)
         parentTracker.stream()
                 .forEach(
-                        parent -> {
+                        parent ->
                           epcList.addAll(
-                                  EventModelUtil.parentIdentifiers(parent, epc.getInheritParentCount()));
-                        });
+                                  EventModelUtil.parentIdentifiers(parent, epc.getInheritParentCount()))
+                        );
       }
     }
 
