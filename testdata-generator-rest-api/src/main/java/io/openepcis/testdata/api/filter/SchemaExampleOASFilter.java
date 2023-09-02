@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 benelog GmbH & Co. KG
+ * Copyright 2022-2023 benelog GmbH & Co. KG
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.openapi.OASFactory;
 import org.eclipse.microprofile.openapi.OASFilter;
 import org.eclipse.microprofile.openapi.models.Components;
@@ -29,6 +31,7 @@ import org.eclipse.microprofile.openapi.models.OpenAPI;
 import org.eclipse.microprofile.openapi.models.examples.Example;
 
 @RegisterForReflection
+@Slf4j
 public class SchemaExampleOASFilter implements OASFilter {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
@@ -43,7 +46,7 @@ public class SchemaExampleOASFilter implements OASFilter {
 
       generateExamples().forEach(openAPI.getComponents()::addExample);
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error(e.getMessage(), e);
     }
   }
 
