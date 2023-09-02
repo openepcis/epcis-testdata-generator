@@ -68,10 +68,20 @@ public class StreamingEPCISDocument {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1));
     }
 
+    /**
+     * write to OutputStream
+     * @param fn builder reference
+     * @throws IOException
+     */
     public void writeToOutputStream(Function<StreamingEPCISDocumentOutput.OutputStreamBuilder, StreamingEPCISDocumentOutput> fn) throws IOException {
         fn.apply(StreamingEPCISDocumentOutput.outputStreamBuilder()).writeTo(this);
     }
 
+    /**
+     * write to Writer
+     * @param fn builder reference
+     * @throws IOException
+     */
     public void writeToWriter(Function<StreamingEPCISDocumentOutput.WriterBuilder, StreamingEPCISDocumentOutput> fn) throws IOException {
         fn.apply(StreamingEPCISDocumentOutput.writerBuilder()).writeTo(this);
     }
