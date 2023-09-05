@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -77,16 +76,18 @@ public class StreamingEPCISDocument {
                 });
     }
 
+    /**
+     * Extract namespaceURI and localname from each event and store in context.
+     * @param extensions list of extensions from ilmd, error and userExtensions
+     */
     public static void extractNamespaces(final List<UserExtensionSyntax> extensions) {
-        extensions.stream()
-                .flatMap(c -> c.toMap().entrySet().stream())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1));
+        extensions.forEach(UserExtensionSyntax::toMap);
     }
 
     /**
      * write to OutputStream
      * @param fn builder reference
-     * @throws IOException
+     * @throws IOException throws the io exception
      */
     public void writeToOutputStream(Function<StreamingEPCISDocumentOutput.OutputStreamBuilder, StreamingEPCISDocumentOutput> fn) throws IOException {
         fn.apply(StreamingEPCISDocumentOutput.outputStreamBuilder()).write(this);
@@ -95,7 +96,7 @@ public class StreamingEPCISDocument {
     /**
      * write to Writer
      * @param fn builder reference
-     * @throws IOException
+     * @throws IOException throws the io exception
      */
     public void writeToWriter(Function<StreamingEPCISDocumentOutput.WriterBuilder, StreamingEPCISDocumentOutput> fn) throws IOException {
         fn.apply(StreamingEPCISDocumentOutput.writerBuilder()).write(this);
