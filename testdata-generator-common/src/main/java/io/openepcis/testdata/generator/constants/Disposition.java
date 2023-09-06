@@ -52,7 +52,7 @@ public enum Disposition {
   STOLEN("stolen"),
   UNAVAILABLE("unavailable"),
   UNKNOWN("unknown"),
-  USER_SPECIFIC("DispositionEnter");
+  USER_SPECIFIC("");
 
   private final String cbvDisposition;
 

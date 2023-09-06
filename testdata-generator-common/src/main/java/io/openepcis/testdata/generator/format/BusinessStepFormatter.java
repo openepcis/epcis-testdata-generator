@@ -25,9 +25,9 @@ import lombok.NoArgsConstructor;
 @RegisterForReflection
 public class BusinessStepFormatter {
 
-  public static String format(final BusinessStep businessStep) {
+  public static String format(final BusinessStep businessStep, final String businessStepManualURI) {
     try {
-      return businessStep.toString();
+      return !businessStep.toString().equals("") ? businessStep.toString() : businessStepManualURI;
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of BusinessStep, Please check the values provided for BusinessStep :  "

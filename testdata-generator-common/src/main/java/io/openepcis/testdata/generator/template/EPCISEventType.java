@@ -128,8 +128,14 @@ public class EPCISEventType implements Serializable {
   @Schema(type = SchemaType.OBJECT, description = "Business step associated with event.")
   private @Valid BusinessStep businessStep;
 
+  @Schema(type = SchemaType.STRING, description = "User-specific Business step associated with event.")
+  private @Valid String businessStepManualURI;
+
   @Schema(type = SchemaType.OBJECT, description = "Disposition associated with event.")
   private @Valid Disposition disposition;
+
+  @Schema(type = SchemaType.STRING, description = "User-specific Disposition associated with event.")
+  private @Valid String dispositionManualURI;
 
   @Schema(
       type = SchemaType.OBJECT,

@@ -29,9 +29,9 @@ import lombok.Setter;
 @RegisterForReflection
 public class DispositionFormatter {
 
-  public static String format(final Disposition disposition) {
+  public static String format(final Disposition disposition, final String dispositionManualURI) {
     try {
-      return disposition.toString();
+      return !disposition.toString().equals("") ? disposition.toString() : dispositionManualURI;
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of the Disposition, Please check the values provided for Disposition : "

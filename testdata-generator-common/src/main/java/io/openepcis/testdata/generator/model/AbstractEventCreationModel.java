@@ -179,12 +179,12 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
   private void configureWhyDimension(final E epcisEvent) {
     // Set Business Step
     if (typeInfo.getBusinessStep() != null) {
-      epcisEvent.setBizStep(BusinessStepFormatter.format(typeInfo.getBusinessStep()));
+      epcisEvent.setBizStep(BusinessStepFormatter.format(typeInfo.getBusinessStep(), typeInfo.getBusinessStepManualURI()));
     }
 
     // Set Disposition
     if (typeInfo.getDisposition() != null) {
-      epcisEvent.setDisposition(DispositionFormatter.format(typeInfo.getDisposition()));
+      epcisEvent.setDisposition(DispositionFormatter.format(typeInfo.getDisposition(), typeInfo.getDispositionManualURI()));
     }
 
     // Set Persistent Disposition
