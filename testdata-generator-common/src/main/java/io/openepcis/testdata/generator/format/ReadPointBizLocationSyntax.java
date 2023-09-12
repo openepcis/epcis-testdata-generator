@@ -48,7 +48,7 @@ public class ReadPointBizLocationSyntax implements Serializable {
 
   @Schema(
       type = SchemaType.STRING,
-      enumeration = {"static", "dynamic"},
+      enumeration = {"static", "none"},
       description = "Type of extension for ReadPoint/BizLocation")
   private String extensionType;
 
@@ -56,15 +56,4 @@ public class ReadPointBizLocationSyntax implements Serializable {
       type = SchemaType.STRING,
       description = "Static extension value for ReadPoint/BizLocation")
   private String extension;
-
-  @Schema(
-      type = SchemaType.NUMBER,
-      description = "Starting extension value for ReadPoint/BizLocation")
-  private Integer extensionFrom;
-
-  @Schema(
-      type = SchemaType.STRING,
-      description =
-          "Formatting value for dynamic ReadPoint/BizLocation extension like %03d,990%03d,etc.")
-  private String extensionFormat;
 }

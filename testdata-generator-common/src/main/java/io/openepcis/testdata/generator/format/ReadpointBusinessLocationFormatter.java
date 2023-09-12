@@ -35,13 +35,11 @@ public class ReadpointBusinessLocationFormatter {
 
   public static String format(
       final IdentifierVocabularyType syntax, final ReadPointBizLocationSyntax input) {
-    // If ReadPoint/BizLocation is provided using ManualURI then return the same as
-    // ReadPoint/BizLocation
+    // If ReadPoint/BizLocation is provided using ManualURI then return the same
     if (input.getManualURI() != null) {
       return input.getManualURI();
     } else {
-      // If ReadPoint/Biz location is provided as an CBV based values then format them accordingly
-      // based on URN/WebURI
+      // If ReadPoint/BizLocation is provided as an CBV based values then format them accordingly
       if (IdentifierVocabularyType.WEBURI == syntax) {
         return formatWebURI(input);
       } else {
@@ -57,35 +55,15 @@ public class ReadpointBusinessLocationFormatter {
       if (input.getGln() != null) {
         String gln = input.getGln();
         gln = gln.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gln.substring(0, 12));
-        gln =
-            gln.substring(0, input.getGcpLength())
-                + "."
-                + gln.substring(input.getGcpLength(), gln.length() - 1);
+        gln = gln.substring(0, input.getGcpLength()) + "." + gln.substring(input.getGcpLength(), gln.length() - 1);
 
         // Based on the type of extension add the extension to ReadPoint/BizLocation
-        if (input.getExtensionType() != null
-            && input.getExtensionType().equalsIgnoreCase("static")) {
+        if (input.getExtensionType() != null && input.getExtensionType().equalsIgnoreCase("static")) {
           // For static extension type, format the extension and return the gln with extension
-          formattedLocation =
-              URN_PREFIX
-                  + gln
-                  + (input.getExtension() != null ? ("." + input.getExtension()) : ".0");
-        } else if (input.getExtensionType() != null
-            && input.getExtensionType().equalsIgnoreCase("dynamic")) {
-          // for dynamic extension format the extension, update the extension value and return the
-          // gln with dynamic extension from value
-
-          // If user has provided desired extension format for the dynamic ReadPoint/BizLocation
-          // then format according to it if not then only add the dynamic extension
-          formattedLocation =
-              URN_PREFIX
-                  + gln
-                  + (input.getExtensionFrom() != null
-                      ? ("."
-                          + extensionFormatter(
-                              input.getExtensionFrom(), input.getExtensionFormat()))
-                      : "");
-          input.setExtensionFrom(input.getExtensionFrom() + 1);
+          formattedLocation = URN_PREFIX + gln + (input.getExtension() != null ? ("." + input.getExtension()) : ".0");
+        } else if (input.getExtensionType() != null && input.getExtensionType().equalsIgnoreCase("none")) {
+          //If NONE extension type then append 0 to it in URN format
+          formattedLocation = URN_PREFIX + gln + ".0";
         }
       }
       return formattedLocation;
@@ -104,39 +82,16 @@ public class ReadpointBusinessLocationFormatter {
 
       // Based on the type of extension add the extension to ReadPoint/BizLocation
       if (input.getExtensionType() != null && input.getExtensionType().equalsIgnoreCase("static")) {
-        formattedLocation =
-            WEBURI_PREFIX
-                + gln
-                + (input.getExtension() != null ? ("/254/" + input.getExtension()) : "");
-      } else if (input.getExtensionType() != null
-          && input.getExtensionType().equalsIgnoreCase("dynamic")) {
-        // for dynamic extension format the extension, update the extension value and return the gln
-        // with dynamic extension from value
-        formattedLocation =
-            WEBURI_PREFIX
-                + gln
-                + (input.getExtensionFrom() != null
-                    ? ("/254/"
-                        + extensionFormatter(input.getExtensionFrom(), input.getExtensionFormat()))
-                    : "");
-        input.setExtensionFrom(input.getExtensionFrom() + 1);
+        formattedLocation = WEBURI_PREFIX + gln + (input.getExtension() != null ? ("/254/" + input.getExtension()) : "");
+      } else if (input.getExtensionType() != null && input.getExtensionType().equalsIgnoreCase("none")) {
+        //If NONE extension type then do not append anything
+        formattedLocation = WEBURI_PREFIX + gln;
       }
       return formattedLocation;
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of Readpoint/BizLocation WebURI, Please check the values provided for ReadPoint/BizLocation : "
               + ex.getMessage());
-    }
-  }
-
-  // Method to format the dynamic extension based on the user provided formatter
-  private static String extensionFormatter(final Integer input, final String extensionFormat) {
-    // If extension formatter contains the formatting value then based on it extension value is
-    // formatted else return the dynamic extension value
-    if (extensionFormat != null && !extensionFormat.equalsIgnoreCase("")) {
-      return String.format(extensionFormat, input);
-    } else {
-      return input.toString();
     }
   }
 }
