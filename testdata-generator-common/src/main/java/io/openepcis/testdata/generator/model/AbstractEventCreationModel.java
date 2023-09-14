@@ -133,10 +133,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
   private void configureWhereDimension(final E epcisEvent, final IdentifierVocabularyType syntax) {
     // Set Read Point
     if (typeInfo.getReadPoint() != null) {
-      final String formattedReadPoint =
-          typeInfo.getReadPoint().getManualURI() == null
-              ? ReadpointBusinessLocationFormatter.format(syntax, typeInfo.getReadPoint())
-              : typeInfo.getReadPoint().getManualURI();
+      final String formattedReadPoint = ReadpointBusinessLocationFormatter.format(syntax, typeInfo.getReadPoint());
       var rp = new ReadPoint();
 
       try {
@@ -154,10 +151,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
 
     // Set Biz Location
     if (typeInfo.getBizLocation() != null) {
-      final String formattedBizLocation =
-          typeInfo.getBizLocation().getManualURI() == null
-              ? ReadpointBusinessLocationFormatter.format(syntax, typeInfo.getBizLocation())
-              : typeInfo.getBizLocation().getManualURI();
+      final String formattedBizLocation = ReadpointBusinessLocationFormatter.format(syntax, typeInfo.getBizLocation());
       var biz = new BizLocation();
 
       try {

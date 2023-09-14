@@ -16,11 +16,13 @@
       "businessStep": "SHIPPING",
       "disposition": "IN_PROGRESS",
       "readPoint": {
+        "type": "SGLN",
         "gcpLength": "10",
         "gln": "1234567890123",
         "extension": "000"
       },
       "bizLocation": {
+        "type": "SGLN",
         "gcpLength": "10",
         "gln": "0987654321098",
         "extension": "1111"

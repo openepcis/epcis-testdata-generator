@@ -16,6 +16,7 @@
 package io.openepcis.testdata.generator.format;
 
 import io.openepcis.testdata.generator.annotations.ConditionalValidation;
+import io.openepcis.testdata.generator.constants.ReadPointBizLocationType;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.io.Serializable;
 import jakarta.validation.constraints.Pattern;
@@ -34,6 +35,9 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 })
 @RegisterForReflection
 public class ReadPointBizLocationSyntax implements Serializable {
+  @Schema(type = SchemaType.STRING, description = "Type of the readPoint SGLN/Manually")
+  private ReadPointBizLocationType type;
+
   @Pattern(
       regexp = "^(\\s*|\\d{13})$",
       message = "GLN must be of 13 digit for ReadPoint/BizLocation")
@@ -45,12 +49,6 @@ public class ReadPointBizLocationSyntax implements Serializable {
 
   @Schema(type = SchemaType.STRING, description = "Manual values for ReadPoint/BizLocation ")
   private String manualURI;
-
-  @Schema(
-      type = SchemaType.STRING,
-      enumeration = {"static", "none"},
-      description = "Type of extension for ReadPoint/BizLocation")
-  private String extensionType;
 
   @Schema(
       type = SchemaType.STRING,

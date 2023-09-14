@@ -15,6 +15,7 @@
       "businessStep": "TRANSPORTING",
       "disposition": "IN_PROGRESS",
       "readPoint": {
+        "type": "SGLN",
         "gcpLength": "10",
         "gln": "8439489384938",
         "extension": "8493"

@@ -16,6 +16,7 @@
 package io.openepcis.testdata.generator.format;
 
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
+import io.openepcis.testdata.generator.constants.ReadPointBizLocationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AccessLevel;
@@ -33,12 +34,11 @@ public class ReadpointBusinessLocationFormatter {
   private static final String URN_PREFIX = "urn:epc:id:sgln:";
   private static final String WEBURI_PREFIX = "https://id.gs1.org/414/";
 
-  public static String format(
-      final IdentifierVocabularyType syntax, final ReadPointBizLocationSyntax input) {
+  public static String format(final IdentifierVocabularyType syntax, final ReadPointBizLocationSyntax input) {
     // If ReadPoint/BizLocation is provided using ManualURI then return the same
-    if (input.getManualURI() != null) {
+    if (input.getType() != null && input.getType().equals(ReadPointBizLocationType.MANUALLY) && input.getManualURI() != null) {
       return input.getManualURI();
-    } else {
+    } else if(input.getType() != null && input.getType().equals(ReadPointBizLocationType.SGLN)) {
       // If ReadPoint/BizLocation is provided as an CBV based values then format them accordingly
       if (IdentifierVocabularyType.WEBURI == syntax) {
         return formatWebURI(input);
@@ -46,6 +46,7 @@ public class ReadpointBusinessLocationFormatter {
         return formatURN(input);
       }
     }
+    return null;
   }
 
   private static String formatURN(final ReadPointBizLocationSyntax input) {
@@ -56,15 +57,7 @@ public class ReadpointBusinessLocationFormatter {
         String gln = input.getGln();
         gln = gln.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gln.substring(0, 12));
         gln = gln.substring(0, input.getGcpLength()) + "." + gln.substring(input.getGcpLength(), gln.length() - 1);
-
-        // Based on the type of extension add the extension to ReadPoint/BizLocation
-        if (input.getExtensionType() != null && input.getExtensionType().equalsIgnoreCase("static")) {
-          // For static extension type, format the extension and return the gln with extension
-          formattedLocation = URN_PREFIX + gln + (input.getExtension() != null ? ("." + input.getExtension()) : ".0");
-        } else if (input.getExtensionType() != null && input.getExtensionType().equalsIgnoreCase("none")) {
-          //If NONE extension type then append 0 to it in URN format
-          formattedLocation = URN_PREFIX + gln + ".0";
-        }
+        formattedLocation = URN_PREFIX + gln + (input.getExtension() != null && !input.getExtension().isEmpty() ? ("." + input.getExtension()) : ".0");
       }
       return formattedLocation;
     } catch (Exception ex) {
@@ -79,14 +72,7 @@ public class ReadpointBusinessLocationFormatter {
       String gln = input.getGln();
       gln = gln.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gln.substring(0, 12));
       var formattedLocation = "";
-
-      // Based on the type of extension add the extension to ReadPoint/BizLocation
-      if (input.getExtensionType() != null && input.getExtensionType().equalsIgnoreCase("static")) {
-        formattedLocation = WEBURI_PREFIX + gln + (input.getExtension() != null ? ("/254/" + input.getExtension()) : "");
-      } else if (input.getExtensionType() != null && input.getExtensionType().equalsIgnoreCase("none")) {
-        //If NONE extension type then do not append anything
-        formattedLocation = WEBURI_PREFIX + gln;
-      }
+      formattedLocation = WEBURI_PREFIX + gln + (input.getExtension() != null && !input.getExtension().isEmpty() ? ("/254/" + input.getExtension()) : "");
       return formattedLocation;
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
