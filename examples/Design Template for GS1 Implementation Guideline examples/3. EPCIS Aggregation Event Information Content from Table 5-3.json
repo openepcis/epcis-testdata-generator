@@ -362,50 +362,6 @@
         "randomMaxLength": 5,
         "rangeFrom": 1
       }
-    },
-    {
-      "identifiersId": 7,
-      "identifierSyntax": "URN",
-      "parentData": {
-        "identifierType": "sscc",
-        "gcpLength": 7,
-        "serialType": "range",
-        "gcp": "6514232222",
-        "rangeFrom": 200
-      }
-    },
-    {
-      "identifiersId": 14,
-      "identifierSyntax": "URN",
-      "instanceData": {
-        "identifierType": "sgtin",
-        "gcpLength": 7,
-        "sgtin": "34565433256664",
-        "serialType": "range",
-        "rangeFrom": 1
-      }
-    },
-    {
-      "identifiersId": 15,
-      "identifierSyntax": "URN",
-      "parentData": {
-        "identifierType": "sscc",
-        "gcpLength": 7,
-        "serialType": "range",
-        "gcp": "6514232222",
-        "rangeFrom": 200
-      }
-    },
-    {
-      "identifiersId": 16,
-      "identifierSyntax": "URN",
-      "parentData": {
-        "identifierType": "sscc",
-        "gcpLength": 7,
-        "gcp": "6514232222",
-        "serialType": "range",
-        "rangeFrom": 200
-      }
     }
   ],
   "connectorsInfo": [
@@ -428,24 +384,6 @@
       "quantity": 0
     },
     {
-      "ID": 5,
-      "name": "connector5",
-      "source": "7",
-      "target": "6",
-      "hideInheritParentCount": false
-    },
-    {
-      "ID": 6,
-      "name": "connector6",
-      "source": "5",
-      "target": "6",
-      "hideInheritParentCount": false,
-      "epcCount": 0,
-      "inheritParentCount": 0,
-      "classCount": 0,
-      "quantity": 0
-    },
-    {
       "ID": 1,
       "name": "connector1",
       "source": "3",
@@ -459,29 +397,7 @@
     {
       "ID": 1,
       "name": "connector1",
-      "source": "6",
-      "target": "12",
-      "hideInheritParentCount": true,
-      "epcCount": 2,
-      "inheritParentCount": 0,
-      "classCount": 0,
-      "quantity": 0
-    },
-    {
-      "ID": 2,
-      "name": "connector2",
-      "source": "6",
-      "target": "13",
-      "hideInheritParentCount": true,
-      "epcCount": 0,
-      "inheritParentCount": 0,
-      "classCount": 0,
-      "quantity": 0
-    },
-    {
-      "ID": 1,
-      "name": "connector1",
-      "source": "14",
+      "source": "2",
       "target": "6",
       "hideInheritParentCount": true,
       "epcCount": 5,
@@ -492,16 +408,35 @@
     {
       "ID": 2,
       "name": "connector2",
-      "source": "15",
-      "target": "12",
-      "hideInheritParentCount": false
+      "source": "5",
+      "target": "6",
+      "hideInheritParentCount": true,
+      "epcCount": 0,
+      "inheritParentCount": 1,
+      "classCount": 0,
+      "quantity": 0
     },
     {
       "ID": 3,
       "name": "connector3",
-      "source": "16",
+      "source": "12",
       "target": "13",
-      "hideInheritParentCount": false
+      "hideInheritParentCount": true,
+      "epcCount": 0,
+      "inheritParentCount": 1,
+      "classCount": 0,
+      "quantity": 0
+    },
+    {
+      "ID": 4,
+      "name": "connector4",
+      "source": "6",
+      "target": "12",
+      "hideInheritParentCount": true,
+      "epcCount": 2,
+      "inheritParentCount": 1,
+      "classCount": 0,
+      "quantity": 0
     }
   ],
   "drawflowInfo": {
@@ -566,12 +501,16 @@
                   {
                     "node": "5",
                     "output": "input_1"
+                  },
+                  {
+                    "node": "6",
+                    "output": "input_2"
                   }
                 ]
               }
             },
-            "pos_x": 285,
-            "pos_y": 227
+            "pos_x": 273,
+            "pos_y": 180
           },
           "3": {
             "id": 3,
@@ -622,13 +561,13 @@
                 "connections": [
                   {
                     "node": "6",
-                    "output": "input_2"
+                    "output": "input_1"
                   }
                 ]
               }
             },
-            "pos_x": 511,
-            "pos_y": 223
+            "pos_x": 509,
+            "pos_y": 42
           },
           "6": {
             "id": 6,
@@ -644,11 +583,7 @@
               "input_1": {
                 "connections": [
                   {
-                    "node": "7",
-                    "input": "output_1"
-                  },
-                  {
-                    "node": "14",
+                    "node": "5",
                     "input": "output_1"
                   }
                 ]
@@ -656,7 +591,7 @@
               "input_2": {
                 "connections": [
                   {
-                    "node": "5",
+                    "node": "2",
                     "input": "output_1"
                   }
                 ]
@@ -667,41 +602,13 @@
                 "connections": [
                   {
                     "node": "12",
-                    "output": "input_2"
-                  },
-                  {
-                    "node": "13",
                     "output": "input_1"
                   }
                 ]
               }
             },
-            "pos_x": 784,
-            "pos_y": 240
-          },
-          "7": {
-            "id": 7,
-            "name": "ParentIdentifiers",
-            "data": {
-              "ID": 7,
-              "eventType": "ParentID"
-            },
-            "class": "ParentID",
-            "html": "ParentIdentifiers",
-            "typenode": "vue",
-            "inputs": {},
-            "outputs": {
-              "output_1": {
-                "connections": [
-                  {
-                    "node": "6",
-                    "output": "input_1"
-                  }
-                ]
-              }
-            },
-            "pos_x": 510,
-            "pos_y": 50
+            "pos_x": 728,
+            "pos_y": 160
           },
           "12": {
             "id": 12,
@@ -717,27 +624,27 @@
               "input_1": {
                 "connections": [
                   {
-                    "node": "15",
+                    "node": "6",
                     "input": "output_1"
                   }
                 ]
               },
               "input_2": {
-                "connections": [
-                  {
-                    "node": "6",
-                    "input": "output_1"
-                  }
-                ]
+                "connections": []
               }
             },
             "outputs": {
               "output_1": {
-                "connections": []
+                "connections": [
+                  {
+                    "node": "13",
+                    "output": "input_1"
+                  }
+                ]
               }
             },
-            "pos_x": 1064,
-            "pos_y": 141
+            "pos_x": 951,
+            "pos_y": 157
           },
           "13": {
             "id": 13,
@@ -753,11 +660,7 @@
               "input_1": {
                 "connections": [
                   {
-                    "node": "6",
-                    "input": "output_1"
-                  },
-                  {
-                    "node": "16",
+                    "node": "12",
                     "input": "output_1"
                   }
                 ]
@@ -771,80 +674,8 @@
                 "connections": []
               }
             },
-            "pos_x": 1069,
-            "pos_y": 291
-          },
-          "14": {
-            "id": 14,
-            "name": "Identifiers",
-            "data": {
-              "ID": 14,
-              "eventType": "Identifiers"
-            },
-            "class": "Identifiers",
-            "html": "Identifiers",
-            "typenode": "vue",
-            "inputs": {},
-            "outputs": {
-              "output_1": {
-                "connections": [
-                  {
-                    "node": "6",
-                    "output": "input_1"
-                  }
-                ]
-              }
-            },
-            "pos_x": 515,
-            "pos_y": 378
-          },
-          "15": {
-            "id": 15,
-            "name": "ParentIdentifiers",
-            "data": {
-              "ID": 15,
-              "eventType": "ParentID"
-            },
-            "class": "ParentID",
-            "html": "ParentIdentifiers",
-            "typenode": "vue",
-            "inputs": {},
-            "outputs": {
-              "output_1": {
-                "connections": [
-                  {
-                    "node": "12",
-                    "output": "input_1"
-                  }
-                ]
-              }
-            },
-            "pos_x": 785,
-            "pos_y": 75
-          },
-          "16": {
-            "id": 16,
-            "name": "ParentIdentifiers",
-            "data": {
-              "ID": 16,
-              "eventType": "ParentID"
-            },
-            "class": "ParentID",
-            "html": "ParentIdentifiers",
-            "typenode": "vue",
-            "inputs": {},
-            "outputs": {
-              "output_1": {
-                "connections": [
-                  {
-                    "node": "13",
-                    "output": "input_1"
-                  }
-                ]
-              }
-            },
-            "pos_x": 795,
-            "pos_y": 391
+            "pos_x": 1165,
+            "pos_y": 153
           }
         }
       }
