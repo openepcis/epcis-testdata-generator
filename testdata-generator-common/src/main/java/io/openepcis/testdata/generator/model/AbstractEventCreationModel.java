@@ -180,23 +180,6 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
     if (typeInfo.getDisposition() != null) {
       epcisEvent.setDisposition(DispositionFormatter.format(typeInfo.getDisposition(), typeInfo.getDispositionManualURI()));
     }
-
-    // Set Persistent Disposition
-    if (typeInfo.getPersistentDisposition() != null) {
-      var pd = new PersistentDisposition();
-      if (typeInfo.getPersistentDisposition().getSet() != null
-          && !typeInfo.getPersistentDisposition().getSet().isEmpty()) {
-        pd.setSet(
-            PersistentDispositionFormatter.format(typeInfo.getPersistentDisposition().getSet()));
-      }
-
-      if (typeInfo.getPersistentDisposition().getUnset() != null
-          && !typeInfo.getPersistentDisposition().getUnset().isEmpty()) {
-        pd.setUnset(
-            PersistentDispositionFormatter.format(typeInfo.getPersistentDisposition().getUnset()));
-      }
-      epcisEvent.setPersistentDisposition(pd);
-    }
   }
 
   // Private method used to add the Error (Error declaration time, corrective Ids, Error extension,

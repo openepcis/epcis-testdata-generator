@@ -16,10 +16,12 @@
 package io.openepcis.testdata.generator.model;
 
 import io.openepcis.model.epcis.ObjectEvent;
+import io.openepcis.model.epcis.PersistentDisposition;
 import io.openepcis.model.epcis.QuantityList;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.format.BizTransactionsFormatter;
 import io.openepcis.testdata.generator.format.DestinationFormatter;
+import io.openepcis.testdata.generator.format.PersistentDispositionFormatter;
 import io.openepcis.testdata.generator.format.SourceFormatter;
 import io.openepcis.testdata.generator.reactivestreams.EventIdentifierTracker;
 import io.openepcis.testdata.generator.template.Identifier;
@@ -55,6 +57,23 @@ public class ObjectEventCreationModel
 
     // Add action
     e.setAction(typeInfo.getAction());
+
+    // Set Persistent Disposition for ObjectEvent
+    if (typeInfo.getPersistentDisposition() != null) {
+      var pd = new PersistentDisposition();
+      if (typeInfo.getPersistentDisposition().getSet() != null
+              && !typeInfo.getPersistentDisposition().getSet().isEmpty()) {
+        pd.setSet(
+                PersistentDispositionFormatter.format(typeInfo.getPersistentDisposition().getSet()));
+      }
+
+      if (typeInfo.getPersistentDisposition().getUnset() != null
+              && !typeInfo.getPersistentDisposition().getUnset().isEmpty()) {
+        pd.setUnset(
+                PersistentDispositionFormatter.format(typeInfo.getPersistentDisposition().getUnset()));
+      }
+      e.setPersistentDisposition(pd);
+    }
 
     // Add source list
     if (typeInfo.getSources() != null && !typeInfo.getSources().isEmpty()) {

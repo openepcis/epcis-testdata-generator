@@ -15,8 +15,10 @@
  */
 package io.openepcis.testdata.generator.model;
 
+import io.openepcis.model.epcis.PersistentDisposition;
 import io.openepcis.model.epcis.QuantityList;
 import io.openepcis.model.epcis.TransformationEvent;
+import io.openepcis.testdata.generator.format.PersistentDispositionFormatter;
 import io.openepcis.testdata.generator.reactivestreams.EventIdentifierTracker;
 import io.openepcis.testdata.generator.template.Identifier;
 import io.openepcis.testdata.generator.template.ReferencedIdentifier;
@@ -50,6 +52,24 @@ public class TransformationEventCreationModel
   }
 
   private void configureCommons(final TransformationEvent e) {
+
+    // Set Persistent Disposition for TransformationEvent
+    if (typeInfo.getPersistentDisposition() != null) {
+      var pd = new PersistentDisposition();
+      if (typeInfo.getPersistentDisposition().getSet() != null
+              && !typeInfo.getPersistentDisposition().getSet().isEmpty()) {
+        pd.setSet(
+                PersistentDispositionFormatter.format(typeInfo.getPersistentDisposition().getSet()));
+      }
+
+      if (typeInfo.getPersistentDisposition().getUnset() != null
+              && !typeInfo.getPersistentDisposition().getUnset().isEmpty()) {
+        pd.setUnset(
+                PersistentDispositionFormatter.format(typeInfo.getPersistentDisposition().getUnset()));
+      }
+      e.setPersistentDisposition(pd);
+    }
+
     // If TransformationID is populated then add the value
     if (typeInfo.getTransformationID() != null) {
       e.setTransformationID(typeInfo.getTransformationID());
