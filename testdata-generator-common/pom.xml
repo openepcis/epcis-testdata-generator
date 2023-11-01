@@ -85,7 +85,6 @@
         <dependency>
             <groupId>io.openepcis</groupId>
             <artifactId>openepcis-model-epcis</artifactId>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -179,6 +178,13 @@
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
+        </dependency>
+
+        <!-- For setting the RestResponse Status code -->
+        <dependency>
+            <groupId>io.quarkus.resteasy.reactive</groupId>
+            <artifactId>resteasy-reactive</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- OpenEPCIS dependency for Hash-Id generator -->

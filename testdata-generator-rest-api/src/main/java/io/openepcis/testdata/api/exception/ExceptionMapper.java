@@ -18,6 +18,7 @@ package io.openepcis.testdata.api.exception;
 import io.openepcis.core.exception.ResourceNotFoundException;
 import io.openepcis.model.epcis.exception.NotAcceptedException;
 import io.openepcis.model.rest.ProblemResponseBody;
+import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import jakarta.ws.rs.WebApplicationException;
 import lombok.extern.slf4j.Slf4j;
 import org.jboss.resteasy.reactive.RestResponse;

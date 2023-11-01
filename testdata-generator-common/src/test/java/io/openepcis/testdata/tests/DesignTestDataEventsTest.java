@@ -15,24 +15,23 @@
  */
 package io.openepcis.testdata.tests;
 
-import static org.junit.Assert.assertEquals;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import io.openepcis.model.epcis.EPCISEvent;
 import io.openepcis.testdata.generator.EPCISEventGenerator;
 import io.openepcis.testdata.generator.template.InputTemplate;
-import java.nio.charset.StandardCharsets;
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletionException;
-import org.junit.Assert;
-import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class DesignTestDataEventsTest {
 
@@ -46,350 +45,103 @@ public class DesignTestDataEventsTest {
           .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
           .configure(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES, false);
 
-  // Design Test Data for simple supply chain ObjectEvent(events - 1) -> AggregationEvent(events -
-  // 1)
+
+    private List<String> generateEvents(String inputFile, int expectedSize) throws Exception {
+        final InputTemplate inputTemplate = objectMapper.readValue(getClass().getResourceAsStream(inputFile), InputTemplate.class);
+        final List<String> eventList = new ArrayList<>();
+
+        EPCISEventGenerator.generate(inputTemplate)
+                .collect()
+                .asList()
+                .await()
+                .indefinitely()
+                .forEach(event -> {
+                    try {
+                        eventList.add(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(event));
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+        assertTrue(eventList.size() > 0);
+        assertEquals(expectedSize, eventList.size());
+
+        return getEventTypes(eventList);
+    }
+
+    private List<String> getEventTypes(final List<String> eventList) throws JsonProcessingException {
+        final List<String> eventTypes = new ArrayList<>();
+        for (final String jsonString : eventList) {
+            final JsonNode jsonNode = objectMapper.readTree(jsonString);
+            if (jsonNode.has("type")) {
+                eventTypes.add(jsonNode.get("type").asText());
+            }
+        }
+        return eventTypes;
+    }
+
+
+
+  // Design Test Data for simple supply chain ObjectEvent(events - 1) -> AggregationEvent(events -> 1)
   @Test
   public void DesignTestDataEvents1() throws Exception {
-    final InputTemplate inputTemplate =
-        objectMapper.readValue(
-            getClass().getResourceAsStream("/DesignTestDataEvents1.json"), InputTemplate.class);
-    final List<String> designEventsList = new ArrayList<>();
-    final String designEventsOutput =
-        new String(
-            getClass()
-                .getResourceAsStream("/DesignTestDataEventsOutput1.json")
-                .readAllBytes(),
-            StandardCharsets.UTF_8);
-
-    EPCISEventGenerator.generate(inputTemplate)
-        .collect()
-        .asList()
-        .await()
-        .indefinitely()
-        .forEach(
-            e -> {
-              try {
-                designEventsList.add(
-                    objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(e));
-              } catch (JsonProcessingException ex) {
-                throw new CompletionException(ex);
-              }
-            });
-
-    // Check for the number of events present within the list of created events
-    Assert.assertTrue(designEventsList.size() > 0);
-    assertEquals(2, designEventsList.size());
-
-    // Compare the created events with the actual expected events
-    // assertEquals(objectMapper.readTree(designEventsOutput),
-    // objectMapper.readTree(designEventsList.toString()));
-
-    // Convert the list of generated EPCIS events into respective EPCIS events using ObjectMapper
-    final List<EPCISEvent> outputTemplate =
-        objectMapper.readerForListOf(EPCISEvent.class).readValue(designEventsList.toString());
-
-    // Confirm the number TransactionEvent, TransformationEvent, and AssociationEvent count in the
-    // created events
-    assertEquals(
-        1, outputTemplate.stream().filter(event -> event.getType().equals("ObjectEvent")).count());
-    assertEquals(
-        1,
-        outputTemplate.stream()
-            .filter(event -> event.getType().equals("AggregationEvent"))
-            .count());
+      final List<String> eventTypes = generateEvents("/DesignTestDataEvents1.json", 2);
+      assertEquals(1, eventTypes.stream().filter("ObjectEvent"::equals).count());
+      assertEquals(1, eventTypes.stream().filter("AggregationEvent"::equals).count());
   }
 
-  // Design Test Data for simple supply chain TransactionEvent(events - 1) ->
-  // TransformationEvent(events - 1) -> AssociationEvent(events-2)
+  // Design Test Data for simple supply chain TransactionEvent(events - 1) -> TransformationEvent(events - 1) -> AssociationEvent(events-2)
   @Test
   public void DesignTestDataEvents2() throws Exception {
-    final InputTemplate inputTemplate =
-        objectMapper.readValue(
-            getClass().getResourceAsStream("/DesignTestDataEvents2.json"), InputTemplate.class);
-    final List<String> designEventsList = new ArrayList<>();
-    final String designEventsOutput =
-        new String(
-            getClass()
-                .getResourceAsStream("/DesignTestDataEventsOutput2.json")
-                .readAllBytes(),
-            StandardCharsets.UTF_8);
-
-    EPCISEventGenerator.generate(inputTemplate)
-        .collect()
-        .asList()
-        .await()
-        .indefinitely()
-        .forEach(
-            e -> {
-              try {
-                designEventsList.add(
-                    objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(e));
-              } catch (JsonProcessingException ex) {
-                throw new CompletionException(ex);
-              }
-            });
-
-    // Check for the number of events present within the list of created events
-    Assert.assertTrue(designEventsList.size() > 0);
-    assertEquals(4, designEventsList.size());
-
-    // Compare the created events with the actual expected events
-    // assertEquals(objectMapper.readTree(designEventsOutput),
-    // objectMapper.readTree(designEventsList.toString()));
-
-    // Convert the list of generated EPCIS events into respective EPCIS events using ObjectMapper
-    final List<EPCISEvent> outputTemplate =
-        objectMapper.readerForListOf(EPCISEvent.class).readValue(designEventsList.toString());
-
-    // Confirm the number TransactionEvent, TransformationEvent, and AssociationEvent count in the
-    // created events
-    assertEquals(
-        1,
-        outputTemplate.stream()
-            .filter(event -> event.getType().equals("TransactionEvent"))
-            .count());
-    assertEquals(
-        1,
-        outputTemplate.stream()
-            .filter(event -> event.getType().equals("TransformationEvent"))
-            .count());
-    assertEquals(
-        2,
-        outputTemplate.stream()
-            .filter(event -> event.getType().equals("AssociationEvent"))
-            .count());
+      final List<String> eventTypes = generateEvents("/DesignTestDataEvents2.json", 4);
+      assertEquals(1, eventTypes.stream().filter("TransactionEvent"::equals).count());
+      assertEquals(1, eventTypes.stream().filter("TransformationEvent"::equals).count());
+      assertEquals(2, eventTypes.stream().filter("AssociationEvent"::equals).count());
   }
 
   // Design Test Data for supply chain ObjectEvent(events - 2) -> AggregationEvent(events-3)
   @Test
   public void DesignTestDataEvents3() throws Exception {
-    final InputTemplate inputTemplate =
-        objectMapper.readValue(
-            getClass().getResourceAsStream("/DesignTestDataEvents3.json"), InputTemplate.class);
-    final List<String> designEventsList = new ArrayList<>();
-
-    EPCISEventGenerator.generate(inputTemplate)
-        .collect()
-        .asList()
-        .await()
-        .indefinitely()
-        .forEach(
-            e -> {
-              try {
-                designEventsList.add(
-                    objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(e));
-              } catch (JsonProcessingException ex) {
-                throw new CompletionException(ex);
-              }
-            });
-
-    // Check for the number of events present within the list of created events
-    Assert.assertTrue(designEventsList.size() > 0);
-    assertEquals(8, designEventsList.size());
-
-    // Convert the list of generated EPCIS events into respective EPCIS events
-    final List<EPCISEvent> outputTemplate =
-        objectMapper.readerForListOf(EPCISEvent.class).readValue(designEventsList.toString());
-
-    // Confirm the number ObjectEvent and AggregationEvent count in the created events
-    assertEquals(
-        2, outputTemplate.stream().filter(event -> event.getType().equals("ObjectEvent")).count());
-    assertEquals(
-        6,
-        outputTemplate.stream()
-            .filter(event -> event.getType().equals("AggregationEvent"))
-            .count());
+      final List<String> eventTypes = generateEvents("/DesignTestDataEvents3.json", 8);
+      assertEquals(2, eventTypes.stream().filter("ObjectEvent"::equals).count());
+      assertEquals(6, eventTypes.stream().filter("AggregationEvent"::equals).count());
   }
 
-  // Design Test Data for supply chain ObjectEvent(events-1) -> AggregationEvent(events-2) ->
-  // TransactionEvent(events - 3)
+  // Design Test Data for supply chain ObjectEvent(events-1) -> AggregationEvent(events-2) -> TransactionEvent(events - 3)
   @Test
   public void DesignTestDataEvents4() throws Exception {
-    final InputTemplate inputTemplate =
-        objectMapper.readValue(
-            getClass().getResourceAsStream("/DesignTestDataEvents4.json"), InputTemplate.class);
-    final List<String> designEventsList = new ArrayList<>();
-
-    EPCISEventGenerator.generate(inputTemplate)
-        .collect()
-        .asList()
-        .await()
-        .indefinitely()
-        .forEach(
-            e -> {
-              try {
-                designEventsList.add(
-                    objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(e));
-              } catch (JsonProcessingException ex) {
-                throw new CompletionException(ex);
-              }
-            });
-
-    // Check for the number of events present within the list of created events
-    Assert.assertTrue(designEventsList.size() > 0);
-    assertEquals(9, designEventsList.size());
-
-    // Convert the list of generated EPCIS events into respective EPCIS events
-    final List<EPCISEvent> outputTemplate =
-        objectMapper.readerForListOf(EPCISEvent.class).readValue(designEventsList.toString());
-
-    // Confirm the number ObjectEvent, AggregationEvent and TransactionEvent count in the created
-    // events
-    assertEquals(
-        1, outputTemplate.stream().filter(event -> event.getType().equals("ObjectEvent")).count());
-    assertEquals(
-        2,
-        outputTemplate.stream()
-            .filter(event -> event.getType().equals("AggregationEvent"))
-            .count());
-    assertEquals(
-        6,
-        outputTemplate.stream()
-            .filter(event -> event.getType().equals("TransactionEvent"))
-            .count());
+      final List<String> eventTypes = generateEvents("/DesignTestDataEvents4.json", 9);
+      assertEquals(1, eventTypes.stream().filter("ObjectEvent"::equals).count());
+      assertEquals(2, eventTypes.stream().filter("AggregationEvent"::equals).count());
+      assertEquals(6, eventTypes.stream().filter("TransactionEvent"::equals).count());
   }
 
-  // Design Test data for supply chain with ObjectEvent(events-1) -> AggregationEvent(events-2) ->
-  // TransactionEvent (events-3)
+
+
+  // Design Test data for supply chain with ObjectEvent(events-1) -> AggregationEvent(events-2) -> TransactionEvent (events-3)
   @Test
   public void DesignTestDataEvents5() throws Exception {
-    final InputTemplate inputTemplate =
-        objectMapper.readValue(
-            getClass().getResourceAsStream("/DesignTestDataEvents5.json"), InputTemplate.class);
-    final List<String> designEventsList = new ArrayList<>();
-
-    EPCISEventGenerator.generate(inputTemplate)
-        .collect()
-        .asList()
-        .await()
-        .indefinitely()
-        .forEach(
-            e -> {
-              try {
-                designEventsList.add(
-                    objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(e));
-              } catch (JsonProcessingException ex) {
-                throw new CompletionException(ex);
-              }
-            });
-
-    // Check for the number of events present within the list of created events
-    Assert.assertTrue(designEventsList.size() > 0);
-    assertEquals(18, designEventsList.size());
-
-    // Convert the list of generated EPCIS events into respective EPCIS events
-    final List<EPCISEvent> outputTemplate =
-        objectMapper.readerForListOf(EPCISEvent.class).readValue(designEventsList.toString());
-
-    // Confirm the number ObjectEvent, AggregationEvent and TransactionEvent count in the created
-    // events
-    assertEquals(
-        2, outputTemplate.stream().filter(event -> event.getType().equals("ObjectEvent")).count());
-    assertEquals(
-        4,
-        outputTemplate.stream()
-            .filter(event -> event.getType().equals("AggregationEvent"))
-            .count());
-    assertEquals(
-        12,
-        outputTemplate.stream()
-            .filter(event -> event.getType().equals("TransactionEvent"))
-            .count());
+      final List<String> eventTypes = generateEvents("/DesignTestDataEvents5.json", 18);
+      assertEquals(2, eventTypes.stream().filter("ObjectEvent"::equals).count());
+      assertEquals(4, eventTypes.stream().filter("AggregationEvent"::equals).count());
+      assertEquals(12, eventTypes.stream().filter("TransactionEvent"::equals).count());
   }
 
-  // Design Test data for supply chain with ObjectEvent(events-3) -> AggregationEvent(events-2) ->
-  // TransactionEvent (events-3)
+  // Design Test data for supply chain with ObjectEvent(events-3) -> AggregationEvent(events-2) -> TransactionEvent (events-3)
   @Test
   public void DesignTestDataEvents6() throws Exception {
-    final InputTemplate inputTemplate =
-        objectMapper.readValue(
-            getClass().getResourceAsStream("/DesignTestDataEvents6.json"), InputTemplate.class);
-    final List<String> designEventsList = new ArrayList<>();
-
-    EPCISEventGenerator.generate(inputTemplate)
-        .collect()
-        .asList()
-        .await()
-        .indefinitely()
-        .forEach(
-            e -> {
-              try {
-                designEventsList.add(
-                    objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(e));
-              } catch (JsonProcessingException ex) {
-                throw new CompletionException(ex);
-              }
-            });
-
-    // Check for the number of events present within the list of created events
-    Assert.assertTrue(designEventsList.size() > 0);
-    assertEquals(11, designEventsList.size());
-
-    // Convert the list of generated EPCIS events into respective EPCIS events
-    final List<EPCISEvent> outputTemplate =
-        objectMapper.readerForListOf(EPCISEvent.class).readValue(designEventsList.toString());
-
-    // Confirm the number ObjectEvent, AggregationEvent and TransactionEvent count in the created
-    // events
-    assertEquals(
-        5, outputTemplate.stream().filter(event -> event.getType().equals("ObjectEvent")).count());
-    assertEquals(
-        2,
-        outputTemplate.stream()
-            .filter(event -> event.getType().equals("AggregationEvent"))
-            .count());
-    assertEquals(
-        4,
-        outputTemplate.stream()
-            .filter(event -> event.getType().equals("TransactionEvent"))
-            .count());
+      final List<String> eventTypes = generateEvents("/DesignTestDataEvents6.json", 11);
+      assertEquals(5, eventTypes.stream().filter("ObjectEvent"::equals).count());
+      assertEquals(2, eventTypes.stream().filter("AggregationEvent"::equals).count());
+      assertEquals(4, eventTypes.stream().filter("TransactionEvent"::equals).count());
   }
 
-  // Design Test data for supply chain with TransformationEvent(events-2) -> ObjectEvent(events-4)->
-  // AggregationEvent(events-8)
+  // Design Test data for supply chain with TransformationEvent(events-2) -> ObjectEvent(events-4)-> AggregationEvent(events-8)
   @Test
   public void DesignTestDataEvents7() throws Exception {
-    final InputTemplate inputTemplate =
-        objectMapper.readValue(
-            getClass().getResourceAsStream("/DesignTestDataEvents7.json"), InputTemplate.class);
-    final List<String> designEventsList = new ArrayList<>();
-
-    EPCISEventGenerator.generate(inputTemplate)
-        .collect()
-        .asList()
-        .await()
-        .indefinitely()
-        .forEach(
-            e -> {
-              try {
-                designEventsList.add(
-                    objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(e));
-              } catch (JsonProcessingException ex) {
-                throw new CompletionException(ex);
-              }
-            });
-
-    // Check for the number of events present within the list of created events
-    Assert.assertTrue(designEventsList.size() > 0);
-    assertEquals(74, designEventsList.size());
-
-    // Convert the list of generated EPCIS events into respective EPCIS events
-    final List<EPCISEvent> outputTemplate =
-        objectMapper.readerForListOf(EPCISEvent.class).readValue(designEventsList.toString());
-
-    // Confirm the number ObjectEvent, AggregationEvent and TransactionEvent count in the created
-    // events
-    assertEquals(
-        2,
-        outputTemplate.stream()
-            .filter(event -> event.getType().equals("TransformationEvent"))
-            .count());
-    assertEquals(
-        8, outputTemplate.stream().filter(event -> event.getType().equals("ObjectEvent")).count());
-    assertEquals(
-        64,
-        outputTemplate.stream()
-            .filter(event -> event.getType().equals("AggregationEvent"))
-            .count());
+      final List<String> eventTypes = generateEvents("/DesignTestDataEvents7.json", 74);
+      assertEquals(2, eventTypes.stream().filter("TransformationEvent"::equals).count());
+      assertEquals(8, eventTypes.stream().filter("ObjectEvent"::equals).count());
+      assertEquals(64, eventTypes.stream().filter("AggregationEvent"::equals).count());
   }
 }

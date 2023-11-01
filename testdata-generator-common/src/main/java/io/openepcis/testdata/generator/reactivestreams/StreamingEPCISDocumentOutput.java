@@ -20,8 +20,10 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.openepcis.model.epcis.EPCISEvent;
+import io.openepcis.model.rest.ProblemResponseBody;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.smallrye.mutiny.Multi;
+import org.jboss.resteasy.reactive.RestResponse;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -130,9 +132,7 @@ public class StreamingEPCISDocumentOutput {
                                                 jsonGenerator.writeStringField(key, value);
                                                 jsonGenerator.writeEndObject();
                                             } catch (IOException ex) {
-                                                throw new TestDataGeneratorException(
-                                                        "Exception occurred during EPCIS document creation: Error occurred during the addition of Namespaces: "
-                                                                + ex.getMessage());
+                                                throw new TestDataGeneratorException("Exception occurred during EPCIS document creation: Error occurred during the addition of Namespaces: " + ex.getMessage(), ex);
                                             }
                                         });
                     }
@@ -156,9 +156,7 @@ public class StreamingEPCISDocumentOutput {
                 } catch (Exception ex) {
                     refSubscription.get().cancel();
                     running.set(false);
-                    throw new TestDataGeneratorException(
-                            "Exception occurred during EPCIS document creation: adding the header for EPCIS document failed "
-                                    + ex.getMessage());
+                    throw new TestDataGeneratorException("Exception occurred during EPCIS document creation: adding the header for EPCIS document failed " + ex.getMessage(), ex);
                 }
             }
 
@@ -170,9 +168,7 @@ public class StreamingEPCISDocumentOutput {
                 } catch (IOException ex) {
                     refSubscription.get().cancel();
                     running.set(false);
-                    throw new TestDataGeneratorException(
-                            "Exception occurred during EPCIS document wrapper creation: addition of EPCIS event to eventsList failed "
-                                    + ex.getMessage());
+                    throw new TestDataGeneratorException("Exception occurred during EPCIS document wrapper creation: addition of EPCIS event to eventsList failed " + ex.getMessage(), ex);
                 }
             }
 
@@ -181,11 +177,17 @@ public class StreamingEPCISDocumentOutput {
                 try {
                     jsonGenerator.writeEndArray(); // End the eventList array
                     jsonGenerator.writeEndObject(); // End epcisBody
+
+                    //If there is error then add the error message to JSON
+                    final ProblemResponseBody pb =  ProblemResponseBody.fromException(t, RestResponse.Status.BAD_REQUEST);
+                    jsonGenerator.writeObjectField("problemResponse", pb);
+
                     jsonGenerator.writeEndObject(); // End whole json file
+
+                    jsonGenerator.flush(); //flush
+                    jsonGenerator.close();
                 } catch (IOException ex) {
-                    throw new TestDataGeneratorException(
-                            "Exception occurred during EPCIS document wrapper creation : creation of EPCIS document failed "
-                                    + ex.getMessage());
+                    throw new TestDataGeneratorException("Exception occurred during EPCIS document wrapper creation : creation of EPCIS document failed " + ex.getMessage(), ex);
                 } finally {
                     running.set(false);
                 }
@@ -201,9 +203,7 @@ public class StreamingEPCISDocumentOutput {
                     jsonGenerator.flush();
                     jsonGenerator.close();
                 } catch (IOException ex) {
-                    throw new TestDataGeneratorException(
-                            "Exception occurred during EPCIS document creation: completion of document failed  "
-                                    + ex.getMessage());
+                    throw new TestDataGeneratorException("Exception occurred during EPCIS document creation: completion of document failed  " + ex.getMessage(), ex);
                 } finally {
                     running.set(false);
                 }
