@@ -21,8 +21,8 @@ import io.openepcis.constants.EPCISVersion;
 import io.openepcis.convert.VersionTransformer;
 import io.openepcis.model.epcis.EPCISDocument;
 import io.openepcis.model.rest.ProblemResponseBody;
-import io.openepcis.testdata.api.exception.TestDataGeneratorException;
 import io.openepcis.testdata.generator.EPCISEventGenerator;
+import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.reactivestreams.StreamingEPCISDocument;
 import io.openepcis.testdata.generator.template.InputTemplate;
 import io.quarkus.runtime.annotations.RegisterForReflection;
@@ -142,7 +142,7 @@ public class TestDataGeneratorResource {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Error occurred during the deserialization of JSON InputTemplate, Please check the provided InputTemplate : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
 
     // If there are no error during deserialization of the JSON then continue with execution.
@@ -167,7 +167,7 @@ public class TestDataGeneratorResource {
                 .collect(Collectors.joining(", ")));
       }
     } catch (Exception exception) {
-      throw new TestDataGeneratorException(exception.getMessage());
+      throw new TestDataGeneratorException(exception.getMessage(), exception);
     }
   }
 

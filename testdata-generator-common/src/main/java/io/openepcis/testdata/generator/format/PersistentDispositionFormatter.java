@@ -31,7 +31,7 @@ public class PersistentDispositionFormatter {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of the Persistent Disposition, Please check the values provided values for Persistent Disposition : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

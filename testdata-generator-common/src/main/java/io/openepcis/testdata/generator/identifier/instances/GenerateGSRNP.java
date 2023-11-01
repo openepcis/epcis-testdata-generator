@@ -88,7 +88,7 @@ public class GenerateGSRNP extends GenerateEPCType2 {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GSRNP instance identifiers in URN format, Please check the values provided for GSRNP instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 
@@ -131,7 +131,7 @@ public class GenerateGSRNP extends GenerateEPCType2 {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GSRNP instance identifiers in URN format, Please check the values provided for GSRNP instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

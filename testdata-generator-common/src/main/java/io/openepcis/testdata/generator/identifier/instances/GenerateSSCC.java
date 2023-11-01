@@ -88,7 +88,7 @@ public class GenerateSSCC extends GenerateEPCType2 {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of SSCC instance identifiers in URN format, Please check the values provided for SSCC instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 
@@ -129,7 +129,7 @@ public class GenerateSSCC extends GenerateEPCType2 {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of SSCC instance identifiers in WebURI format, Please check the values provided for SSCC instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

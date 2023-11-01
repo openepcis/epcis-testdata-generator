@@ -87,7 +87,7 @@ public class GenerateGIAI extends GenerateEPCType2 {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GIAI instance identifiers in URN format, Please check the values provided for GIAI instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 
@@ -128,7 +128,7 @@ public class GenerateGIAI extends GenerateEPCType2 {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GIAI instance identifiers in WebURI format, Please check the values provided for GIAI instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

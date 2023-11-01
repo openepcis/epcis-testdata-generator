@@ -87,7 +87,7 @@ public class GenerateGCN extends GenerateQuantity {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GCN class identifiers, Please check the values provided for GCN class identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

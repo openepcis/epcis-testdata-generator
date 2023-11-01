@@ -62,7 +62,7 @@ public class RandomValueGenerator {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during creation of seral numbers in Random Numeric format, Please check the values provided values for Identifiers random values : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 
@@ -87,7 +87,7 @@ public class RandomValueGenerator {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during creation of seral numbers in Random Alphanumeric format, Please check the values provided values for Identifiers random values : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 
@@ -110,7 +110,7 @@ public class RandomValueGenerator {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during creation of seral numbers in Random Alphanumeric with special characters, Please check the values provided values for Identifiers random values : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

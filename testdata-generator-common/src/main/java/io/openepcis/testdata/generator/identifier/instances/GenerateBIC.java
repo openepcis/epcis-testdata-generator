@@ -53,7 +53,7 @@ public class GenerateBIC implements EPCStrategy {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of BIC instance identifiers, Please check the values provided for BIC instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

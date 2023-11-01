@@ -116,7 +116,7 @@ public class GenerateUSDoD implements EPCStrategy {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of USDoD instance identifiers in URN format, Please check the values provided for USDoD instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

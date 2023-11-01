@@ -30,7 +30,7 @@ public class EventIdUUIDGenerator {
       return "urn:uuid:" + UUID.randomUUID();
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
-          "Exception occurred during generating UUID : " + ex.getMessage());
+          "Exception occurred during generating UUID : " + ex.getMessage(), ex);
     }
   }
 }

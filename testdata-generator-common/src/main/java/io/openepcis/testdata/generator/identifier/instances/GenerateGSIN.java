@@ -90,7 +90,7 @@ public class GenerateGSIN extends GenerateEPCType2 {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GSIN instance identifiers in URN format, Please check the values provided for GSIN instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 
@@ -134,7 +134,7 @@ public class GenerateGSIN extends GenerateEPCType2 {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GSIN instance identifiers in WebURI format, Please check the values provided for GSIN instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

@@ -98,7 +98,7 @@ public class SourceFormatter implements Serializable {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of the Source in WebURI format, Please check the values provided values for Source : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

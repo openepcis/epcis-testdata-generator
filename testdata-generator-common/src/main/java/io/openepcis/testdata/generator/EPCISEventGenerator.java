@@ -43,7 +43,7 @@ public class EPCISEventGenerator {
           .toList();
     } catch (Exception e) {
       throw new TestDataGeneratorException(
-          "Exception occurred during the creation of model for input : " + e);
+          "Exception occurred during the creation of model for input : " + e.getMessage(), e);
     }
   }
 
@@ -53,7 +53,7 @@ public class EPCISEventGenerator {
           .publisher(new EPCISEventPublisher(EPCISEventGenerator.createModels(inputTemplate)));
     } catch (Exception e) {
       throw new TestDataGeneratorException(
-          "Exception occurred during the generation of EPCIS events : " + e);
+          "Exception occurred during the generation of EPCIS events : " + e.getMessage(), e);
     }
   }
 }

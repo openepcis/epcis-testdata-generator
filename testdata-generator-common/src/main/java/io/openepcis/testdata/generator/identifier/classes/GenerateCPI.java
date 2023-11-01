@@ -82,7 +82,7 @@ public class GenerateCPI extends GenerateQuantity {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of CPI class identifiers, Please check the values provided for CPI class identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

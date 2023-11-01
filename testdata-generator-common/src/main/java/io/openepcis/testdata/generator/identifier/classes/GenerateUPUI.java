@@ -95,7 +95,7 @@ public class GenerateUPUI extends GenerateQuantity {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of UPUI class identifiers, Please check the values provided for UPUI class identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

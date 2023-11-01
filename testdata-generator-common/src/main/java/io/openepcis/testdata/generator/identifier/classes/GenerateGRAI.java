@@ -89,7 +89,7 @@ public class GenerateGRAI extends GenerateQuantity {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GRAI class identifiers, Please check the values provided for GRAI class identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

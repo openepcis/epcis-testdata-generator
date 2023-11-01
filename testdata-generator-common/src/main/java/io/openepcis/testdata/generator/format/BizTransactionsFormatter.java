@@ -34,7 +34,7 @@ public class BizTransactionsFormatter {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of BizTransaction, Please check the values provided for BizTransactions : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

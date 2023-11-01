@@ -79,7 +79,7 @@ public class GenerateManualURI implements EPCStrategy {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during addition of Manual instance identifiers, Please check the values provided for Manual instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

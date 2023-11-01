@@ -141,7 +141,7 @@ public class GenerateLGTIN extends GenerateQuantity {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of LGTIN class identifiers in URN format, Please check the values provided for LGTIN class identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 
@@ -205,7 +205,7 @@ public class GenerateLGTIN extends GenerateQuantity {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of LGTIN class identifiers in WebURI format, Please check the values provided for LGTIN class identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 

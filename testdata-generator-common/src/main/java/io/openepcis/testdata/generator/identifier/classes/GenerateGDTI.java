@@ -90,7 +90,7 @@ public class GenerateGDTI extends GenerateQuantity {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GDTI class identifiers, Please check the values provided for GDTI class identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }
