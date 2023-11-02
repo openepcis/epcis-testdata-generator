@@ -127,7 +127,7 @@ public class GenerateGID implements EPCStrategy {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GID instance identifiers in URN format, Please check the values provided for GID instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

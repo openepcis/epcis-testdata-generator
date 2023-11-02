@@ -100,7 +100,7 @@ public class GenerateGDTI extends GenerateEPC {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GDTI instance identifiers in URN format, Please check the values provided for GDTI instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 
@@ -148,7 +148,7 @@ public class GenerateGDTI extends GenerateEPC {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GDTI instance identifiers in WebURI format, Please check the values provided for GDTI instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

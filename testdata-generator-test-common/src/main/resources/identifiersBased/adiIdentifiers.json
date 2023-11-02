@@ -1,0 +1,69 @@
+{
+  "events": [
+    {
+      "nodeId": 1,
+      "eventType": "ObjectEvent",
+      "eventCount": 1,
+      "locationPartyIdentifierSyntax": "URN",
+      "ordinaryEvent": true,
+      "action": "ADD",
+      "eventID": false,
+      "eventTime": {
+        "timeZoneOffset": "+02:00",
+        "specificTime": "2023-09-05T17:52:36.000+02:00"
+      },
+      "referencedIdentifier": [
+        {
+          "identifierId": 1,
+          "epcCount": 1,
+          "classCount": 0
+        },
+        {
+          "identifierId": 2,
+          "epcCount": 2,
+          "classCount": 0
+        }
+      ],
+      "parentReferencedIdentifier": {},
+      "outputReferencedIdentifier": []
+    }
+  ],
+  "identifiers": [
+    {
+      "identifierId": 1,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": {
+        "adi": {
+          "identifierType": "adi",
+          "gcpLength": null,
+          "adiCage": "837743",
+          "serialType": "range",
+          "adiPNO": "938249889433",
+          "rangeFrom": 100,
+          "count": 1
+        }
+      },
+      "classData": null,
+      "parentData": null
+    },
+    {
+      "identifierId": 2,
+      "objectIdentifierSyntax": "URN",
+      "instanceData": {
+        "adi": {
+          "identifierType": "adi",
+          "gcpLength": null,
+          "adiCage": "837743",
+          "adiPNO": "938249889433",
+          "serialType": "random",
+          "randomCount": 2,
+          "randomType": "NUMERIC",
+          "randomMinLength": 1,
+          "randomMaxLength": 5
+        }
+      },
+      "classData": null,
+      "parentData": null
+    }
+  ]
+}

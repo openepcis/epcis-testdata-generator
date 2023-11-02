@@ -103,7 +103,7 @@ public class GenerateITIP extends GenerateEPC {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of ITIP instance identifiers in URN format, Please check the values provided for ITIP instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 
@@ -159,7 +159,7 @@ public class GenerateITIP extends GenerateEPC {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of ITIP instance identifiers in WebURI format, Please check the values provided for ITIP instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

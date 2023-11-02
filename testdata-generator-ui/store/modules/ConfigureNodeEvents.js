@@ -132,9 +132,11 @@ export const mutations = {
           parentEventData.readpointselector !== 'null'
         ) {
           if (parentEventData.readpointselector === 'SGLN') {
+            parentEventData.readPoint.type = 'SGLN'
             parentFormData.readPoint = parentEventData.readPoint
           } else {
             const readPointObj = {}
+            readPointObj.type = 'MANUALLY'
             readPointObj.manualURI = parentEventData.readPoint.manualURI
             parentFormData.readPoint = readPointObj
           }
@@ -146,9 +148,11 @@ export const mutations = {
           parentEventData.businesslocationselector !== 'null'
         ) {
           if (parentEventData.businesslocationselector === 'SGLN') {
+            parentEventData.bizLocation.type = 'SGLN'
             parentFormData.bizLocation = parentEventData.bizLocation
           } else {
             const bizLocationObj = {}
+            bizLocationObj.type = 'MANUALLY'
             bizLocationObj.manualURI = parentEventData.bizLocation.manualURI
             parentFormData.bizLocation = bizLocationObj
           }

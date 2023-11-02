@@ -89,7 +89,7 @@ public class GenerateGTIN extends GenerateQuantity {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GTIN class identifiers, Please check the values provided for GTIN class identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

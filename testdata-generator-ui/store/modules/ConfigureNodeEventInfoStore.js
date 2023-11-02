@@ -14,7 +14,7 @@
  *     limitations under the License.
  */
 // OpenEPCIS Testdata Generator UI
-// Copyright (C) 2022  benelog GmbH & Co. KG 
+// Copyright (C) 2022  benelog GmbH & Co. KG
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// 
+//
 // See LICENSE in the project root for license information.
 import Vue from 'vue'
 
@@ -68,12 +68,20 @@ export const mutations = {
   },
   // Update the node information with the provided information
   populateNodeEventInfo (state, payload) {
-    const nodeInfo = state.nodeEventInfoArray.find(node => parseInt(node.eventId) === parseInt(state.currentNodeInfo.nodeId))
+    const nodeInfo = state.nodeEventInfoArray.find(
+      node =>
+        parseInt(node.eventId) === parseInt(state.currentNodeInfo.nodeId)
+    )
     Vue.set(nodeInfo, 'eventInfo', payload.eventInfo)
   },
   // If the node is removed from Drawflow then remove the respective nodes information from allEventInfo
   removeNodeEventInfo (state, nodeId) {
-    state.nodeEventInfoArray.splice(state.nodeEventInfoArray.findIndex(node => parseInt(node.eventId) === parseInt(nodeId)), 1)
+    state.nodeEventInfoArray.splice(
+      state.nodeEventInfoArray.findIndex(
+        node => parseInt(node.eventId) === parseInt(nodeId)
+      ),
+      1
+    )
   },
   // If value is already present for selected NodeEvent then populate the information with existing value
   populateRawData (state, existingInfo) {

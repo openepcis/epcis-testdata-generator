@@ -89,7 +89,7 @@ public class GenerateGSRN extends GenerateEPCType2 {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GSRN instance identifiers in URN format, Please check the values provided for GSRN instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 
@@ -129,7 +129,7 @@ public class GenerateGSRN extends GenerateEPCType2 {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GSRN instance identifiers in WebURI format, Please check the values provided for GSRN instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

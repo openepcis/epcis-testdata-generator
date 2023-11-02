@@ -175,6 +175,9 @@ export default {
   },
   data () {
     return {
+      mouseX: 0,
+      mouseY: 0,
+      copiedNode: null,
       dragEventType: '',
       nodeType: '',
       selectedNodeInfo: {},
@@ -273,7 +276,16 @@ export default {
       }
     }
   },
+  beforeDestroy () {
+    document.removeEventListener('copy', this.handleCopy)
+    document.removeEventListener('paste', this.handlePaste)
+    document.removeEventListener('mousemove', this.mousemove)
+  },
   async mounted () {
+    document.addEventListener('copy', this.handleCopy)
+    document.addEventListener('paste', this.handlePaste)
+    document.addEventListener('mousemove', this.mousemove)
+
     const vm = this
     const importedModule = await import('drawflow')
     const Drawflow = importedModule.default
@@ -319,6 +331,7 @@ export default {
     // If the node is selected then get the respective node info
     this.$df.on('nodeSelected', function (nodeId) {
       const selectedNodeInfo = vm.$df.getNodeFromId(nodeId)
+      vm.copiedNode = selectedNodeInfo
       vm.selectedNodeInfo.nodeType = selectedNodeInfo.html
       vm.selectedNodeInfo.nodeId = selectedNodeInfo.data.ID
       vm.selectedNodeInfo.eventType = selectedNodeInfo.data.eventType
@@ -479,6 +492,14 @@ export default {
 
     allowDrop (event) {
       event.preventDefault()
+    },
+
+    // Listen for the copy event to copy  the node
+    handleCopy (e) {
+      if (this.copiedNode) {
+        e.clipboardData.setData('text/plain', JSON.stringify(this.copiedNode))
+        e.preventDefault()
+      }
     },
 
     addNodeToDrawFlow (name, posX, posY) {
@@ -799,6 +820,118 @@ export default {
     // Function to display modal and import the design from remote URL
     importInputTemplate (e) {
       this.$store.commit('modules/DesignTestDataStore/showImportDesignModal')
+    },
+
+    // Get the values of X and Y cordinates based on mouse movement for the pasting
+    mousemove (e) {
+      this.mouseX = e.clientX
+      this.mouseY = e.clientY
+    },
+
+    // Listen for the paste event to paste the node
+    handlePaste (e) {
+      // Get the node information based on pasted data
+      const pastedData = JSON.parse(e.clipboardData.getData('text/plain'))
+
+      if (this.copiedNode) {
+        const nodeCounter =
+          this.$store.state.modules.ConfigureNodeEventInfoStore.nodeCounter
+        const nodeEventInfo = this.getNodeEventInfo(pastedData, nodeCounter)
+
+        if (nodeEventInfo) {
+          this.dragEventType = pastedData.data.eventType
+          this.addNodeToDrawFlow(pastedData.name, this.mouseX, this.mouseY)
+          this.populateNodeEventInfo(
+            nodeEventInfo,
+            pastedData.name,
+            nodeCounter,
+            pastedData
+          )
+        }
+        e.preventDefault()
+      }
+    },
+
+    // Get the node information based on the type of node pasted from respective array
+    getNodeEventInfo (pastedData, nodeCounter) {
+      if (pastedData.name === 'Events') {
+        return this.$store.state.modules.ConfigureNodeEventInfoStore.nodeEventInfoArray.find(
+          node => parseInt(node.eventId) === parseInt(pastedData.data.ID)
+        )
+      } else if (
+        ['Identifiers', 'ParentIdentifiers'].includes(pastedData.name)
+      ) {
+        return this.$store.state.modules.ConfigureIdentifiersInfoStore.identifiersArray.find(
+          node => node.identifiersId === pastedData.data.ID
+        )
+      }
+    },
+
+    // Based on pasted node info add copy with same values in newly created node with respective infomation
+    populateNodeEventInfo (
+      nodeEventInfo,
+      pastedDataName,
+      nodeCounter,
+      pastedData
+    ) {
+      if (pastedDataName === 'Events') {
+        this.$store.commit(
+          'modules/ConfigureNodeEventInfoStore/populateCurrentEventType',
+          {
+            eventType: pastedData.data.eventType,
+            nodeId: nodeCounter
+          }
+        )
+        this.$store.commit(
+          'modules/ConfigureNodeEventInfoStore/populateNodeEventInfo',
+          { eventInfo: nodeEventInfo.eventInfo }
+        )
+      } else if (pastedDataName === 'Identifiers') {
+        this.$store.commit(
+          'modules/ConfigureIdentifiersInfoStore/populateCurrentIdentifierInfo',
+          {
+            identifierType: 'identifier',
+            nodeId: nodeCounter
+          }
+        )
+        this.$store.commit(
+          'modules/ConfigureIdentifiersInfoStore/populateCurrentNodeId',
+          nodeCounter
+        )
+        if (nodeEventInfo.instanceData) {
+          this.$store.commit(
+            'modules/ConfigureIdentifiersInfoStore/saveInstanceIdentifiersInfo',
+            { instanceData: nodeEventInfo.instanceData }
+          )
+        }
+        if (nodeEventInfo.classData) {
+          this.$store.commit(
+            'modules/ConfigureIdentifiersInfoStore/saveClassIdentifiersInfo',
+            { classData: nodeEventInfo.classData }
+          )
+        }
+      } else if (pastedDataName === 'ParentIdentifiers') {
+        this.$store.commit(
+          'modules/ConfigureIdentifiersInfoStore/populateCurrentIdentifierInfo',
+          {
+            identifierType: 'parentIdentifier',
+            nodeId: nodeCounter
+          }
+        )
+        this.$store.commit(
+          'modules/ConfigureIdentifiersInfoStore/populateCurrentNodeId',
+          nodeCounter
+        )
+        this.$store.commit(
+          'modules/ConfigureIdentifiersInfoStore/parentIdentifierFlagToggle'
+        )
+        if (nodeEventInfo.parentData) {
+          this.$store.commit(
+            'modules/ConfigureIdentifiersInfoStore/saveInstanceIdentifiersInfo',
+            { instanceData: nodeEventInfo.parentData }
+          )
+        }
+      }
     }
   }
 }

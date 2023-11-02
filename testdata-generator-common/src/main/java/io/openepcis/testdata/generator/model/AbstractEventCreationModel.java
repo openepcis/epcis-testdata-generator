@@ -107,7 +107,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
       }
     } catch (Exception e) {
       throw new TestDataGeneratorException(
-          "Error during the configuring EPCIS event : " + typeInfo.getEventType() + e.getMessage());
+          "Error during the configuring EPCIS event : " + typeInfo.getEventType() + e.getMessage(), e);
     }
   }
 
@@ -142,7 +142,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
         throw new TestDataGeneratorException(
             "Error during the addition of ReadPoint to EPCIS event : "
                 + typeInfo.getEventType()
-                + ex.getMessage());
+                + ex.getMessage(), ex);
       }
 
       // Set the ReadPoint for the EPCIS event
@@ -160,7 +160,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
         throw new TestDataGeneratorException(
             "Error during the addition of BizLocation to EPCIS event : "
                 + typeInfo.getEventType()
-                + ex.getMessage());
+                + ex.getMessage(), ex);
       }
 
       // Set the BizLocation for the EPCIS event

@@ -67,7 +67,7 @@ public class DestinationFormatter {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of the Destination URN, Please check the values provided for Destination : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 
@@ -103,7 +103,7 @@ public class DestinationFormatter {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of the Destination WebURI, Please check the values provided for Destination : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

@@ -48,7 +48,7 @@ public class RandomDateTimeGenerator implements Serializable {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during creation of Random Event Time, Please check the values provided values for EventTime : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

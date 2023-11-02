@@ -31,7 +31,7 @@ public class BusinessStepFormatter {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of BusinessStep, Please check the values provided for BusinessStep :  "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

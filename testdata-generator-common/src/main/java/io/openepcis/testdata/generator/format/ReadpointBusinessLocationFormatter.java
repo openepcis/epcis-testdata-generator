@@ -63,7 +63,7 @@ public class ReadpointBusinessLocationFormatter {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of Readpoint/BizLocation URN, Please check the values provided for ReadPoint/BizLocation :  "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 
@@ -77,7 +77,7 @@ public class ReadpointBusinessLocationFormatter {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of Readpoint/BizLocation WebURI, Please check the values provided for ReadPoint/BizLocation : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

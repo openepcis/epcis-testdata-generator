@@ -120,9 +120,11 @@ export const mutations = {
       payload.formData.readpointselector !== 'null'
     ) {
       if (payload.formData.readpointselector === 'SGLN') {
+        payload.formData.readPoint.type = 'SGLN'
         eventFormData.readPoint = payload.formData.readPoint
       } else {
         const readPointObj = {}
+        readPointObj.type = 'MANUALLY'
         readPointObj.manualURI = payload.formData.readPoint.manualURI
         eventFormData.readPoint = readPointObj
       }
@@ -134,9 +136,11 @@ export const mutations = {
       payload.formData.businesslocationselector !== 'null'
     ) {
       if (payload.formData.businesslocationselector === 'SGLN') {
+        payload.formData.bizLocation.type = 'SGLN'
         eventFormData.bizLocation = payload.formData.bizLocation
       } else {
         const bizLocationObj = {}
+        bizLocationObj.type = 'MANUALLY'
         bizLocationObj.manualURI = payload.formData.bizLocation.manualURI
         eventFormData.bizLocation = bizLocationObj
       }

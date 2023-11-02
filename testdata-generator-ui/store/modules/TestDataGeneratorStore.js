@@ -39,7 +39,9 @@ export const state = () => ({
 
 export const mutations = {
   populateTestDataInput (state, inputTemplate) {
-    state.testDataInput = beautifier.js_beautify(inputTemplate, { indent_size: 4 })
+    state.testDataInput = beautifier.js_beautify(inputTemplate, {
+      indent_size: 4
+    })
   },
   populateTestDataOutput (state, generatedTestData) {
     state.testDataOutput = generatedTestData
@@ -49,18 +51,23 @@ export const mutations = {
   populateOutputFormat (state, outputFormat) {
     state.testDataOutputFormat = outputFormat
   }
-
 }
 
 export const actions = {
   testdataGenerator ({ commit, state, dispatch }) {
     // If user has provided template then validate and generate the Test Data events
-    if (state.testDataInput !== '' && state.testDataInput !== '{}' && Object.keys(state.testDataInput).length !== 0) {
+    if (
+      state.testDataInput !== '' &&
+      state.testDataInput !== '{}' &&
+      Object.keys(state.testDataInput).length !== 0
+    ) {
       // Check if the input Events template is an valida JSON
       try {
         JSON.parse(state.testDataInput)
       } catch (e) {
-        const message = 'Invalid entries in Input Template JSON, Please check and provide Testdata input template in valid JSON Format. Error: ' + e
+        const message =
+          'Invalid entries in Input Template JSON, Please check and provide Testdata input template in valid JSON Format. Error: ' +
+          e
         commit('populateTestDataOutput', message)
         return
       }
@@ -69,27 +76,63 @@ export const actions = {
       const headers = { 'Content-Type': 'application/json' }
       const vm = this
 
-      this.$axios.post('/generateTestData', { ...JSON.parse(state.testDataInput) }, { headers })
+      this.$axios
+        .post(
+          '/generateTestData',
+          { ...JSON.parse(state.testDataInput) },
+          { headers }
+        )
         .then((response) => {
           if (state.testDataOutputFormat === 'application/xml') {
-            vm.$axios.post('/generateTestDataXML', { ...JSON.parse(JSON.stringify(response.data)) }, { headers })
+            vm.$axios
+              .post(
+                '/generateTestDataXML',
+                { ...JSON.parse(JSON.stringify(response.data)) },
+                { headers }
+              )
               .then((response) => {
                 commit('populateTestDataOutput', response.data)
               })
               .catch((error) => {
-                commit('populateTestDataOutput', 'Exception occured during the events generation in XML format, Error : ' + JSON.stringify(error, null, 4))
+                commit(
+                  'populateTestDataOutput',
+                  'Exception occured during the events generation in XML format, Error : ' +
+                    JSON.stringify(error, null, 4)
+                )
               })
           } else {
             commit('populateTestDataOutput', response.data)
           }
         })
         .catch((error) => {
-          if (error.response !== undefined && error.response.data !== undefined && error.response.data.type !== undefined && error.response.data.detail !== undefined) {
-            commit('populateTestDataOutput', error.response.data.type + ', ' + error.response.data.title + ':\n' + error.response.data.detail.replace(/(?![^\n]{1,75}$)([^\n]{1,75})\s/g, '$1\n'))
+          if (
+            error.response !== undefined &&
+            error.response.data !== undefined &&
+            error.response.data.type !== undefined &&
+            error.response.data.detail !== undefined
+          ) {
+            commit(
+              'populateTestDataOutput',
+              error.response.data.type +
+                ', ' +
+                error.response.data.title +
+                ':\n' +
+                error.response.data.detail.replace(
+                  /(?![^\n]{1,75}$)([^\n]{1,75})\s/g,
+                  '$1\n'
+                )
+            )
           } else if (error.response !== undefined) {
-            commit('populateTestDataOutput', 'Exception occured during the events generation, Error : ' + JSON.stringify(error.response, null, 4))
+            commit(
+              'populateTestDataOutput',
+              'Exception occured during the events generation, Error : ' +
+                JSON.stringify(error.response, null, 4)
+            )
           } else {
-            commit('populateTestDataOutput', 'Unable to generate events something went wrong, Please save/export the InputTemplate and/or Design data for further validations')
+            commit(
+              'populateTestDataOutput',
+              'Unable to generate events something went wrong, Please save/export the InputTemplate and/or Design data for further validations'
+            )
           }
         })
     }

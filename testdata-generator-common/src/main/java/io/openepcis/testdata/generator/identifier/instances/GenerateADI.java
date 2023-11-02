@@ -133,7 +133,7 @@ public class GenerateADI implements EPCStrategy {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of ADI instance identifiers in URN format, Please check the values provided for ADI instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

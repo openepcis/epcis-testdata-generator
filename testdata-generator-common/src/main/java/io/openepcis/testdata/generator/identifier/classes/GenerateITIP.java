@@ -98,7 +98,7 @@ public class GenerateITIP extends GenerateQuantity {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of ITIP class identifiers, Please check the values provided for ITIP class identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

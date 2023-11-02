@@ -109,7 +109,7 @@ public class GenerateSGTIN extends GenerateEPC {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of SGTIN instance identifiers in URN format, Please check the values provided for SGTIN instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 
@@ -169,7 +169,7 @@ public class GenerateSGTIN extends GenerateEPC {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of SGTIN instance identifiers in WebURI format, Please check the values provided for SGTIN instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

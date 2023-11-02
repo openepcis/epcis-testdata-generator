@@ -39,18 +39,46 @@
         <tbody>
           <tr>
             <td id="eventDimension" :rowspan="EventTypeRowSpan" />
+          </tr>
+          <tr>
+            <td>Name</td>
+            <td>
+              <input
+                v-model="formData.name"
+                type="text"
+                class="form-control"
+                placeholder="Optional name for node"
+                maxlength="15"
+              >
+            </td>
+          </tr>
+          <tr>
+            <td>Description</td>
+            <td>
+              <input
+                v-model="formData.description"
+                type="text"
+                class="form-control"
+                placeholder="Optional description for node"
+                maxlength="50"
+              >
+            </td>
+          </tr>
+          <tr>
             <td>Event Count</td>
-            <input
-              v-model="formData.eventCount"
-              type="number"
-              min="1"
-              max="1000"
-              class="form-control"
-              oninput="this.value=this.value.replace(/[^0-9]/g,'');setCustomValidity('');"
-              oninvalid="this.setCustomValidity('Number of Events must be between 1 and 1000')"
-              placeholder="Number of EPCIS events"
-              required
-            >
+            <td>
+              <input
+                v-model="formData.eventCount"
+                type="number"
+                min="1"
+                max="1000"
+                class="form-control"
+                oninput="this.value=this.value.replace(/[^0-9]/g,'');setCustomValidity('');"
+                oninvalid="this.setCustomValidity('Number of Events must be between 1 and 1000')"
+                placeholder="Number of EPCIS events"
+                required
+              >
+            </td>
           </tr>
           <tr>
             <td>Location party identifier syntax</td>
@@ -681,14 +709,7 @@
                 </div>
 
                 <!-- Extension static value for Static ReadPoint type with GLN-->
-                <div
-                  v-if="
-                    formData.readpointselector == 'SGLN' &&
-                      formData.readPoint.extensionType == 'static'
-                  "
-                  class="form-group"
-                  style="white-space: pre"
-                >
+                <div class="form-group" style="white-space: pre">
                   <label class="col-sm-2 col-xs-3">(254)</label>
                   <div class="col-sm-3 col-xs-3">
                     <input
@@ -697,85 +718,6 @@
                       class="form-control"
                       placeholder="Extension"
                     >
-                  </div>
-                </div>
-
-                <!-- Extension range value for Dynamic ReadPoint type with GLN-->
-                <div
-                  v-if="
-                    formData.readpointselector == 'SGLN' &&
-                      formData.readPoint.extensionType == 'dynamic'
-                  "
-                >
-                  <div class="form-group">
-                    <label class="col-sm-2 col-xs-3"> Range: </label>
-                    <div class="col-sm-3 col-xs-3">
-                      <input
-                        v-model="formData.readPoint.extensionFrom"
-                        type="text"
-                        class="form-control"
-                        placeholder="From extension"
-                        :required="
-                          formData.readpointselector == 'SGLN' &&
-                            formData.readPoint.extensionType == 'dynamic'
-                        "
-                      >
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="col-sm-2 col-xs-3"> Formatter: </label>
-                    <div class="col-sm-3 col-xs-3">
-                      <input
-                        v-model="formData.readPoint.extensionFormat"
-                        type="text"
-                        class="form-control"
-                        placeholder="Extension Formatter like %03d,990%03d"
-                      >
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="col-sm-2 col-xs-3">Extension Type:</label>
-                  <div class="col-sm-3 col-xs-3">
-                    <div class="custom-control custom-radio">
-                      <label class="custom-control custom-radio">
-                        <input
-                          id="readPointTypeStatic"
-                          v-model="formData.readPoint.extensionType"
-                          type="radio"
-                          :required="formData.readpointselector == 'SGLN'"
-                          class="custom-control-input"
-                          value="static"
-                          name="readPointType"
-                        >
-                        <span class="custom-control-indicator" />
-                        <label
-                          class="custom-control-label"
-                          for="readPointTypeStatic"
-                        >Static</label>
-                      </label>
-                    </div>
-
-                    <div class="custom-control custom-radio">
-                      <label class="custom-control custom-radio">
-                        <input
-                          id="readPointTypeDynamic"
-                          v-model="formData.readPoint.extensionType"
-                          type="radio"
-                          :required="formData.readpointselector == 'SGLN'"
-                          class="custom-control-input"
-                          value="dynamic"
-                          name="readPointType"
-                        >
-                        <span class="custom-control-indicator" />
-                        <label
-                          class="custom-control-label"
-                          for="readPointTypeDynamic"
-                        >Dynamic</label>
-                      </label>
-                    </div>
                   </div>
                 </div>
               </span>
@@ -869,14 +811,7 @@
                 </div>
 
                 <!-- Extension static value for Static bizLocation type with GLN-->
-                <div
-                  v-if="
-                    formData.businesslocationselector == 'SGLN' &&
-                      formData.bizLocation.extensionType == 'static'
-                  "
-                  class="form-group"
-                  style="white-space: pre"
-                >
+                <div class="form-group" style="white-space: pre">
                   <label class="col-sm-2 col-xs-3">(254)</label>
                   <div class="col-sm-3 col-xs-3">
                     <input
@@ -885,90 +820,6 @@
                       class="form-control"
                       placeholder="Extension"
                     >
-                  </div>
-                </div>
-
-                <!-- Extension range value for Dynamic bizLocation type with GLN-->
-                <div
-                  v-if="
-                    formData.businesslocationselector == 'SGLN' &&
-                      formData.bizLocation.extensionType == 'dynamic'
-                  "
-                >
-                  <div class="form-group">
-                    <label class="col-sm-2 col-xs-3"> Range: </label>
-                    <div class="col-sm-3 col-xs-3">
-                      <input
-                        v-model="formData.bizLocation.extensionFrom"
-                        type="text"
-                        class="form-control"
-                        placeholder="From extension"
-                        :required="
-                          formData.businesslocationselector == 'SGLN' &&
-                            formData.bizLocation.extensionType == 'dynamic'
-                        "
-                      >
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="col-sm-2 col-xs-3"> Formatter: </label>
-                    <div class="col-sm-3 col-xs-3">
-                      <input
-                        v-model="formData.bizLocation.extensionFormat"
-                        type="text"
-                        class="form-control"
-                        placeholder="Extension Formatter like %03d,990%03d"
-                      >
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Extension type value for bizLocation-->
-                <div class="form-group">
-                  <label class="col-sm-2 col-xs-3">Extension Type:</label>
-                  <div class="col-sm-3 col-xs-3">
-                    <div class="custom-control custom-radio">
-                      <label class="custom-control custom-radio">
-                        <input
-                          id="bizLocationStatic"
-                          v-model="formData.bizLocation.extensionType"
-                          type="radio"
-                          :required="
-                            formData.businesslocationselector == 'SGLN'
-                          "
-                          class="custom-control-input"
-                          value="static"
-                          name="bizLocationType"
-                        >
-                        <span class="custom-control-indicator" />
-                        <label
-                          class="custom-control-label"
-                          for="bizLocationStatic"
-                        >Static</label>
-                      </label>
-                    </div>
-
-                    <div class="custom-control custom-radio">
-                      <label class="custom-control custom-radio">
-                        <input
-                          id="bizLocationDynamic"
-                          v-model="formData.bizLocation.extensionType"
-                          type="radio"
-                          :required="
-                            formData.businesslocationselector == 'SGLN'
-                          "
-                          class="custom-control-input"
-                          value="dynamic"
-                          name="bizLocationType"
-                        >
-                        <span class="custom-control-indicator" />
-                        <label
-                          class="custom-control-label"
-                          for="bizLocationDynamic"
-                        >Dynamic</label>
-                      </label>
-                    </div>
                   </div>
                 </div>
               </span>
@@ -1683,7 +1534,7 @@ function initialState () {
     commonDropdownInfos: {},
     selected: null,
     rowspanWHAT: 1,
-    EventTypeRowSpan: 5,
+    EventTypeRowSpan: 8,
     rowspanWHY: 4,
     rowSpanOtherFields: 2,
     eventType: [],
@@ -1869,7 +1720,7 @@ export default {
           this.rowspanWHAT = 2
           this.rowspanWHY = 6
           this.rowSpanOtherFields = 3
-          this.EventTypeRowSpan = 6
+          this.EventTypeRowSpan = 9
           break
         case 'AggregationEvent':
         case 'TransactionEvent':
@@ -1877,19 +1728,19 @@ export default {
           this.rowspanWHAT = 3
           this.rowspanWHY = 6
           this.rowSpanOtherFields = 2
-          this.EventTypeRowSpan = 6
+          this.EventTypeRowSpan = 9
           break
         case 'TransformationEvent':
           this.rowspanWHAT = 4
           this.rowspanWHY = 4
           this.rowSpanOtherFields = 4
-          this.EventTypeRowSpan = 5
+          this.EventTypeRowSpan = 8
           break
         default:
           this.rowspanWHAT = 1
           this.rowspanWHY = 4
           this.rowSpanOtherFields = 2
-          this.EventTypeRowSpan = 5
+          this.EventTypeRowSpan = 8
           break
       }
     },

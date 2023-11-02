@@ -100,7 +100,7 @@ public class GenerateUPUI extends GenerateEPC {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of UPUI instance identifiers in URN format, Please check the values provided for UPUI instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 
@@ -157,7 +157,7 @@ public class GenerateUPUI extends GenerateEPC {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of UPUI instance identifiers in WebURI format, Please check the values provided for UPUI instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }

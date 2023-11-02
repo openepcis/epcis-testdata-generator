@@ -89,7 +89,7 @@ public class UserExtensionSyntax implements Serializable {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of the Extensions, Please check the values provided values for User Extensions/ILMD/Error Extension : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 
@@ -107,7 +107,7 @@ public class UserExtensionSyntax implements Serializable {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of the Extensions Namespace prefix, Please check the values provided values for User Extensions/ILMD/Error Extension Namespace : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 

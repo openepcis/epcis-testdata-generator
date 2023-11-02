@@ -15,8 +15,8 @@
  */
 package io.openepcis.testdata.api.test;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.net.HttpHeaders;
-import io.openepcis.model.epcis.EPCISEvent;
 import io.openepcis.model.rest.EPCISEventTypes;
 import io.openepcis.resources.util.Commons;
 import io.quarkus.test.junit.QuarkusTest;
@@ -239,9 +239,10 @@ public abstract class AbstractTestDataGeneratorTest {
    * @return count of eventType in the jsonPath provided
    */
   private long getEventTypeCount(JsonPath jsonPath, String eventType) {
-    return jsonPath.getList(EPCIS_BODY_EVENT_LIST, EPCISEvent.class)
-        .stream()
-        .filter(event -> event.getType().equals(eventType))
-        .count();
+    return jsonPath.getList(EPCIS_BODY_EVENT_LIST, ObjectNode.class)
+            .stream()
+            .map(event -> event.get("type").asText())
+            .filter(type -> type.equals(eventType))
+            .count();
   }
 }

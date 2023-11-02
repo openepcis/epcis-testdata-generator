@@ -98,7 +98,7 @@ public class GenerateGRAI extends GenerateEPC {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GRAI instance identifiers in URN format, Please check the values provided for GRAI instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 
@@ -142,7 +142,7 @@ public class GenerateGRAI extends GenerateEPC {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during generation of GRAI instance identifiers in WebURI format, Please check the values provided for GRAI instance identifiers : "
-              + ex.getMessage());
+              + ex.getMessage(), ex);
     }
   }
 }
