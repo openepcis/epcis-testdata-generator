@@ -19,34 +19,36 @@
   <div class="eventContainer">
     <div
       class="eventsNode"
-      style="display: grid; grid-template-columns: repeat(3, 1fr)"
+      style="display: flex; justify-content: space-between"
     >
-      <div style="justify-self: left">
-        <button
-          class="btn btn-transparent btn-circle btn-sm justify-content-end"
-          :title="description"
+      <button
+        class="btn btn-transparent btn-circle btn-sm"
+        :title="description"
+      >
+        <i v-if="description" class="bi bi-info-circle-fill" />
+      </button>
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          flex-grow: 1;
+        "
+      >
+        <span style="font-size: 11px; font-weight: bold">{{ eventType }}</span>
+        <span
+          v-if="name"
+          class="name-container text name"
+          :title="name"
+          style="font-size: 10px"
         >
-          <i v-if="description.length > 0" class="bi bi-info-circle-fill" />
-        </button>
+          {{ name }}
+        </span>
       </div>
-
-      <div style="display: flex; flex-direction: column; align-items: center">
-        <div>{{ eventType }}</div>
-        <div
-          style="
-            display: flex;
-            justify-content: left;
-            align-items: left;
-            font-size: 7px;
-          "
-        >
-          <div>{{ name }}</div>
-        </div>
-      </div>
-      <div style="justify-self: right; padding-left: 5px">
+      <div>
         <button
           ref="Btn"
-          class="btn btn-primary btn-circle btn-sm justify-content-end"
+          class="btn btn-primary btn-circle btn-sm"
           df-ID
           :value="ID"
           title="Add Event Information"
@@ -88,32 +90,32 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      ID: '',
-      eventType: '',
+      ID: "",
+      eventType: "",
       displayInfo: false,
-      eventCount: '',
-      action: '',
-      businessStep: '',
-      disposition: '',
-      name: '',
+      eventCount: "",
+      action: "",
+      businessStep: "",
+      disposition: "",
+      name: "",
       showDescription: false,
-      description: ''
-    }
+      description: "",
+    };
   },
-  mounted () {
+  mounted() {
     this.$nextTick(() => {
-      const id = this.$el.parentElement.parentElement.id
-      const data = this.$df.getNodeFromId(id.slice(5))
-      this.ID = data.data.ID
-      this.eventType = data.data.eventType
+      const id = this.$el.parentElement.parentElement.id;
+      const data = this.$df.getNodeFromId(id.slice(5));
+      this.ID = data.data.ID;
+      this.eventType = data.data.eventType;
 
       // Watch for the changes on Vuex eventInfoArray so after providing the node information they can be displayed on the respective EventNode
       this.$watch(
-        '$store.state.modules.ConfigureNodeEventInfoStore.nodeEventInfoArray',
+        "$store.state.modules.ConfigureNodeEventInfoStore.nodeEventInfoArray",
         (val) => {
-          const currentEventInfo = val.find(node => node.eventId === this.ID)
+          const currentEventInfo = val.find((node) => node.eventId === this.ID);
           // Check if the user has provided the values for eventInfo if so then obtain the respective variables
           if (
             currentEventInfo !== undefined &&
@@ -123,125 +125,131 @@ export default {
               currentEventInfo.eventInfo.eventCount !== undefined &&
               currentEventInfo.eventInfo.eventCount !== null
                 ? currentEventInfo.eventInfo.eventCount
-                : ''
+                : "";
             this.action =
               currentEventInfo.eventInfo.action !== undefined &&
               currentEventInfo.eventInfo.action !== null
                 ? currentEventInfo.eventInfo.action.toLowerCase()
-                : ''
+                : "";
             this.businessStep =
               currentEventInfo.eventInfo.businessStep !== undefined &&
               currentEventInfo.eventInfo.businessStep !== null
                 ? currentEventInfo.eventInfo.businessStep.toLowerCase()
-                : ''
+                : "";
             this.disposition =
               currentEventInfo.eventInfo.disposition !== undefined &&
               currentEventInfo.eventInfo.disposition !== null
                 ? currentEventInfo.eventInfo.disposition.toLowerCase()
-                : ''
+                : "";
             this.name =
               currentEventInfo.eventInfo.name !== undefined &&
               currentEventInfo.eventInfo.name !== null
                 ? currentEventInfo.eventInfo.name
-                : ''
+                : "";
             this.description =
               currentEventInfo.eventInfo.description !== undefined &&
               currentEventInfo.eventInfo.description !== null
                 ? currentEventInfo.eventInfo.description
-                : ''
+                : "";
 
             // Update the connections so it is always attached to the port
-            this.$df.updateConnectionNodes('node-' + this.ID)
+            this.$df.updateConnectionNodes("node-" + this.ID);
           }
         },
         { immediate: true, deep: true }
-      )
-    })
+      );
+    });
   },
   methods: {
     // On click of the button show the modal
-    eventModal (nodeId) {
+    eventModal(nodeId) {
       // Store the current eventType based on the clicked event node
       this.$store.commit(
-        'modules/ConfigureNodeEventInfoStore/populateCurrentEventType',
+        "modules/ConfigureNodeEventInfoStore/populateCurrentEventType",
         { eventType: this.eventType, nodeId: this.ID }
-      )
+      );
 
       // For each event reset the data so all values are set to their default values
       this.$store.commit(
-        'modules/SourceDestinationStore/resetSourceDestinationData'
-      )
-      this.$store.commit('modules/ExtensionDataStore/resetExtensionsData')
-      this.$store.commit('modules/SensorElementsStore/resetSensorData')
+        "modules/SourceDestinationStore/resetSourceDestinationData"
+      );
+      this.$store.commit("modules/ExtensionDataStore/resetExtensionsData");
+      this.$store.commit("modules/SensorElementsStore/resetSensorData");
 
       // On click of the add info check if the event information is already present and if modifications are being done
       const nodeEventInfo =
         this.$store.state.modules.ConfigureNodeEventInfoStore.nodeEventInfoArray.find(
-          node => parseInt(node.eventId) === parseInt(this.ID)
-        )
+          (node) => parseInt(node.eventId) === parseInt(this.ID)
+        );
 
       // If the information is available then populate the store
       if (nodeEventInfo.eventInfo !== undefined) {
-        const eventInfo = nodeEventInfo.eventInfo
+        const eventInfo = JSON.parse(JSON.stringify(nodeEventInfo.eventInfo));
 
         // Populate the raw information related to source & destination
-        this.$store.commit('modules/SourceDestinationStore/populateRawData', {
-          sources: eventInfo.sources,
-          destinations: eventInfo.destinations
-        })
+        this.$store.commit("modules/SourceDestinationStore/populateRawData", {
+          sources: JSON.parse(JSON.stringify(eventInfo.sources)),
+          destinations: JSON.parse(JSON.stringify(eventInfo.destinations)),
+        });
 
         // Populate the raw information related to the Extensions
-        this.$store.commit('modules/ExtensionDataStore/populateRawData', {
-          userExtensions: eventInfo.userExtensions,
-          ilmd: eventInfo.ilmd,
-          errorExtensions: eventInfo.error.errorExtensions
-        })
+        this.$store.commit("modules/ExtensionDataStore/populateRawData", {
+          userExtensions: JSON.parse(JSON.stringify(eventInfo.userExtensions)),
+          ilmd: JSON.parse(JSON.stringify(eventInfo.ilmd)),
+          errorExtensions: JSON.parse(
+            JSON.stringify(eventInfo.error.errorExtensions)
+          ),
+        });
 
         // Populate the raw information related to the Sensorinformation
-        this.$store.commit('modules/SensorElementsStore/populateRawData', {
-          sensorData: eventInfo.sensorElementList
-        })
+        this.$store.commit("modules/SensorElementsStore/populateRawData", {
+          sensorData: JSON.parse(JSON.stringify(eventInfo.sensorElementList)),
+        });
 
         // Populate all other basic event information
         this.$store.commit(
-          'modules/ConfigureNodeEventInfoStore/populateRawData',
-          eventInfo
-        )
+          "modules/ConfigureNodeEventInfoStore/populateRawData",
+          JSON.parse(JSON.stringify(eventInfo))
+        );
       } else {
         // Reset the existing Node Info from the ConfigureNodeEventInfoStore
         this.$store.commit(
-          'modules/ConfigureNodeEventInfoStore/populateRawData',
+          "modules/ConfigureNodeEventInfoStore/populateRawData",
           {}
-        )
+        );
       }
 
       // On click of the button open the modal and request for information
       this.$store.commit(
-        'modules/ConfigureNodeEventInfoStore/showNodeEventInfoModal'
-      )
-    }
-  }
-}
+        "modules/ConfigureNodeEventInfoStore/showNodeEventInfoModal"
+      );
+    },
+  },
+};
 </script>
 
 <style>
 .btn-circle.btn-sm {
-  width: 30px;
-  padding: 6px 0px;
   border-radius: 15px;
-  font-size: 9px;
-  text-align: center;
-}
-
-table,
-th,
-td {
-  border: 1px grey;
+  font-size: 10px;
 }
 
 .center {
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+}
+
+.name-container:hover .text {
+  text-overflow: initial;
+}
+
+.name {
+  max-width: 85px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  position: relative;
 }
 </style>

@@ -981,7 +981,10 @@ body {
 }
 
 .eventsNode {
-	background: #D5DBDB;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: #d5dbdb;
 	border-radius: 25px;
 	height: 32px;
 	margin-top: -11px;

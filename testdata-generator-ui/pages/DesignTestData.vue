@@ -83,9 +83,7 @@
           >
             Import Events
           </div>
-          <!-- <div class="drawflowButton btn-importInputTemplate rounded-pill" title="Import design template from remote URL" @click="importInputTemplate($event)">
-            Import Template
-          </div> -->
+
           <div
             class="drawflowButton btn-clear rounded-pill"
             title="Clear the design"

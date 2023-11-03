@@ -48,7 +48,7 @@
                 type="text"
                 class="form-control"
                 placeholder="Optional name for node"
-                maxlength="15"
+                maxlength="25"
               >
             </td>
           </tr>
@@ -60,7 +60,7 @@
                 type="text"
                 class="form-control"
                 placeholder="Optional description for node"
-                maxlength="50"
+                maxlength="100"
               >
             </td>
           </tr>

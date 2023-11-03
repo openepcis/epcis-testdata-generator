@@ -316,11 +316,18 @@ export default {
     // Check if user is trying to provide new SensorElement or modifying existing SensorElement, for modification show the existing information
     const currentSensorElementInfo = JSON.parse(JSON.stringify(this.$store.state.modules.SensorElementsStore.currentSensorElementInfo))
     if (currentSensorElementInfo !== undefined && currentSensorElementInfo !== null && Object.keys(currentSensorElementInfo).length !== 0) {
-      this.selectedSensorMetaData = Object.keys(currentSensorElementInfo.sensorMetadata)
-      this.selectedSensorReport = Object.keys(currentSensorElementInfo.sensorReport[0]).filter(item => item !== 'ID')
-      this.sensorMetaData = currentSensorElementInfo.sensorMetadata
-      this.sensorReportArray = currentSensorElementInfo.sensorReport
-      this.sensorReportCount = currentSensorElementInfo.sensorReport.length
+      // If metadata is present then only add the values
+      if (currentSensorElementInfo.sensorMetadata) {
+        this.selectedSensorMetaData = Object.keys(currentSensorElementInfo.sensorMetadata)
+        this.sensorMetaData = currentSensorElementInfo.sensorMetadata
+      }
+
+      // If reportData is present then only add the values
+      if (currentSensorElementInfo.sensorReport.length > 0) {
+        this.selectedSensorReport = Object.keys(currentSensorElementInfo.sensorReport[0]).filter(item => item !== 'ID')
+        this.sensorReportArray = currentSensorElementInfo.sensorReport
+        this.sensorReportCount = currentSensorElementInfo.sensorReport.length
+      }
     }
   },
   methods: {
