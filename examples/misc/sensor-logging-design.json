@@ -1,76 +1,10 @@
 {
     "eventNodeInfo": [
         {
-            "eventId": 2,
-            "eventType": "ObjectEvent",
-            "eventInfo": {
-                "eventCount": 1,
-                "identifierSyntax": "URN",
-                "vocabularySyntax": "WebURI",
-                "eventType": "ObjectEvent",
-                "importEvent": false,
-                "ordinaryEvent": true,
-                "eventTimeSelector": "SpecificTime",
-                "eventTime": {
-                    "specificTime": "2023-10-26T16:51:34.000",
-                    "fromTime": "2023-10-25T16:51:34.000",
-                    "toTime": "2023-10-26T16:51:34.000",
-                    "timeZoneOffset": "+02:00"
-                },
-                "RecordTimeOption": "no",
-                "recordTimeType": "SAME_AS_EVENT_TIME",
-                "readpointselector": "SGLN",
-                "readPoint": {
-                    "gcpLength": null,
-                    "gln": "9521999100003",
-                    "extensionType": "static",
-                    "extension": "0"
-                },
-                "businesslocationselector": null,
-                "bizLocation": {
-                    "gcpLength": null
-                },
-                "businessStep": "COMMISSIONING",
-                "disposition": "ACTIVE",
-                "eventID": false,
-                "eventIdType": "UUID",
-                "hashAlgorithm": "sha-256",
-                "action": "ADD",
-                "error": {
-                    "ErrorTimeZone": "+02:00",
-                    "ErrorDeclarationTimeSelector": "SpecificTime",
-                    "ErrorReasonType": null,
-                    "errorCorrectiveIdsList": [],
-                    "errorCorrectiveCount": 0,
-                    "ErrorDeclarationTime": "2023-10-26T16:51:34.000",
-                    "ErrorDeclarationTimeFrom": "2023-10-25T16:51:34.000",
-                    "ErrorDeclarationTimeTo": "2023-10-26T16:51:34.000",
-                    "errorExtensions": []
-                },
-                "persistentDispositionCount": 0,
-                "persistentDispositionList": [],
-                "bizTransactionCount": 0,
-                "businessTransactionList": [],
-                "sensorElementList": [],
-                "referencedIdentifier": [],
-                "outputReferencedIdentifier": [],
-                "parentReferencedIdentifier": {},
-                "userExtensions": [],
-                "ilmd": [],
-                "parentID": "",
-                "epcList": [],
-                "quantityList": [],
-                "outputEPCList": [],
-                "outputQuantityList": [],
-                "sources": [],
-                "destinations": []
-            }
-        },
-        {
             "eventId": 4,
             "eventType": "AggregationEvent",
             "eventInfo": {
-                "eventCount": 1,
+                "eventCount": "1",
                 "identifierSyntax": "URN",
                 "vocabularySyntax": "WebURI",
                 "eventType": "AggregationEvent",
@@ -136,7 +70,7 @@
             "eventId": 6,
             "eventType": "AssociationEvent",
             "eventInfo": {
-                "eventCount": 1,
+                "eventCount": "1",
                 "identifierSyntax": "URN",
                 "vocabularySyntax": "URN",
                 "eventType": "AssociationEvent",
@@ -162,7 +96,7 @@
                 "bizLocation": {
                     "gcpLength": null
                 },
-                "businessStep": "ASSEMBLING",
+                "businessStep": "INSTALLING",
                 "disposition": null,
                 "eventID": false,
                 "eventIdType": "UUID",
@@ -195,7 +129,9 @@
                 "outputEPCList": [],
                 "outputQuantityList": [],
                 "sources": [],
-                "destinations": []
+                "destinations": [],
+                "name": "Sensor Install",
+                "description": "sensor is being installed on item"
             }
         },
         {
@@ -279,7 +215,8 @@
                         "extension": "0",
                         "ID": 0
                     }
-                ]
+                ],
+                "name": "Shipping"
             }
         },
         {
@@ -363,7 +300,8 @@
                         "extension": "0",
                         "ID": 0
                     }
-                ]
+                ],
+                "name": "Receiving"
             }
         },
         {
@@ -634,7 +572,8 @@
                 "outputEPCList": [],
                 "outputQuantityList": [],
                 "sources": [],
-                "destinations": []
+                "destinations": [],
+                "name": "Sensor 1"
             }
         },
         {
@@ -667,7 +606,7 @@
                 "bizLocation": {
                     "gcpLength": null
                 },
-                "businessStep": "DISASSEMBLING",
+                "businessStep": "REMOVING",
                 "disposition": null,
                 "eventID": false,
                 "eventIdType": "UUID",
@@ -700,7 +639,215 @@
                 "outputEPCList": [],
                 "outputQuantityList": [],
                 "sources": [],
-                "destinations": []
+                "destinations": [],
+                "description": "remove sensor from item",
+                "name": "Remove Sensor"
+            }
+        },
+        {
+            "eventId": 13,
+            "eventType": "ObjectEvent",
+            "eventInfo": {
+                "eventCount": 1,
+                "identifierSyntax": "URN",
+                "vocabularySyntax": "WebURI",
+                "eventType": "ObjectEvent",
+                "importEvent": false,
+                "ordinaryEvent": true,
+                "eventTimeSelector": "SpecificTime",
+                "eventTime": {
+                    "specificTime": "2023-10-27T08:58:02.000",
+                    "fromTime": "2023-10-25T17:30:02.000",
+                    "toTime": "2023-10-26T17:30:02.000",
+                    "timeZoneOffset": "+02:00"
+                },
+                "RecordTimeOption": "no",
+                "recordTimeType": "SAME_AS_EVENT_TIME",
+                "readpointselector": "manually",
+                "readPoint": {
+                    "gcpLength": null,
+                    "manualURI": "https://id.gs1.org/8004/425121833395"
+                },
+                "businesslocationselector": null,
+                "bizLocation": {
+                    "gcpLength": null
+                },
+                "businessStep": "SENSOR_REPORTING",
+                "disposition": null,
+                "eventID": false,
+                "eventIdType": "UUID",
+                "hashAlgorithm": "sha-256",
+                "action": "OBSERVE",
+                "error": {
+                    "ErrorTimeZone": "+02:00",
+                    "ErrorDeclarationTimeSelector": "SpecificTime",
+                    "ErrorReasonType": null,
+                    "errorCorrectiveIdsList": [],
+                    "errorCorrectiveCount": 0,
+                    "ErrorDeclarationTime": "2023-10-26T17:30:02.000",
+                    "ErrorDeclarationTimeFrom": "2023-10-25T17:30:02.000",
+                    "ErrorDeclarationTimeTo": "2023-10-26T17:30:02.000",
+                    "errorExtensions": []
+                },
+                "persistentDispositionCount": 0,
+                "persistentDispositionList": [],
+                "bizTransactionCount": 0,
+                "businessTransactionList": [],
+                "sensorElementList": [
+                    {
+                        "sensorMetadata": {
+                            "deviceID": "https://id.gs1.org/8004/42512183196"
+                        },
+                        "sensorReport": [
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-26T16:55:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-26T17:10:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-26T17:32:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-26T17:57:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-26T18:32:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-26T18:52:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-26T19:15:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-26T20:32:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-26T20:42:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-26T21:30:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-26T22:32:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-26T23:32:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-27T00:32:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-27T00:52:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-27T01:32:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-27T01:52:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-27T02:32:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-27T03:32:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-27T04:32:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-27T06:32:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-27T07:32:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            },
+                            {
+                                "type": "Temperature",
+                                "time": "2023-10-27T08:32:16",
+                                "value": "4",
+                                "uom": "CEL"
+                            }
+                        ],
+                        "ID": 0
+                    }
+                ],
+                "referencedIdentifier": [],
+                "outputReferencedIdentifier": [],
+                "parentReferencedIdentifier": {},
+                "userExtensions": [],
+                "ilmd": [],
+                "parentID": "",
+                "epcList": [],
+                "quantityList": [],
+                "outputEPCList": [],
+                "outputQuantityList": [],
+                "sources": [],
+                "destinations": [],
+                "name": "Sensor 2"
             }
         }
     ],
@@ -723,11 +870,11 @@
             "identifiersId": 3,
             "identifierSyntax": "WebURI",
             "parentData": {
-                "identifierType": "sscc",
+                "identifierType": "gsin",
                 "gcpLength": null,
-                "gcp": "9521999",
+                "gcp": "4568789",
                 "serialType": "range",
-                "rangeFrom": 5550
+                "rangeFrom": 454545
             }
         },
         {
@@ -741,31 +888,21 @@
                 "gcp": "42512183",
                 "serialNumber": "195"
             }
+        },
+        {
+            "identifiersId": 14,
+            "identifierSyntax": "WebURI",
+            "instanceData": {
+                "identifierType": "giai",
+                "gcpLength": 7,
+                "serialType": "none",
+                "rangeFrom": 195,
+                "gcp": "42512183",
+                "serialNumber": "196"
+            }
         }
     ],
     "connectorsInfo": [
-        {
-            "ID": 1,
-            "name": "connector1",
-            "source": "1",
-            "target": "2",
-            "hideInheritParentCount": true,
-            "epcCount": 0,
-            "inheritParentCount": 0,
-            "classCount": 8,
-            "quantity": 0
-        },
-        {
-            "ID": 2,
-            "name": "connector2",
-            "source": "2",
-            "target": "4",
-            "hideInheritParentCount": true,
-            "epcCount": 0,
-            "inheritParentCount": 0,
-            "classCount": 8,
-            "quantity": 0
-        },
         {
             "ID": 3,
             "name": "connector3",
@@ -856,6 +993,28 @@
             "source": "6",
             "target": "12",
             "hideInheritParentCount": true,
+            "epcCount": 2,
+            "inheritParentCount": 0,
+            "classCount": 0,
+            "quantity": 0
+        },
+        {
+            "ID": 1,
+            "name": "connector1",
+            "source": "1",
+            "target": "4",
+            "hideInheritParentCount": true,
+            "epcCount": 0,
+            "inheritParentCount": 0,
+            "classCount": 10,
+            "quantity": 25
+        },
+        {
+            "ID": 2,
+            "name": "connector2",
+            "source": "14",
+            "target": "6",
+            "hideInheritParentCount": true,
             "epcCount": 1,
             "inheritParentCount": 0,
             "classCount": 0,
@@ -881,47 +1040,14 @@
                             "output_1": {
                                 "connections": [
                                     {
-                                        "node": "2",
-                                        "output": "input_1"
-                                    }
-                                ]
-                            }
-                        },
-                        "pos_x": 21,
-                        "pos_y": 40
-                    },
-                    "2": {
-                        "id": 2,
-                        "name": "Events",
-                        "data": {
-                            "ID": 2,
-                            "eventType": "ObjectEvent"
-                        },
-                        "class": "ObjectEvent",
-                        "html": "Events",
-                        "typenode": "vue",
-                        "inputs": {
-                            "input_1": {
-                                "connections": [
-                                    {
-                                        "node": "1",
-                                        "input": "output_1"
-                                    }
-                                ]
-                            }
-                        },
-                        "outputs": {
-                            "output_1": {
-                                "connections": [
-                                    {
                                         "node": "4",
                                         "output": "input_2"
                                     }
                                 ]
                             }
                         },
-                        "pos_x": 32,
-                        "pos_y": 234
+                        "pos_x": 21,
+                        "pos_y": 40
                     },
                     "3": {
                         "id": 3,
@@ -944,8 +1070,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 320,
-                        "pos_y": 55
+                        "pos_x": 326,
+                        "pos_y": 20
                     },
                     "4": {
                         "id": 4,
@@ -969,7 +1095,7 @@
                             "input_2": {
                                 "connections": [
                                     {
-                                        "node": "2",
+                                        "node": "1",
                                         "input": "output_1"
                                     }
                                 ]
@@ -989,8 +1115,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 316,
-                        "pos_y": 244
+                        "pos_x": 407,
+                        "pos_y": 246
                     },
                     "5": {
                         "id": 5,
@@ -1013,8 +1139,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 302,
-                        "pos_y": 485
+                        "pos_x": 155,
+                        "pos_y": 501
                     },
                     "6": {
                         "id": 6,
@@ -1040,6 +1166,10 @@
                                     {
                                         "node": "5",
                                         "input": "output_1"
+                                    },
+                                    {
+                                        "node": "14",
+                                        "input": "output_1"
                                     }
                                 ]
                             }
@@ -1058,8 +1188,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 523,
-                        "pos_y": 391
+                        "pos_x": 617,
+                        "pos_y": 455
                     },
                     "7": {
                         "id": 7,
@@ -1091,8 +1221,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 839,
-                        "pos_y": 153
+                        "pos_x": 818,
+                        "pos_y": 156
                     },
                     "8": {
                         "id": 8,
@@ -1124,8 +1254,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 1105,
-                        "pos_y": 154
+                        "pos_x": 1031,
+                        "pos_y": 159
                     },
                     "10": {
                         "id": 10,
@@ -1165,8 +1295,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 1337,
-                        "pos_y": 262
+                        "pos_x": 1253,
+                        "pos_y": 340
                     },
                     "11": {
                         "id": 11,
@@ -1188,8 +1318,8 @@
                                 "connections": []
                             }
                         },
-                        "pos_x": 771,
-                        "pos_y": 530
+                        "pos_x": 734,
+                        "pos_y": 643
                     },
                     "12": {
                         "id": 12,
@@ -1224,8 +1354,55 @@
                                 "connections": []
                             }
                         },
-                        "pos_x": 1479,
+                        "pos_x": 1493,
                         "pos_y": 462
+                    },
+                    "13": {
+                        "id": 13,
+                        "name": "Events",
+                        "data": {
+                            "ID": 13,
+                            "eventType": "ObjectEvent"
+                        },
+                        "class": "ObjectEvent",
+                        "html": "Events",
+                        "typenode": "vue",
+                        "inputs": {
+                            "input_1": {
+                                "connections": []
+                            }
+                        },
+                        "outputs": {
+                            "output_1": {
+                                "connections": []
+                            }
+                        },
+                        "pos_x": 1006,
+                        "pos_y": 639
+                    },
+                    "14": {
+                        "id": 14,
+                        "name": "Identifiers",
+                        "data": {
+                            "ID": 14,
+                            "eventType": "Identifiers"
+                        },
+                        "class": "Identifiers",
+                        "html": "Identifiers",
+                        "typenode": "vue",
+                        "inputs": {},
+                        "outputs": {
+                            "output_1": {
+                                "connections": [
+                                    {
+                                        "node": "6",
+                                        "output": "input_2"
+                                    }
+                                ]
+                            }
+                        },
+                        "pos_x": 207,
+                        "pos_y": 711
                     }
                 }
             }
