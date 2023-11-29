@@ -24,11 +24,11 @@ import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
 @RegisterForReflection
 public class SourceFormatter implements Serializable {
 
-  public static SourceList format(IdentifierVocabularyType syntax, SourceDestinationSyntax source) {
+  public static SourceList format(IdentifierVocabularyType syntax, SourceDestinationSyntax source, final String dlURL) {
     // If the source is Not other type then based on provided values generate the Source/Destination
     if (!source.getType().toString().equalsIgnoreCase("other")) {
       if (IdentifierVocabularyType.WEBURI == syntax) {
-        return formatWebURI(source);
+        return formatWebURI(source, dlURL);
       } else {
         return formatURN(source);
       }
@@ -67,7 +67,7 @@ public class SourceFormatter implements Serializable {
     }
   }
 
-  private static SourceList formatWebURI(SourceDestinationSyntax input) {
+  private static SourceList formatWebURI(SourceDestinationSyntax input, final String dlURL) {
     try {
       String gln = input.getGln();
       gln = gln.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gln.substring(0, 12));
@@ -76,10 +76,10 @@ public class SourceFormatter implements Serializable {
       // For ProcessingParty and OwningParty add the 417 as application identifier.
       if (input.getType().equals(SourceDestinationType.POSSESSING_PARTY)
           || input.getType().equals(SourceDestinationType.OWNING_PARTY)) {
-        source = DomainName.IDENTIFIER_DOMAIN + "/417/" + gln;
+        source = dlURL + "/417/" + gln;
       } else if (input.getType().equals(SourceDestinationType.LOCATION)) {
         // For Location add the 414 as application identifier.
-        source = DomainName.IDENTIFIER_DOMAIN + "/414/" + gln;
+        source = dlURL + "/414/" + gln;
       }
 
       // If the extension is present then add the extension to the source else keep it blank.

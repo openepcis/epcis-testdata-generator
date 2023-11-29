@@ -32,16 +32,15 @@ import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
 public class ReadpointBusinessLocationFormatter {
 
   private static final String URN_PREFIX = "urn:epc:id:sgln:";
-  private static final String WEBURI_PREFIX = "https://id.gs1.org/414/";
 
-  public static String format(final IdentifierVocabularyType syntax, final ReadPointBizLocationSyntax input) {
+  public static String format(final IdentifierVocabularyType syntax, final ReadPointBizLocationSyntax input, final String dlURL) {
     // If ReadPoint/BizLocation is provided using ManualURI then return the same
     if (input.getType() != null && input.getType().equals(ReadPointBizLocationType.MANUALLY) && input.getManualURI() != null) {
       return input.getManualURI();
     } else if(input.getType() != null && input.getType().equals(ReadPointBizLocationType.SGLN)) {
       // If ReadPoint/BizLocation is provided as an CBV based values then format them accordingly
       if (IdentifierVocabularyType.WEBURI == syntax) {
-        return formatWebURI(input);
+        return formatWebURI(input, dlURL);
       } else {
         return formatURN(input);
       }
@@ -67,7 +66,9 @@ public class ReadpointBusinessLocationFormatter {
     }
   }
 
-  private static String formatWebURI(final ReadPointBizLocationSyntax input) {
+  private static String formatWebURI(final ReadPointBizLocationSyntax input, final String dlURL) {
+    final String WEBURI_PREFIX = dlURL + "/414/";
+
     try {
       String gln = input.getGln();
       gln = gln.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gln.substring(0, 12));

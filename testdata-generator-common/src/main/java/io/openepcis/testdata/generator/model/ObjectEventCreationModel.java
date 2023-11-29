@@ -78,14 +78,14 @@ public class ObjectEventCreationModel
     // Add source list
     if (typeInfo.getSources() != null && !typeInfo.getSources().isEmpty()) {
       e.setSourceList(
-          typeInfo.getSources().stream().map(src -> SourceFormatter.format(syntax, src)).toList());
+          typeInfo.getSources().stream().map(src -> SourceFormatter.format(syntax, src, typeInfo.getDlURL())).toList());
     }
 
     // Add Destination list
     if (typeInfo.getDestinations() != null && !typeInfo.getDestinations().isEmpty()) {
       e.setDestinationList(
           typeInfo.getDestinations().stream()
-              .map(dst -> DestinationFormatter.format(syntax, dst))
+              .map(dst -> DestinationFormatter.format(syntax, dst, typeInfo.getDlURL()))
               .toList());
     }
 
