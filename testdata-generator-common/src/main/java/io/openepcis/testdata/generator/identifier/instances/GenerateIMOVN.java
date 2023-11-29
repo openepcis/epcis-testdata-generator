@@ -52,7 +52,7 @@ public class GenerateIMOVN implements EPCStrategy {
   private static final String IMOVN_URN_PART = "urn:epc:id:imovn:";
 
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count) {
+  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
     return generateIMOVN(count);
   }
 

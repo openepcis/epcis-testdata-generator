@@ -16,7 +16,6 @@
 package io.openepcis.testdata.generator.identifier.instances;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
@@ -39,9 +38,9 @@ public class GenerateGSRNP extends GenerateEPCType2 {
   private static final String GSRNP_URI_PART = "/8017/";
 
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count) {
+  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
     if (IdentifierVocabularyType.WEBURI == syntax) {
-      return generateWebURI(count);
+      return generateWebURI(count, dlURL);
     } else {
       return generateURN(count);
     }
@@ -93,7 +92,7 @@ public class GenerateGSRNP extends GenerateEPCType2 {
   }
 
   // Generate GSRN based on the WebURI Format
-  private List<String> generateWebURI(Integer count) {
+  private List<String> generateWebURI(Integer count, final String dlURL) {
     try {
       final List<String> formattedGSRNP = new ArrayList<>();
       if (serialType.equalsIgnoreCase("range")
@@ -106,7 +105,7 @@ public class GenerateGSRNP extends GenerateEPCType2 {
             rangeID++) {
           String append = gcp + rangeID;
           append = StringUtils.repeat("0", 18 - append.length()) + rangeID;
-          final String gsrnpID = DomainName.IDENTIFIER_DOMAIN + GSRNP_URI_PART + gcp + append;
+          final String gsrnpID = dlURL + GSRNP_URI_PART + gcp + append;
           formattedGSRNP.add(gsrnpID);
         }
         this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
@@ -116,14 +115,14 @@ public class GenerateGSRNP extends GenerateEPCType2 {
             RandomValueGenerator.randomGenerator(
                 RandomizationType.NUMERIC, requiredLength, requiredLength, randomCount);
         for (var randomID : randomSerialNumbers) {
-          final String gsrnpID = DomainName.IDENTIFIER_DOMAIN + GSRNP_URI_PART + gcp + randomID;
+          final String gsrnpID = dlURL + GSRNP_URI_PART + gcp + randomID;
           formattedGSRNP.add(gsrnpID);
         }
       } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           String append = gcp + serialNumber;
           append = StringUtils.repeat("0", 18 - append.length()) + serialNumber;
-          final String gsrnpID = DomainName.IDENTIFIER_DOMAIN + GSRNP_URI_PART + gcp + append;
+          final String gsrnpID = dlURL + GSRNP_URI_PART + gcp + append;
           formattedGSRNP.add(gsrnpID);
         }
       }

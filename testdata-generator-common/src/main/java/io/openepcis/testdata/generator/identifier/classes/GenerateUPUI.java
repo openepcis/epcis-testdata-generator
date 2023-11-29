@@ -48,14 +48,14 @@ public class GenerateUPUI extends GenerateQuantity {
 
   @Override
   public List<QuantityList> format(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity) {
-    return generateUpuiIdentifiers(syntax, count, refQuantity);
+      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
+    return generateUpuiIdentifiers(syntax, count, refQuantity, dlURL);
   }
 
   // Method to generate UPUI Class identifiers in URN/WebURI format based on information provided by
   // the users.
   private List<QuantityList> generateUpuiIdentifiers(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity) {
+      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
     try {
       final List<QuantityList> returnQuantityFormatted = new ArrayList<>();
       final var quantityFormatted = new QuantityList();
@@ -81,8 +81,7 @@ public class GenerateUPUI extends GenerateQuantity {
             quantityFormatted.setEpcClass(UPUI_URN_PART + formattedUrnUPUI + ".*");
           } else if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
             // For WebURI syntax create the identifiers based on the WebURI type
-            quantityFormatted.setEpcClass(
-                DomainName.IDENTIFIER_DOMAIN + UPUI_URI_PART + formattedUriUPUI);
+            quantityFormatted.setEpcClass(dlURL + UPUI_URI_PART + formattedUriUPUI);
           }
           quantityFormatted.setQuantity(
               refQuantity != null && refQuantity != 0 ? refQuantity : quantity);

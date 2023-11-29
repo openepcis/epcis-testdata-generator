@@ -16,7 +16,6 @@
 package io.openepcis.testdata.generator.identifier.instances;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
@@ -38,11 +37,11 @@ public class GenerateGINC extends GenerateEPCType2 {
   private static final String GINC_URI_PART = "/401/";
 
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count) {
+  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
     if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
       // For WebURI syntax call the generateWebURI, pass the required identifiers count to create
       // Instance Identifiers
-      return generateWebURI(count);
+      return generateWebURI(count, dlURL);
     } else {
       // For URN syntax call the generateURN, pass the required identifiers count to create Instance
       // Identifiers
@@ -90,7 +89,7 @@ public class GenerateGINC extends GenerateEPCType2 {
     }
   }
 
-  private List<String> generateWebURI(Integer count) {
+  private List<String> generateWebURI(Integer count, final String dlURL) {
     try {
       final List<String> formattedGINC = new ArrayList<>();
 
@@ -103,7 +102,7 @@ public class GenerateGINC extends GenerateEPCType2 {
         for (var rangeID = rangeFrom.longValue();
             rangeID < rangeFrom.longValue() + count;
             rangeID++) {
-          formattedGINC.add(DomainName.IDENTIFIER_DOMAIN + GINC_URI_PART + gcp + rangeID);
+          formattedGINC.add(dlURL + GINC_URI_PART + gcp + rangeID);
         }
         this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
@@ -114,12 +113,12 @@ public class GenerateGINC extends GenerateEPCType2 {
                 RandomizationType.NUMERIC, 1, requiredMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
-          formattedGINC.add(DomainName.IDENTIFIER_DOMAIN + GINC_URI_PART + gcp + randomID);
+          formattedGINC.add(dlURL + GINC_URI_PART + gcp + randomID);
         }
       } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         // None selection
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
-          formattedGINC.add(DomainName.IDENTIFIER_DOMAIN + GINC_URI_PART + gcp + serialNumber);
+          formattedGINC.add(dlURL + GINC_URI_PART + gcp + serialNumber);
         }
       }
       return formattedGINC;

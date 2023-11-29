@@ -48,14 +48,14 @@ public class GenerateGRAI extends GenerateQuantity {
 
   @Override
   public List<QuantityList> format(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity) {
-    return generateGraiIdentifiers(syntax, count, refQuantity);
+      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
+    return generateGraiIdentifiers(syntax, count, refQuantity, dlURL);
   }
 
   // Method to generate GRAI Class identifiers in URN/WebURI format based on information provided by
   // the users.
   private List<QuantityList> generateGraiIdentifiers(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity) {
+      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
     try {
       final List<QuantityList> returnQuantityFormatted = new ArrayList<>();
       final var quantityFormatted = new QuantityList();
@@ -76,8 +76,7 @@ public class GenerateGRAI extends GenerateQuantity {
             quantityFormatted.setEpcClass(GRAI_URN_PART + modifiedUrnGRAI + ".*");
           } else if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
             // For WebURI syntax create the identifiers based on the WebURI type
-            quantityFormatted.setEpcClass(
-                DomainName.IDENTIFIER_DOMAIN + GRAI_URI_PART + modifiedUriGRAI);
+            quantityFormatted.setEpcClass(dlURL + GRAI_URI_PART + modifiedUriGRAI);
           }
           quantityFormatted.setQuantity(
               refQuantity != null && refQuantity != 0 ? refQuantity : quantity);

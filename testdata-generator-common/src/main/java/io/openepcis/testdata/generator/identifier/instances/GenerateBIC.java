@@ -41,7 +41,7 @@ public class GenerateBIC implements EPCStrategy {
   private String bic;
 
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count) {
+  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
     return generateBIC();
   }
 

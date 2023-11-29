@@ -45,14 +45,14 @@ public class GenerateCPI extends GenerateQuantity {
 
   @Override
   public List<QuantityList> format(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity) {
-    return generateCpiIdentifiers(syntax, count, refQuantity);
+      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
+    return generateCpiIdentifiers(syntax, count, refQuantity, dlURL);
   }
 
   // Method to generate CPI Class identifiers in URN/WebURI format based on information provided by
   // the users.
   private List<QuantityList> generateCpiIdentifiers(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity) {
+      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
     try {
       final List<QuantityList> returnQuantityFormatted = new ArrayList<>();
       final var quantityFormatted = new QuantityList();
@@ -68,7 +68,7 @@ public class GenerateCPI extends GenerateQuantity {
             quantityFormatted.setEpcClass(CPI_URN_PART + modifiedUrnCPI + ".*");
           } else if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
             // For WebURI syntax create the identifiers based on the WebURI type
-            quantityFormatted.setEpcClass(DomainName.IDENTIFIER_DOMAIN + "/8010/" + cpi);
+            quantityFormatted.setEpcClass(dlURL + "/8010/" + cpi);
           }
 
           // Add the quantity and UOM information if provided accordingly to the Quantity

@@ -45,5 +45,5 @@ import java.util.List;
 })
 @RegisterForReflection
 public interface EPCStrategy {
-  List<String> format(IdentifierVocabularyType syntax, Integer count);
+  List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL);
 }

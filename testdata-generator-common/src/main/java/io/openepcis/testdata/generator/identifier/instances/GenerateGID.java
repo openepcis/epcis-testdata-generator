@@ -88,7 +88,7 @@ public class GenerateGID implements EPCStrategy {
   private static final String GID_URN_PART = "urn:epc:id:gid:";
 
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count) {
+  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
     if (manager != null && gidClass != null) {
       return generateURN(count);
     }

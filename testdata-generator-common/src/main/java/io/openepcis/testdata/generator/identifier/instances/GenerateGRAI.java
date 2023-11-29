@@ -16,7 +16,6 @@
 package io.openepcis.testdata.generator.identifier.instances;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
@@ -48,11 +47,11 @@ public class GenerateGRAI extends GenerateEPC {
   private static final String GRAI_URI_PART = "/8003/";
 
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count) {
+  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
     if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
       // For WebURI syntax call the generateWebURI, pass the required identifiers count to create
       // Instance Identifiers
-      return generateWebURI(count);
+      return generateWebURI(count, dlURL);
     } else {
       // For URN syntax call the generateURN, pass the required identifiers count to create Instance
       // Identifiers
@@ -103,7 +102,7 @@ public class GenerateGRAI extends GenerateEPC {
   }
 
   // Generate WebURI formatted GRAI
-  private List<String> generateWebURI(Integer count) {
+  private List<String> generateWebURI(Integer count, final String dlURL) {
     try {
       final List<String> formattedGRAI = new ArrayList<>();
       final String modifiedGRAI =
@@ -118,7 +117,7 @@ public class GenerateGRAI extends GenerateEPC {
         for (var rangeID = rangeFrom.longValue();
             rangeID < rangeFrom.longValue() + count;
             rangeID++) {
-          formattedGRAI.add(DomainName.IDENTIFIER_DOMAIN + GRAI_URI_PART + modifiedGRAI + rangeID);
+          formattedGRAI.add(dlURL + GRAI_URI_PART + modifiedGRAI + rangeID);
         }
         this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
@@ -131,12 +130,11 @@ public class GenerateGRAI extends GenerateEPC {
                 randomType, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
-          formattedGRAI.add(DomainName.IDENTIFIER_DOMAIN + GRAI_URI_PART + modifiedGRAI + randomID);
+          formattedGRAI.add(dlURL + GRAI_URI_PART + modifiedGRAI + randomID);
         }
       } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
         // Return the single GRAI values for None selection
-        formattedGRAI.add(
-            DomainName.IDENTIFIER_DOMAIN + GRAI_URI_PART + modifiedGRAI + serialNumber);
+        formattedGRAI.add(dlURL + GRAI_URI_PART + modifiedGRAI + serialNumber);
       }
       return formattedGRAI;
     } catch (Exception ex) {
