@@ -15,6 +15,7 @@
  */
 package io.openepcis.testdata.generator.template;
 
+import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.identifier.classes.*;
 import io.openepcis.testdata.generator.identifier.classes.GenerateCPI;
@@ -49,6 +50,11 @@ public class Identifier {
   @NotNull(message = "Identifier Syntax cannot be Null, should be URN/WebURI")
   @Schema(description = "Identifiers generation format.", required = true)
   private @Valid IdentifierVocabularyType objectIdentifierSyntax = IdentifierVocabularyType.URN;
+
+  @Schema(
+          type = SchemaType.STRING,
+          description = "(Optional) Custom URL used during the Digital Link URL generation. Default:https://id.gs1.org")
+  private @Valid String dlURL = DomainName.IDENTIFIER_DOMAIN;
 
   @Schema(
       description = "Instance identifiers information required for identifier generation.",

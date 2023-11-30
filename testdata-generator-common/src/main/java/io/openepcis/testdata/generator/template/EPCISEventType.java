@@ -22,10 +22,7 @@ import io.openepcis.model.epcis.BizTransactionList;
 import io.openepcis.model.epcis.PersistentDisposition;
 import io.openepcis.model.epcis.QuantityList;
 import io.openepcis.model.epcis.SensorElementList;
-import io.openepcis.testdata.generator.constants.BusinessStep;
-import io.openepcis.testdata.generator.constants.Disposition;
-import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
-import io.openepcis.testdata.generator.constants.RecordTimeType;
+import io.openepcis.testdata.generator.constants.*;
 import io.openepcis.testdata.generator.format.ErrorDeclarationSyntax;
 import io.openepcis.testdata.generator.format.EventTime;
 import io.openepcis.testdata.generator.format.ReadPointBizLocationSyntax;
@@ -95,6 +92,11 @@ public class EPCISEventType implements Serializable {
       required = true)
   private @Valid IdentifierVocabularyType locationPartyIdentifierSyntax =
       IdentifierVocabularyType.URN;
+
+  @Schema(
+          type = SchemaType.STRING,
+          description = "(Optional) Custom URL used during the Digital Link URL generation. Default:https://ref.gs1.org")
+  private @Valid String dlURL = DomainName.VOCABULARY_DOMAIN;
 
   @NotNull(message = "Event type cannot be Null, should be Ordinary/Error")
   @Schema(

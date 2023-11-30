@@ -32,6 +32,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
@@ -71,11 +72,11 @@ public class GenerateLGTIN extends GenerateQuantity {
 
   @Override
   public List<QuantityList> format(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity) {
+      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
     if (IdentifierVocabularyType.WEBURI == syntax) {
       // For WebURI syntax call the generateWebURI, pass the required identifiers count to create
       // Class Identifiers
-      return generateWebURI(count, refQuantity);
+      return generateWebURI(count, refQuantity, dlURL);
     } else {
       // For URN syntax call the generateURN, pass the required identifiers count to create Class
       // Identifiers
@@ -145,13 +146,12 @@ public class GenerateLGTIN extends GenerateQuantity {
     }
   }
 
-  public List<QuantityList> generateWebURI(Integer count, final Float refQuantity) {
+  public List<QuantityList> generateWebURI(Integer count, final Float refQuantity, final String dlURL) {
     try {
       final List<QuantityList> returnQuantityFormatted = new ArrayList<>();
       final String formattedLgtin =
           this.lgtin.substring(0, 13) + UPCEANLogicImpl.calcChecksum(this.lgtin.substring(0, 13));
-      final String lgtinWebURI =
-          DomainName.IDENTIFIER_DOMAIN + LGTIN_URI_PART + formattedLgtin + LGTIN_SERIAL_PART;
+      final String lgtinWebURI = dlURL + LGTIN_URI_PART + formattedLgtin + LGTIN_SERIAL_PART;
       quantity = refQuantity != null && refQuantity != 0 ? refQuantity : quantity;
 
       // Return the list of SGTIN for RANGE calculation
@@ -222,8 +222,10 @@ public class GenerateLGTIN extends GenerateQuantity {
         syntax.equals(IdentifierVocabularyType.URN)
             ? LGTIN_URN_PART + formattedLgtin + "." + serialId
             : formattedLgtin + serialId);
-    quantityFormatted.setQuantity(quantity);
-    quantityFormatted.setUom(uom);
+    if(!StringUtils.isBlank(quantityType)){
+      quantityFormatted.setQuantity(quantity);
+      quantityFormatted.setUom(uom);
+    }
     return quantityFormatted;
   }
 }

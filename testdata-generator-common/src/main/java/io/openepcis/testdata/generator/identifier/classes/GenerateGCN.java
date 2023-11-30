@@ -47,14 +47,14 @@ public class GenerateGCN extends GenerateQuantity {
 
   @Override
   public List<QuantityList> format(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity) {
-    return generateGcnIdentifiers(syntax, count, refQuantity);
+      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
+    return generateGcnIdentifiers(syntax, count, refQuantity, dlURL);
   }
 
   // Method to generate GCN Class identifiers in URN/WebURI format based on information provided by
   // the users.
   private List<QuantityList> generateGcnIdentifiers(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity) {
+      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
     try {
       final List<QuantityList> returnQuantityFormatted = new ArrayList<>();
       final var quantityFormatted = new QuantityList();
@@ -75,7 +75,7 @@ public class GenerateGCN extends GenerateQuantity {
             quantityFormatted.setEpcClass(SGCN_URN_PART + modifiedUrnGCN + ".*");
           } else if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
             // For WebURI syntax create the identifiers based on the WebURI type
-            quantityFormatted.setEpcClass(DomainName.IDENTIFIER_DOMAIN + "/255/" + modifiedUriGCN);
+            quantityFormatted.setEpcClass(dlURL + "/255/" + modifiedUriGCN);
           }
           quantityFormatted.setQuantity(
               refQuantity != null && refQuantity != 0 ? refQuantity : quantity);

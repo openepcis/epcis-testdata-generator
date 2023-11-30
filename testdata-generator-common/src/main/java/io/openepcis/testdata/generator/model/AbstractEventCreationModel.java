@@ -133,7 +133,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
   private void configureWhereDimension(final E epcisEvent, final IdentifierVocabularyType syntax) {
     // Set Read Point
     if (typeInfo.getReadPoint() != null) {
-      final String formattedReadPoint = ReadpointBusinessLocationFormatter.format(syntax, typeInfo.getReadPoint());
+      final String formattedReadPoint = ReadpointBusinessLocationFormatter.format(syntax, typeInfo.getReadPoint(), typeInfo.getDlURL());
       var rp = new ReadPoint();
 
       try {
@@ -151,7 +151,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
 
     // Set Biz Location
     if (typeInfo.getBizLocation() != null) {
-      final String formattedBizLocation = ReadpointBusinessLocationFormatter.format(syntax, typeInfo.getBizLocation());
+      final String formattedBizLocation = ReadpointBusinessLocationFormatter.format(syntax, typeInfo.getBizLocation(), typeInfo.getDlURL());
       var biz = new BizLocation();
 
       try {
@@ -205,8 +205,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
       if (typeInfo.getErrorDeclaration().getCorrectiveIds() != null
           && !typeInfo.getErrorDeclaration().getCorrectiveIds().isEmpty()) {
         err.setCorrectiveEventIDs(
-            ErrorDeclarationFormatter.format(
-                syntax, typeInfo.getErrorDeclaration().getCorrectiveIds()));
+            ErrorDeclarationFormatter.format(syntax, typeInfo.getErrorDeclaration().getCorrectiveIds(), typeInfo.getDlURL()));
       }
 
       // Add Error Extensions if not null
@@ -269,7 +268,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
           epcList.addAll(
               matchingIdentifier
                   .getInstanceData()
-                  .format(matchingIdentifier.getObjectIdentifierSyntax(), epc.getEpcCount()));
+                  .format(matchingIdentifier.getObjectIdentifierSyntax(), epc.getEpcCount(), matchingIdentifier.getDlURL()));
         }
       } else if (epc.getParentNodeId() != 0 && epc.getEpcCount() != null && epc.getEpcCount() > 0) {
         // If referenced identifier contains the parent node id then obtain the identifiers from its
@@ -338,7 +337,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
                   .format(
                       matchedClassIdentifier.getObjectIdentifierSyntax(),
                       quantity.getClassCount(),
-                      quantity.getQuantity()));
+                      quantity.getQuantity(), matchedClassIdentifier.getDlURL()));
         }
       } else if (quantity.getParentNodeId() != 0  && quantity.getClassCount() != null && quantity.getClassCount() > 0) {
         // If referenced identifier contains the parent node id then obtain the identifiers from its

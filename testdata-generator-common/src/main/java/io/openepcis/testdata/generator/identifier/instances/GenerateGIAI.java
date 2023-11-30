@@ -16,7 +16,6 @@
 package io.openepcis.testdata.generator.identifier.instances;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
@@ -38,11 +37,11 @@ public class GenerateGIAI extends GenerateEPCType2 {
   private static final String GIAI_URI_PART = "/8004/";
 
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count) {
+  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
     if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
       // For WebURI syntax call the generateWebURI, pass the required identifiers count to create
       // Instance Identifiers
-      return generateWebURI(count);
+      return generateWebURI(count, dlURL);
     } else {
       // For URN syntax call the generateURN, pass the required identifiers count to create Instance
       // Identifiers
@@ -92,7 +91,7 @@ public class GenerateGIAI extends GenerateEPCType2 {
   }
 
   // Generate URN formatted GIAI
-  private List<String> generateWebURI(Integer count) {
+  private List<String> generateWebURI(Integer count, final String dlURL) {
     try {
       final List<String> formattedGIAI = new ArrayList<>();
 
@@ -105,7 +104,7 @@ public class GenerateGIAI extends GenerateEPCType2 {
         for (var rangeID = rangeFrom.longValue();
             rangeID < rangeFrom.longValue() + count.longValue();
             rangeID++) {
-          formattedGIAI.add(DomainName.IDENTIFIER_DOMAIN + GIAI_URI_PART + gcp + rangeID);
+          formattedGIAI.add(dlURL + GIAI_URI_PART + gcp + rangeID);
         }
         this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count.longValue());
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
@@ -116,12 +115,12 @@ public class GenerateGIAI extends GenerateEPCType2 {
                 RandomizationType.NUMERIC, 1, requiredMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
-          formattedGIAI.add(DomainName.IDENTIFIER_DOMAIN + GIAI_URI_PART + gcp + randomID);
+          formattedGIAI.add(dlURL + GIAI_URI_PART + gcp + randomID);
         }
       } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         // Return the single GIAI values for None selection
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
-          formattedGIAI.add(DomainName.IDENTIFIER_DOMAIN + GIAI_URI_PART + gcp + serialNumber);
+          formattedGIAI.add(dlURL + GIAI_URI_PART + gcp + serialNumber);
         }
       }
       return formattedGIAI;

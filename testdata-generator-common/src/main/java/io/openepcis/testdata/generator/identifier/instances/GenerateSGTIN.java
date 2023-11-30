@@ -16,7 +16,6 @@
 package io.openepcis.testdata.generator.identifier.instances;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
@@ -52,11 +51,11 @@ public class GenerateSGTIN extends GenerateEPC {
   private static final String SGTIN_URI_SERIAL_PART = "/21/";
 
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count) {
+  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
     if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
       // For WebURI syntax call the generateWebURI, pass the required identifiers count to create
       // Instance Identifiers
-      return generateWebURI(count);
+      return generateWebURI(count, dlURL);
     } else {
       // For URN syntax call the generateURN, pass the required identifiers count to create Instance
       // Identifiers
@@ -113,7 +112,7 @@ public class GenerateSGTIN extends GenerateEPC {
     }
   }
 
-  private List<String> generateWebURI(Integer count) {
+  private List<String> generateWebURI(Integer count, final String dlURL) {
     try {
       final List<String> formattedSGTIN = new ArrayList<>();
       sgtin =
@@ -129,7 +128,7 @@ public class GenerateSGTIN extends GenerateEPC {
             rangeID < rangeFrom.longValue() + count;
             rangeID++) {
           formattedSGTIN.add(
-              DomainName.IDENTIFIER_DOMAIN
+                  dlURL
                   + SGTIN_URI_PART
                   + sgtin
                   + SGTIN_URI_SERIAL_PART
@@ -146,7 +145,7 @@ public class GenerateSGTIN extends GenerateEPC {
 
         for (var randomID : randomSerialNumbers) {
           formattedSGTIN.add(
-              DomainName.IDENTIFIER_DOMAIN
+                  dlURL
                   + SGTIN_URI_PART
                   + sgtin
                   + SGTIN_URI_SERIAL_PART
@@ -158,7 +157,7 @@ public class GenerateSGTIN extends GenerateEPC {
           && count > 0) {
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           formattedSGTIN.add(
-              DomainName.IDENTIFIER_DOMAIN
+                  dlURL
                   + SGTIN_URI_PART
                   + sgtin
                   + SGTIN_URI_SERIAL_PART

@@ -83,7 +83,7 @@ public class GenerateUSDoD implements EPCStrategy {
   private static final String USDOD_URN_PART = "urn:epc:id:usdod:";
 
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count) {
+  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
     return generateURN(count);
   }
 

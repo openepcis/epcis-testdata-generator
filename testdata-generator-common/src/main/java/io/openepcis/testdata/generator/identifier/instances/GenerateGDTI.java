@@ -16,7 +16,6 @@
 package io.openepcis.testdata.generator.identifier.instances;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
@@ -48,11 +47,11 @@ public class GenerateGDTI extends GenerateEPC {
   private String gdti;
 
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count) {
+  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
     if (IdentifierVocabularyType.WEBURI == syntax) {
       // For WebURI syntax call the generateWebURI, pass the required identifiers count to create
       // Instance Identifiers
-      return generateWebURI(count);
+      return generateWebURI(count, dlURL);
     } else {
       // For URN syntax call the generateURN, pass the required identifiers count to create Instance
       // Identifiers
@@ -105,7 +104,7 @@ public class GenerateGDTI extends GenerateEPC {
   }
 
   // Generate URN formatted GDTI
-  private List<String> generateWebURI(Integer count) {
+  private List<String> generateWebURI(Integer count, final String dlURL) {
     try {
       final List<String> formattedGDTI = new ArrayList<>();
       final String modifiedGDTI =
@@ -122,7 +121,7 @@ public class GenerateGDTI extends GenerateEPC {
         for (var rangeID = rangeFrom.longValue();
             rangeID < rangeFrom.longValue() + count;
             rangeID++) {
-          formattedGDTI.add(DomainName.IDENTIFIER_DOMAIN + GDTI_URI_PART + modifiedGDTI + rangeID);
+          formattedGDTI.add(dlURL + GDTI_URI_PART + modifiedGDTI + rangeID);
         }
         this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
@@ -135,13 +134,12 @@ public class GenerateGDTI extends GenerateEPC {
                 randomType, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
-          formattedGDTI.add(DomainName.IDENTIFIER_DOMAIN + GDTI_URI_PART + modifiedGDTI + randomID);
+          formattedGDTI.add(dlURL + GDTI_URI_PART + modifiedGDTI + randomID);
         }
       } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         // Return the single GDTI values for None selection
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
-          formattedGDTI.add(
-              DomainName.IDENTIFIER_DOMAIN + GDTI_URI_PART + modifiedGDTI + serialNumber);
+          formattedGDTI.add(dlURL + GDTI_URI_PART + modifiedGDTI + serialNumber);
         }
       }
       return formattedGDTI;

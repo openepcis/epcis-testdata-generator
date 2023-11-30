@@ -32,6 +32,8 @@ public abstract class GenerateQuantity implements QuantityStatergy {
   @Max(value = 12, message = "Class Identifiers GCP Length cannot be more than 12")
   protected Integer gcpLength = 6;
 
+  protected String quantityType;
+
   protected Float quantity;
 
   protected String uom;

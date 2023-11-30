@@ -73,14 +73,14 @@ public class AggregationEventCreationModel
     // Add source list
     if (typeInfo.getSources() != null && !typeInfo.getSources().isEmpty()) {
       e.setSourceList(
-          typeInfo.getSources().stream().map(src -> SourceFormatter.format(syntax, src)).toList());
+          typeInfo.getSources().stream().map(src -> SourceFormatter.format(syntax, src, typeInfo.getDlURL())).toList());
     }
 
     // Add Destination list
     if (typeInfo.getDestinations() != null && !typeInfo.getDestinations().isEmpty()) {
       e.setDestinationList(
           typeInfo.getDestinations().stream()
-              .map(dst -> DestinationFormatter.format(syntax, dst))
+              .map(dst -> DestinationFormatter.format(syntax, dst, typeInfo.getDlURL()))
               .toList());
     }
 
@@ -101,7 +101,7 @@ public class AggregationEventCreationModel
       e.setParentID(
               matchingParentId
                       .getParentData()
-                      .format(matchingParentId.getObjectIdentifierSyntax(), 1)
+                      .format(matchingParentId.getObjectIdentifierSyntax(), 1, matchingParentId.getDlURL())
                       .get(0));
     } else if (typeInfo.getParentIdentifier() != null && !typeInfo.getParentIdentifier().isEmpty()) {
       // If user is importing the existing event and if the existing event has parent identifier

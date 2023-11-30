@@ -141,7 +141,7 @@ public class TransformationEventCreationModel
                   m ->
                       outputEpcList.addAll(
                           m.getInstanceData()
-                              .format(m.getObjectIdentifierSyntax(), outputEpc.getEpcCount())));
+                              .format(m.getObjectIdentifierSyntax(), outputEpc.getEpcCount(), m.getDlURL())));
         }
       }
     }
@@ -189,7 +189,7 @@ public class TransformationEventCreationModel
                               .format(
                                   oq.getObjectIdentifierSyntax(),
                                   outputQuantity.getClassCount(),
-                                  outputQuantity.getQuantity())));
+                                  outputQuantity.getQuantity(), oq.getDlURL())));
         }
       }
     }

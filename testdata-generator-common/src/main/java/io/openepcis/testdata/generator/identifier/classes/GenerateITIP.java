@@ -46,14 +46,14 @@ public class GenerateITIP extends GenerateQuantity {
 
   @Override
   public List<QuantityList> format(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity) {
-    return generateItipIdentifiers(syntax, count, refQuantity);
+      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
+    return generateItipIdentifiers(syntax, count, refQuantity, dlURL);
   }
 
   // Method to generate ITIP Class identifiers in URN/WebURI format based on information provided by
   // the users.
   private List<QuantityList> generateItipIdentifiers(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity) {
+      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
     try {
       final List<QuantityList> returnQuantityFormatted = new ArrayList<>();
       final var quantityFormatted = new QuantityList();
@@ -85,8 +85,7 @@ public class GenerateITIP extends GenerateQuantity {
             quantityFormatted.setEpcClass(ITIP_URN_PART + modifiedUrnITIP + ".*");
           } else if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
             // For WebURI syntax create the identifiers based on the WebURI type
-            quantityFormatted.setEpcClass(
-                DomainName.IDENTIFIER_DOMAIN + ITIP_URI_PART + itip + modifiedUriITIP);
+            quantityFormatted.setEpcClass(dlURL + ITIP_URI_PART + itip + modifiedUriITIP);
           }
           quantityFormatted.setQuantity(
               refQuantity != null && refQuantity != 0 ? refQuantity : quantity);

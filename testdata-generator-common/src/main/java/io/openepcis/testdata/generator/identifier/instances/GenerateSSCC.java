@@ -16,7 +16,6 @@
 package io.openepcis.testdata.generator.identifier.instances;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
@@ -39,11 +38,11 @@ public class GenerateSSCC extends GenerateEPCType2 {
   private static final String SSCC_URI_PART = "/00/";
 
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count) {
+  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
     if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
       // For WebURI syntax call the generateWebURI, pass the required identifiers count to create
       // Instance Identifiers
-      return generateWebURI(count);
+      return generateWebURI(count, dlURL);
     } else {
       // For URN syntax call the generateURN, pass the required identifiers count to create Instance
       // Identifiers
@@ -92,7 +91,7 @@ public class GenerateSSCC extends GenerateEPCType2 {
     }
   }
 
-  private List<String> generateWebURI(Integer count) {
+  private List<String> generateWebURI(Integer count, final String dlURL) {
     try {
       final List<String> formattedSSCC = new ArrayList<>();
 
@@ -106,7 +105,7 @@ public class GenerateSSCC extends GenerateEPCType2 {
             rangeID++) {
           var append = gcp + rangeID;
           append = StringUtils.repeat("0", 18 - append.length()) + rangeID;
-          formattedSSCC.add(DomainName.IDENTIFIER_DOMAIN + SSCC_URI_PART + gcp + append);
+          formattedSSCC.add(dlURL + SSCC_URI_PART + gcp + append);
         }
         this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
@@ -116,13 +115,13 @@ public class GenerateSSCC extends GenerateEPCType2 {
                 RandomizationType.NUMERIC, requiredLength, requiredLength, count);
 
         for (var randomID : randomSerialNumbers) {
-          formattedSSCC.add(DomainName.IDENTIFIER_DOMAIN + SSCC_URI_PART + gcp + randomID);
+          formattedSSCC.add(dlURL + SSCC_URI_PART + gcp + randomID);
         }
       } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           var append = gcp + serialNumber;
           append = StringUtils.repeat("0", 17 - append.length()) + serialNumber;
-          formattedSSCC.add(DomainName.IDENTIFIER_DOMAIN + SSCC_URI_PART + gcp + append);
+          formattedSSCC.add(dlURL + SSCC_URI_PART + gcp + append);
         }
       }
       return formattedSSCC;

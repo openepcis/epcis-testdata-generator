@@ -27,11 +27,11 @@ import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
 public class DestinationFormatter {
 
   public static DestinationList format(
-      IdentifierVocabularyType syntax, SourceDestinationSyntax destination) {
+      IdentifierVocabularyType syntax, SourceDestinationSyntax destination, final String dlURL) {
     // If the source is Not other type then based on provided values generate the Source/Destination
     if (!destination.getType().toString().equalsIgnoreCase("other")) {
       if (IdentifierVocabularyType.WEBURI == syntax) {
-        return formatWebURI(destination);
+        return formatWebURI(destination, dlURL);
       } else {
         return formatURN(destination);
       }
@@ -71,7 +71,7 @@ public class DestinationFormatter {
     }
   }
 
-  private static DestinationList formatWebURI(SourceDestinationSyntax input) {
+  private static DestinationList formatWebURI(SourceDestinationSyntax input, final String dlURL) {
     try {
 
       String gln = input.getGln();
@@ -81,10 +81,10 @@ public class DestinationFormatter {
       // For ProcessingParty and OwningParty add the 417 as application identifier.
       if (input.getType().equals(SourceDestinationType.POSSESSING_PARTY)
           || input.getType().equals(SourceDestinationType.OWNING_PARTY)) {
-        destination = DomainName.IDENTIFIER_DOMAIN + "/417/" + gln;
+        destination = dlURL + "/417/" + gln;
       } else if (input.getType().equals(SourceDestinationType.LOCATION)) {
         // For Location add the 414 as application identifier.
-        destination = DomainName.IDENTIFIER_DOMAIN + "/414/" + gln;
+        destination = dlURL + "/414/" + gln;
       }
 
       // If the extension is present then add the extension to the destination else keep it blank.

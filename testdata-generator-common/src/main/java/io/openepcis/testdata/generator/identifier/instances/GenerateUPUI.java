@@ -16,7 +16,6 @@
 package io.openepcis.testdata.generator.identifier.instances;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
@@ -49,11 +48,11 @@ public class GenerateUPUI extends GenerateEPC {
   private static final String UPUI_URI_SERIAL_PART = "/235/";
 
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count) {
+  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
     if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
       // For WebURI syntax call the generateWebURI, pass the required identifiers count to create
       // Instance Identifiers
-      return generateWebURI(count);
+      return generateWebURI(count, dlURL);
     } else {
       // For URN syntax call the generateURN, pass the required identifiers count to create Instance
       // Identifiers
@@ -104,7 +103,7 @@ public class GenerateUPUI extends GenerateEPC {
     }
   }
 
-  private List<String> generateWebURI(Integer count) {
+  private List<String> generateWebURI(Integer count, final String dlURL) {
     try {
       final List<String> formattedUPUI = new ArrayList<>();
       final String modifiedUPUI =
@@ -119,38 +118,21 @@ public class GenerateUPUI extends GenerateEPC {
         for (var rangeID = rangeFrom.longValue();
             rangeID < rangeFrom.longValue() + count;
             rangeID++) {
-          formattedUPUI.add(
-              DomainName.IDENTIFIER_DOMAIN
-                  + UPUI_URI_PART
-                  + modifiedUPUI
-                  + UPUI_URI_SERIAL_PART
-                  + rangeID);
+          formattedUPUI.add(dlURL + UPUI_URI_PART + modifiedUPUI + UPUI_URI_SERIAL_PART + rangeID);
         }
         this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         randomMinLength = randomMinLength < 1 || randomMinLength > 28 ? 1 : randomMinLength;
         randomMaxLength = randomMaxLength < 1 || randomMaxLength > 28 ? 28 : randomMaxLength;
 
-        final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(
-                randomType, randomMinLength, randomMaxLength, count);
+        final List<String> randomSerialNumbers = RandomValueGenerator.randomGenerator(randomType, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
-          formattedUPUI.add(
-              DomainName.IDENTIFIER_DOMAIN
-                  + UPUI_URI_PART
-                  + modifiedUPUI
-                  + UPUI_URI_SERIAL_PART
-                  + randomID);
+          formattedUPUI.add(dlURL + UPUI_URI_PART + modifiedUPUI + UPUI_URI_SERIAL_PART + randomID);
         }
       } else if (serialType.equalsIgnoreCase("none") && serialNumber != null) {
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
-          formattedUPUI.add(
-              DomainName.IDENTIFIER_DOMAIN
-                  + UPUI_URI_PART
-                  + modifiedUPUI
-                  + UPUI_URI_SERIAL_PART
-                  + serialNumber);
+          formattedUPUI.add(dlURL + UPUI_URI_PART + modifiedUPUI + UPUI_URI_SERIAL_PART + serialNumber);
         }
       }
       return formattedUPUI;

@@ -59,11 +59,11 @@ public class GenerateManualURI implements QuantityStatergy {
 
   @Override
   public List<QuantityList> format(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity) {
-    return generateManualURI(refQuantity, count);
+      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
+    return generateManualURI(refQuantity, count, dlURL);
   }
 
-  private List<QuantityList> generateManualURI(final Float refQuantity, final Integer count) {
+  private List<QuantityList> generateManualURI(final Float refQuantity, final Integer count, final String dlURL) {
     try {
       final List<QuantityList> formattedURI = new ArrayList<>();
 

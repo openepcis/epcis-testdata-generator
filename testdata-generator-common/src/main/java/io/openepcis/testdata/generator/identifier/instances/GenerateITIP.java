@@ -16,7 +16,6 @@
 package io.openepcis.testdata.generator.identifier.instances;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
@@ -47,9 +46,9 @@ public class GenerateITIP extends GenerateEPC {
   private static final String ITIP_SERIAL_PART = "/21/";
 
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count) {
+  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
     if (IdentifierVocabularyType.WEBURI == syntax) {
-      return generateWebURI(count);
+      return generateWebURI(count, dlURL);
     } else {
       return generateURN(count);
     }
@@ -107,7 +106,7 @@ public class GenerateITIP extends GenerateEPC {
     }
   }
 
-  private List<String> generateWebURI(Integer count) {
+  private List<String> generateWebURI(Integer count, final String dlURL) {
     try {
       final List<String> formattedITIP = new ArrayList<>();
       var modifiedITIP = itip.substring(0, 18);
@@ -118,15 +117,8 @@ public class GenerateITIP extends GenerateEPC {
           && count != null
           && count > 0
           && rangeFrom.longValue() >= 0) {
-        for (var rangeID = rangeFrom.longValue();
-            rangeID < rangeFrom.longValue() + count;
-            rangeID++) {
-          formattedITIP.add(
-              DomainName.IDENTIFIER_DOMAIN
-                  + ITIP_URI_PART
-                  + modifiedITIP
-                  + ITIP_SERIAL_PART
-                  + rangeID);
+        for (var rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count; rangeID++) {
+          formattedITIP.add(dlURL + ITIP_URI_PART + modifiedITIP + ITIP_SERIAL_PART + rangeID);
         }
         this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
@@ -134,25 +126,14 @@ public class GenerateITIP extends GenerateEPC {
         randomMaxLength = randomMaxLength < 1 || randomMaxLength > 20 ? 20 : randomMaxLength;
 
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(
-                randomType, randomMinLength, randomMaxLength, count);
+            RandomValueGenerator.randomGenerator(randomType, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
-          formattedITIP.add(
-              DomainName.IDENTIFIER_DOMAIN
-                  + ITIP_URI_PART
-                  + modifiedITIP
-                  + ITIP_SERIAL_PART
-                  + randomID);
+          formattedITIP.add(dlURL + ITIP_URI_PART + modifiedITIP + ITIP_SERIAL_PART + randomID);
         }
       } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
-          formattedITIP.add(
-              DomainName.IDENTIFIER_DOMAIN
-                  + ITIP_URI_PART
-                  + modifiedITIP
-                  + ITIP_SERIAL_PART
-                  + serialNumber);
+          formattedITIP.add(dlURL + ITIP_URI_PART + modifiedITIP + ITIP_SERIAL_PART + serialNumber);
         }
       }
       return formattedITIP;

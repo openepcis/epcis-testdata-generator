@@ -15,7 +15,6 @@
  */
 package io.openepcis.testdata.generator.format;
 
-import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.List;
@@ -27,9 +26,9 @@ import lombok.NoArgsConstructor;
 @RegisterForReflection
 public class ErrorDeclarationFormatter {
 
-  public static List<String> format(IdentifierVocabularyType syntax, List<String> input) {
+  public static List<String> format(IdentifierVocabularyType syntax, List<String> input, final String dlURL) {
     if (IdentifierVocabularyType.WEBURI == syntax) {
-      return formatWebURI(input);
+      return formatWebURI(input, dlURL);
     } else {
       return formatURN(input);
     }
@@ -39,10 +38,10 @@ public class ErrorDeclarationFormatter {
     return input.stream().filter(Objects::nonNull).toList();
   }
 
-  private static List<String> formatWebURI(List<String> input) {
+  private static List<String> formatWebURI(List<String> input, final String dlURL) {
     return input.stream()
         .filter(Objects::nonNull)
-        .map(i -> DomainName.VOCABULARY_DOMAIN + "/voc/ER-" + i)
+        .map(i -> dlURL + "/voc/ER-" + i)
         .toList();
   }
 }
