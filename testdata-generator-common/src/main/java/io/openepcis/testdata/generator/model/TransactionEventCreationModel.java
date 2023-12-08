@@ -128,7 +128,7 @@ public class TransactionEventCreationModel
 
       // A list which will store all the instance identifiers generated or inherited from the
       // parents by calling referencedEpcsIdentifierGenerator method in IdentifiersUtil
-      final List<String> epcList = super.referencedEpcsIdentifierGenerator(parentTracker);
+      final List<String> epcList = super.referencedEpcsIdentifierGenerator(parentTracker, true);
 
       // Add all the instance identifiers created/inherited above to the TransactionEvent which will
       // be created by OpenEPCIS
