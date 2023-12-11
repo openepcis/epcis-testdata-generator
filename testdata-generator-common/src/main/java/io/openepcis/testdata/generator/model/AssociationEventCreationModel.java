@@ -129,7 +129,7 @@ public class AssociationEventCreationModel
 
       // A list which will store all the instance identifiers generated or inherited from the
       // parents by calling referencedEpcsIdentifierGenerator method in IdentifiersUtil
-      final List<String> childEpcList = super.referencedEpcsIdentifierGenerator(parentTracker, true);
+      final List<String> childEpcList = super.referencedEpcsIdentifierGenerator(parentTracker, false);
 
       // Add the created EPC to the event
       if (!childEpcList.isEmpty()) {

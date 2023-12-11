@@ -118,7 +118,7 @@ public class ObjectEventCreationModel
 
       // A list which will store all the instance identifiers generated or inherited from the
       // parents by calling referencedEpcsIdentifierGenerator method in IdentifiersUtil
-      final List<String> epcList = super.referencedEpcsIdentifierGenerator(parentTracker, false);
+      final List<String> epcList = super.referencedEpcsIdentifierGenerator(parentTracker, true);
 
       // Add all the instance identifiers created above to the ObjectEvent which will be created by
       // OpenEPCIS
