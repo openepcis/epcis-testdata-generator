@@ -159,10 +159,10 @@ export const actions = {
             ) {
               const identifierObj = {
                 identifierId: state.diagram[identifierNode].id,
-                epcCount: connectionInfo.epcCount,
-                inheritParentCount: connectionInfo.inheritParentCount,
-                classCount: connectionInfo.classCount,
-                quantity: connectionInfo.quantity
+                epcCount: connectionInfo.epcCount || 0,
+                inheritParentCount: connectionInfo.inheritParentCount || 0,
+                classCount: connectionInfo.classCount || 0,
+                quantity: connectionInfo.quantity || 0
               }
 
               // If the eventType is TransformationEvent and if the identifiers node is connected to input_1 then treat it as input EPC/Quantity
@@ -319,10 +319,10 @@ export const actions = {
                 function (identifier) {
                   const refIdObj = {
                     parentNodeId: parentNodeInfo.eventId,
-                    epcCount: connectionInfo.epcCount,
-                    inheritParentCount: connectionInfo.inheritParentCount,
-                    classCount: connectionInfo.classCount,
-                    quantity: connectionInfo.quantity
+                    epcCount: connectionInfo.epcCount || 0,
+                    inheritParentCount: connectionInfo.inheritParentCount || 0,
+                    classCount: connectionInfo.classCount || 0,
+                    quantity: connectionInfo.quantity || 0
                   }
                   return refIdObj
                 }

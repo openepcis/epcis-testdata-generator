@@ -59,17 +59,27 @@ export const mutations = {
   },
   // Function to populate the connector Array information with modal values
   populateConnectorInfo (state, connectorInfo) {
-    const connect = state.connectorArray.find(con => parseInt(con.source) === parseInt(state.currentConnector.output_id) && parseInt(con.target) === parseInt(state.currentConnector.input_id))
-    connect.epcCount = parseInt(connectorInfo.epcCount)
-    connect.inheritParentCount = parseInt(connectorInfo.inheritParentCount)
-    connect.classCount = parseInt(connectorInfo.classCount)
-    connect.quantity = parseInt(connectorInfo.quantity)
-    connect.hideInheritParentCount = connectorInfo.hideInheritParentCount
+    const connect = state.connectorArray.find(
+      con =>
+        parseInt(con.source) === parseInt(state.currentConnector.output_id) &&
+        parseInt(con.target) === parseInt(state.currentConnector.input_id)
+    )
+    connect.epcCount = parseInt(connectorInfo.epcCount) || 0
+    connect.inheritParentCount =
+      parseInt(connectorInfo.inheritParentCount) || 0
+    connect.classCount = parseInt(connectorInfo.classCount) || 0
+    connect.quantity = parseInt(connectorInfo.quantity) || 0
+    connect.hideInheritParentCount =
+      parseInt(connectorInfo.hideInheritParentCount) || 0
   },
   // Function to set the hideInheritParentCount based on the Source Node connected to Connector
   populateHideInheritParentCount (state, displayValue) {
     if (state.currentConnector !== undefined) {
-      const connect = state.connectorArray.find(con => parseInt(con.source) === parseInt(state.currentConnector.output_id) && parseInt(con.target) === parseInt(state.currentConnector.input_id))
+      const connect = state.connectorArray.find(
+        con =>
+          parseInt(con.source) === parseInt(state.currentConnector.output_id) &&
+          parseInt(con.target) === parseInt(state.currentConnector.input_id)
+      )
       if (connect !== undefined) {
         connect.hideInheritParentCount = displayValue
       }
@@ -77,7 +87,14 @@ export const mutations = {
   },
   // Function to remove the connector information from connector Array if the connector is deleted
   removeConnectorInfo (state, connectorInfo) {
-    state.connectorArray.splice(state.connectorArray.findIndex(con => parseInt(con.source) === parseInt(connectorInfo.output_id) && parseInt(con.target) === parseInt(connectorInfo.input_id)), 1)
+    state.connectorArray.splice(
+      state.connectorArray.findIndex(
+        con =>
+          parseInt(con.source) === parseInt(connectorInfo.output_id) &&
+          parseInt(con.target) === parseInt(connectorInfo.input_id)
+      ),
+      1
+    )
   },
   // Function to populate all the Connector information into the connectorArray during the import of the supply chain template
   populateConnectorArray (state, connectorArray) {
