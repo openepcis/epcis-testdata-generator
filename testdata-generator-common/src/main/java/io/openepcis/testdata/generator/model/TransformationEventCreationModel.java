@@ -98,7 +98,7 @@ public class TransformationEventCreationModel
 
       // A list which will store all the instance identifiers generated or inherited from the
       // parents by calling referencedEpcsIdentifierGenerator method in IdentifiersUtil
-      final List<String> inputEpcList = super.referencedEpcsIdentifierGenerator(parentTracker);
+      final List<String> inputEpcList = super.referencedEpcsIdentifierGenerator(parentTracker, true);
 
       // Add the created EPC to the event
       if (!inputEpcList.isEmpty()) {
