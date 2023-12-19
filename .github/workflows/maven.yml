@@ -33,6 +33,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+          server-id: openepcis-ossrh
+          server-username: OPENEPCIS_OSSRH_USERNAME
+          server-password: OPENEPCIS_OSSRH_PASSWORD
+
       - name: Install gpg secret key
         run: |
           cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
@@ -47,11 +51,11 @@ jobs:
             --no-transfer-progress \
             --batch-mode \
             -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
-            -Popenepcis-ossrh \
             -Pcoverage \
             -Dsonar.host.url=${{ secrets.CG_SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.CG_SONAR_LOGIN }} \
             -B clean verify deploy sonar:sonar
+
       - name: vus.js ui build
         uses: actions/setup-node@v3
         with:
