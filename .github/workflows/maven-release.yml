@@ -155,14 +155,14 @@ jobs:
     name: "Build Native Container Image"
     strategy:
       matrix:
-        os: ['ubuntu-latest', 'ubuntu-latest']
+        os: ['ubuntu-latest', 'ubuntu-22.04-arm64']
         include:
           - os: 'ubuntu-latest'
             label: 'linux-amd64'
             platform: "linux/amd64"
             tags: "latest-amd64"
             jib-platforms: "linux/amd64"
-          - os: 'ubuntu-latest'
+          - os: 'ubuntu-22.04-arm64'
             label: 'linux-arm64'
             platform: "linux/arm64"
             tags: "latest-arm64"
