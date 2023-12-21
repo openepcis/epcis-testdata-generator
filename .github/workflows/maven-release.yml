@@ -51,7 +51,7 @@ jobs:
             --no-transfer-progress \
             --batch-mode \
             -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
-            -Pcoverage -Popenepcis-ossrh \
+            -Pcoverage -Pci-build -Popenepcis-ossrh \
             -Dsonar.host.url=${{ secrets.CG_SONAR_HOST_URL }} \
             -Dsonar.login=${{ secrets.CG_SONAR_LOGIN }} \
             -B clean verify deploy sonar:sonar
@@ -93,7 +93,7 @@ jobs:
 
       - name: "Prepare Build"
         run: >
-          mvn --no-transfer-progress --batch-mode clean package -DskipTests
+          mvn --no-transfer-progress --batch-mode clean package -Pci-build -DskipTests
 
       - name: vus.js ui build
         uses: actions/setup-node@v3
@@ -111,7 +111,7 @@ jobs:
 
       - name: "Build linux/amd64 Image"
         run: |
-          mvn --no-transfer-progress --batch-mode \
+          mvn --no-transfer-progress --batch-mode -Pci-build \
             clean package -f ./testdata-generator-quarkus-rest-app/pom.xml \
             -Dquarkus.container-image.name=testdata-generator \
             -Dquarkus.container-image.build=true \
@@ -123,7 +123,7 @@ jobs:
 
       - name: "Build linux/arm64 Image"
         run: |
-          mvn --no-transfer-progress --batch-mode \
+          mvn --no-transfer-progress --batch-mode -Pci-build \
             clean package -f ./testdata-generator-quarkus-rest-app/pom.xml \
             -Dquarkus.container-image.name=testdata-generator \
             -Dquarkus.container-image.build=true \
@@ -195,7 +195,7 @@ jobs:
 
       - name: "Prepare Build"
         run: >
-          mvn --no-transfer-progress --batch-mode clean package -DskipTests
+          mvn --no-transfer-progress --batch-mode clean package -Pci-build -DskipTests
       - name: vus.js ui build
         uses: actions/setup-node@v3
         with:
@@ -213,7 +213,7 @@ jobs:
 
       - name: "Build ${{matrix.platform}} native Image"
         run: |
-          mvn --no-transfer-progress --batch-mode package -Dnative -DskipTests -f ./testdata-generator-quarkus-rest-app/pom.xml \
+          mvn --no-transfer-progress --batch-mode package -Dnative -Pci-build -DskipTests -f ./testdata-generator-quarkus-rest-app/pom.xml \
             -Dquarkus.native.container-build=true \
             -Dquarkus.container-image.build=true \
             -Dquarkus.container-image.name=testdata-generator-native \
