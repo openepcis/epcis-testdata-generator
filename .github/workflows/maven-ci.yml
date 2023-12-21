@@ -29,6 +29,8 @@ jobs:
           server-id: openepcis-ossrh
           server-username: OPENEPCIS_OSSRH_USERNAME
           server-password: OPENEPCIS_OSSRH_PASSWORD
+
+      - name: Compile and Verify Test Data Module
         run: |
           mvn \
             -s .mvn/settings.xml \
