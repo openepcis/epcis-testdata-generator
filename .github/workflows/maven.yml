@@ -57,6 +57,49 @@ jobs:
             -Dsonar.login=${{ secrets.CG_SONAR_LOGIN }} \
             -B clean verify deploy sonar:sonar
 
+  build-quarkus-container-images:
+    on:
+      push:
+        tags:
+          - 'v*'
+    name: "Build Container Images"
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: checkout from git
+        uses: actions/checkout@v3
+
+      - name: 'Get Version from tag'
+        uses: olegtarasov/get-tag@v2.1.2
+        id: tagName
+        with:
+          tagRegex: "v(.*)"
+          tagRegexGroup: 1
+
+      - name: 'Login to GitHub Container Registry'
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        id: builder
+        uses: docker/setup-buildx-action@v1
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: "Prepare Build"
+        run: >
+          mvn --no-transfer-progress --batch-mode -Pci-build clean package -DskipTests
+
       - name: vus.js ui build
         uses: actions/setup-node@v3
         with:
@@ -70,49 +113,157 @@ jobs:
           cd ..
           rm -Rf testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
           mv testdata-generator-ui/dist testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
-      - name: create Quarkus runtime image
+
+      - name: "Build linux/amd64 Image"
         run: |
-          mvn \
-            -s .mvn/settings.xml \
-            --no-transfer-progress \
-            --batch-mode \
-            -f testdata-generator-quarkus-rest-app/pom.xml \
-            -Dquarkus.container-image.build=true \
+          mvn --no-transfer-progress --batch-mode \
+            clean package -Pci-build -f ./testdata-generator-quarkus-rest-app/pom.xml \
             -Dquarkus.container-image.name=testdata-generator \
-            -DskipTests \
-            -B package
-      - name: create Quarkus native runtime image
-        run: |
-          mvn \
-            -s .mvn/settings.xml \
-            --no-transfer-progress \
-            --batch-mode \
-            -f testdata-generator-quarkus-rest-app/pom.xml \
             -Dquarkus.container-image.build=true \
-            -DskipTests \
-            -Pnative \
-            -Dquarkus.native.container-build=true \
-            -Dquarkus.container-image.name=testdata-generator-native \
-            -B package
-      - name: create Quarkus native arm runtime image
+            -Dquarkus.container-image.registry=ghcr.io \
+            -Dquarkus.container-image.group=openepcis \
+            -Dquarkus.jib.base-jvm-image=eclipse-temurin:21-jre-alpine \
+            -Dquarkus.container-image.additional-tags=latest-amd64,${GIT_TAG_NAME}-amd64 \
+            -Dquarkus.jib.platforms=linux/amd64 
+
+      - name: "Build linux/arm64 Image"
         run: |
-          mvn \
-            -s .mvn/settings.xml \
-            --no-transfer-progress \
-            --batch-mode \
-            -f testdata-generator-quarkus-rest-app/pom.xml \
+          mvn --no-transfer-progress --batch-mode \
+            clean package -Pci-build -f ./testdata-generator-quarkus-rest-app/pom.xml \
+            -Dquarkus.container-image.name=testdata-generator \
             -Dquarkus.container-image.build=true \
-            -DskipTests \
-            -Pnative \
-            -Dquarkus.native.builder-image=quay.io/quarkus/ubi-quarkus-native-image:22.3.0-java17 \
-            -Dquarkus.jib.base-native-image=quay.io/quarkus/quarkus-micro-image:2.0-arm64 \
-            -Dquarkus.native.container-build=true \
-            -Dquarkus.container-image.name=testdata-generator-native-arm64 \
-            -B package
-      - name: docker hub
+            -Dquarkus.container-image.registry=ghcr.io \
+            -Dquarkus.container-image.group=openepcis \
+            -Dquarkus.jib.base-jvm-image=eclipse-temurin:21-jre-alpine \
+            -Dquarkus.container-image.additional-tags=latest-arm64,${GIT_TAG_NAME}-arm64 \
+            -Dquarkus.jib.platforms=linux/arm64/v8
+
+      - name: "push multi arch image"
+        run: |
+          docker push ghcr.io/openepcis/testdata-generator:${GIT_TAG_NAME}-amd64;
+          docker push ghcr.io/openepcis/testdata-generator:${GIT_TAG_NAME}-arm64;
+          docker push ghcr.io/openepcis/testdata-generator:latest-amd64;
+          docker push ghcr.io/openepcis/testdata-generator:latest-arm64;
+          export DOCKER_CLI_EXPERIMENTAL=enabled;
+          docker manifest create ghcr.io/openepcis/testdata-generator:${GIT_TAG_NAME} \
+            --amend ghcr.io/openepcis/testdata-generator:${GIT_TAG_NAME}-amd64 \
+            --amend ghcr.io/openepcis/testdata-generator:${GIT_TAG_NAME}-arm64;
+          docker manifest push ghcr.io/openepcis/testdata-generator:${GIT_TAG_NAME};
+          docker manifest create ghcr.io/openepcis/testdata-generator:latest \
+            --amend ghcr.io/openepcis/testdata-generator:latest-amd64 \
+            --amend ghcr.io/openepcis/testdata-generator:latest-arm64;
+          docker manifest push ghcr.io/openepcis/testdata-generator:latest;
+  
+  
+
+  build-quarkus-native-container-images:
+    on:
+      push:
+        tags:
+          - 'v*'
+    name: "Build Native Container Image"
+    strategy:
+      matrix:
+        os: ['ubuntu-latest', 'ubuntu-latest']
+        include:
+          - os: 'ubuntu-latest'
+            label: 'linux-amd64'
+            platform: "linux/amd64"
+            tags: "latest-amd64"
+            jib-platforms: "linux/amd64"
+          - os: 'ubuntu-latest'
+            label: 'linux-arm64'
+            platform: "linux/arm64"
+            tags: "latest-arm64"
+            jib-platforms: "linux/arm64/v8"
+    runs-on: ${{matrix.os}}
+    steps:
+      - name: checkout from git
+        uses: actions/checkout@v3
+
+      - name: 'Get Version from tag'
+        uses: olegtarasov/get-tag@v2.1.2
+        id: tagName
+        with:
+          tagRegex: "v(.*)"
+          tagRegexGroup: 1
+
+      - name: 'Login to GitHub Container Registry'
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.OPENEPCIS_DOCKER_USER }}
-          password: ${{ secrets.OPENEPCIS_DOCKER_TOKEN }}
-      - name: push images to docker hub
-        run: docker push openepcis/testdata-generator; docker push openepcis/testdata-generator-native; docker push openepcis/testdata-generator-native-arm64
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: "Prepare Build"
+        run: >
+          mvn --no-transfer-progress --batch-mode -Pci-build clean package -DskipTests
+      - name: vus.js ui build
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: integrate vus.js ui into quarkus rest api
+        run: |
+          cd testdata-generator-ui
+          export API_URL="/api"
+          npm install
+          npm run-script build
+          cd ..
+          rm -Rf testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
+          mv testdata-generator-ui/dist testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
+
+      - name: "Build ${{matrix.platform}} native Image"
+        run: |
+          mvn --no-transfer-progress --batch-mode -Pci-build package -Dnative -DskipTests -f .testdata-generator-quarkus-rest-app/pom.xml \
+            -Dquarkus.native.container-build=true \
+            -Dquarkus.container-image.build=true \
+            -Dquarkus.container-image.name=testdata-generator-native \
+            -Dquarkus.container-image.registry=ghcr.io \
+            -Dquarkus.container-image.group=openepcis \
+            -Dquarkus.container-image.additional-tags=${{matrix.tags}},${GIT_TAG_NAME}-${{matrix.label}} \
+            -Dquarkus.native.container-runtime-options="--platform=${{matrix.platform}}" \
+            -Dquarkus.jib.platforms=${{matrix.jib-platforms}}
+
+      - name: "push arch image"
+        run: |
+          docker push ghcr.io/openepcis/testdata-generator-native:${GIT_TAG_NAME}-${{matrix.label}};
+          docker push ghcr.io/openepcis/testdata-generator-native:${{matrix.tags}};
+
+  push-quarkus-native-container-images:
+    name: "Push Native Container Images"
+    needs: [build-quarkus-native-container-images]
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: 'Login to GitHub Container Registry'
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+
+      - name: 'Get Version from tag'
+        uses: olegtarasov/get-tag@v2.1.2
+        id: tagName
+        with:
+          tagRegex: "v(.*)"
+          tagRegexGroup: 1
+
+      - name: "push multi-arch image"
+        run: |
+          export DOCKER_CLI_EXPERIMENTAL=enabled;
+          docker manifest create ghcr.io/openepcis/testdata-generator-native:${GIT_TAG_NAME} \
+            --amend ghcr.io/openepcis/testdata-generator-native:${GIT_TAG_NAME}-linux-amd64 \
+            --amend ghcr.io/openepcis/testdata-generator-native:${GIT_TAG_NAME}-linux-arm64;
+          docker manifest push ghcr.io/openepcis/testdata-generator-native:${GIT_TAG_NAME};
+          docker manifest create ghcr.io/openepcis/event-hash-generator-service-native:latest \
+            --amend ghcr.io/openepcis/testdata-generator-native:latest-amd64 \
+            --amend ghcr.io/openepcis/testdata-generator-native:latest-arm64;
+          docker manifest push ghcr.io/openepcis/testdata-generator-native:latest;

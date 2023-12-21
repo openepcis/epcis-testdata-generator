@@ -1,6 +1,23 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 ![Java CI](https://github.com/openepcis/epcis-testdata-generator/actions/workflows/maven.yml/badge.svg)
 
+- [Introduction](#introduction)
+- [Need for EPCIS Test Data Generator](#need-for-epcis-test-data-generator)
+- [OpenEPCIS test data generator](#openepcis-test-data-generator)
+- [Key features](#key-features)
+- [Applications overview](#applications-overview)
+    - [testdata-generator-common](#testdata-generator-common)
+    - [testdata-generator-rest-api](#testdata-generator-rest-api)
+    - [testdata-generator-ui](#testdata-generator-ui)
+- [Local set-up](#local-set-up)
+    - [Running with Podman](#running-with-podman)
+    - [Running with Docker](#running-with-docker)
+- [Usage](#usage)
+    - [Using local set-up](#using-local-set-up)
+    - [Direct usage](#direct-usage)
+- [Native image support](#native-image-support)
+- [Dependencies](#dependencies)
+
 ## Introduction
 
 For various business requirements, including traceability (of goods, assets, etc.), process automation, compliance, and supply chain management, you and your trading partners must capture and share visibility data in addition to master data (such as the description and weight of a trade item) and transactional data (such as an order, invoice, etc.). This data category's fundamental and open-source standard, EPCIS has been already widely used across a number of industries.
