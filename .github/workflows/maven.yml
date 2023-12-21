@@ -213,7 +213,7 @@ jobs:
 
       - name: "Build ${{matrix.platform}} native Image"
         run: |
-          mvn --no-transfer-progress --batch-mode -Pci-build package -Dnative -DskipTests -f .testdata-generator-quarkus-rest-app/pom.xml \
+          mvn --no-transfer-progress --batch-mode -Pci-build package -Dnative -DskipTests -f ./testdata-generator-quarkus-rest-app/pom.xml \
             -Dquarkus.native.container-build=true \
             -Dquarkus.container-image.build=true \
             -Dquarkus.container-image.name=testdata-generator-native \
