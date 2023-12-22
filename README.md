@@ -1,5 +1,5 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-![Java CI](https://github.com/openepcis/epcis-testdata-generator/actions/workflows/maven.yml/badge.svg)
+![Java CI](https://github.com/openepcis/epcis-testdata-generator/actions/workflows/maven-ci.yml/badge.svg)
 
 - [Introduction](#introduction)
 - [Need for EPCIS Test Data Generator](#need-for-epcis-test-data-generator)
