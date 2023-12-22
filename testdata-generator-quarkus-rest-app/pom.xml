@@ -59,6 +59,7 @@
     </scm>
 
     <build>
+        <finalName>testdata-generator-quarkus-rest-app</finalName>
         <plugins>
             <plugin>
                 <groupId>${quarkus.platform.group-id}</groupId>

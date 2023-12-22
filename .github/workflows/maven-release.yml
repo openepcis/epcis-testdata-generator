@@ -67,7 +67,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: 'testdata-generator-quarkus-rest-app-${{env.VERSION}}-runner.jar'
-          path: 'testdata-generator-quarkus-rest-app/target/testdata-generator-quarkus-rest-app-${{env.VERSION}}-runner.jar'
+          path: 'testdata-generator-quarkus-rest-app/target/testdata-generator-quarkus-rest-app-runner.jar'
       - name: 'Create Release'
         if: contains(github.ref, 'v')
         id: create_release
@@ -91,7 +91,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           upload_url: ${{steps.create_release.outputs.upload_url}}
-          asset_path: 'testdata-generator-quarkus-rest-app/target/testdata-generator-quarkus-rest-app-${{env.VERSION}}-runner.jar'
+          asset_path: 'testdata-generator-quarkus-rest-app/target/testdata-generator-quarkus-rest-app-runner.jar'
           asset_name: 'testdata-generator-quarkus-rest-app-${{env.GIT_TAG_NAME}}.jar'
           asset_content_type: application/java-archive
 
@@ -360,13 +360,6 @@ jobs:
         run: |
           echo "::set-env name=UPLOAD_URL::$(cat upload_url.txt)"
 
-      - name: 'Get Version Number'
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-        run: |
-          echo "::set-env name=VERSION::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
-        shell: bash
-
       - name: Set up GraalVM
         uses: graalvm/setup-graalvm@v1
         with:
@@ -392,5 +385,5 @@ jobs:
         with:
           upload_url: ${{env.UPLOAD_URL}}
           asset_name: 'testdata-generator-quarkus-rest-app-runner-${{env.GIT_TAG_NAME}}-${{matrix.label}}${{matrix.exe}}'
-          asset_path: 'testdata-generator-quarkus-rest-app/target/testdata-generator-quarkus-rest-app-${{env.VERSION}}-runner${{matrix.exe}}'
+          asset_path: 'testdata-generator-quarkus-rest-app/target/testdata-generator-quarkus-rest-app-runner${{matrix.exe}}'
           asset_content_type: application/octet-stream
