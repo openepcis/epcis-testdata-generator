@@ -360,6 +360,13 @@ jobs:
         run: |
           echo "::set-env name=UPLOAD_URL::$(cat upload_url.txt)"
 
+      - name: 'Get Version Number'
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+        run: |
+          echo "::set-env name=VERSION::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+        shell: bash
+
       - name: Set up GraalVM
         uses: graalvm/setup-graalvm@v1
         with:
