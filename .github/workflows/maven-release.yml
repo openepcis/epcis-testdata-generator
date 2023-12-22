@@ -332,10 +332,10 @@ jobs:
     runs-on: ${{matrix.os}}
 
     steps:
-#      - uses: actions/checkout@v4
-#      - run: |
-#          git config core.protectNTFS false
-#          git config hooks.enforcecompatiblefilenames false
+      - name: setup up global git config
+        run: |
+          git config --global core.protectNTFS false
+          git config --global hooks.enforcecompatiblefilenames false
 
       - name: checkout from git
         uses: actions/checkout@v4
