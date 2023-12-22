@@ -63,7 +63,7 @@ jobs:
           echo "::set-env name=VERSION::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
 
 
-      - name: 'Publish CLI JAR'
+      - name: 'Publish Application JAR'
         uses: actions/upload-artifact@v3
         with:
           name: 'testdata-generator-quarkus-rest-app-${{env.VERSION}}-runner.jar'
@@ -85,14 +85,14 @@ jobs:
 
       - name: 'Upload Release Quarkus REST Application Asset'
         if: contains(github.ref, 'v')
-        id: upload--cli-release-asset
+        id: upload--app-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           upload_url: ${{steps.create_release.outputs.upload_url}}
           asset_path: 'testdata-generator-quarkus-rest-app/target/testdata-generator-quarkus-rest-app-${{env.VERSION}}-runner.jar'
-          asset_name: 'openepcis-event-hash-generator-cli-${{env.GIT_TAG_NAME}}.jar'
+          asset_name: 'testdata-generator-quarkus-rest-app-${{env.GIT_TAG_NAME}}.jar'
           asset_content_type: application/java-archive
 
       - name: 'Write Upload URL To File'
@@ -220,7 +220,7 @@ jobs:
     runs-on: ${{matrix.os}}
     steps:
       - name: checkout from git
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 'Get Version from tag'
         uses: olegtarasov/get-tag@v2.1.2
