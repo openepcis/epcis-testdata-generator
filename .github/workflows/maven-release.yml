@@ -189,6 +189,7 @@ jobs:
         run: |
           rm -Rf testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
           mv testdata-generator-ui/dist testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
+        shell: "bash"
 
       - name: "Prepare Build"
         run: >
@@ -291,6 +292,7 @@ jobs:
         run: |
           rm -Rf testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
           mv testdata-generator-ui/dist testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
+        shell: "bash"
 
       - name: "Prepare Build"
         run: >
@@ -414,6 +416,7 @@ jobs:
         run: |
           rm -Rf testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
           mv testdata-generator-ui/dist testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
+        shell: "bash"
 
 
       - name: "Prepare Build"
