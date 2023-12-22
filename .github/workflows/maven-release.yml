@@ -254,7 +254,7 @@ jobs:
             --amend ghcr.io/openepcis/testdata-generator-native:${GIT_TAG_NAME}-linux-amd64 \
             --amend ghcr.io/openepcis/testdata-generator-native:${GIT_TAG_NAME}-linux-arm64;
           docker manifest push ghcr.io/openepcis/testdata-generator-native:${GIT_TAG_NAME};
-          docker manifest create ghcr.io/openepcis/event-hash-generator-service-native:latest \
+          docker manifest create ghcr.io/openepcis/testdata-generator-native:latest \
             --amend ghcr.io/openepcis/testdata-generator-native:latest-amd64 \
             --amend ghcr.io/openepcis/testdata-generator-native:latest-arm64;
           docker manifest push ghcr.io/openepcis/testdata-generator-native:latest;
