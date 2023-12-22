@@ -333,7 +333,10 @@ jobs:
 
     steps:
       - name: checkout from git
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        run: |
+          git config core.protectNTFS false
+          git config hooks.enforcecompatiblefilenames false
 
       - name: 'Get Version from tag'
         uses: olegtarasov/get-tag@v2.1.2
