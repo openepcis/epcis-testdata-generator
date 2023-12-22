@@ -332,11 +332,13 @@ jobs:
     runs-on: ${{matrix.os}}
 
     steps:
-      - name: checkout from git
-        uses: actions/checkout@v4
+      - name: "configure git"
         run: |
           git config core.protectNTFS false
           git config hooks.enforcecompatiblefilenames false
+          
+      - name: checkout from git
+        uses: actions/checkout@v4
 
       - name: 'Get Version from tag'
         uses: olegtarasov/get-tag@v2.1.2
