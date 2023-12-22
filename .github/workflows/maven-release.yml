@@ -34,7 +34,7 @@ jobs:
         if: contains(github.ref, 'v')
         uses: actions/upload-artifact@v3
         with:
-          name: 'testdata-generator-ui'
+          name: 'testdata-generator-ui-dist'
           path: 'testdata-generator-ui/dist'
 
 
@@ -187,7 +187,8 @@ jobs:
         if: contains(github.ref, 'v')
         uses: actions/download-artifact@v3
         with:
-          name: 'testdata-generator-ui'
+          name: 'testdata-generator-ui-dist'
+          path: 'testdata-generator-ui/dist'
 
       - name: "integrate vus.js ui into quarkus rest api"
         run: |
@@ -287,7 +288,8 @@ jobs:
         if: contains(github.ref, 'v')
         uses: actions/download-artifact@v3
         with:
-          name: 'testdata-generator-ui'
+          name: 'testdata-generator-ui-dist'
+          path: 'testdata-generator-ui/dist'
 
       - name: "integrate vus.js ui into quarkus rest api"
         run: |
@@ -409,7 +411,8 @@ jobs:
         if: contains(github.ref, 'v')
         uses: actions/download-artifact@v3
         with:
-          name: 'testdata-generator-ui'
+          name: 'testdata-generator-ui-dist'
+          path: 'testdata-generator-ui/dist'
 
       - name: "integrate vus.js ui into quarkus rest api"
         run: |
