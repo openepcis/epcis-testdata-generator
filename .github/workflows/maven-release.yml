@@ -9,6 +9,31 @@ on:
       - 'v*'
 
 jobs:
+  build-vue-js-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: vus.js ui build
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: "Create VUE.JS Artifact"
+        run: |
+          cd testdata-generator-ui
+          export API_URL="/api"
+          npm install
+          npm run-script build
+          cd ..
+
+      - name: 'Upload VUE.JS Artifact'
+        if: contains(github.ref, 'v')
+        uses: actions/upload-artifact@v3
+        with:
+          name: 'testdata-generator-ui'
+          path: 'testdata-generator-ui/dist'
+
+
+
   build-jar-job:
 
     runs-on: ubuntu-latest
@@ -60,21 +85,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-
-      - name: "Create VUE.JS Artifact"
-        run: |
-          cd testdata-generator-ui
-          export API_URL="/api"
-          npm install
-          npm run-script build
-          cd ..
-
-      - name: 'Upload VUE.JS Artifact'
-        if: contains(github.ref, 'v')
-        uses: actions/upload-artifact@v3
-        with:
-          name: 'testdata-generator-ui/dist'
-          path: 'testdata-generator-ui/dist'
 
 
       - name: 'Get Version Number'
@@ -129,6 +139,7 @@ jobs:
 
   build-quarkus-container-images:
     name: "Build Container Images"
+    needs: [ build-vue-js-job ]
     runs-on: 'ubuntu-latest'
     steps:
       - name: checkout from git
@@ -171,7 +182,7 @@ jobs:
         if: contains(github.ref, 'v')
         uses: actions/download-artifact@v3
         with:
-          name: 'testdata-generator-ui/dist'
+          name: 'testdata-generator-ui'
 
       - name: "integrate vus.js ui into quarkus rest api"
         run: |
@@ -222,6 +233,8 @@ jobs:
 
   build-quarkus-native-container-images:
     name: "Build Native Container Image"
+    needs: [ build-vue-js-job ]
+
     strategy:
       matrix:
         os: ['ubuntu-latest', 'ubuntu-22.04-arm64']
@@ -269,7 +282,7 @@ jobs:
         if: contains(github.ref, 'v')
         uses: actions/download-artifact@v3
         with:
-          name: 'testdata-generator-ui/dist'
+          name: 'testdata-generator-ui'
 
       - name: "integrate vus.js ui into quarkus rest api"
         run: |
@@ -326,7 +339,7 @@ jobs:
 
   build-quarkus-native-executable:
     name: "Build Quarkus Service Native Executable"
-    needs: [build-jar-job]
+    needs: [build-jar-job, build-vue-js-job]
 
     strategy:
       matrix:
@@ -391,7 +404,7 @@ jobs:
         if: contains(github.ref, 'v')
         uses: actions/download-artifact@v3
         with:
-          name: 'testdata-generator-ui/dist'
+          name: 'testdata-generator-ui'
 
       - name: "integrate vus.js ui into quarkus rest api"
         run: |
