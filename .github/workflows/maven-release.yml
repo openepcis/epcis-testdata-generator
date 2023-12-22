@@ -12,6 +12,11 @@ jobs:
   build-vue-js-job:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout git submodules
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
       - name: vus.js ui build
         uses: actions/setup-node@v3
         with:
