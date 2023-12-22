@@ -372,6 +372,21 @@ jobs:
         run: |
           mvn --no-transfer-progress --batch-mode -Pci-build clean package -DskipTests
 
+      - name: vus.js ui build
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: integrate vus.js ui into quarkus rest api
+        run: |
+          cd testdata-generator-ui
+          export API_URL="/api"
+          npm install
+          npm run-script build
+          cd ..
+          rm -Rf testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
+          mv testdata-generator-ui/dist testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
+
       - name: "Build Native Quarkus Executable"
         run: |
           mvn --no-transfer-progress --batch-mode clean package -Pnative -Pci-build -DskipTests -f ./testdata-generator-quarkus-rest-app/pom.xml
