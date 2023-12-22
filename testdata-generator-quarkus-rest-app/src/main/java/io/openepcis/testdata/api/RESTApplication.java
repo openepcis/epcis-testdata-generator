@@ -57,9 +57,16 @@ public class RESTApplication extends Application {
 
 
   @Route(regex = "/ui/.*", path = "ui/index.html", methods = Route.HttpMethod.GET)
-  @Operation(summary = "Testdata Generator User Interface")
+  @Operation(hidden = true)
   @jakarta.ws.rs.Produces(MediaType.TEXT_HTML)
   void ui(RoutingContext rc) {
     StaticHandler.create(FileSystemAccess.RELATIVE, "static-web").handle(rc);
   }
+
+  @Route(path = "/", methods = Route.HttpMethod.GET)
+  @Operation(hidden = true)
+  void baseUrl(RoutingContext rc) {
+    rc.redirect("/ui/");
+  }
+
 }

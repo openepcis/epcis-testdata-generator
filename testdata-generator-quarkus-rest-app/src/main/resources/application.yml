@@ -18,7 +18,26 @@ quarkus:
     additional-build-args: "--initialize-at-run-time=org.apache.commons.math3.random.RandomDataGenerator\\,io.openepcis.testdata.generator.format.RandomValueGenerator"
     resources:
       includes: static/**,static-web/**
+  banner:
+    path: "openepcis-banner.txt"
+  package:
+    type: "uber-jar"
+
 
 mp:
   openapi:
     filter: "io.openepcis.testdata.api.filter.SchemaExampleOASFilter"
+
+    extensions:
+      smallrye:
+        info:
+          title: "OpenEPCIS Test Data Generator API"
+          version: "1.0.0"
+          description: "Generate test data events quickly by providing an event generation model to the simulation engine."
+          contact:
+            email: "info@openepcis.io"
+            name: "OpenEPCIS | benelog GmbH & Co. KG"
+            url: "https://openepcis.io"
+            license:
+              name: "Apache 2.0"
+              url: "http://www.apache.org/licenses/LICENSE-2.0.html"
