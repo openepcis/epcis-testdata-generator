@@ -113,7 +113,7 @@ public class GenerateGSRNP extends GenerateEPCType2 {
         final int requiredLength = 18 - gcp.length();
         final List<String> randomSerialNumbers =
             RandomValueGenerator.randomGenerator(
-                RandomizationType.NUMERIC, requiredLength, requiredLength, randomCount);
+                RandomizationType.NUMERIC, requiredLength, requiredLength, count);
         for (var randomID : randomSerialNumbers) {
           final String gsrnpID = dlURL + GSRNP_URI_PART + gcp + randomID;
           formattedGSRNP.add(gsrnpID);
