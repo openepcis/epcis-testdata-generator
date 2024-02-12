@@ -38,7 +38,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 public class GenerateUSDoD implements EPCStrategy {
 
   @Pattern(
-      regexp = "^(\\s*|\\d{5,6})$",
+      regexp = "^[A-Z0-9]{5,6}$",
       message = "USDoD CAGE/DoDAAC should be Min 5 digits and Max 6 digits")
   @NotNull(
       message = "Cage value for USDoD cannot be null, it should be Min 5 digits and Max 6 digits")

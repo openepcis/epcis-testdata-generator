@@ -56,9 +56,9 @@ public class GenerateLGTIN extends GenerateQuantity {
   private String serialType;
 
   @Schema(
-      type = SchemaType.NUMBER,
+      type = SchemaType.STRING,
       description = "Serial number for none based identifier generation")
-  private BigInteger serialNumber;
+  private String serialNumber;
 
   @Min(value = 0, message = "Range start value cannot be less than 0")
   @Schema(

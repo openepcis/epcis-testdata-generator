@@ -85,7 +85,7 @@ public class GenerateITIP extends GenerateQuantity {
             quantityFormatted.setEpcClass(ITIP_URN_PART + modifiedUrnITIP + ".*");
           } else if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
             // For WebURI syntax create the identifiers based on the WebURI type
-            quantityFormatted.setEpcClass(dlURL + ITIP_URI_PART + itip + modifiedUriITIP);
+            quantityFormatted.setEpcClass(dlURL + ITIP_URI_PART + modifiedUriITIP);
           }
           quantityFormatted.setQuantity(
               refQuantity != null && refQuantity != 0 ? refQuantity : quantity);

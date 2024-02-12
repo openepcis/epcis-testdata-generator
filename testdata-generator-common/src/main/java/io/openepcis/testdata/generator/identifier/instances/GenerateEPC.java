@@ -72,9 +72,9 @@ public abstract class GenerateEPC implements EPCStrategy {
   protected RandomizationType randomType = RandomizationType.NUMERIC;
 
   @Schema(
-      type = SchemaType.NUMBER,
+      type = SchemaType.STRING,
       description = "Serial number for none based identifier generation.")
-  protected BigInteger serialNumber;
+  protected String serialNumber;
 
   @Schema(type = SchemaType.NUMBER, description = "Min character length for random serial numbers.")
   protected Integer randomMinLength;
