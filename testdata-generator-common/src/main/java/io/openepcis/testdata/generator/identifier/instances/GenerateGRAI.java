@@ -83,7 +83,7 @@ public class GenerateGRAI extends GenerateEPC {
         randomMaxLength = randomMaxLength < 1 || randomMaxLength > 16 ? 16 : randomMaxLength;
 
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(
+            RandomValueGenerator.getInstance().randomGenerator(
                 randomType, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
@@ -126,7 +126,7 @@ public class GenerateGRAI extends GenerateEPC {
         randomMaxLength = randomMaxLength < 1 || randomMaxLength > 16 ? 16 : randomMaxLength;
 
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(
+            RandomValueGenerator.getInstance().randomGenerator(
                 randomType, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {

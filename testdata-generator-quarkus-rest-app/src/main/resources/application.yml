@@ -14,10 +14,14 @@ quarkus:
     additional-tags:
       - latest
 
+  locales: en
+  default-locale: en-US
   native:
-    additional-build-args: "--initialize-at-run-time=org.apache.commons.math3.random.RandomDataGenerator\\,io.openepcis.testdata.generator.format.RandomValueGenerator"
+    user-country: US
+    user-language: en
+    additional-build-args: "--initialize-at-run-time=org.apache.commons.math3.random.RandomDataGenerator\\,io.openepcis.testdata.generator.format.RandomValueGenerator\\,java.security.SecureRandom -H:DefaultLocale=en -H:-LocalizationOptimizedMode -Duser.country=US -Duser.language=en -H:IncludeLocales=en -H:IncludeResourceBundles=jakarta.xml.bind.Messages"
     resources:
-      includes: static/**,static-web/**
+      includes: static/**,static-web/**,jakarta/**/*.properties,**/jaxb.properties
   banner:
     path: "openepcis-banner.txt"
   package:

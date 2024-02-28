@@ -114,7 +114,7 @@ public class GenerateLGTIN extends GenerateQuantity {
         this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(RandomizationType.NUMERIC, 1, 20, count);
+                RandomValueGenerator.getInstance().randomGenerator(RandomizationType.NUMERIC, 1, 20, count);
 
         for (var randomId : randomSerialNumbers) {
           // Call the method to create and add the Quantity information for every random option
@@ -176,7 +176,7 @@ public class GenerateLGTIN extends GenerateQuantity {
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         // Return the list of SGTIN for RANDOM calculation
         List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(RandomizationType.NUMERIC, 1, 20, count);
+            RandomValueGenerator.getInstance().randomGenerator(RandomizationType.NUMERIC, 1, 20, count);
 
         for (var randomId : randomSerialNumbers) {
           // Call the method to create and add the Quantity information for every random option

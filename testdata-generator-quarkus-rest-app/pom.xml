@@ -197,6 +197,14 @@
             <groupId>io.openepcis</groupId>
             <artifactId>testdata-generator-rest-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.openepcis</groupId>
+            <artifactId>converter-service-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.openepcis</groupId>
+            <artifactId>openepcis-document-validation-rest-api</artifactId>
+        </dependency>
 
 
         <!-- Converting the EPCIS Document XML <-> JSON -->
@@ -261,18 +269,15 @@
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.moxy</artifactId>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <scope>compile</scope>
         </dependency>
 
 

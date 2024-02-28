@@ -87,7 +87,7 @@ public class GenerateITIP extends GenerateEPC {
         randomMaxLength = randomMaxLength < 1 || randomMaxLength > 20 ? 20 : randomMaxLength;
 
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(
+                RandomValueGenerator.getInstance().randomGenerator(
                 randomType, randomMinLength, randomMaxLength, count);
 
         for (var rangeID : randomSerialNumbers) {
@@ -126,7 +126,7 @@ public class GenerateITIP extends GenerateEPC {
         randomMaxLength = randomMaxLength < 1 || randomMaxLength > 20 ? 20 : randomMaxLength;
 
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(randomType, randomMinLength, randomMaxLength, count);
+                RandomValueGenerator.getInstance().randomGenerator(randomType, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
           formattedITIP.add(dlURL + ITIP_URI_PART + modifiedITIP + ITIP_SERIAL_PART + randomID);

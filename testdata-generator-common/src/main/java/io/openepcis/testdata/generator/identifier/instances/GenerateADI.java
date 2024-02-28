@@ -118,7 +118,7 @@ public class GenerateADI implements EPCStrategy {
         randomMaxLength = randomMaxLength < 1 || randomMaxLength > 20 ? 20 : randomMaxLength;
 
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(
+            RandomValueGenerator.getInstance().randomGenerator(
                 RandomizationType.NUMERIC, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {

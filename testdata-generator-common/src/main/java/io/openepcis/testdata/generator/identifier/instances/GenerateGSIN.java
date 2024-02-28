@@ -70,7 +70,7 @@ public class GenerateGSIN extends GenerateEPCType2 {
         this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count.longValue());
       } else if (serialType.equalsIgnoreCase("random") && count != null && count.longValue() > 0) {
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(RandomizationType.NUMERIC, 1, 4, count.intValue());
+                RandomValueGenerator.getInstance().randomGenerator(RandomizationType.NUMERIC, 1, 4, count.intValue());
 
         for (var randomID : randomSerialNumbers) {
           var append = gcp + randomID;
@@ -114,7 +114,7 @@ public class GenerateGSIN extends GenerateEPCType2 {
       } else if (serialType.equalsIgnoreCase("random") && count != null && count.longValue() > 0) {
         // RANDOM calculation
         List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(RandomizationType.NUMERIC, 1, 4, count.intValue());
+                RandomValueGenerator.getInstance().randomGenerator(RandomizationType.NUMERIC, 1, 4, count.intValue());
 
         for (var randomID : randomSerialNumbers) {
           var append = gcp + randomID;

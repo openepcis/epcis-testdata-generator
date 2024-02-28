@@ -71,7 +71,7 @@ public class GenerateGSRN extends GenerateEPCType2 {
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         final int requiredLength = 17 - gcp.length();
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(
+                RandomValueGenerator.getInstance().randomGenerator(
                 RandomizationType.NUMERIC, requiredLength, requiredLength, count);
 
         for (var randomID : randomSerialNumbers) {
@@ -108,7 +108,7 @@ public class GenerateGSRN extends GenerateEPCType2 {
       } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
         int requiredLength = 18 - gcp.length();
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(
+                RandomValueGenerator.getInstance().randomGenerator(
                 RandomizationType.NUMERIC, requiredLength, requiredLength, count);
         for (var randomID : randomSerialNumbers) {
           formattedGSRN.add(dlURL + GSRN_URI_PART + gcp + randomID);

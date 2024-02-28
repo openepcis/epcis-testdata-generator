@@ -19,6 +19,7 @@ import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +30,14 @@ import lombok.NoArgsConstructor;
 @RegisterForReflection
 public class RandomValueGenerator {
 
-  private static final SecureRandom random = new SecureRandom();
+  private SecureRandom random = new SecureRandom();
 
-  public static List<String> randomGenerator(
+  private static final RandomValueGenerator INSTANCE = new RandomValueGenerator();
+
+  public static final RandomValueGenerator getInstance() {
+    return INSTANCE;
+  }
+  public List<String> randomGenerator(
       RandomizationType type, int minLength, int maxLength, int randomCount) {
     return switch (type) {
       case ALPHA_NUMERIC:
@@ -44,7 +50,7 @@ public class RandomValueGenerator {
   }
 
   // If Numeric random values needs to be generated
-  public static List<String> numericGenerator(int minLength, int maxLength, int randomCount) {
+  public List<String> numericGenerator(int minLength, int maxLength, int randomCount) {
     try {
       final List<String> randomList = new ArrayList<>();
       final var numericRandomSet = "1234567890";
@@ -67,7 +73,7 @@ public class RandomValueGenerator {
   }
 
   // If Alphanumeric random values needs to be generated
-  public static List<String> alphaNumericGenerator(int minLength, int maxLength, int randomCount) {
+  public List<String> alphaNumericGenerator(int minLength, int maxLength, int randomCount) {
     try {
       final var alphaNumericRandomSet =
           "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -92,7 +98,7 @@ public class RandomValueGenerator {
   }
 
   // If URL Safe random values needs to be generated
-  public static List<String> urlSafeGenerator(int minLength, int maxLength, int randomCount) {
+  public List<String> urlSafeGenerator(int minLength, int maxLength, int randomCount) {
     try {
       final var urlSafeRandomSet = "abcdefghijklmnopqrstuvwxyz0123456789-_";
       final List<String> randomList = new ArrayList<>();

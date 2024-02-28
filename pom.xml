@@ -111,6 +111,16 @@
                 <artifactId>testdata-generator-rest-api</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.openepcis</groupId>
+                <artifactId>converter-service-rest</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.openepcis</groupId>
+                <artifactId>openepcis-document-validation-rest-api</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
 
             <!-- Converting the EPCIS Document XML <-> JSON -->
             <dependency>

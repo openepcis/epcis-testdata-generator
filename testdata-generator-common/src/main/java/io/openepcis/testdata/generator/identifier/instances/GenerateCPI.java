@@ -82,7 +82,7 @@ public class GenerateCPI extends GenerateEPC {
         randomMaxLength = randomMaxLength < 1 || randomMaxLength > 12 ? 12 : randomMaxLength;
 
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(
+            RandomValueGenerator.getInstance().randomGenerator(
                 RandomizationType.NUMERIC, randomMinLength, randomMaxLength, count);
 
         for (String randomID : randomSerialNumbers) {
@@ -124,7 +124,7 @@ public class GenerateCPI extends GenerateEPC {
         randomMaxLength = randomMaxLength < 1 || randomMaxLength > 12 ? 12 : randomMaxLength;
 
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(
+            RandomValueGenerator.getInstance().randomGenerator(
                 randomType, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {

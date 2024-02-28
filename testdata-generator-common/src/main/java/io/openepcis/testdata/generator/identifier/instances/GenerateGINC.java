@@ -69,7 +69,7 @@ public class GenerateGINC extends GenerateEPCType2 {
         // Return the list of GINC for RANDOM calculation
         final int requiredMaxLength = 29 - gcp.length();
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(
+            RandomValueGenerator.getInstance().randomGenerator(
                 RandomizationType.NUMERIC, 1, requiredMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
@@ -109,7 +109,7 @@ public class GenerateGINC extends GenerateEPCType2 {
         // RANDOM calculation
         final int requiredMaxLength = 29 - gcp.length();
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(
+                RandomValueGenerator.getInstance().randomGenerator(
                 RandomizationType.NUMERIC, 1, requiredMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {

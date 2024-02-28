@@ -85,7 +85,7 @@ public class GenerateUPUI extends GenerateEPC {
         randomMaxLength = randomMaxLength < 1 || randomMaxLength > 28 ? 28 : randomMaxLength;
 
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(
+            RandomValueGenerator.getInstance().randomGenerator(
                 randomType, randomMinLength, randomMaxLength, count);
         for (var randomID : randomSerialNumbers) {
           formattedUPUI.add(UPUI_URN_PART + modifiedUPUI + "." + randomID);
@@ -125,7 +125,7 @@ public class GenerateUPUI extends GenerateEPC {
         randomMinLength = randomMinLength < 1 || randomMinLength > 28 ? 1 : randomMinLength;
         randomMaxLength = randomMaxLength < 1 || randomMaxLength > 28 ? 28 : randomMaxLength;
 
-        final List<String> randomSerialNumbers = RandomValueGenerator.randomGenerator(randomType, randomMinLength, randomMaxLength, count);
+        final List<String> randomSerialNumbers = RandomValueGenerator.getInstance().randomGenerator(randomType, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
           formattedUPUI.add(dlURL + UPUI_URI_PART + modifiedUPUI + UPUI_URI_SERIAL_PART + randomID);

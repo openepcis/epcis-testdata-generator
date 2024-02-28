@@ -62,7 +62,7 @@ public class GenerateIMOVN implements EPCStrategy {
 
       if (count != null && count > 0) {
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(RandomizationType.NUMERIC, 7, 7, count);
+                RandomValueGenerator.getInstance().randomGenerator(RandomizationType.NUMERIC, 7, 7, count);
         for (var rangeID : randomSerialNumbers) {
           formattedIMOVN.add(IMOVN_URN_PART + rangeID);
         }

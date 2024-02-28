@@ -105,7 +105,7 @@ public class GenerateUSDoD implements EPCStrategy {
         randomMaxLength = randomMaxLength < 1 || randomMaxLength > 11 ? 11 : randomMaxLength;
 
         final List<String> randomSerialNumbers =
-            RandomValueGenerator.randomGenerator(
+                RandomValueGenerator.getInstance().randomGenerator(
                 RandomizationType.NUMERIC, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
