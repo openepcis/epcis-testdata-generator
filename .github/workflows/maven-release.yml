@@ -13,29 +13,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout git submodules
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
+
+      - name: Checkout openepcis-web
+        uses: actions/checkout@v4
+        with:
+          repository: "https://code.company-group.com/openepcis/openepcis-web.git"
+          path: modules/openepcis-web
+          ref: "OEPCIS-766_design_test_data_page_and_components"
+          token: ${{ secrets.OPENEPCIS_WEB_TOKEN }}
 
       - name: vus.js ui build
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: "Create VUE.JS Artifact"
         run: |
-          cd testdata-generator-ui
-          export API_URL="/api"
+          cd modules/openepcis-web
+          export API_URL="../api"
+          export COPYRIGHT_TEXT="Copyright benelog GmbH & Co. KG | 2023-2024"
+          export NUXT_APP_BASE_URL="/ui/"
+          cd openepcis-components
           npm install
+          cd ../openepcis-test-data-generator
+          npm install
+          cd ../openepcis-test-data-designer
           npm run-script build
-          cd ..
+          cd ../..
 
       - name: 'Upload VUE.JS Artifact'
         if: contains(github.ref, 'v')
         uses: actions/upload-artifact@v3
         with:
           name: 'testdata-generator-ui-dist'
-          path: 'testdata-generator-ui/dist'
+          path: 'modules/openepcis-web/openepcis-test-data-designer/.output/public'
 
 
 
@@ -183,12 +197,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: 'testdata-generator-ui-dist'
-          path: 'testdata-generator-ui/dist'
+          path: 'modules/openepcis-web/openepcis-test-data-designer/.output/public'
 
       - name: "integrate vus.js ui into quarkus rest api"
         run: |
           rm -Rf testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
-          mv testdata-generator-ui/dist testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
+          mv modules/openepcis-web/openepcis-test-data-designer/.output/public testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
         shell: "bash"
 
       - name: "Prepare Build"
