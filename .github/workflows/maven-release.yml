@@ -42,7 +42,8 @@ jobs:
           cd ../openepcis-test-data-generator
           npm install
           cd ../openepcis-test-data-designer
-          npm run-script build
+          npm install
+          npm run generate
           cd ../..
 
       - name: 'Upload VUE.JS Artifact'
