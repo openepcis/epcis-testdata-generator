@@ -20,7 +20,8 @@ jobs:
       - name: Checkout openepcis-web
         uses: actions/checkout@v4
         with:
-          repository: "https://code.company-group.com/openepcis/openepcis-web.git"
+          repository: "openepcis/openepcis-web.git"
+          github-server-url: "https://code.company-group.com"
           path: modules/openepcis-web
           ref: "OEPCIS-766_design_test_data_page_and_components"
           token: ${{ secrets.OPENEPCIS_WEB_TOKEN }}
@@ -103,7 +104,7 @@ jobs:
       - name: vus.js ui build
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
 
       - name: 'Get Version Number'
