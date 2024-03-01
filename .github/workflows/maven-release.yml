@@ -41,6 +41,8 @@ jobs:
           npm install
           cd ../openepcis-test-data-generator
           npm install
+          cd ../openepcis-tools
+          npm install
           cd ../openepcis-test-data-designer
           npm install
           npm run generate
