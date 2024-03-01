@@ -256,6 +256,7 @@ jobs:
   
 
   build-quarkus-native-container-images:
+    if: false
     name: "Build Native Container Image"
     needs: [ build-vue-js-job ]
 
@@ -334,6 +335,7 @@ jobs:
           docker push ghcr.io/openepcis/testdata-generator-native:${{matrix.tags}};
 
   push-quarkus-native-container-images:
+    if: false
     name: "Push Native Container Images"
     needs: [build-quarkus-native-container-images]
     runs-on: 'ubuntu-latest'
