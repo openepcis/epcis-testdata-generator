@@ -12,6 +12,7 @@
 - [Local set-up](#local-set-up)
     - [Running with Podman](#running-with-podman)
     - [Running with Docker](#running-with-docker)
+    - [Running with Java](#running-with-java)
 - [Usage](#usage)
     - [Using local set-up](#using-local-set-up)
     - [Direct usage](#direct-usage)
@@ -92,7 +93,9 @@ To run the testdata generator you can simply use the [Testdata Generator Docker]
 docker run --rm -t --name testdata-generator -p 8080:8080 ghcr.io/openepcis/testdata-generator:0.9.2
 ```
 
-### Running with Java (Java 17 Runtime Environment or greater is required):
+### Running with Java:
+
+(Java 17 Runtime Environment or greater is required)
 
 Download the latest testdata-generator-quarkus-rest-app-.jar release jar from [GitHub Releases](https://github.com/openepcis/epcis-testdata-generator/releases/latest)
 
