@@ -15,7 +15,6 @@
 - [Usage](#usage)
     - [Using local set-up](#using-local-set-up)
     - [Direct usage](#direct-usage)
-- [Native image support](#native-image-support)
 - [Dependencies](#dependencies)
 
 ## Introduction
@@ -77,7 +76,7 @@ Installation instruction for Windows/macOS: https://podman.io/getting-started/in
 
 Run the following command in a terminal or command prompt after installing Podman on your local machine:
 ```
-podman run --rm -t --name testdata-generator -p 8080:8080 docker.io/openepcis/testdata-generator
+podman run --rm -t --name testdata-generator -p 8080:8080 ghcr.io/openepcis/testdata-generator:0.9.2
 ```
 
 ### Running with Docker:
@@ -88,9 +87,18 @@ For Windows: https://docs.docker.com/desktop/install/windows-install/
 For macOS: https://docs.docker.com/desktop/install/mac-install/
 For Linux: https://docs.docker.com/desktop/install/linux-install/
 
-To run the testdata generator you can simply use the [Testdata Generator Docker](https://hub.docker.com/repository/docker/openepcis/testdata-generator) image provided on docker hub.
+To run the testdata generator you can simply use the [Testdata Generator Docker](https://github.com/openepcis/epcis-testdata-generator/pkgs/container/testdata-generator) image provided on GitHub.
 ```
-docker run --rm -t --name testdata-generator -p 8080:8080 openepcis/testdata-generator
+docker run --rm -t --name testdata-generator -p 8080:8080 ghcr.io/openepcis/testdata-generator:0.9.2
+```
+
+### Running with Java (Java 17 Runtime Environment or greater is required):
+
+Download the latest testdata-generator-quarkus-rest-app-.jar release jar from [GitHub Releases](https://github.com/openepcis/epcis-testdata-generator/releases/latest)
+
+run it in your local JVM 
+```
+java -jar testdata-generator-quarkus-rest-app-.jar
 ```
 
 ## Usage
@@ -178,20 +186,6 @@ Sample inputTemplate:
     }]
 }
 ```
-
-## Native image support
-
-Native Image is a sophisticated compilation approach in which it first performs analysis on the entire application code to identify components that may be reached, after which the code is
-statically compiled to create a native executable. The classes from the application, its dependencies, runtime library classes, and statically linked native JDK (Java Development Kit) code are all
-included in this component set. In comparison to a JVM (Java Virtual Machine), the resulting software starts up quicker and uses less memory during runtime. The Native Image builder, often known
-as native-image, is a tool that manages all application classes and dependencies. GraalVM can be used to build the native image for the application written in Java. It is a high-performance JDK distribution made to accelerate application execution.
-
-The command provided in the above set-up section pulls the latest copy of the [docker image](https://hub.docker.com/r/openepcis/testdata-generator) from the OpenEPCIS docker-hub repository.
-Additionally, there are 2 native images related to OpenEPCIS Test Data Generator created using the GraalVM which can be accessed using the below provided links :
-* https://hub.docker.com/r/openepcis/testdata-generator
-* https://hub.docker.com/r/openepcis/testdata-generator-native
-* https://hub.docker.com/r/openepcis/testdata-generator-native-arm64
-
 
 ## Dependencies
 
