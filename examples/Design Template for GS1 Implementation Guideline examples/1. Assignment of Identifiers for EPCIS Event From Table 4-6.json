@@ -39,7 +39,7 @@
                     {
                         "type": "OWNING_PARTY",
                         "glnType": "SGLN",
-                        "gln": "9521141111110",
+                        "gln": "9521141111116",
                         "extension": 0,
                         "ID": 0
                     }
@@ -48,7 +48,7 @@
                     {
                         "type": "OWNING_PARTY",
                         "glnType": "SGLN",
-                        "gln": "9521345678900",
+                        "gln": "9521345678903",
                         "extension": 0,
                         "ID": 0
                     }
@@ -90,9 +90,10 @@
             "instanceType": "sscc",
             "instanceData": {
                 "identifierType": "sscc",
-                "serialType": "none",
+                "serialType": "range",
                 "gcp": "09521141",
-                "serialNumber": "123456789"
+                "serialNumber": "123456789",
+                "rangeFrom": 123456789
             },
             "objectIdentifierSyntax": "WebURI"
         }
