@@ -16,10 +16,14 @@
 package io.openepcis.testdata.generator.format;
 
 import io.openepcis.model.epcis.DestinationList;
-import io.openepcis.testdata.generator.constants.*;
+import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
+import io.openepcis.testdata.generator.constants.SourceDestinationGLNType;
+import io.openepcis.testdata.generator.constants.SourceDestinationType;
+import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -54,14 +58,16 @@ public class DestinationFormatter {
       gln = CompanyPrefixFormatter.gcpFormatterNormal(gln, input.getGcpLength()).toString();
       dstFormatted.setType(input.getType().toString().toLowerCase());
 
-      if (input.getGlnType() == SourceDestinationGLNType.PGLN) {
-        dstFormatted.setDestination("urn:epc:id:pgln:" + gln);
-      } else {
+      //If type is LOCATION or GLN type is SGLN then format with SGLN and add extension if not null
+      if (input.getType().equals(SourceDestinationType.LOCATION) || input.getGlnType() == SourceDestinationGLNType.SGLN) {
         if (input.getExtension() != null) {
           dstFormatted.setDestination("urn:epc:id:sgln:" + gln + "." + input.getExtension());
         } else {
           dstFormatted.setDestination("urn:epc:id:sgln:" + gln);
         }
+      } else if (StringUtils.isNotBlank(input.getGlnType().toString()) && input.getGlnType().equals(SourceDestinationGLNType.PGLN)) {
+        //if type is PGLN then format with PGLN
+        dstFormatted.setDestination("urn:epc:id:pgln:" + gln);
       }
       return dstFormatted;
     } catch (Exception ex) {
@@ -78,21 +84,16 @@ public class DestinationFormatter {
       gln = gln.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gln.substring(0, 12));
       String destination = "";
 
-      // For ProcessingParty and OwningParty add the 417 as application identifier.
-      if (input.getType().equals(SourceDestinationType.POSSESSING_PARTY)
-          || input.getType().equals(SourceDestinationType.OWNING_PARTY)) {
-        destination = dlURL + "/417/" + gln;
-      } else if (input.getType().equals(SourceDestinationType.LOCATION)) {
-        // For Location add the 414 as application identifier.
+      //If type is LOCATION or GLN type SGLN then format as per SGLN with /414/ and add extension if not NULL or 0
+      if (input.getType().equals(SourceDestinationType.LOCATION) || input.getGlnType().equals(SourceDestinationGLNType.SGLN)) {
         destination = dlURL + "/414/" + gln;
-      }
 
-      // If the extension is present then add the extension to the destination else keep it blank.
-      destination =
-          destination
-              + (input.getExtension() != null && !input.getExtension().isEmpty()
-                  ? "/254/" + input.getExtension()
-                  : "");
+        //For SGLN type add the extension if provided and non-zero
+        destination += StringUtils.isNotBlank(input.getExtension()) && !input.getExtension().equals("0") ? "/254/" + input.getExtension() : "";
+      } else if (StringUtils.isNotBlank(input.getGlnType().toString()) && input.getGlnType().equals(SourceDestinationGLNType.PGLN)) {
+        //If GLN type is PGLN then format as per PGLN with /417/ and without extension
+        destination = dlURL + "/417/" + gln;
+      }
 
       // Add the formatted values to DestinationList and return it to calling method.
       final var dstFormatted = new DestinationList();

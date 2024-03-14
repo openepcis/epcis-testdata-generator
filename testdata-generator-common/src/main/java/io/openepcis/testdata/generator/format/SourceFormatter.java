@@ -16,10 +16,15 @@
 package io.openepcis.testdata.generator.format;
 
 import io.openepcis.model.epcis.SourceList;
-import io.openepcis.testdata.generator.constants.*;
+import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
+import io.openepcis.testdata.generator.constants.SourceDestinationGLNType;
+import io.openepcis.testdata.generator.constants.SourceDestinationType;
+import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.io.Serializable;
+import org.apache.commons.lang3.StringUtils;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
+
+import java.io.Serializable;
 
 @RegisterForReflection
 public class SourceFormatter implements Serializable {
@@ -50,15 +55,18 @@ public class SourceFormatter implements Serializable {
       gln = CompanyPrefixFormatter.gcpFormatterNormal(gln, input.getGcpLength()).toString();
       srcFormatted.setType(input.getType().toString().toLowerCase());
 
-      if (input.getGlnType() == SourceDestinationGLNType.PGLN) {
-        srcFormatted.setSource("urn:epc:id:pgln:" + gln);
-      } else {
+      //If type is LOCATION or GLN type is SGLN then format with SGLN and add extension if not null
+      if (input.getType().equals(SourceDestinationType.LOCATION) || input.getGlnType() == SourceDestinationGLNType.SGLN) {
         if (input.getExtension() != null) {
           srcFormatted.setSource("urn:epc:id:sgln:" + gln + "." + input.getExtension());
         } else {
           srcFormatted.setSource("urn:epc:id:sgln:" + gln);
         }
+      } else if(StringUtils.isNotBlank(input.getGlnType().toString()) && input.getGlnType().equals(SourceDestinationGLNType.PGLN)) {
+        //if type is PGLN then format with PGLN
+        srcFormatted.setSource("urn:epc:id:pgln:" + gln);
       }
+
       return srcFormatted;
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
@@ -73,21 +81,16 @@ public class SourceFormatter implements Serializable {
       gln = gln.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gln.substring(0, 12));
       String source = "";
 
-      // For ProcessingParty and OwningParty add the 417 as application identifier.
-      if (input.getType().equals(SourceDestinationType.POSSESSING_PARTY)
-          || input.getType().equals(SourceDestinationType.OWNING_PARTY)) {
-        source = dlURL + "/417/" + gln;
-      } else if (input.getType().equals(SourceDestinationType.LOCATION)) {
-        // For Location add the 414 as application identifier.
+      //If type is LOCATION or GLN type SGLN then format as per SGLN with /414/ and add extension if not NULL or 0
+      if (input.getType().equals(SourceDestinationType.LOCATION) || input.getGlnType().equals(SourceDestinationGLNType.SGLN)) {
         source = dlURL + "/414/" + gln;
-      }
 
-      // If the extension is present then add the extension to the source else keep it blank.
-      source =
-          source
-              + (input.getExtension() != null && !input.getExtension().isEmpty()
-                  ? "/254/" + input.getExtension()
-                  : "");
+        //For SGLN type add the extension if provided and non-zero
+        source += StringUtils.isNotBlank(input.getExtension()) && !input.getExtension().equals("0") ? "/254/" + input.getExtension() : "";
+      } else if (StringUtils.isNotBlank(input.getGlnType().toString()) && input.getGlnType().equals(SourceDestinationGLNType.PGLN)) {
+        //If GLN type is PGLN then format as per PGLN with /417/ and without extension
+        source = dlURL + "/417/" + gln;
+      }
 
       // Add the formatted values to SourceList and return it to calling method.
       final var srcFormatted = new SourceList();
