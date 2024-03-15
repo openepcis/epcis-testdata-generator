@@ -4,111 +4,109 @@
             "eventId": 1,
             "eventType": "ObjectEvent",
             "eventInfo": {
+                "objectIdentifierSyntax": "WebURI",
+                "locationPartyIdentifierSyntax": "WebURI",
+                "dlURL": "https://id.gs1.org",
                 "eventCount": 1,
-                "identifierSyntax": "URN",
-                "vocabularySyntax": "URN",
-                "eventType": "ObjectEvent",
-                "importEvent": false,
-                "ordinaryEvent": true,
-                "eventTimeSelector": "SpecificTime",
                 "eventTime": {
-                    "specificTime": "2022-08-10T08:10",
-                    "fromTime": "2023-03-14T21:19:13.000",
-                    "toTime": "2023-03-15T21:19:13.000",
-                    "timeZoneOffset": "-05:00"
+                    "timeSelector": "SpecificTime",
+                    "specificTime": "2023-08-10T08:10:14",
+                    "fromTime": "2024-03-14T17:10:14.000",
+                    "toTime": "2024-03-15T17:10:14.000",
+                    "timeZoneOffset": "+01:00"
                 },
-                "RecordTimeOption": "no",
-                "recordTimeType": "SAME_AS_EVENT_TIME",
-                "readpointselector": "SGLN",
+                "parentIdentifier": [],
+                "instanceIdentifier": [],
+                "classIdentifier": [],
+                "outputInstanceIdentifier": [],
+                "outputClassIdentifier": [],
                 "readPoint": {
-                    "gcpLength": 7,
-                    "gln": "1298789217372",
-                    "extensionType": "dynamic",
-                    "extensionFrom": "1",
-                    "extensionFormat": "4"
+                    "type": "SGLN",
+                    "gln": "9521568256458"
                 },
-                "businesslocationselector": null,
-                "bizLocation": {
-                    "gcpLength": null
-                },
-                "businessStep": "INSPECTING",
-                "disposition": "CONFORMANT",
-                "sources": [],
-                "destinations": [],
-                "eventID": false,
-                "eventIdType": "UUID",
-                "hashAlgorithm": "sha-256",
-                "action": "ADD",
-                "error": {
-                    "ErrorTimeZone": "+02:00",
-                    "ErrorDeclarationTimeSelector": "SpecificTime",
-                    "ErrorReasonType": null,
-                    "errorCorrectiveIdsList": [],
-                    "errorCorrectiveCount": 0,
-                    "ErrorDeclarationTime": "2023-03-15T21:19:13.000",
-                    "ErrorDeclarationTimeFrom": "2023-03-14T21:19:13.000",
-                    "ErrorDeclarationTimeTo": "2023-03-15T21:19:13.000",
-                    "errorExtensions": []
-                },
-                "persistentDispositionCount": 0,
+                "bizLocation": {},
                 "persistentDispositionList": [],
-                "bizTransactionCount": 2,
-                "businessTransactionList": [
+                "bizTransactions": [
                     {
                         "ID": 0,
                         "type": "testprd",
-                        "bizTransaction": "urn:epc:id:gdti:7473847783.78.100"
+                        "bizTransaction": "https://id.gs1.org/253/9521565678002100"
                     },
                     {
                         "ID": 1,
-                        "type": "testres",
-                        "bizTransaction": "urn:epc:id:gdti:7473847783.78.300"
+                        "type": "testprd",
+                        "bizTransaction": "https://id.gs1.org/253/9521565678002200"
                     }
                 ],
+                "sources": [],
+                "destinations": [],
                 "sensorElementList": [
                     {
+                        "ID": 0,
                         "sensorMetadata": {
-                            "deviceID": "urn:epc:id:giai:78437483.100"
+                            "deviceID": "https://id.gs1.org/8004/9521565500"
                         },
                         "sensorReport": [
                             {
-                                "type": "Dimensionless_concentration",
-                                "value": "18",
-                                "microorganism": "https://wwww.ncbi.nlm.nih.gov/1118236%20T"
-                            },
-                            {
-                                "type": "Dimensionless_concentration",
-                                "value": "10.1",
-                                "microorganism": "https://identifiers.org/inchikey:CZMRCDWAGMR"
+                                "microorganism": "https://wwww.ncbi.nlm.nih.gov/1118236",
+                                "type": "Dimensionless",
+                                "value": 18,
+                                "uom": "59"
                             }
-                        ],
-                        "ID": 0
+                        ]
+                    },
+                    {
+                        "ID": 1,
+                        "sensorReport": [
+                            {
+                                "chemicalSubstance": "https://www.chemspider.com/Chemical-Structure.5768.html?rid=e68ea2b7-dbe5-43b2-9523-55ca0b02c27e",
+                                "type": "Dimensionless",
+                                "uom": "59",
+                                "value": 10.1
+                            }
+                        ]
                     }
                 ],
-                "referencedIdentifier": [],
-                "outputReferencedIdentifier": [],
-                "parentReferencedIdentifier": {},
                 "userExtensions": [],
                 "ilmd": [],
-                "parentID": "",
-                "epcList": [],
-                "quantityList": [],
-                "outputEPCList": [],
-                "outputQuantityList": []
+                "errorDeclaration": {
+                    "declarationTime": {
+                        "timeSelector": "SpecificTime",
+                        "timeZoneOffset": "+01:00",
+                        "specificTime": "2024-03-15T17:10:14.000",
+                        "fromTime": "2024-03-14T17:10:14.000",
+                        "toTime": "2024-03-15T17:10:14.000"
+                    },
+                    "correctiveIds": [],
+                    "extensions": [],
+                    "declarationReason": "DID_NOT_OCCUR"
+                },
+                "eventType": "ObjectEvent",
+                "ordinaryEvent": true,
+                "eventID": false,
+                "recordTimeOption": "No",
+                "businessStep": "INSPECTING",
+                "disposition": "CONFORMANT",
+                "action": "OBSERVE",
+                "referencedIdentifier": [],
+                "parentReferencedIdentifier": {},
+                "outputReferencedIdentifier": [],
+                "name": "Fresh fruits quality inspection"
             }
         }
     ],
     "identifiersNodeInfo": [
         {
             "identifiersId": 2,
-            "identifierSyntax": "URN",
+            "identifierType": "Identifiers",
+            "objectIdentifierSyntax": "WebURI",
+            "classType": "lgtin",
             "classData": {
                 "identifierType": "lgtin",
-                "gcpLength": 7,
-                "quantityType": null,
-                "uom": null,
-                "lgtin": "15751771987179",
-                "serialType": "random"
+                "quantityType": "",
+                "serialType": "range",
+                "lgtin": "09521568256452",
+                "rangeFrom": 200
             }
         }
     ],
@@ -154,8 +152,8 @@
                                 "connections": []
                             }
                         },
-                        "pos_x": 424,
-                        "pos_y": 73
+                        "pos_x": 573,
+                        "pos_y": 305
                     },
                     "2": {
                         "id": 2,
@@ -178,8 +176,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 152,
-                        "pos_y": 30
+                        "pos_x": 215,
+                        "pos_y": 283
                     }
                 }
             }
