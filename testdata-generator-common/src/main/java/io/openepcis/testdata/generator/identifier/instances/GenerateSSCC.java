@@ -21,12 +21,13 @@ import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.RandomValueGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.lang.StringUtils;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @JsonTypeName("sscc")
@@ -94,6 +95,7 @@ public class GenerateSSCC extends GenerateEPCType2 {
   private List<String> generateWebURI(Integer count, final String dlURL) {
     try {
       final List<String> formattedSSCC = new ArrayList<>();
+      gcp = "0" + gcp;
 
       if (serialType.equalsIgnoreCase("range")
           && rangeFrom != null
@@ -120,8 +122,13 @@ public class GenerateSSCC extends GenerateEPCType2 {
       } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
         for (var noneCounter = 0; noneCounter < count; noneCounter++) {
           var append = gcp + serialNumber;
-          append = StringUtils.repeat("0", 17 - append.length()) + serialNumber;
-          formattedSSCC.add(dlURL + SSCC_URI_PART + gcp + append);
+          if (append.length() <= 18) {
+            append = StringUtils.repeat("0", 18 - append.length()) + serialNumber;
+            append = gcp + append;
+          }else {
+            append = append.substring(0, 18);
+          }
+          formattedSSCC.add(dlURL + SSCC_URI_PART + append);
         }
       }
       return formattedSSCC;

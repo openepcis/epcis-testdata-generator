@@ -37,6 +37,7 @@ jobs:
           export API_URL="../api"
           export COPYRIGHT_TEXT="Copyright benelog GmbH & Co. KG | 2023-2024"
           export NUXT_APP_BASE_URL="/ui/"
+          export ACTIVATE_FEATURES=input-template
           cd openepcis-components
           npm install
           cd ../openepcis-test-data-generator
