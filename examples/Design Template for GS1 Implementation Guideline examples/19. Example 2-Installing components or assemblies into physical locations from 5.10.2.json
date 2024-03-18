@@ -4,98 +4,85 @@
       "eventId": 2,
       "eventType": "AssociationEvent",
       "eventInfo": {
+        "objectIdentifierSyntax": "WebURI",
+        "locationPartyIdentifierSyntax": "WebURI",
+        "dlURL": "https://id.gs1.org",
         "eventCount": 1,
-        "identifierSyntax": "URN",
-        "vocabularySyntax": "URN",
-        "eventType": "AssociationEvent",
-        "importEvent": false,
-        "ordinaryEvent": true,
-        "eventTimeSelector": "SpecificTime",
         "eventTime": {
-          "specificTime": "2022-10-14T10:55",
-          "fromTime": "2023-03-12T18:58:06.000",
-          "toTime": "2023-03-13T18:58:06.000",
-          "timeZoneOffset": "+02:00"
+          "timeSelector": "SpecificTime",
+          "specificTime": "2023-10-12T08:45",
+          "fromTime": "2024-03-17T09:25:09.000",
+          "toTime": "2024-03-18T09:25:09.000",
+          "timeZoneOffset": "+01:00"
         },
-        "RecordTimeOption": "no",
-        "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": "SGLN",
+        "parentIdentifier": [],
+        "instanceIdentifier": [],
+        "classIdentifier": [],
+        "outputInstanceIdentifier": [],
+        "outputClassIdentifier": [],
         "readPoint": {
-          "gcpLength": 7,
-          "gln": "6185914191591",
-          "extensionType": "dynamic",
-          "extensionFrom": "1",
-          "extensionFormat": "5"
+          "type": "SGLN",
+          "gln": "0952114111116"
         },
-        "businesslocationselector": null,
-        "bizLocation": {
-          "gcpLength": null
-        },
-        "businessStep": "INSTALLING",
-        "disposition": null,
-        "sources": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
-        "destinations": {
-          "type": null,
-          "glnType": "SGLN",
-          "gcpLength": null
-        },
-        "eventID": false,
-        "eventIdType": "UUID",
-        "hashAlgorithm": "sha-256",
-        "action": "ADD",
-        "error": {
-          "ErrorTimeZone": "+02:00",
-          "ErrorDeclarationTimeSelector": "SpecificTime",
-          "ErrorReasonType": null,
-          "errorCorrectiveIdsList": [],
-          "errorCorrectiveCount": 0,
-          "ErrorDeclarationTime": "2023-03-13T18:58:06.000",
-          "ErrorDeclarationTimeFrom": "2023-03-12T18:58:06.000",
-          "ErrorDeclarationTimeTo": "2023-03-13T18:58:06.000",
-          "errorExtensions": []
-        },
-        "persistentDispositionCount": 0,
+        "bizLocation": {},
         "persistentDispositionList": [],
-        "bizTransactionCount": 0,
-        "businessTransactionList": [],
+        "bizTransactions": [],
+        "sources": [],
+        "destinations": [],
         "sensorElementList": [],
-        "referencedIdentifier": [],
-        "outputReferencedIdentifier": [],
-        "parentReferencedIdentifier": {},
         "userExtensions": [],
         "ilmd": [],
-        "parentID": "",
-        "epcList": [],
-        "quantityList": [],
-        "outputEPCList": [],
-        "outputQuantityList": []
+        "errorDeclaration": {
+          "declarationTime": {
+            "timeSelector": "SpecificTime",
+            "timeZoneOffset": "+01:00",
+            "specificTime": "2024-03-18T09:25:09.000",
+            "fromTime": "2024-03-17T09:25:09.000",
+            "toTime": "2024-03-18T09:25:09.000"
+          },
+          "correctiveIds": [],
+          "extensions": [],
+          "declarationReason": "DID_NOT_OCCUR"
+        },
+        "eventType": "AssociationEvent",
+        "ordinaryEvent": true,
+        "eventID": false,
+        "recordTimeOption": "No",
+        "businessStep": "INSTALLING",
+        "disposition": "",
+        "action": "ADD",
+        "referencedIdentifier": [],
+        "parentReferencedIdentifier": {},
+        "outputReferencedIdentifier": [],
+        "description": "Installing a sensor device in a reusable plastic tray",
+        "name": "Component Installing"
       }
     }
   ],
   "identifiersNodeInfo": [
     {
-      "identifiersId": 1,
-      "identifierSyntax": "URN",
-      "instanceData": {
-        "identifierType": "giai",
-        "gcpLength": 7,
-        "serialType": "random",
-        "gcp": "98768714"
-      }
+      "identifiersId": 3,
+      "identifierType": "ParentID",
+      "instanceType": "grai",
+      "parentData": {
+        "identifierType": "grai",
+        "serialType": "range",
+        "grai": "0952156550012",
+        "rangeFrom": 200
+      },
+      "objectIdentifierSyntax": "WebURI"
     },
     {
-      "identifiersId": 7,
-      "identifierSyntax": "URN",
-      "parentData": {
-        "identifierType": "manualURI",
-        "gcpLength": null,
-        "manualUriType": "static",
-        "baseManualUri": "urn:epc:id:sgln:4736463.73676.101"
-      }
+      "identifiersId": 1,
+      "identifierType": "Identifiers",
+      "instanceData": {
+        "identifierType": "giai",
+        "serialType": "range",
+        "gcp": "09521141",
+        "rangeFrom": 100
+      },
+      "instanceType": "giai",
+      "objectIdentifierSyntax": "WebURI"
     }
   ],
   "connectorsInfo": [
@@ -113,9 +100,13 @@
     {
       "ID": 2,
       "name": "connector2",
-      "source": "7",
+      "source": "3",
       "target": "2",
-      "hideInheritParentCount": false
+      "hideInheritParentCount": false,
+      "epcCount": 0,
+      "inheritParentCount": 0,
+      "classCount": 0,
+      "quantity": 0
     }
   ],
   "drawflowInfo": {
@@ -143,8 +134,8 @@
                 ]
               }
             },
-            "pos_x": 42,
-            "pos_y": 252
+            "pos_x": 171.8828125,
+            "pos_y": 225
           },
           "2": {
             "id": 2,
@@ -160,7 +151,7 @@
               "input_1": {
                 "connections": [
                   {
-                    "node": "7",
+                    "node": "3",
                     "input": "output_1"
                   }
                 ]
@@ -179,14 +170,14 @@
                 "connections": []
               }
             },
-            "pos_x": 372,
-            "pos_y": 232
+            "pos_x": 551,
+            "pos_y": 220
           },
-          "7": {
-            "id": 7,
+          "3": {
+            "id": 3,
             "name": "ParentIdentifiers",
             "data": {
-              "ID": 7,
+              "ID": 3,
               "eventType": "ParentID"
             },
             "class": "ParentID",
@@ -203,8 +194,8 @@
                 ]
               }
             },
-            "pos_x": 46,
-            "pos_y": 86
+            "pos_x": 173,
+            "pos_y": 82
           }
         }
       }

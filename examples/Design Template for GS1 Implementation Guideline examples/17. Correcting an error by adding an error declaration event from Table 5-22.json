@@ -4,241 +4,214 @@
       "eventId": 2,
       "eventType": "ObjectEvent",
       "eventInfo": {
+        "objectIdentifierSyntax": "WebURI",
+        "locationPartyIdentifierSyntax": "WebURI",
+        "dlURL": "https://id.gs1.org",
         "eventCount": 1,
-        "identifierSyntax": "URN",
-        "vocabularySyntax": "URN",
-        "eventType": "ObjectEvent",
-        "importEvent": false,
-        "ordinaryEvent": true,
-        "eventTimeSelector": "SpecificTime",
         "eventTime": {
-          "specificTime": "2022-07-15T10:00",
-          "fromTime": "2023-03-12T18:04:01.000",
-          "toTime": "2023-03-13T18:04:01.000",
-          "timeZoneOffset": "-05:00"
+          "timeSelector": "SpecificTime",
+          "specificTime": "2023-07-15T10:00",
+          "fromTime": "2024-03-17T15:09:36.000",
+          "toTime": "2024-03-18T15:09:36.000",
+          "timeZoneOffset": "+01:00"
         },
-        "RecordTimeOption": "no",
-        "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": "SGLN",
+        "parentIdentifier": [],
+        "instanceIdentifier": [],
+        "classIdentifier": [],
+        "outputInstanceIdentifier": [],
+        "outputClassIdentifier": [],
         "readPoint": {
-          "gcpLength": 7,
-          "gln": "1687181687187",
-          "extensionType": "dynamic",
-          "extensionFrom": "1",
-          "extensionFormat": "4"
+          "type": "SGLN",
+          "gln": "0952114111116"
         },
-        "businesslocationselector": null,
-        "bizLocation": {
-          "gcpLength": null
-        },
-        "businessStep": "SHIPPING",
-        "disposition": "IN_TRANSIT",
-        "sources": [],
-        "destinations": [],
-        "eventID": false,
-        "eventIdType": "UUID",
-        "hashAlgorithm": "sha-256",
-        "action": "OBSERVE",
-        "error": {
-          "ErrorTimeZone": "+02:00",
-          "ErrorDeclarationTimeSelector": "SpecificTime",
-          "ErrorReasonType": null,
-          "errorCorrectiveIdsList": [],
-          "errorCorrectiveCount": 0,
-          "ErrorDeclarationTime": "2023-03-13T18:04:01.000",
-          "ErrorDeclarationTimeFrom": "2023-03-12T18:04:01.000",
-          "ErrorDeclarationTimeTo": "2023-03-13T18:04:01.000",
-          "errorExtensions": []
-        },
-        "persistentDispositionCount": 0,
+        "bizLocation": {},
         "persistentDispositionList": [],
-        "bizTransactionCount": 1,
-        "businessTransactionList": [
+        "bizTransactions": [
           {
             "ID": 0,
             "type": "po",
             "bizTransaction": "urn:epcglobal:cbv:bt:456"
           }
         ],
+        "sources": [],
+        "destinations": [],
         "sensorElementList": [],
-        "referencedIdentifier": [],
-        "outputReferencedIdentifier": [],
-        "parentReferencedIdentifier": {},
         "userExtensions": [],
         "ilmd": [],
-        "parentID": "",
-        "epcList": [],
-        "quantityList": [],
-        "outputEPCList": [],
-        "outputQuantityList": []
+        "errorDeclaration": {
+          "declarationTime": {
+            "timeSelector": "SpecificTime",
+            "timeZoneOffset": "+01:00",
+            "specificTime": "2024-03-18T15:09:36.000",
+            "fromTime": "2024-03-17T15:09:36.000",
+            "toTime": "2024-03-18T15:09:36.000"
+          },
+          "correctiveIds": [],
+          "extensions": [],
+          "declarationReason": "DID_NOT_OCCUR"
+        },
+        "name": "Incorrect shipping",
+        "description": "Ship products, not realising that the PO number in the business transaction section is incorrect",
+        "eventType": "ObjectEvent",
+        "ordinaryEvent": true,
+        "eventID": false,
+        "recordTimeOption": "No",
+        "businessStep": "SHIPPING",
+        "disposition": "IN_TRANSIT",
+        "action": "OBSERVE",
+        "eventIdType": "UUID",
+        "hashAlgorithm": "",
+        "referencedIdentifier": [],
+        "parentReferencedIdentifier": {},
+        "outputReferencedIdentifier": []
       }
     },
     {
       "eventId": 3,
       "eventType": "ObjectEvent",
       "eventInfo": {
+        "objectIdentifierSyntax": "WebURI",
+        "locationPartyIdentifierSyntax": "WebURI",
+        "dlURL": "https://id.gs1.org",
         "eventCount": 1,
-        "identifierSyntax": "URN",
-        "vocabularySyntax": "URN",
-        "eventType": "ObjectEvent",
-        "importEvent": false,
-        "ordinaryEvent": false,
-        "eventTimeSelector": "SpecificTime",
         "eventTime": {
-          "specificTime": "2022-07-15T10:00",
-          "fromTime": "2023-03-12T18:11:49.000",
-          "toTime": "2023-03-13T18:11:49.000",
-          "timeZoneOffset": "-05:00"
+          "timeSelector": "SpecificTime",
+          "specificTime": "2023-07-15T10:00",
+          "fromTime": "2024-03-17T15:13:11.000",
+          "toTime": "2024-03-18T15:13:11.000",
+          "timeZoneOffset": "+01:00"
         },
-        "RecordTimeOption": "yes",
-        "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": "SGLN",
+        "parentIdentifier": [],
+        "instanceIdentifier": [],
+        "classIdentifier": [],
+        "outputInstanceIdentifier": [],
+        "outputClassIdentifier": [],
         "readPoint": {
-          "gcpLength": 7,
-          "gln": "1687181687187",
-          "extensionType": "dynamic",
-          "extensionFrom": "1",
-          "extensionFormat": "4"
+          "type": "SGLN",
+          "gln": "0952156825645"
         },
-        "businesslocationselector": "null",
-        "bizLocation": {
-          "gcpLength": null
-        },
-        "businessStep": "SHIPPING",
-        "disposition": "IN_TRANSIT",
-        "sources": [],
-        "destinations": [],
-        "eventID": false,
-        "eventIdType": "UUID",
-        "hashAlgorithm": "sha-256",
-        "action": "OBSERVE",
-        "error": {
-          "ErrorTimeZone": "-05:00",
-          "ErrorDeclarationTimeSelector": "SpecificTime",
-          "ErrorReasonType": "DID_NOT_OCCUR",
-          "errorCorrectiveIdsList": [
-            {
-              "ID": 0,
-              "value": "urn:uuid:b0fd5cf7-9b53-4671-84bb-b878907a96bd"
-            }
-          ],
-          "errorCorrectiveCount": 1,
-          "ErrorDeclarationTime": "2022-07-17T13:00",
-          "ErrorDeclarationTimeFrom": "2023-03-12T18:11:49.000",
-          "ErrorDeclarationTimeTo": "2023-03-13T18:11:49.000",
-          "errorExtensions": []
-        },
-        "persistentDispositionCount": 0,
+        "bizLocation": {},
         "persistentDispositionList": [],
-        "bizTransactionCount": 1,
-        "businessTransactionList": [
+        "bizTransactions": [
           {
-            "ID": 0,
+            "ID": 1,
             "type": "po",
             "bizTransaction": "urn:epcglobal:cbv:bt:456"
           }
         ],
+        "sources": [],
+        "destinations": [],
         "sensorElementList": [],
-        "referencedIdentifier": [],
-        "outputReferencedIdentifier": [],
-        "parentReferencedIdentifier": {},
         "userExtensions": [],
         "ilmd": [],
-        "parentID": "",
-        "epcList": [],
-        "quantityList": [],
-        "outputEPCList": [],
-        "outputQuantityList": []
+        "errorDeclaration": {
+          "declarationTime": {
+            "timeSelector": "SpecificTime",
+            "timeZoneOffset": "+01:00",
+            "specificTime": "2023-07-17T13:00",
+            "fromTime": "2024-03-17T15:13:11.000",
+            "toTime": "2024-03-18T15:13:11.000"
+          },
+          "correctiveIds": [
+            {
+              "ID": 0,
+              "value": "urn:uuid:692d95fc-9457-4a51-bd6a-0bba133846bd"
+            }
+          ],
+          "extensions": [],
+          "declarationReason": "INCORRECT_DATA"
+        },
+        "eventType": "ObjectEvent",
+        "ordinaryEvent": false,
+        "eventID": false,
+        "recordTimeOption": "No",
+        "businessStep": "SHIPPING",
+        "disposition": "IN_TRANSIT",
+        "action": "DELETE",
+        "referencedIdentifier": [],
+        "parentReferencedIdentifier": {},
+        "outputReferencedIdentifier": [],
+        "name": "Incorrect shipping event",
+        "description": "Additional event to assert that the first event is in error"
       }
     },
     {
-      "eventId": 5,
+      "eventId": 4,
       "eventType": "ObjectEvent",
       "eventInfo": {
+        "objectIdentifierSyntax": "WebURI",
+        "locationPartyIdentifierSyntax": "WebURI",
+        "dlURL": "https://id.gs1.org",
         "eventCount": 1,
-        "identifierSyntax": "URN",
-        "vocabularySyntax": "URN",
-        "eventType": "ObjectEvent",
-        "importEvent": false,
-        "ordinaryEvent": true,
-        "eventTimeSelector": "SpecificTime",
         "eventTime": {
-          "specificTime": "2022-07-15T10:00",
-          "fromTime": "2023-03-12T18:43:04.000",
-          "toTime": "2023-03-13T18:43:04.000",
-          "timeZoneOffset": "-05:00"
+          "timeSelector": "SpecificTime",
+          "specificTime": "2023-07-15T10:00",
+          "fromTime": "2024-03-17T15:13:35.000",
+          "toTime": "2024-03-18T15:13:35.000",
+          "timeZoneOffset": "+01:00"
         },
-        "RecordTimeOption": "no",
-        "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": "SGLN",
+        "parentIdentifier": [],
+        "instanceIdentifier": [],
+        "classIdentifier": [],
+        "outputInstanceIdentifier": [],
+        "outputClassIdentifier": [],
         "readPoint": {
-          "gcpLength": 7,
-          "gln": "1687181687187",
-          "extensionType": "dynamic",
-          "extensionFrom": "1",
-          "extensionFormat": "4"
+          "type": "SGLN",
+          "gln": "0952156825645"
         },
-        "businesslocationselector": null,
-        "bizLocation": {
-          "gcpLength": null
-        },
-        "businessStep": "SHIPPING",
-        "disposition": "IN_TRANSIT",
-        "sources": [],
-        "destinations": [],
-        "eventID": true,
-        "eventIdType": "UUID",
-        "hashAlgorithm": "sha-256",
-        "action": "OBSERVE",
-        "error": {
-          "ErrorTimeZone": "+02:00",
-          "ErrorDeclarationTimeSelector": "SpecificTime",
-          "ErrorReasonType": null,
-          "errorCorrectiveIdsList": [],
-          "errorCorrectiveCount": 0,
-          "ErrorDeclarationTime": "2023-03-13T18:43:04.000",
-          "ErrorDeclarationTimeFrom": "2023-03-12T18:43:04.000",
-          "ErrorDeclarationTimeTo": "2023-03-13T18:43:04.000",
-          "errorExtensions": []
-        },
-        "persistentDispositionCount": 0,
+        "bizLocation": {},
         "persistentDispositionList": [],
-        "bizTransactionCount": 1,
-        "businessTransactionList": [
+        "bizTransactions": [
           {
-            "ID": 0,
+            "ID": 2,
             "type": "po",
             "bizTransaction": "urn:epcglobal:cbv:bt:123"
           }
         ],
+        "sources": [],
+        "destinations": [],
         "sensorElementList": [],
-        "referencedIdentifier": [],
-        "outputReferencedIdentifier": [],
-        "parentReferencedIdentifier": {},
         "userExtensions": [],
         "ilmd": [],
-        "parentID": "",
-        "epcList": [],
-        "quantityList": [],
-        "outputEPCList": [],
-        "outputQuantityList": []
+        "errorDeclaration": {
+          "declarationTime": {
+            "timeSelector": "SpecificTime",
+            "timeZoneOffset": "+01:00",
+            "specificTime": "2024-03-18T15:13:35.000",
+            "fromTime": "2024-03-17T15:13:35.000",
+            "toTime": "2024-03-18T15:13:35.000"
+          },
+          "correctiveIds": [],
+          "extensions": [],
+          "declarationReason": "DID_NOT_OCCUR"
+        },
+        "eventType": "ObjectEvent",
+        "ordinaryEvent": true,
+        "eventID": false,
+        "recordTimeOption": "No",
+        "businessStep": "SHIPPING",
+        "disposition": "IN_TRANSIT",
+        "action": "OBSERVE",
+        "referencedIdentifier": [],
+        "parentReferencedIdentifier": {},
+        "outputReferencedIdentifier": [],
+        "name": "Corrected shipping",
+        "description": "Corrected shipping event"
       }
     }
   ],
   "identifiersNodeInfo": [
     {
       "identifiersId": 1,
-      "identifierSyntax": "URN",
+      "identifierType": "Identifiers",
+      "instanceType": "sgtin",
       "instanceData": {
         "identifierType": "sgtin",
-        "gcpLength": 7,
-        "sgtin": "65656560980979",
         "serialType": "range",
-        "randomType": "NUMERIC",
-        "randomMinLength": 11,
-        "randomMaxLength": 5,
+        "sgtin": "09526784378435",
         "rangeFrom": 101
-      }
+      },
+      "objectIdentifierSyntax": "WebURI"
     }
   ],
   "connectorsInfo": [
@@ -254,22 +227,22 @@
       "quantity": 0
     },
     {
-      "ID": 5,
-      "name": "connector5",
+      "ID": 2,
+      "name": "connector2",
       "source": "2",
       "target": "3",
-      "hideInheritParentCount": false,
+      "hideInheritParentCount": true,
       "epcCount": 3,
       "inheritParentCount": 0,
       "classCount": 0,
       "quantity": 0
     },
     {
-      "ID": 6,
-      "name": "connector6",
+      "ID": 3,
+      "name": "connector3",
       "source": "3",
-      "target": "5",
-      "hideInheritParentCount": false,
+      "target": "4",
+      "hideInheritParentCount": true,
       "epcCount": 3,
       "inheritParentCount": 0,
       "classCount": 0,
@@ -301,8 +274,8 @@
                 ]
               }
             },
-            "pos_x": 15,
-            "pos_y": 28
+            "pos_x": 126,
+            "pos_y": 273
           },
           "2": {
             "id": 2,
@@ -334,8 +307,8 @@
                 ]
               }
             },
-            "pos_x": 440,
-            "pos_y": 113
+            "pos_x": 438,
+            "pos_y": 282
           },
           "3": {
             "id": 3,
@@ -361,20 +334,20 @@
               "output_1": {
                 "connections": [
                   {
-                    "node": "5",
+                    "node": "4",
                     "output": "input_1"
                   }
                 ]
               }
             },
-            "pos_x": 656,
-            "pos_y": 108
+            "pos_x": 756,
+            "pos_y": 279
           },
-          "5": {
-            "id": 5,
+          "4": {
+            "id": 4,
             "name": "Events",
             "data": {
-              "ID": 5,
+              "ID": 4,
               "eventType": "ObjectEvent"
             },
             "class": "ObjectEvent",
@@ -395,8 +368,8 @@
                 "connections": []
               }
             },
-            "pos_x": 913,
-            "pos_y": 108
+            "pos_x": 1093,
+            "pos_y": 280
           }
         }
       }

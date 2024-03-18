@@ -41,7 +41,6 @@ public class ErrorDeclarationFormatter {
   private static List<String> formatWebURI(List<String> input, final String dlURL) {
     return input.stream()
         .filter(Objects::nonNull)
-        .map(i -> dlURL + "/voc/ER-" + i)
         .toList();
   }
 }

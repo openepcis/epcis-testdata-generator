@@ -1,112 +1,100 @@
 {
   "eventNodeInfo": [
     {
-      "eventId": 9,
+      "eventId": 1,
       "eventType": "ObjectEvent",
       "eventInfo": {
+        "objectIdentifierSyntax": "WebURI",
+        "locationPartyIdentifierSyntax": "WebURI",
+        "dlURL": "https://id.gs1.org",
         "eventCount": 1,
-        "identifierSyntax": "URN",
-        "vocabularySyntax": "URN",
-        "eventType": "ObjectEvent",
-        "importEvent": false,
-        "ordinaryEvent": true,
-        "eventTimeSelector": "SpecificTime",
         "eventTime": {
-          "specificTime": "2022-06-23T11:19",
-          "fromTime": "2023-03-12T19:14:47.000",
-          "toTime": "2023-03-13T19:14:47.000",
-          "timeZoneOffset": "+02:00"
+          "timeSelector": "SpecificTime",
+          "specificTime": "2023-06-23T13:35:42",
+          "fromTime": "2024-03-15T13:35:42.000",
+          "toTime": "2024-03-16T13:35:42.000",
+          "timeZoneOffset": "+01:00"
         },
-        "RecordTimeOption": "no",
-        "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": "SGLN",
+        "parentIdentifier": [],
+        "instanceIdentifier": [],
+        "classIdentifier": [],
+        "outputInstanceIdentifier": [],
+        "outputClassIdentifier": [],
         "readPoint": {
-          "gcpLength": 7,
-          "gln": "1877678687678",
-          "extensionType": "dynamic",
-          "extensionFrom": "1",
-          "extensionFormat": "4"
+          "type": "SGLN",
+          "gln": "9521141111116"
         },
-        "businesslocationselector": null,
-        "bizLocation": {
-          "gcpLength": null
-        },
-        "businessStep": "SENSOR_REPORTING",
-        "disposition": null,
+        "bizLocation": {},
+        "persistentDispositionList": [],
+        "bizTransactions": [],
         "sources": [],
         "destinations": [],
-        "eventID": false,
-        "eventIdType": "UUID",
-        "hashAlgorithm": "sha-256",
-        "action": "OBSERVE",
-        "error": {
-          "ErrorTimeZone": "+02:00",
-          "ErrorDeclarationTimeSelector": "SpecificTime",
-          "ErrorReasonType": null,
-          "errorCorrectiveIdsList": [],
-          "errorCorrectiveCount": 0,
-          "ErrorDeclarationTime": "2023-03-13T19:14:47.000",
-          "ErrorDeclarationTimeFrom": "2023-03-12T19:14:47.000",
-          "ErrorDeclarationTimeTo": "2023-03-13T19:14:47.000",
-          "errorExtensions": []
-        },
-        "persistentDispositionCount": 0,
-        "persistentDispositionList": [],
-        "bizTransactionCount": 0,
-        "businessTransactionList": [],
         "sensorElementList": [
           {
+            "ID": 0,
+            "sensorMetadata": {
+              "bizRules": "https://id.gs1.org/253/9521565678002100"
+            },
             "sensorReport": [
               {
                 "type": "Temperature",
-                "stringValue": "15.1",
-                "uom": "CEL"
-              }
-            ],
-            "ID": 2
-          },
-          {
-            "sensorReport": [
-              {
-                "type": "User_Defined_Sensor",
-                "stringValue": "ALARM_CONDITION",
+                "uom": "CEL",
+                "value": 15.1,
+                "exception": "ALARM_CONDITION",
                 "uriValue": "https://example.com/alarmCodes/temperatureExceeded"
               }
-            ],
-            "ID": 3
+            ]
           }
         ],
-        "referencedIdentifier": [],
-        "outputReferencedIdentifier": [],
-        "parentReferencedIdentifier": {},
         "userExtensions": [],
         "ilmd": [],
-        "parentID": "",
-        "epcList": [],
-        "quantityList": [],
-        "outputEPCList": [],
-        "outputQuantityList": []
+        "errorDeclaration": {
+          "declarationTime": {
+            "timeSelector": "SpecificTime",
+            "timeZoneOffset": "+01:00",
+            "specificTime": "2024-03-16T13:35:42.000",
+            "fromTime": "2024-03-15T13:35:42.000",
+            "toTime": "2024-03-16T13:35:42.000"
+          },
+          "correctiveIds": [],
+          "extensions": [],
+          "declarationReason": "DID_NOT_OCCUR"
+        },
+        "eventType": "ObjectEvent",
+        "ordinaryEvent": true,
+        "eventID": false,
+        "recordTimeOption": "No",
+        "businessStep": "SENSOR_REPORTING",
+        "disposition": "",
+        "action": "OBSERVE",
+        "referencedIdentifier": [],
+        "parentReferencedIdentifier": {},
+        "outputReferencedIdentifier": [],
+        "name": "Sensor notification",
+        "description": "Exception notification for temperature excursion"
       }
     }
   ],
   "identifiersNodeInfo": [
     {
-      "identifiersId": 1,
-      "identifierSyntax": "URN",
+      "identifiersId": 2,
+      "identifierType": "Identifiers",
+      "instanceType": "sscc",
       "instanceData": {
         "identifierType": "sscc",
-        "gcpLength": 7,
-        "gcp": "176576571",
-        "serialType": "random"
-      }
+        "serialType": "range",
+        "gcp": "09521141",
+        "rangeFrom": 200
+      },
+      "objectIdentifierSyntax": "WebURI"
     }
   ],
   "connectorsInfo": [
     {
-      "ID": 7,
-      "name": "connector7",
-      "source": "1",
-      "target": "9",
+      "ID": 1,
+      "name": "connector1",
+      "source": "2",
+      "target": "1",
       "hideInheritParentCount": false,
       "epcCount": 1,
       "inheritParentCount": 0,
@@ -120,33 +108,9 @@
         "data": {
           "1": {
             "id": 1,
-            "name": "Identifiers",
-            "data": {
-              "ID": 1,
-              "eventType": "Identifiers"
-            },
-            "class": "Identifiers",
-            "html": "Identifiers",
-            "typenode": "vue",
-            "inputs": {},
-            "outputs": {
-              "output_1": {
-                "connections": [
-                  {
-                    "node": "9",
-                    "output": "input_1"
-                  }
-                ]
-              }
-            },
-            "pos_x": 15,
-            "pos_y": 28
-          },
-          "9": {
-            "id": 9,
             "name": "Events",
             "data": {
-              "ID": 9,
+              "ID": 1,
               "eventType": "ObjectEvent"
             },
             "class": "ObjectEvent",
@@ -156,7 +120,7 @@
               "input_1": {
                 "connections": [
                   {
-                    "node": "1",
+                    "node": "2",
                     "input": "output_1"
                   }
                 ]
@@ -167,8 +131,32 @@
                 "connections": []
               }
             },
-            "pos_x": 280,
-            "pos_y": 69
+            "pos_x": 423,
+            "pos_y": 188
+          },
+          "2": {
+            "id": 2,
+            "name": "Identifiers",
+            "data": {
+              "ID": 2,
+              "eventType": "Identifiers"
+            },
+            "class": "Identifiers",
+            "html": "Identifiers",
+            "typenode": "vue",
+            "inputs": {},
+            "outputs": {
+              "output_1": {
+                "connections": [
+                  {
+                    "node": "1",
+                    "output": "input_1"
+                  }
+                ]
+              }
+            },
+            "pos_x": 83.1796875,
+            "pos_y": 187
           }
         }
       }
