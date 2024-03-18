@@ -48,7 +48,7 @@ public class GenerateBIC implements EPCStrategy {
   private List<String> generateBIC() {
     try {
       final List<String> formattedBIC = new ArrayList<>();
-      formattedBIC.add(bic);
+      formattedBIC.add("urn:epc:id:bic:" + bic);
       return formattedBIC;
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
