@@ -1,184 +1,177 @@
 {
   "eventNodeInfo": [
     {
-      "eventId": 2,
+      "eventId": 3,
       "eventType": "AggregationEvent",
       "eventInfo": {
-        "eventCount": "3",
-        "identifierSyntax": "URN",
-        "vocabularySyntax": "URN",
-        "eventType": "AggregationEvent",
-        "importEvent": false,
-        "ordinaryEvent": true,
-        "eventTimeSelector": "SpecificTime",
+        "objectIdentifierSyntax": "WebURI",
+        "locationPartyIdentifierSyntax": "WebURI",
+        "dlURL": "https://id.gs1.org",
+        "eventCount": 3,
         "eventTime": {
-          "specificTime": "2023-06-05T11:33:47.000",
-          "fromTime": "2023-06-04T11:33:47.000",
-          "toTime": "2023-06-05T11:33:47.000",
-          "timeZoneOffset": "+02:00"
+          "timeSelector": "TimeRange",
+          "specificTime": "2024-03-18T17:38:39.000",
+          "fromTime": "2024-03-17T17:20:39",
+          "toTime": "2024-03-18T17:20:39",
+          "timeZoneOffset": "+01:00"
         },
-        "RecordTimeOption": "no",
-        "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": "SGLN",
-        "readPoint": {
-          "gcpLength": 10,
-          "gln": "3483987983749",
-          "extensionType": "dynamic",
-          "extension": "100",
-          "extensionFrom": "100"
-        },
-        "businesslocationselector": null,
-        "bizLocation": {
-          "gcpLength": null
-        },
-        "businessStep": "PACKING",
-        "disposition": "IN_PROGRESS",
-        "eventID": false,
-        "eventIdType": "UUID",
-        "hashAlgorithm": "sha-256",
-        "action": "ADD",
-        "error": {
-          "ErrorTimeZone": "+02:00",
-          "ErrorDeclarationTimeSelector": "SpecificTime",
-          "ErrorReasonType": null,
-          "errorCorrectiveIdsList": [],
-          "errorCorrectiveCount": 0,
-          "ErrorDeclarationTime": "2023-06-05T11:33:47.000",
-          "ErrorDeclarationTimeFrom": "2023-06-04T11:33:47.000",
-          "ErrorDeclarationTimeTo": "2023-06-05T11:33:47.000",
-          "errorExtensions": []
-        },
-        "persistentDispositionCount": 0,
+        "parentIdentifier": [],
+        "instanceIdentifier": [],
+        "classIdentifier": [],
+        "outputInstanceIdentifier": [],
+        "outputClassIdentifier": [],
+        "readPoint": {},
+        "bizLocation": {},
         "persistentDispositionList": [],
-        "bizTransactionCount": 0,
-        "businessTransactionList": [],
+        "bizTransactions": [],
+        "sources": [],
+        "destinations": [],
         "sensorElementList": [],
-        "referencedIdentifier": [],
-        "outputReferencedIdentifier": [],
-        "parentReferencedIdentifier": {},
         "userExtensions": [],
         "ilmd": [],
-        "parentID": "",
-        "epcList": [],
-        "quantityList": [],
-        "outputEPCList": [],
-        "outputQuantityList": [],
-        "sources": [],
-        "destinations": []
+        "errorDeclaration": {
+          "declarationTime": {
+            "timeSelector": "SpecificTime",
+            "timeZoneOffset": "+01:00",
+            "specificTime": "2024-03-18T17:38:39.000",
+            "fromTime": "2024-03-17T17:38:39.000",
+            "toTime": "2024-03-18T17:38:39.000"
+          },
+          "correctiveIds": [],
+          "extensions": [],
+          "declarationReason": "DID_NOT_OCCUR"
+        },
+        "eventType": "AggregationEvent",
+        "ordinaryEvent": true,
+        "eventID": false,
+        "recordTimeOption": "No",
+        "businessStep": "PACKING",
+        "disposition": "IN_PROGRESS",
+        "action": "ADD",
+        "referencedIdentifier": [],
+        "parentReferencedIdentifier": {},
+        "outputReferencedIdentifier": [],
+        "name": "V1-3: Pack Items",
+        "description": "Pack Items into Case: SGTIN of case 10x Children: SGTINs of items x – x+5"
       }
     },
     {
-      "eventId": 6,
+      "eventId": 5,
       "eventType": "AggregationEvent",
       "eventInfo": {
+        "objectIdentifierSyntax": "WebURI",
+        "locationPartyIdentifierSyntax": "WebURI",
+        "dlURL": "https://id.gs1.org",
         "eventCount": 1,
-        "identifierSyntax": "URN",
-        "vocabularySyntax": "URN",
-        "eventType": "AggregationEvent",
-        "importEvent": false,
-        "ordinaryEvent": true,
-        "eventTimeSelector": "SpecificTime",
         "eventTime": {
-          "specificTime": "2023-06-05T11:35:22.000",
-          "fromTime": "2023-06-04T11:35:22.000",
-          "toTime": "2023-06-05T11:35:22.000",
-          "timeZoneOffset": "+02:00"
+          "timeSelector": "TimeRange",
+          "specificTime": "2024-03-18T18:35:31.000",
+          "fromTime": "2024-03-18T17:35:31",
+          "toTime": "2024-03-18T18:35:31.000",
+          "timeZoneOffset": "+01:00"
         },
-        "RecordTimeOption": "no",
-        "recordTimeType": "SAME_AS_EVENT_TIME",
-        "readpointselector": "SGLN",
-        "readPoint": {
-          "gcpLength": 10,
-          "gln": "3483987983749",
-          "extensionType": "static",
-          "extension": "200"
-        },
-        "businesslocationselector": null,
-        "bizLocation": {
-          "gcpLength": null
-        },
-        "businessStep": "PACKING",
-        "disposition": "IN_PROGRESS",
-        "eventID": false,
-        "eventIdType": "UUID",
-        "hashAlgorithm": "sha-256",
-        "action": "ADD",
-        "error": {
-          "ErrorTimeZone": "+02:00",
-          "ErrorDeclarationTimeSelector": "SpecificTime",
-          "ErrorReasonType": null,
-          "errorCorrectiveIdsList": [],
-          "errorCorrectiveCount": 0,
-          "ErrorDeclarationTime": "2023-06-05T11:35:22.000",
-          "ErrorDeclarationTimeFrom": "2023-06-04T11:35:22.000",
-          "ErrorDeclarationTimeTo": "2023-06-05T11:35:22.000",
-          "errorExtensions": []
-        },
-        "persistentDispositionCount": 0,
+        "parentIdentifier": [],
+        "instanceIdentifier": [],
+        "classIdentifier": [],
+        "outputInstanceIdentifier": [],
+        "outputClassIdentifier": [],
+        "readPoint": {},
+        "bizLocation": {},
         "persistentDispositionList": [],
-        "bizTransactionCount": 0,
-        "businessTransactionList": [],
+        "bizTransactions": [],
+        "sources": [],
+        "destinations": [],
         "sensorElementList": [],
-        "referencedIdentifier": [],
-        "outputReferencedIdentifier": [],
-        "parentReferencedIdentifier": {},
         "userExtensions": [],
         "ilmd": [],
-        "parentID": "",
-        "epcList": [],
-        "quantityList": [],
-        "outputEPCList": [],
-        "outputQuantityList": [],
-        "sources": [],
-        "destinations": []
+        "errorDeclaration": {
+          "declarationTime": {
+            "timeSelector": "SpecificTime",
+            "timeZoneOffset": "+01:00",
+            "specificTime": "2024-03-18T18:35:31.000",
+            "fromTime": "2024-03-17T18:35:31.000",
+            "toTime": "2024-03-18T18:35:31.000"
+          },
+          "correctiveIds": [],
+          "extensions": [],
+          "declarationReason": "DID_NOT_OCCUR"
+        },
+        "eventType": "AggregationEvent",
+        "ordinaryEvent": true,
+        "eventID": false,
+        "recordTimeOption": "No",
+        "businessStep": "PACKING",
+        "disposition": "IN_PROGRESS",
+        "action": "ADD",
+        "referencedIdentifier": [],
+        "parentReferencedIdentifier": {},
+        "outputReferencedIdentifier": [],
+        "name": "V4: Cases onto Pallet",
+        "description": "Pack cases 101, 102, and 103 onto pallet 1001"
       }
     }
   ],
   "identifiersNodeInfo": [
     {
-      "identifiersId": 4,
-      "identifierSyntax": "URN",
+      "identifiersId": 1,
+      "identifierType": "Identifiers",
+      "objectIdentifierSyntax": "WebURI",
+      "instanceType": "sgtin",
       "instanceData": {
         "identifierType": "sgtin",
-        "gcpLength": 10,
-        "sgtin": "64676376674367",
         "serialType": "range",
+        "sgtin": "09521568256452",
         "rangeFrom": 1
       }
     },
     {
-      "identifiersId": 5,
-      "identifierSyntax": "URN",
+      "identifiersId": 2,
+      "identifierType": "Identifiers",
+      "instanceData": {
+        "identifierType": "sgtin",
+        "serialType": "range",
+        "sgtin": "09521568336451",
+        "rangeFrom": 1
+      },
+      "instanceType": "sgtin",
+      "objectIdentifierSyntax": "WebURI"
+    },
+    {
+      "identifiersId": 4,
+      "identifierType": "ParentID",
       "parentData": {
         "identifierType": "sgtin",
-        "gcpLength": 10,
-        "sgtin": "24424545245453",
         "serialType": "range",
+        "sgtin": "09521568256452",
         "rangeFrom": 101
-      }
+      },
+      "instanceType": "sgtin",
+      "objectIdentifierSyntax": "WebURI"
+    },
+    {
+      "identifiersId": 6,
+      "identifierType": "ParentID",
+      "parentData": {
+        "identifierType": "sscc",
+        "serialType": "none",
+        "gcp": "9521141",
+        "rangeFrom": 1001,
+        "serialNumber": "1001"
+      },
+      "instanceType": "sscc",
+      "objectIdentifierSyntax": "WebURI"
     },
     {
       "identifiersId": 7,
-      "identifierSyntax": "URN",
+      "identifierType": "Identifiers",
       "instanceData": {
         "identifierType": "sgtin",
-        "gcpLength": 10,
-        "sgtin": "36437647667376",
         "serialType": "range",
+        "sgtin": "09521568256452",
         "rangeFrom": 101
-      }
-    },
-    {
-      "identifiersId": 8,
-      "identifierSyntax": "URN",
-      "parentData": {
-        "identifierType": "sscc",
-        "gcpLength": 9,
-        "gcp": "43746377",
-        "serialType": "none",
-        "rangeFrom": 1001,
-        "serialNumber": "1001"
-      }
+      },
+      "instanceType": "sgtin",
+      "objectIdentifierSyntax": "WebURI"
     }
   ],
   "connectorsInfo": [
@@ -186,7 +179,18 @@
       "ID": 2,
       "name": "connector2",
       "source": "4",
-      "target": "2",
+      "target": "3",
+      "hideInheritParentCount": false,
+      "epcCount": 0,
+      "inheritParentCount": 0,
+      "classCount": 0,
+      "quantity": 0
+    },
+    {
+      "ID": 3,
+      "name": "connector3",
+      "source": "2",
+      "target": "3",
       "hideInheritParentCount": false,
       "epcCount": 5,
       "inheritParentCount": 0,
@@ -196,22 +200,19 @@
     {
       "ID": 4,
       "name": "connector4",
-      "source": "5",
-      "target": "2",
-      "hideInheritParentCount": false
-    },
-    {
-      "ID": 5,
-      "name": "connector5",
-      "source": "8",
-      "target": "6",
-      "hideInheritParentCount": false
+      "source": "6",
+      "target": "5",
+      "hideInheritParentCount": false,
+      "epcCount": 0,
+      "inheritParentCount": 0,
+      "classCount": 0,
+      "quantity": 0
     },
     {
       "ID": 6,
       "name": "connector6",
       "source": "7",
-      "target": "6",
+      "target": "5",
       "hideInheritParentCount": false,
       "epcCount": 3,
       "inheritParentCount": 0,
@@ -225,45 +226,9 @@
         "data": {
           "2": {
             "id": 2,
-            "name": "Events",
-            "data": {
-              "ID": 2,
-              "eventType": "AggregationEvent"
-            },
-            "class": "AggregationEvent",
-            "html": "Events",
-            "typenode": "vue",
-            "inputs": {
-              "input_1": {
-                "connections": [
-                  {
-                    "node": "5",
-                    "input": "output_1"
-                  }
-                ]
-              },
-              "input_2": {
-                "connections": [
-                  {
-                    "node": "4",
-                    "input": "output_1"
-                  }
-                ]
-              }
-            },
-            "outputs": {
-              "output_1": {
-                "connections": []
-              }
-            },
-            "pos_x": 574,
-            "pos_y": 281
-          },
-          "4": {
-            "id": 4,
             "name": "Identifiers",
             "data": {
-              "ID": 4,
+              "ID": 2,
               "eventType": "Identifiers"
             },
             "class": "Identifiers",
@@ -274,20 +239,56 @@
               "output_1": {
                 "connections": [
                   {
-                    "node": "2",
+                    "node": "3",
                     "output": "input_2"
                   }
                 ]
               }
             },
-            "pos_x": 289,
-            "pos_y": 271
+            "pos_x": 39,
+            "pos_y": 227
           },
-          "5": {
-            "id": 5,
+          "3": {
+            "id": 3,
+            "name": "Events",
+            "data": {
+              "ID": 3,
+              "eventType": "AggregationEvent"
+            },
+            "class": "AggregationEvent",
+            "html": "Events",
+            "typenode": "vue",
+            "inputs": {
+              "input_1": {
+                "connections": [
+                  {
+                    "node": "4",
+                    "input": "output_1"
+                  }
+                ]
+              },
+              "input_2": {
+                "connections": [
+                  {
+                    "node": "2",
+                    "input": "output_1"
+                  }
+                ]
+              }
+            },
+            "outputs": {
+              "output_1": {
+                "connections": []
+              }
+            },
+            "pos_x": 283,
+            "pos_y": 163
+          },
+          "4": {
+            "id": 4,
             "name": "ParentIdentifiers",
             "data": {
-              "ID": 5,
+              "ID": 4,
               "eventType": "ParentID"
             },
             "class": "ParentID",
@@ -298,20 +299,20 @@
               "output_1": {
                 "connections": [
                   {
-                    "node": "2",
+                    "node": "3",
                     "output": "input_1"
                   }
                 ]
               }
             },
-            "pos_x": 291,
-            "pos_y": 125
+            "pos_x": 39,
+            "pos_y": 89
           },
-          "6": {
-            "id": 6,
+          "5": {
+            "id": 5,
             "name": "Events",
             "data": {
-              "ID": 6,
+              "ID": 5,
               "eventType": "AggregationEvent"
             },
             "class": "AggregationEvent",
@@ -321,7 +322,7 @@
               "input_1": {
                 "connections": [
                   {
-                    "node": "8",
+                    "node": "6",
                     "input": "output_1"
                   }
                 ]
@@ -340,8 +341,32 @@
                 "connections": []
               }
             },
-            "pos_x": 1105,
-            "pos_y": 287
+            "pos_x": 779,
+            "pos_y": 177
+          },
+          "6": {
+            "id": 6,
+            "name": "ParentIdentifiers",
+            "data": {
+              "ID": 6,
+              "eventType": "ParentID"
+            },
+            "class": "ParentID",
+            "html": "ParentIdentifiers",
+            "typenode": "vue",
+            "inputs": {},
+            "outputs": {
+              "output_1": {
+                "connections": [
+                  {
+                    "node": "5",
+                    "output": "input_1"
+                  }
+                ]
+              }
+            },
+            "pos_x": 544,
+            "pos_y": 104
           },
           "7": {
             "id": 7,
@@ -358,38 +383,14 @@
               "output_1": {
                 "connections": [
                   {
-                    "node": "6",
+                    "node": "5",
                     "output": "input_2"
                   }
                 ]
               }
             },
-            "pos_x": 838,
-            "pos_y": 293
-          },
-          "8": {
-            "id": 8,
-            "name": "ParentIdentifiers",
-            "data": {
-              "ID": 8,
-              "eventType": "ParentID"
-            },
-            "class": "ParentID",
-            "html": "ParentIdentifiers",
-            "typenode": "vue",
-            "inputs": {},
-            "outputs": {
-              "output_1": {
-                "connections": [
-                  {
-                    "node": "6",
-                    "output": "input_1"
-                  }
-                ]
-              }
-            },
-            "pos_x": 834,
-            "pos_y": 124
+            "pos_x": 546,
+            "pos_y": 244
           }
         }
       }
