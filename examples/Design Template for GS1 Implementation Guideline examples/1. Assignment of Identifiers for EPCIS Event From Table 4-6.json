@@ -13,14 +13,18 @@
                     "specificTime": "2014-03-15T10:11:12",
                     "fromTime": "2024-03-07T18:33:29.000",
                     "toTime": "2024-03-08T18:33:29.000",
-                    "timeZoneOffset": "-05:00"
+                    "timeZoneOffset": "+01:00"
                 },
                 "parentIdentifier": [],
                 "instanceIdentifier": [],
                 "classIdentifier": [],
                 "outputInstanceIdentifier": [],
                 "outputClassIdentifier": [],
-                "readPoint": {},
+                "readPoint": {
+                    "type": "SGLN",
+                    "gln": "9521141111116",
+                    "extension": 2
+                },
                 "bizLocation": {},
                 "persistentDispositionList": [],
                 "bizTransactions": [
