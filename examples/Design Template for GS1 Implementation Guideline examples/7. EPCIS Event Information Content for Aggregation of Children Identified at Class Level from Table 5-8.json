@@ -211,16 +211,16 @@
     {
       "identifiersId": 1,
       "identifierType": "Identifiers",
-      "objectIdentifierSyntax": "WebURI",
       "classType": "lgtin",
       "classData": {
         "identifierType": "lgtin",
         "quantityType": "Variable Measure Quantity",
         "serialType": "none",
-        "lgtin": "09521568256452",
+        "lgtin": "09521568251204",
         "serialNumber": "12",
         "quantity": 10
-      }
+      },
+      "objectIdentifierSyntax": "WebURI"
     },
     {
       "identifiersId": 2,
@@ -230,7 +230,7 @@
         "identifierType": "lgtin",
         "quantityType": "Variable Measure Quantity",
         "serialType": "none",
-        "lgtin": "09521568256452",
+        "lgtin": "09521568251211",
         "serialNumber": "52",
         "quantity": 20
       },
