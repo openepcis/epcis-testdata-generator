@@ -82,7 +82,7 @@
                 "referencedIdentifier": [],
                 "parentReferencedIdentifier": {},
                 "outputReferencedIdentifier": [],
-                "name": "Ship SSCC",
+                "name": "V1: Ship SSCC",
                 "description": "A manufacturer ships a pallet identified by an SSCC to shipping dock no.2 of building 10, noting the retailer’s purchase order and the manufacturer’s invoice"
             }
         }
