@@ -23,7 +23,7 @@ jobs:
           repository: "openepcis/openepcis-web.git"
           github-server-url: "https://code.company-group.com"
           path: modules/openepcis-web
-          ref: "stable"
+          ref: "main"
           token: ${{ secrets.OPENEPCIS_WEB_TOKEN }}
 
       - name: vus.js ui build
