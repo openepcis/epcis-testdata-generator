@@ -33,7 +33,7 @@
                 "userExtensions": [
                     {
                         "element": "extensionElement",
-                        "namespace": "http://epcis.example.org/myvoc",
+                        "namespace": "http://myvoc.example.org/",
                         "localName": "inspector_badge_nr",
                         "dataType": "string",
                         "ID": 1,
@@ -53,7 +53,7 @@
                     "extensions": [],
                     "declarationReason": "DID_NOT_OCCUR"
                 },
-                "name": "Object inspection",
+                "name": "V1: Object Inspection",
                 "description": "Inspection of objects",
                 "eventType": "ObjectEvent",
                 "ordinaryEvent": true,

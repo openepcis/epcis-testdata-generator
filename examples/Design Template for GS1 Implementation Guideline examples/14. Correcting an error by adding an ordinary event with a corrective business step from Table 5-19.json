@@ -60,7 +60,7 @@
                     "extensions": [],
                     "declarationReason": "DID_NOT_OCCUR"
                 },
-                "name": "Ship 3 without 4th",
+                "name": "V1: Ship 3",
                 "description": "Ship 3 product instances, not realising that physical shipment includes a fourth instance",
                 "eventType": "ObjectEvent",
                 "ordinaryEvent": true,
@@ -134,7 +134,7 @@
                     "extensions": [],
                     "declarationReason": "DID_NOT_OCCUR"
                 },
-                "name": "Ship 4th object",
+                "name": "V2: Ship 4th",
                 "description": "Additional event recognising that the fourth instance was shipped, too",
                 "eventType": "ObjectEvent",
                 "ordinaryEvent": true,

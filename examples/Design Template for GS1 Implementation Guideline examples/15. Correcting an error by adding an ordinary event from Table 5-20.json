@@ -60,7 +60,7 @@
                     "extensions": [],
                     "declarationReason": "DID_NOT_OCCUR"
                 },
-                "name": "Ship without one instance",
+                "name": "V1: Ship 3 Instances",
                 "description": "Ship 3 product instances, not realising that physical shipment is missing one instance",
                 "eventType": "ObjectEvent",
                 "ordinaryEvent": true,
@@ -137,7 +137,7 @@
                     "extensions": [],
                     "declarationReason": "DID_NOT_OCCUR"
                 },
-                "name": "Event for actual ship",
+                "name": "V3: 3rd not shipped",
                 "description": "Additional event to indicate that the third instance was not actually shipped",
                 "eventType": "ObjectEvent",
                 "ordinaryEvent": true,
@@ -156,14 +156,14 @@
         {
             "identifiersId": 1,
             "identifierType": "Identifiers",
-            "objectIdentifierSyntax": "WebURI",
             "instanceType": "sgtin",
             "instanceData": {
                 "identifierType": "sgtin",
                 "serialType": "range",
                 "sgtin": "95211411747365",
                 "rangeFrom": 101
-            }
+            },
+            "objectIdentifierSyntax": "WebURI"
         }
     ],
     "connectorsInfo": [
@@ -252,8 +252,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 551,
-                        "pos_y": 313
+                        "pos_x": 504,
+                        "pos_y": 309
                     },
                     "3": {
                         "id": 3,
@@ -280,8 +280,8 @@
                                 "connections": []
                             }
                         },
-                        "pos_x": 841,
-                        "pos_y": 314
+                        "pos_x": 783,
+                        "pos_y": 308
                     }
                 }
             }
