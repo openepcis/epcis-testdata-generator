@@ -4,90 +4,80 @@
             "eventId": 2,
             "eventType": "ObjectEvent",
             "eventInfo": {
+                "objectIdentifierSyntax": "WebURI",
+                "locationPartyIdentifierSyntax": "WebURI",
+                "dlURL": "https://id.gs1.org",
                 "eventCount": 1,
-                "identifierSyntax": "URN",
-                "vocabularySyntax": "URN",
-                "eventType": "ObjectEvent",
-                "importEvent": false,
-                "ordinaryEvent": true,
-                "eventTimeSelector": "SpecificTime",
                 "eventTime": {
+                    "timeSelector": "SpecificTime",
                     "specificTime": "2023-01-15T10:00",
-                    "fromTime": "2023-03-12T18:04:01.000",
-                    "toTime": "2023-03-13T18:04:01.000",
-                    "timeZoneOffset": "-05:00"
+                    "fromTime": "2024-03-19T16:07:41.000",
+                    "toTime": "2024-03-20T16:07:41.000",
+                    "timeZoneOffset": "+01:00"
                 },
-                "RecordTimeOption": "no",
-                "recordTimeType": "SAME_AS_EVENT_TIME",
-                "readpointselector": "manually",
+                "parentIdentifier": [],
+                "instanceIdentifier": [],
+                "classIdentifier": [],
+                "outputInstanceIdentifier": [],
+                "outputClassIdentifier": [],
                 "readPoint": {
-                    "gcpLength": null,
+                    "type": "MANUALLY",
                     "manualURI": "geo:41.6725,-86.255278"
                 },
-                "businesslocationselector": null,
-                "bizLocation": {
-                    "gcpLength": null
-                },
-                "businessStep": "INSPECTING",
-                "disposition": "IN_PROGRESS",
+                "bizLocation": {},
+                "persistentDispositionList": [],
+                "bizTransactions": [],
                 "sources": [],
                 "destinations": [],
-                "eventID": false,
-                "eventIdType": "UUID",
-                "hashAlgorithm": "sha-256",
-                "action": "OBSERVE",
-                "error": {
-                    "ErrorTimeZone": "+02:00",
-                    "ErrorDeclarationTimeSelector": "SpecificTime",
-                    "ErrorReasonType": null,
-                    "errorCorrectiveIdsList": [],
-                    "errorCorrectiveCount": 0,
-                    "ErrorDeclarationTime": "2023-03-13T18:04:01.000",
-                    "ErrorDeclarationTimeFrom": "2023-03-12T18:04:01.000",
-                    "ErrorDeclarationTimeTo": "2023-03-13T18:04:01.000",
-                    "errorExtensions": []
-                },
-                "persistentDispositionCount": 0,
-                "persistentDispositionList": [],
-                "bizTransactionCount": 0,
-                "businessTransactionList": [],
                 "sensorElementList": [],
-                "referencedIdentifier": [],
-                "outputReferencedIdentifier": [],
-                "parentReferencedIdentifier": {},
                 "userExtensions": [
                     {
-                        "type": "userExtension",
                         "element": "extensionElement",
-                        "dataType": "string",
-                        "namespace": "http://epcis.example.org/myvoc",
+                        "namespace": "http://myvoc.example.org/",
                         "localName": "inspector_badge_nr",
-                        "text": "244301128",
-                        "complex": null,
-                        "ID": 0
+                        "dataType": "string",
+                        "ID": 1,
+                        "text": "244301128"
                     }
                 ],
                 "ilmd": [],
-                "parentID": "",
-                "epcList": [],
-                "quantityList": [],
-                "outputEPCList": [],
-                "outputQuantityList": []
+                "errorDeclaration": {
+                    "declarationTime": {
+                        "timeSelector": "SpecificTime",
+                        "timeZoneOffset": "+01:00",
+                        "specificTime": "2024-03-20T16:07:41.000",
+                        "fromTime": "2024-03-19T16:07:41.000",
+                        "toTime": "2024-03-20T16:07:41.000"
+                    },
+                    "correctiveIds": [],
+                    "extensions": [],
+                    "declarationReason": "DID_NOT_OCCUR"
+                },
+                "name": "V1: Object Inspection",
+                "description": "Inspection of objects",
+                "eventType": "ObjectEvent",
+                "ordinaryEvent": true,
+                "eventID": false,
+                "recordTimeOption": "No",
+                "businessStep": "INSPECTING",
+                "disposition": "IN_PROGRESS",
+                "action": "OBSERVE",
+                "referencedIdentifier": [],
+                "parentReferencedIdentifier": {},
+                "outputReferencedIdentifier": []
             }
         }
     ],
     "identifiersNodeInfo": [
         {
             "identifiersId": 1,
-            "identifierSyntax": "URN",
+            "identifierType": "Identifiers",
+            "objectIdentifierSyntax": "WebURI",
+            "instanceType": "sgtin",
             "instanceData": {
                 "identifierType": "sgtin",
-                "gcpLength": 7,
-                "sgtin": "65656560980979",
                 "serialType": "range",
-                "randomType": "NUMERIC",
-                "randomMinLength": 11,
-                "randomMaxLength": 5,
+                "sgtin": "95211411747365",
                 "rangeFrom": 101
             }
         }
@@ -98,6 +88,8 @@
             "name": "connector1",
             "source": "1",
             "target": "2",
+            "output_class": "output_1",
+            "input_class": "input_1",
             "hideInheritParentCount": false,
             "epcCount": 3,
             "inheritParentCount": 0,
@@ -130,8 +122,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 15,
-                        "pos_y": 28
+                        "pos_x": 226,
+                        "pos_y": 268
                     },
                     "2": {
                         "id": 2,
@@ -158,8 +150,8 @@
                                 "connections": []
                             }
                         },
-                        "pos_x": 440,
-                        "pos_y": 113
+                        "pos_x": 579,
+                        "pos_y": 280
                     }
                 }
             }

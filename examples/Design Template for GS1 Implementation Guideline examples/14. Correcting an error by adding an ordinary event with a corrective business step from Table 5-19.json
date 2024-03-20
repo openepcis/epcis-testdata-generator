@@ -4,42 +4,35 @@
             "eventId": 2,
             "eventType": "ObjectEvent",
             "eventInfo": {
+                "objectIdentifierSyntax": "WebURI",
+                "locationPartyIdentifierSyntax": "WebURI",
+                "dlURL": "https://id.gs1.org",
                 "eventCount": 1,
-                "identifierSyntax": "URN",
-                "vocabularySyntax": "URN",
-                "eventType": "ObjectEvent",
-                "importEvent": false,
-                "ordinaryEvent": true,
-                "eventTimeSelector": "SpecificTime",
                 "eventTime": {
-                    "specificTime": "2022-07-15T10:00",
-                    "fromTime": "2023-03-12T18:04:01.000",
-                    "toTime": "2023-03-13T18:04:01.000",
-                    "timeZoneOffset": "-05:00"
+                    "timeSelector": "SpecificTime",
+                    "specificTime": "2023-07-15T10:00",
+                    "fromTime": "2024-03-19T15:59:50.000",
+                    "toTime": "2024-03-20T15:59:50.000",
+                    "timeZoneOffset": "+01:00"
                 },
-                "RecordTimeOption": "no",
-                "recordTimeType": "SAME_AS_EVENT_TIME",
-                "readpointselector": "SGLN",
+                "parentIdentifier": [],
+                "instanceIdentifier": [],
+                "classIdentifier": [],
+                "outputInstanceIdentifier": [],
+                "outputClassIdentifier": [],
                 "readPoint": {
-                    "gcpLength": 7,
-                    "gln": "1687181687187",
-                    "extensionType": "dynamic",
-                    "extensionFrom": "1",
-                    "extensionFormat": "4"
+                    "type": "SGLN",
+                    "gln": "9521141111116"
                 },
-                "businesslocationselector": null,
-                "bizLocation": {
-                    "gcpLength": null
-                },
-                "businessStep": "SHIPPING",
-                "disposition": "IN_TRANSIT",
+                "bizLocation": {},
+                "persistentDispositionList": [],
+                "bizTransactions": [],
                 "sources": [
                     {
                         "type": "OWNING_PARTY",
                         "glnType": "SGLN",
-                        "gcpLength": 7,
-                        "gln": "6743667437643",
-                        "extension": "100",
+                        "gln": "9521141111116",
+                        "extension": 10,
                         "ID": 0
                     }
                 ],
@@ -47,84 +40,73 @@
                     {
                         "type": "OWNING_PARTY",
                         "glnType": "SGLN",
-                        "gcpLength": 7,
-                        "gln": "6743667437643",
-                        "extension": "200",
+                        "gln": "9521141111116",
+                        "extension": 20,
                         "ID": 0
                     }
                 ],
-                "eventID": false,
-                "eventIdType": "UUID",
-                "hashAlgorithm": "sha-256",
-                "action": "OBSERVE",
-                "error": {
-                    "ErrorTimeZone": "+02:00",
-                    "ErrorDeclarationTimeSelector": "SpecificTime",
-                    "ErrorReasonType": null,
-                    "errorCorrectiveIdsList": [],
-                    "errorCorrectiveCount": 0,
-                    "ErrorDeclarationTime": "2023-03-13T18:04:01.000",
-                    "ErrorDeclarationTimeFrom": "2023-03-12T18:04:01.000",
-                    "ErrorDeclarationTimeTo": "2023-03-13T18:04:01.000",
-                    "errorExtensions": []
-                },
-                "persistentDispositionCount": 0,
-                "persistentDispositionList": [],
-                "bizTransactionCount": 0,
-                "businessTransactionList": [],
                 "sensorElementList": [],
-                "referencedIdentifier": [],
-                "outputReferencedIdentifier": [],
-                "parentReferencedIdentifier": {},
                 "userExtensions": [],
                 "ilmd": [],
-                "parentID": "",
-                "epcList": [],
-                "quantityList": [],
-                "outputEPCList": [],
-                "outputQuantityList": []
+                "errorDeclaration": {
+                    "declarationTime": {
+                        "timeSelector": "SpecificTime",
+                        "timeZoneOffset": "+01:00",
+                        "specificTime": "2024-03-20T15:59:50.000",
+                        "fromTime": "2024-03-19T15:59:50.000",
+                        "toTime": "2024-03-20T15:59:50.000"
+                    },
+                    "correctiveIds": [],
+                    "extensions": [],
+                    "declarationReason": "DID_NOT_OCCUR"
+                },
+                "name": "V1: Ship 3",
+                "description": "Ship 3 product instances, not realising that physical shipment includes a fourth instance",
+                "eventType": "ObjectEvent",
+                "ordinaryEvent": true,
+                "eventID": false,
+                "recordTimeOption": "No",
+                "businessStep": "SHIPPING",
+                "disposition": "IN_TRANSIT",
+                "action": "OBSERVE",
+                "referencedIdentifier": [],
+                "parentReferencedIdentifier": {},
+                "outputReferencedIdentifier": []
             }
         },
         {
             "eventId": 3,
             "eventType": "ObjectEvent",
             "eventInfo": {
+                "objectIdentifierSyntax": "WebURI",
+                "locationPartyIdentifierSyntax": "WebURI",
+                "dlURL": "https://id.gs1.org",
                 "eventCount": 1,
-                "identifierSyntax": "URN",
-                "vocabularySyntax": "URN",
-                "eventType": "ObjectEvent",
-                "importEvent": false,
-                "ordinaryEvent": true,
-                "eventTimeSelector": "SpecificTime",
                 "eventTime": {
-                    "specificTime": "2022-07-15T10:00",
-                    "fromTime": "2023-03-12T18:11:49.000",
-                    "toTime": "2023-03-13T18:11:49.000",
-                    "timeZoneOffset": "-05:00"
+                    "timeSelector": "SpecificTime",
+                    "specificTime": "2023-07-15T10:00",
+                    "fromTime": "2024-03-19T16:01:38.000",
+                    "toTime": "2024-03-20T16:01:38.000",
+                    "timeZoneOffset": "+01:00"
                 },
-                "RecordTimeOption": "no",
-                "recordTimeType": "SAME_AS_EVENT_TIME",
-                "readpointselector": "SGLN",
+                "parentIdentifier": [],
+                "instanceIdentifier": [],
+                "classIdentifier": [],
+                "outputInstanceIdentifier": [],
+                "outputClassIdentifier": [],
                 "readPoint": {
-                    "gcpLength": 7,
-                    "extensionType": "dynamic",
-                    "gln": "1687181687187",
-                    "extensionFrom": "1",
-                    "extensionFormat": "4"
+                    "type": "SGLN",
+                    "gln": "9521141111116"
                 },
-                "businesslocationselector": null,
-                "bizLocation": {
-                    "gcpLength": null
-                },
-                "businessStep": "SHIPPING",
-                "disposition": "IN_TRANSIT",
+                "bizLocation": {},
+                "persistentDispositionList": [],
+                "bizTransactions": [],
                 "sources": [
                     {
                         "type": "OWNING_PARTY",
                         "glnType": "SGLN",
-                        "gcpLength": 7,
-                        "gln": "6743667437643",
-                        "extension": "100",
+                        "gln": "9521141111116",
+                        "extension": 10,
                         "ID": 0
                     }
                 ],
@@ -132,57 +114,51 @@
                     {
                         "type": "OWNING_PARTY",
                         "glnType": "SGLN",
-                        "gcpLength": 7,
-                        "gln": "6743667437643",
-                        "extension": "200",
+                        "gln": "9521141111116",
+                        "extension": 20,
                         "ID": 0
                     }
                 ],
-                "eventID": false,
-                "eventIdType": "UUID",
-                "hashAlgorithm": "sha-256",
-                "action": "OBSERVE",
-                "error": {
-                    "ErrorTimeZone": "+02:00",
-                    "ErrorDeclarationTimeSelector": "SpecificTime",
-                    "ErrorReasonType": null,
-                    "errorCorrectiveIdsList": [],
-                    "errorCorrectiveCount": 0,
-                    "ErrorDeclarationTime": "2023-03-13T18:11:49.000",
-                    "ErrorDeclarationTimeFrom": "2023-03-12T18:11:49.000",
-                    "ErrorDeclarationTimeTo": "2023-03-13T18:11:49.000",
-                    "errorExtensions": []
-                },
-                "persistentDispositionCount": 0,
-                "persistentDispositionList": [],
-                "bizTransactionCount": 0,
-                "businessTransactionList": [],
                 "sensorElementList": [],
-                "referencedIdentifier": [],
-                "outputReferencedIdentifier": [],
-                "parentReferencedIdentifier": {},
                 "userExtensions": [],
                 "ilmd": [],
-                "parentID": "",
-                "epcList": [],
-                "quantityList": [],
-                "outputEPCList": [],
-                "outputQuantityList": []
+                "errorDeclaration": {
+                    "declarationTime": {
+                        "timeSelector": "SpecificTime",
+                        "timeZoneOffset": "+01:00",
+                        "specificTime": "2024-03-20T16:01:38.000",
+                        "fromTime": "2024-03-19T16:01:38.000",
+                        "toTime": "2024-03-20T16:01:38.000"
+                    },
+                    "correctiveIds": [],
+                    "extensions": [],
+                    "declarationReason": "DID_NOT_OCCUR"
+                },
+                "name": "V2: Ship 4th",
+                "description": "Additional event recognising that the fourth instance was shipped, too",
+                "eventType": "ObjectEvent",
+                "ordinaryEvent": true,
+                "eventID": false,
+                "recordTimeOption": "No",
+                "businessStep": "SHIPPING",
+                "disposition": "IN_TRANSIT",
+                "action": "OBSERVE",
+                "referencedIdentifier": [],
+                "parentReferencedIdentifier": {},
+                "outputReferencedIdentifier": []
             }
         }
     ],
     "identifiersNodeInfo": [
         {
             "identifiersId": 1,
-            "identifierSyntax": "URN",
+            "identifierType": "Identifiers",
+            "objectIdentifierSyntax": "WebURI",
+            "instanceType": "sgtin",
             "instanceData": {
                 "identifierType": "sgtin",
-                "gcpLength": 7,
-                "sgtin": "65656560980979",
                 "serialType": "range",
-                "randomType": "NUMERIC",
-                "randomMinLength": 11,
-                "randomMaxLength": 5,
+                "sgtin": "95211411747365",
                 "rangeFrom": 101
             }
         }
@@ -193,6 +169,8 @@
             "name": "connector1",
             "source": "1",
             "target": "2",
+            "output_class": "output_1",
+            "input_class": "input_1",
             "hideInheritParentCount": false,
             "epcCount": 3,
             "inheritParentCount": 0,
@@ -200,10 +178,12 @@
             "quantity": 0
         },
         {
-            "ID": 1,
-            "name": "connector1",
+            "ID": 2,
+            "name": "connector2",
             "source": "1",
             "target": "3",
+            "output_class": "output_1",
+            "input_class": "input_1",
             "hideInheritParentCount": false,
             "epcCount": 1,
             "inheritParentCount": 0,
@@ -240,8 +220,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 19,
-                        "pos_y": 179
+                        "pos_x": 267,
+                        "pos_y": 286
                     },
                     "2": {
                         "id": 2,
@@ -268,8 +248,8 @@
                                 "connections": []
                             }
                         },
-                        "pos_x": 453,
-                        "pos_y": 116
+                        "pos_x": 639,
+                        "pos_y": 146
                     },
                     "3": {
                         "id": 3,
@@ -296,8 +276,8 @@
                                 "connections": []
                             }
                         },
-                        "pos_x": 462,
-                        "pos_y": 323
+                        "pos_x": 650,
+                        "pos_y": 407
                     }
                 }
             }
