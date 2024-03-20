@@ -235,6 +235,12 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
                 .findFirst()
                 .ifPresent(
                         t -> parentList.addAll(EventModelUtil.parentIdentifiers(t, epc.getInheritParentCount())));
+      }else if(epc.getParentNodeId() != 0 && epc.getInheritEPCToParent() != null && epc.getInheritEPCToParent() > 0){
+        parentTracker.stream()
+                .filter(i -> i.getEventTypeInfo().getNodeId() == epc.getParentNodeId())
+                .findFirst()
+                .ifPresent(
+                        t -> parentList.addAll(EventModelUtil.instanceIdentifiers(t, epc.getInheritEPCToParent())));
       }
     }
     return parentList;
@@ -285,6 +291,13 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
             .findFirst()
             .ifPresent(
                 t -> epcList.addAll(EventModelUtil.instanceIdentifiers(t, epc.getEpcCount())));
+      }else if(epc.getParentNodeId() != 0 && epc.getInheritParentToEPC() > 0){
+        //If inheriting the identifiers from ParentID to subsequent ChildEPCS/EPCS then inherit based on getInheritParentToEPC
+        parentTracker.stream()
+                .filter(i -> i.getEventTypeInfo().getNodeId() == epc.getParentNodeId())
+                .findFirst()
+                .ifPresent(
+                        t -> epcList.addAll(EventModelUtil.segregateParentToEPC(t, epc.getInheritParentToEPC())));
       }
 
       //Add the identifiers from ParentID Count only if the inheriting event is ObjectEvent or TransformationEvent
