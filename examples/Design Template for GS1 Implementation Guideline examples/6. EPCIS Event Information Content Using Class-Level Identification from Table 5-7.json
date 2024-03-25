@@ -11,8 +11,8 @@
                 "eventTime": {
                     "timeSelector": "SpecificTime",
                     "specificTime": "2023-07-15T10:00",
-                    "fromTime": "2024-03-18T12:44:55.000",
-                    "toTime": "2024-03-19T12:44:55.000",
+                    "fromTime": "2024-03-21T15:57:49.000",
+                    "toTime": "2024-03-22T15:57:49.000",
                     "timeZoneOffset": "+01:00"
                 },
                 "parentIdentifier": [],
@@ -39,9 +39,9 @@
                     "declarationTime": {
                         "timeSelector": "SpecificTime",
                         "timeZoneOffset": "+01:00",
-                        "specificTime": "2024-03-19T12:44:55.000",
-                        "fromTime": "2024-03-18T12:44:55.000",
-                        "toTime": "2024-03-19T12:44:55.000"
+                        "specificTime": "2024-03-22T15:57:49.000",
+                        "fromTime": "2024-03-21T15:57:49.000",
+                        "toTime": "2024-03-22T15:57:49.000"
                     },
                     "correctiveIds": [],
                     "extensions": [],
@@ -72,8 +72,8 @@
                 "eventTime": {
                     "timeSelector": "SpecificTime",
                     "specificTime": "2023-07-16T10:00",
-                    "fromTime": "2024-03-18T12:44:55.000",
-                    "toTime": "2024-03-19T12:44:55.000",
+                    "fromTime": "2024-03-21T15:58:39.000",
+                    "toTime": "2024-03-22T15:58:39.000",
                     "timeZoneOffset": "+01:00"
                 },
                 "parentIdentifier": [],
@@ -113,9 +113,9 @@
                     "declarationTime": {
                         "timeSelector": "SpecificTime",
                         "timeZoneOffset": "+01:00",
-                        "specificTime": "2024-03-19T12:44:55.000",
-                        "fromTime": "2024-03-18T12:44:55.000",
-                        "toTime": "2024-03-19T12:44:55.000"
+                        "specificTime": "2024-03-22T15:58:39.000",
+                        "fromTime": "2024-03-21T15:58:39.000",
+                        "toTime": "2024-03-22T15:58:39.000"
                     },
                     "correctiveIds": [],
                     "extensions": [],
@@ -127,7 +127,7 @@
                 "recordTimeOption": "No",
                 "businessStep": "SHIPPING",
                 "disposition": "IN_TRANSIT",
-                "action": "ADD",
+                "action": "OBSERVE",
                 "referencedIdentifier": [],
                 "parentReferencedIdentifier": {},
                 "outputReferencedIdentifier": [],
@@ -146,8 +146,8 @@
                 "eventTime": {
                     "timeSelector": "SpecificTime",
                     "specificTime": "2023-07-17T10:00",
-                    "fromTime": "2024-03-18T12:44:55.000",
-                    "toTime": "2024-03-19T12:44:55.000",
+                    "fromTime": "2024-03-21T15:58:46.000",
+                    "toTime": "2024-03-22T15:58:46.000",
                     "timeZoneOffset": "+01:00"
                 },
                 "parentIdentifier": [],
@@ -187,9 +187,9 @@
                     "declarationTime": {
                         "timeSelector": "SpecificTime",
                         "timeZoneOffset": "+01:00",
-                        "specificTime": "2024-03-19T12:44:55.000",
-                        "fromTime": "2024-03-18T12:44:55.000",
-                        "toTime": "2024-03-19T12:44:55.000"
+                        "specificTime": "2024-03-22T15:58:46.000",
+                        "fromTime": "2024-03-21T15:58:46.000",
+                        "toTime": "2024-03-22T15:58:46.000"
                     },
                     "correctiveIds": [],
                     "extensions": [],
@@ -201,7 +201,7 @@
                 "recordTimeOption": "No",
                 "businessStep": "SHIPPING",
                 "disposition": "IN_TRANSIT",
-                "action": "ADD",
+                "action": "OBSERVE",
                 "referencedIdentifier": [],
                 "parentReferencedIdentifier": {},
                 "outputReferencedIdentifier": [],
@@ -220,8 +220,8 @@
                 "eventTime": {
                     "timeSelector": "SpecificTime",
                     "specificTime": "2023-07-16T10:00",
-                    "fromTime": "2024-03-18T12:44:55.000",
-                    "toTime": "2024-03-19T12:44:55.000",
+                    "fromTime": "2024-03-21T15:58:53.000",
+                    "toTime": "2024-03-22T15:58:53.000",
                     "timeZoneOffset": "+01:00"
                 },
                 "parentIdentifier": [],
@@ -261,9 +261,9 @@
                     "declarationTime": {
                         "timeSelector": "SpecificTime",
                         "timeZoneOffset": "+01:00",
-                        "specificTime": "2024-03-19T12:44:55.000",
-                        "fromTime": "2024-03-18T12:44:55.000",
-                        "toTime": "2024-03-19T12:44:55.000"
+                        "specificTime": "2024-03-22T15:58:53.000",
+                        "fromTime": "2024-03-21T15:58:53.000",
+                        "toTime": "2024-03-22T15:58:53.000"
                     },
                     "correctiveIds": [],
                     "extensions": [],
@@ -275,7 +275,7 @@
                 "recordTimeOption": "No",
                 "businessStep": "RECEIVING",
                 "disposition": "IN_PROGRESS",
-                "action": "ADD",
+                "action": "OBSERVE",
                 "referencedIdentifier": [],
                 "parentReferencedIdentifier": {},
                 "outputReferencedIdentifier": [],
@@ -306,6 +306,8 @@
             "name": "connector1",
             "source": "1",
             "target": "2",
+            "output_class": "output_1",
+            "input_class": "input_1",
             "hideInheritParentCount": false,
             "epcCount": 0,
             "inheritParentCount": 0,
@@ -317,6 +319,8 @@
             "name": "connector2",
             "source": "2",
             "target": "3",
+            "output_class": "output_1",
+            "input_class": "input_1",
             "hideInheritParentCount": true,
             "epcCount": 0,
             "inheritParentCount": 0,
@@ -326,19 +330,23 @@
         {
             "ID": 3,
             "name": "connector3",
-            "source": "2",
-            "target": "4",
+            "source": "3",
+            "target": "5",
+            "output_class": "output_1",
+            "input_class": "input_1",
             "hideInheritParentCount": true,
             "epcCount": 0,
             "inheritParentCount": 0,
             "classCount": 1,
-            "quantity": 10
+            "quantity": 20
         },
         {
             "ID": 4,
             "name": "connector4",
-            "source": "3",
-            "target": "5",
+            "source": "2",
+            "target": "4",
+            "output_class": "output_1",
+            "input_class": "input_1",
             "hideInheritParentCount": true,
             "epcCount": 0,
             "inheritParentCount": 0,
@@ -371,8 +379,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 200.1875,
-                        "pos_y": 111
+                        "pos_x": 129.8828125,
+                        "pos_y": 196
                     },
                     "2": {
                         "id": 2,
@@ -408,8 +416,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 449,
-                        "pos_y": 123
+                        "pos_x": 416,
+                        "pos_y": 195
                     },
                     "3": {
                         "id": 3,
@@ -441,8 +449,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 697,
-                        "pos_y": 122
+                        "pos_x": 713,
+                        "pos_y": 189
                     },
                     "4": {
                         "id": 4,
@@ -469,8 +477,8 @@
                                 "connections": []
                             }
                         },
-                        "pos_x": 740,
-                        "pos_y": 297
+                        "pos_x": 718,
+                        "pos_y": 380
                     },
                     "5": {
                         "id": 5,
@@ -497,8 +505,8 @@
                                 "connections": []
                             }
                         },
-                        "pos_x": 948,
-                        "pos_y": 121
+                        "pos_x": 999,
+                        "pos_y": 182
                     }
                 }
             }

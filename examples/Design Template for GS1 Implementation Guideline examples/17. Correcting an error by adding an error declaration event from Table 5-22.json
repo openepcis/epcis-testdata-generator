@@ -11,8 +11,8 @@
         "eventTime": {
           "timeSelector": "SpecificTime",
           "specificTime": "2023-07-15T10:00",
-          "fromTime": "2024-03-17T15:09:36.000",
-          "toTime": "2024-03-18T15:09:36.000",
+          "fromTime": "2024-03-22T13:21:29.000",
+          "toTime": "2024-03-23T13:21:29.000",
           "timeZoneOffset": "+01:00"
         },
         "parentIdentifier": [],
@@ -42,9 +42,9 @@
           "declarationTime": {
             "timeSelector": "SpecificTime",
             "timeZoneOffset": "+01:00",
-            "specificTime": "2024-03-18T15:09:36.000",
-            "fromTime": "2024-03-17T15:09:36.000",
-            "toTime": "2024-03-18T15:09:36.000"
+            "specificTime": "2024-03-23T13:21:29.000",
+            "fromTime": "2024-03-22T13:21:29.000",
+            "toTime": "2024-03-23T13:21:29.000"
           },
           "correctiveIds": [],
           "extensions": [],
@@ -59,8 +59,6 @@
         "businessStep": "SHIPPING",
         "disposition": "IN_TRANSIT",
         "action": "OBSERVE",
-        "eventIdType": "UUID",
-        "hashAlgorithm": "",
         "referencedIdentifier": [],
         "parentReferencedIdentifier": {},
         "outputReferencedIdentifier": []
@@ -77,8 +75,8 @@
         "eventTime": {
           "timeSelector": "SpecificTime",
           "specificTime": "2023-07-15T10:00",
-          "fromTime": "2024-03-17T15:13:11.000",
-          "toTime": "2024-03-18T15:13:11.000",
+          "fromTime": "2024-03-22T13:25:31.000",
+          "toTime": "2024-03-23T13:25:31.000",
           "timeZoneOffset": "+01:00"
         },
         "parentIdentifier": [],
@@ -109,8 +107,8 @@
             "timeSelector": "SpecificTime",
             "timeZoneOffset": "+01:00",
             "specificTime": "2023-07-17T13:00",
-            "fromTime": "2024-03-17T15:13:11.000",
-            "toTime": "2024-03-18T15:13:11.000"
+            "fromTime": "2024-03-22T13:25:31.000",
+            "toTime": "2024-03-23T13:25:31.000"
           },
           "correctiveIds": [
             {
@@ -121,6 +119,8 @@
           "extensions": [],
           "declarationReason": "INCORRECT_DATA"
         },
+        "name": "Incorrect shipping event",
+        "description": "Additional event to assert that the first event is in error",
         "eventType": "ObjectEvent",
         "ordinaryEvent": false,
         "eventID": false,
@@ -130,9 +130,7 @@
         "action": "DELETE",
         "referencedIdentifier": [],
         "parentReferencedIdentifier": {},
-        "outputReferencedIdentifier": [],
-        "name": "Incorrect shipping event",
-        "description": "Additional event to assert that the first event is in error"
+        "outputReferencedIdentifier": []
       }
     },
     {
@@ -146,8 +144,8 @@
         "eventTime": {
           "timeSelector": "SpecificTime",
           "specificTime": "2023-07-15T10:00",
-          "fromTime": "2024-03-17T15:13:35.000",
-          "toTime": "2024-03-18T15:13:35.000",
+          "fromTime": "2024-03-22T13:27:23.000",
+          "toTime": "2024-03-23T13:27:23.000",
           "timeZoneOffset": "+01:00"
         },
         "parentIdentifier": [],
@@ -177,14 +175,16 @@
           "declarationTime": {
             "timeSelector": "SpecificTime",
             "timeZoneOffset": "+01:00",
-            "specificTime": "2024-03-18T15:13:35.000",
-            "fromTime": "2024-03-17T15:13:35.000",
-            "toTime": "2024-03-18T15:13:35.000"
+            "specificTime": "2024-03-23T13:27:23.000",
+            "fromTime": "2024-03-22T13:27:23.000",
+            "toTime": "2024-03-23T13:27:23.000"
           },
           "correctiveIds": [],
           "extensions": [],
           "declarationReason": "DID_NOT_OCCUR"
         },
+        "name": "Corrected shipping",
+        "description": "Corrected shipping event",
         "eventType": "ObjectEvent",
         "ordinaryEvent": true,
         "eventID": false,
@@ -194,9 +194,7 @@
         "action": "OBSERVE",
         "referencedIdentifier": [],
         "parentReferencedIdentifier": {},
-        "outputReferencedIdentifier": [],
-        "name": "Corrected shipping",
-        "description": "Corrected shipping event"
+        "outputReferencedIdentifier": []
       }
     }
   ],
@@ -204,14 +202,14 @@
     {
       "identifiersId": 1,
       "identifierType": "Identifiers",
+      "objectIdentifierSyntax": "WebURI",
       "instanceType": "sgtin",
       "instanceData": {
         "identifierType": "sgtin",
         "serialType": "range",
         "sgtin": "09526784378435",
         "rangeFrom": 101
-      },
-      "objectIdentifierSyntax": "WebURI"
+      }
     }
   ],
   "connectorsInfo": [
@@ -220,6 +218,8 @@
       "name": "connector1",
       "source": "1",
       "target": "2",
+      "output_class": "output_1",
+      "input_class": "input_1",
       "hideInheritParentCount": false,
       "epcCount": 3,
       "inheritParentCount": 0,
@@ -231,6 +231,8 @@
       "name": "connector2",
       "source": "2",
       "target": "3",
+      "output_class": "output_1",
+      "input_class": "input_1",
       "hideInheritParentCount": true,
       "epcCount": 3,
       "inheritParentCount": 0,
@@ -242,6 +244,8 @@
       "name": "connector3",
       "source": "3",
       "target": "4",
+      "output_class": "output_1",
+      "input_class": "input_1",
       "hideInheritParentCount": true,
       "epcCount": 3,
       "inheritParentCount": 0,
@@ -274,8 +278,8 @@
                 ]
               }
             },
-            "pos_x": 126,
-            "pos_y": 273
+            "pos_x": 75,
+            "pos_y": 258
           },
           "2": {
             "id": 2,
@@ -307,8 +311,8 @@
                 ]
               }
             },
-            "pos_x": 438,
-            "pos_y": 282
+            "pos_x": 377,
+            "pos_y": 261
           },
           "3": {
             "id": 3,
@@ -340,8 +344,8 @@
                 ]
               }
             },
-            "pos_x": 756,
-            "pos_y": 279
+            "pos_x": 677,
+            "pos_y": 254
           },
           "4": {
             "id": 4,
@@ -368,8 +372,8 @@
                 "connections": []
               }
             },
-            "pos_x": 1093,
-            "pos_y": 280
+            "pos_x": 961,
+            "pos_y": 244
           }
         }
       }

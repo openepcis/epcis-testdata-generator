@@ -1,7 +1,7 @@
 {
     "eventNodeInfo": [
         {
-            "eventId": 2,
+            "eventId": 1,
             "eventType": "ObjectEvent",
             "eventInfo": {
                 "objectIdentifierSyntax": "WebURI",
@@ -10,9 +10,9 @@
                 "eventCount": 1,
                 "eventTime": {
                     "timeSelector": "SpecificTime",
-                    "specificTime": "2024-03-18T09:31:10",
-                    "fromTime": "2024-03-18T09:31:10.000",
-                    "toTime": "2024-03-19T09:31:10.000",
+                    "specificTime": "2024-03-22T14:45:59.000",
+                    "fromTime": "2024-03-21T14:45:59.000",
+                    "toTime": "2024-03-22T14:45:59.000",
                     "timeZoneOffset": "+01:00"
                 },
                 "parentIdentifier": [],
@@ -68,7 +68,7 @@
                         "type": "LOCATION",
                         "gln": "9522999100300",
                         "extension": 0,
-                        "ID": 0
+                        "ID": 2
                     }
                 ],
                 "sensorElementList": [],
@@ -78,14 +78,16 @@
                     "declarationTime": {
                         "timeSelector": "SpecificTime",
                         "timeZoneOffset": "+01:00",
-                        "specificTime": "2024-03-19T09:31:10.000",
-                        "fromTime": "2024-03-18T09:31:10.000",
-                        "toTime": "2024-03-19T09:31:10.000"
+                        "specificTime": "2024-03-22T14:45:59.000",
+                        "fromTime": "2024-03-21T14:45:59.000",
+                        "toTime": "2024-03-22T14:45:59.000"
                     },
                     "correctiveIds": [],
                     "extensions": [],
                     "declarationReason": "DID_NOT_OCCUR"
                 },
+                "name": "V1: Ship SSCC",
+                "description": "Manufacturer M drop ships to Hospital H",
                 "eventType": "ObjectEvent",
                 "ordinaryEvent": true,
                 "eventID": false,
@@ -95,9 +97,7 @@
                 "action": "OBSERVE",
                 "referencedIdentifier": [],
                 "parentReferencedIdentifier": {},
-                "outputReferencedIdentifier": [],
-                "name": "V1: Ship SSCC",
-                "description": "Manufacturer M drop ships to Hospital H"
+                "outputReferencedIdentifier": []
             }
         },
         {
@@ -110,9 +110,9 @@
                 "eventCount": 1,
                 "eventTime": {
                     "timeSelector": "SpecificTime",
-                    "specificTime": "2024-03-19T09:31:10",
-                    "fromTime": "2024-03-18T09:31:10.000",
-                    "toTime": "2024-03-19T09:31:10.000",
+                    "specificTime": "2024-03-22T14:48:11.000",
+                    "fromTime": "2024-03-21T14:48:11.000",
+                    "toTime": "2024-03-22T14:48:11.000",
                     "timeZoneOffset": "+01:00"
                 },
                 "parentIdentifier": [],
@@ -168,7 +168,7 @@
                         "type": "LOCATION",
                         "gln": "9522999100300",
                         "extension": 0,
-                        "ID": 0
+                        "ID": 2
                     }
                 ],
                 "sensorElementList": [],
@@ -178,14 +178,16 @@
                     "declarationTime": {
                         "timeSelector": "SpecificTime",
                         "timeZoneOffset": "+01:00",
-                        "specificTime": "2024-03-19T09:31:10.000",
-                        "fromTime": "2024-03-18T09:31:10.000",
-                        "toTime": "2024-03-19T09:31:10.000"
+                        "specificTime": "2024-03-22T14:48:11.000",
+                        "fromTime": "2024-03-21T14:48:11.000",
+                        "toTime": "2024-03-22T14:48:11.000"
                     },
                     "correctiveIds": [],
                     "extensions": [],
                     "declarationReason": "DID_NOT_OCCUR"
                 },
+                "name": "V2: Arrival of SSCC ",
+                "description": "Shipment arrives at Hospital H",
                 "eventType": "ObjectEvent",
                 "ordinaryEvent": true,
                 "eventID": false,
@@ -195,15 +197,13 @@
                 "action": "OBSERVE",
                 "referencedIdentifier": [],
                 "parentReferencedIdentifier": {},
-                "outputReferencedIdentifier": [],
-                "name": "V2: Arrival of SSCC ",
-                "description": "Shipment arrives at Hospital H"
+                "outputReferencedIdentifier": []
             }
         }
     ],
     "identifiersNodeInfo": [
         {
-            "identifiersId": 1,
+            "identifiersId": 2,
             "identifierType": "Identifiers",
             "objectIdentifierSyntax": "WebURI",
             "instanceType": "sscc",
@@ -219,8 +219,10 @@
         {
             "ID": 1,
             "name": "connector1",
-            "source": "1",
-            "target": "2",
+            "source": "2",
+            "target": "1",
+            "output_class": "output_1",
+            "input_class": "input_1",
             "hideInheritParentCount": false,
             "epcCount": 1,
             "inheritParentCount": 0,
@@ -230,8 +232,10 @@
         {
             "ID": 2,
             "name": "connector2",
-            "source": "2",
+            "source": "1",
             "target": "3",
+            "output_class": "output_1",
+            "input_class": "input_1",
             "hideInheritParentCount": true,
             "epcCount": 1,
             "inheritParentCount": 0,
@@ -245,9 +249,42 @@
                 "data": {
                     "1": {
                         "id": 1,
-                        "name": "Identifiers",
+                        "name": "Events",
                         "data": {
                             "ID": 1,
+                            "eventType": "ObjectEvent"
+                        },
+                        "class": "ObjectEvent",
+                        "html": "Events",
+                        "typenode": "vue",
+                        "inputs": {
+                            "input_1": {
+                                "connections": [
+                                    {
+                                        "node": "2",
+                                        "input": "output_1"
+                                    }
+                                ]
+                            }
+                        },
+                        "outputs": {
+                            "output_1": {
+                                "connections": [
+                                    {
+                                        "node": "3",
+                                        "output": "input_1"
+                                    }
+                                ]
+                            }
+                        },
+                        "pos_x": 575,
+                        "pos_y": 248
+                    },
+                    "2": {
+                        "id": 2,
+                        "name": "Identifiers",
+                        "data": {
+                            "ID": 2,
                             "eventType": "Identifiers"
                         },
                         "class": "Identifiers",
@@ -258,20 +295,20 @@
                             "output_1": {
                                 "connections": [
                                     {
-                                        "node": "2",
+                                        "node": "1",
                                         "output": "input_1"
                                     }
                                 ]
                             }
                         },
-                        "pos_x": 221,
-                        "pos_y": 146
+                        "pos_x": 282,
+                        "pos_y": 242
                     },
-                    "2": {
-                        "id": 2,
+                    "3": {
+                        "id": 3,
                         "name": "Events",
                         "data": {
-                            "ID": 2,
+                            "ID": 3,
                             "eventType": "ObjectEvent"
                         },
                         "class": "ObjectEvent",
@@ -289,44 +326,11 @@
                         },
                         "outputs": {
                             "output_1": {
-                                "connections": [
-                                    {
-                                        "node": "3",
-                                        "output": "input_1"
-                                    }
-                                ]
-                            }
-                        },
-                        "pos_x": 469,
-                        "pos_y": 159
-                    },
-                    "3": {
-                        "id": 3,
-                        "name": "Events",
-                        "data": {
-                            "ID": 3,
-                            "eventType": "ObjectEvent"
-                        },
-                        "class": "ObjectEvent",
-                        "html": "Events",
-                        "typenode": "vue",
-                        "inputs": {
-                            "input_1": {
-                                "connections": [
-                                    {
-                                        "node": "2",
-                                        "input": "output_1"
-                                    }
-                                ]
-                            }
-                        },
-                        "outputs": {
-                            "output_1": {
                                 "connections": []
                             }
                         },
-                        "pos_x": 706,
-                        "pos_y": 158
+                        "pos_x": 873,
+                        "pos_y": 243
                     }
                 }
             }

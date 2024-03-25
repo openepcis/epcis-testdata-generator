@@ -11,8 +11,8 @@
         "eventTime": {
           "timeSelector": "SpecificTime",
           "specificTime": "2023-06-15T08:00",
-          "fromTime": "2024-03-16T13:49:36.000",
-          "toTime": "2024-03-17T13:49:36.000",
+          "fromTime": "2024-03-21T22:08:47.000",
+          "toTime": "2024-03-22T22:08:47.000",
           "timeZoneOffset": "+01:00"
         },
         "parentIdentifier": [],
@@ -55,14 +55,15 @@
           "declarationTime": {
             "timeSelector": "SpecificTime",
             "timeZoneOffset": "+01:00",
-            "specificTime": "2024-03-17T13:49:36.000",
-            "fromTime": "2024-03-16T13:49:36.000",
-            "toTime": "2024-03-17T13:49:36.000"
+            "specificTime": "2024-03-22T22:08:47.000",
+            "fromTime": "2024-03-21T22:08:47.000",
+            "toTime": "2024-03-22T22:08:47.000"
           },
           "correctiveIds": [],
           "extensions": [],
           "declarationReason": "DID_NOT_OCCUR"
         },
+        "name": "Storing items",
         "description": "Move logistics unit to interim storage room",
         "eventType": "ObjectEvent",
         "ordinaryEvent": true,
@@ -73,8 +74,7 @@
         "action": "OBSERVE",
         "referencedIdentifier": [],
         "parentReferencedIdentifier": {},
-        "outputReferencedIdentifier": [],
-        "name": "Storing items"
+        "outputReferencedIdentifier": []
       }
     },
     {
@@ -88,8 +88,8 @@
         "eventTime": {
           "timeSelector": "SpecificTime",
           "specificTime": "2023-06-15T08:15",
-          "fromTime": "2024-03-16T13:54:04.000",
-          "toTime": "2024-03-17T13:54:04.000",
+          "fromTime": "2024-03-21T22:12:02.000",
+          "toTime": "2024-03-22T22:12:02.000",
           "timeZoneOffset": "+01:00"
         },
         "parentIdentifier": [],
@@ -132,14 +132,15 @@
           "declarationTime": {
             "timeSelector": "SpecificTime",
             "timeZoneOffset": "+01:00",
-            "specificTime": "2024-03-17T13:54:04.000",
-            "fromTime": "2024-03-16T13:54:04.000",
-            "toTime": "2024-03-17T13:54:04.000"
+            "specificTime": "2024-03-22T22:12:02.000",
+            "fromTime": "2024-03-21T22:12:02.000",
+            "toTime": "2024-03-22T22:12:02.000"
           },
           "correctiveIds": [],
           "extensions": [],
           "declarationReason": "DID_NOT_OCCUR"
         },
+        "name": "Move to cold storage",
         "description": "Move logistics into cold storage room",
         "eventType": "ObjectEvent",
         "ordinaryEvent": true,
@@ -150,8 +151,7 @@
         "action": "OBSERVE",
         "referencedIdentifier": [],
         "parentReferencedIdentifier": {},
-        "outputReferencedIdentifier": [],
-        "name": "Move to cold storage"
+        "outputReferencedIdentifier": []
       }
     },
     {
@@ -165,8 +165,8 @@
         "eventTime": {
           "timeSelector": "SpecificTime",
           "specificTime": "2023-06-15T17:45",
-          "fromTime": "2024-03-16T13:56:33.000",
-          "toTime": "2024-03-17T13:56:33.000",
+          "fromTime": "2024-03-21T22:14:26.000",
+          "toTime": "2024-03-22T22:14:26.000",
           "timeZoneOffset": "+01:00"
         },
         "parentIdentifier": [],
@@ -190,8 +190,8 @@
           {
             "ID": 0,
             "sensorMetadata": {
-              "endTime": "2023-06-15T17:35",
-              "startTime": "2023-06-15T17:55"
+              "startTime": "2023-06-15T17:55",
+              "endTime": "2023-06-15T17:35"
             },
             "sensorReport": [
               {
@@ -209,14 +209,15 @@
           "declarationTime": {
             "timeSelector": "SpecificTime",
             "timeZoneOffset": "+01:00",
-            "specificTime": "2024-03-17T13:56:33.000",
-            "fromTime": "2024-03-16T13:56:33.000",
-            "toTime": "2024-03-17T13:56:33.000"
+            "specificTime": "2024-03-22T22:14:26.000",
+            "fromTime": "2024-03-21T22:14:26.000",
+            "toTime": "2024-03-22T22:14:26.000"
           },
           "correctiveIds": [],
           "extensions": [],
           "declarationReason": "DID_NOT_OCCUR"
         },
+        "name": "Out of cold storage",
         "description": "Move logistics out of cold storage room",
         "eventType": "ObjectEvent",
         "ordinaryEvent": true,
@@ -227,8 +228,7 @@
         "action": "OBSERVE",
         "referencedIdentifier": [],
         "parentReferencedIdentifier": {},
-        "outputReferencedIdentifier": [],
-        "name": "Out of cold storage"
+        "outputReferencedIdentifier": []
       }
     },
     {
@@ -242,8 +242,8 @@
         "eventTime": {
           "timeSelector": "SpecificTime",
           "specificTime": "2023-06-15T23:59",
-          "fromTime": "2024-03-16T13:58:32.000",
-          "toTime": "2024-03-17T13:58:32.000",
+          "fromTime": "2024-03-21T22:16:29.000",
+          "toTime": "2024-03-22T22:16:29.000",
           "timeZoneOffset": "+01:00"
         },
         "parentIdentifier": [],
@@ -264,13 +264,13 @@
           {
             "ID": 0,
             "sensorMetadata": {
-              "startTime": "2023-06-15T23:29",
-              "endTime": "2023-06-14T23:59"
+              "endTime": "2023-06-14T23:59",
+              "startTime": "2023-06-15T23:59"
             },
             "sensorReport": [
               {
-                "maxValue": 9.1,
-                "minValue": 9.4,
+                "maxValue": 9.4,
+                "minValue": 9.1,
                 "type": "Temperature",
                 "uom": "CEL"
               }
@@ -283,14 +283,15 @@
           "declarationTime": {
             "timeSelector": "SpecificTime",
             "timeZoneOffset": "+01:00",
-            "specificTime": "2024-03-17T13:58:32.000",
-            "fromTime": "2024-03-16T13:58:32.000",
-            "toTime": "2024-03-17T13:58:32.000"
+            "specificTime": "2024-03-22T22:16:29.000",
+            "fromTime": "2024-03-21T22:16:29.000",
+            "toTime": "2024-03-22T22:16:29.000"
           },
           "correctiveIds": [],
           "extensions": [],
           "declarationReason": "DID_NOT_OCCUR"
         },
+        "name": "Sensor info of cold storage",
         "description": "Daily sensor reporting of cold storage room",
         "eventType": "ObjectEvent",
         "ordinaryEvent": true,
@@ -301,8 +302,7 @@
         "action": "OBSERVE",
         "referencedIdentifier": [],
         "parentReferencedIdentifier": {},
-        "outputReferencedIdentifier": [],
-        "name": "Sensor info of cold storage"
+        "outputReferencedIdentifier": []
       }
     }
   ],
@@ -310,14 +310,14 @@
     {
       "identifiersId": 1,
       "identifierType": "Identifiers",
+      "objectIdentifierSyntax": "WebURI",
       "instanceType": "sscc",
       "instanceData": {
         "identifierType": "sscc",
         "serialType": "range",
         "gcp": "9521141",
         "rangeFrom": 200
-      },
-      "objectIdentifierSyntax": "WebURI"
+      }
     }
   ],
   "connectorsInfo": [
@@ -326,6 +326,8 @@
       "name": "connector1",
       "source": "1",
       "target": "2",
+      "output_class": "output_1",
+      "input_class": "input_1",
       "hideInheritParentCount": false,
       "epcCount": 1,
       "inheritParentCount": 0,
@@ -337,6 +339,8 @@
       "name": "connector2",
       "source": "2",
       "target": "3",
+      "output_class": "output_1",
+      "input_class": "input_1",
       "hideInheritParentCount": true,
       "epcCount": 1,
       "inheritParentCount": 0,
@@ -348,6 +352,8 @@
       "name": "connector3",
       "source": "3",
       "target": "4",
+      "output_class": "output_1",
+      "input_class": "input_1",
       "hideInheritParentCount": true,
       "epcCount": 1,
       "inheritParentCount": 0,
@@ -359,8 +365,10 @@
       "name": "connector4",
       "source": "4",
       "target": "5",
-      "hideInheritParentCount": true,
-      "epcCount": 1,
+      "output_class": "output_1",
+      "input_class": "input_1",
+      "hideInheritParentCount": false,
+      "epcCount": 0,
       "inheritParentCount": 0,
       "classCount": 0,
       "quantity": 0
@@ -391,8 +399,8 @@
                 ]
               }
             },
-            "pos_x": 15,
-            "pos_y": 244
+            "pos_x": 24,
+            "pos_y": 278
           },
           "2": {
             "id": 2,
@@ -424,8 +432,8 @@
                 ]
               }
             },
-            "pos_x": 292,
-            "pos_y": 259
+            "pos_x": 300,
+            "pos_y": 280
           },
           "3": {
             "id": 3,
@@ -457,8 +465,8 @@
                 ]
               }
             },
-            "pos_x": 565,
-            "pos_y": 252
+            "pos_x": 582,
+            "pos_y": 279
           },
           "4": {
             "id": 4,
@@ -490,8 +498,8 @@
                 ]
               }
             },
-            "pos_x": 834,
-            "pos_y": 253
+            "pos_x": 877,
+            "pos_y": 271
           },
           "5": {
             "id": 5,
@@ -518,8 +526,8 @@
                 "connections": []
               }
             },
-            "pos_x": 1105,
-            "pos_y": 252
+            "pos_x": 1152,
+            "pos_y": 266
           }
         }
       }

@@ -10,9 +10,9 @@
                 "eventCount": 1,
                 "eventTime": {
                     "timeSelector": "SpecificTime",
-                    "specificTime": "2024-03-15T13:52:50",
-                    "fromTime": "2024-03-18T13:52:50.000",
-                    "toTime": "2024-03-19T13:52:50.000",
+                    "specificTime": "2024-03-22T16:50:09.000",
+                    "fromTime": "2024-03-21T16:50:09.000",
+                    "toTime": "2024-03-22T16:50:09.000",
                     "timeZoneOffset": "+01:00"
                 },
                 "parentIdentifier": [],
@@ -38,42 +38,34 @@
                     {
                         "element": "extensionElement",
                         "namespace": "https://gs1-ilmd.example.com",
-                        "localName": "Product",
-                        "dataType": "complex",
+                        "localName": "expirationDate",
+                        "dataType": "string",
                         "ID": 1,
-                        "text": "",
-                        "complex": [
-                            {
-                                "element": "extensionElement",
-                                "namespace": "https://gs1-ilmd.example.com",
-                                "localName": "expirationDate",
-                                "dataType": "string",
-                                "ID": 1,
-                                "text": "2024-04-15"
-                            },
-                            {
-                                "element": "extensionElement",
-                                "namespace": "https://gs1-ilmd.example.com",
-                                "localName": "hasBatchLotNumber",
-                                "dataType": "string",
-                                "ID": 2,
-                                "text": "100"
-                            }
-                        ]
+                        "text": "2024-04-15"
+                    },
+                    {
+                        "element": "extensionElement",
+                        "namespace": "https://gs1-ilmd.example.com",
+                        "localName": "hasBatchLotNumber",
+                        "dataType": "string",
+                        "ID": 2,
+                        "text": "100"
                     }
                 ],
                 "errorDeclaration": {
                     "declarationTime": {
                         "timeSelector": "SpecificTime",
                         "timeZoneOffset": "+01:00",
-                        "specificTime": "2024-03-19T13:52:50.000",
-                        "fromTime": "2024-03-18T13:52:50.000",
-                        "toTime": "2024-03-19T13:52:50.000"
+                        "specificTime": "2024-03-22T16:50:09.000",
+                        "fromTime": "2024-03-21T16:50:09.000",
+                        "toTime": "2024-03-22T16:50:09.000"
                     },
                     "correctiveIds": [],
                     "extensions": [],
                     "declarationReason": "DID_NOT_OCCUR"
                 },
+                "name": "V1: Product Instance",
+                "description": "Manufacture new product instance: SGTIN of product instance",
                 "eventType": "ObjectEvent",
                 "ordinaryEvent": true,
                 "eventID": false,
@@ -83,9 +75,7 @@
                 "action": "ADD",
                 "referencedIdentifier": [],
                 "parentReferencedIdentifier": {},
-                "outputReferencedIdentifier": [],
-                "name": "V1: Product Instance",
-                "description": "Manufacture new product instance: SGTIN of product instance"
+                "outputReferencedIdentifier": []
             }
         },
         {
@@ -98,9 +88,9 @@
                 "eventCount": 1,
                 "eventTime": {
                     "timeSelector": "SpecificTime",
-                    "specificTime": "2024-03-16T13:52:50",
-                    "fromTime": "2024-03-18T13:52:50.000",
-                    "toTime": "2024-03-19T13:52:50.000",
+                    "specificTime": "2024-03-22T16:51:57.000",
+                    "fromTime": "2024-03-21T16:51:57.000",
+                    "toTime": "2024-03-22T16:51:57.000",
                     "timeZoneOffset": "+01:00"
                 },
                 "parentIdentifier": [],
@@ -124,26 +114,26 @@
                     "declarationTime": {
                         "timeSelector": "SpecificTime",
                         "timeZoneOffset": "+01:00",
-                        "specificTime": "2024-03-19T13:52:50.000",
-                        "fromTime": "2024-03-18T13:52:50.000",
-                        "toTime": "2024-03-19T13:52:50.000"
+                        "specificTime": "2024-03-22T16:51:57.000",
+                        "fromTime": "2024-03-21T16:51:57.000",
+                        "toTime": "2024-03-22T16:51:57.000"
                     },
                     "correctiveIds": [],
                     "extensions": [],
                     "declarationReason": "DID_NOT_OCCUR"
                 },
+                "name": "V2: Ship Product",
+                "description": "Ship Product: SGTIN of product instance",
                 "eventType": "ObjectEvent",
                 "ordinaryEvent": true,
                 "eventID": false,
                 "recordTimeOption": "No",
                 "businessStep": "SHIPPING",
                 "disposition": "IN_TRANSIT",
-                "action": "ADD",
+                "action": "OBSERVE",
                 "referencedIdentifier": [],
                 "parentReferencedIdentifier": {},
-                "outputReferencedIdentifier": [],
-                "name": "V2: Ship Product",
-                "description": "Ship Product: SGTIN of product instance"
+                "outputReferencedIdentifier": []
             }
         },
         {
@@ -156,9 +146,9 @@
                 "eventCount": 1,
                 "eventTime": {
                     "timeSelector": "SpecificTime",
-                    "specificTime": "2024-03-17T13:52:50",
-                    "fromTime": "2024-03-18T13:52:50.000",
-                    "toTime": "2024-03-19T13:52:50.000",
+                    "specificTime": "2024-03-22T16:52:41.000",
+                    "fromTime": "2024-03-21T16:52:41.000",
+                    "toTime": "2024-03-22T16:52:41.000",
                     "timeZoneOffset": "+01:00"
                 },
                 "parentIdentifier": [],
@@ -182,26 +172,26 @@
                     "declarationTime": {
                         "timeSelector": "SpecificTime",
                         "timeZoneOffset": "+01:00",
-                        "specificTime": "2024-03-19T13:52:50.000",
-                        "fromTime": "2024-03-18T13:52:50.000",
-                        "toTime": "2024-03-19T13:52:50.000"
+                        "specificTime": "2024-03-22T16:52:41.000",
+                        "fromTime": "2024-03-21T16:52:41.000",
+                        "toTime": "2024-03-22T16:52:41.000"
                     },
                     "correctiveIds": [],
                     "extensions": [],
                     "declarationReason": "DID_NOT_OCCUR"
                 },
+                "name": "V3: Receive Product",
+                "description": "Receive Product: SGTIN of product instance",
                 "eventType": "ObjectEvent",
                 "ordinaryEvent": true,
                 "eventID": false,
                 "recordTimeOption": "No",
                 "businessStep": "RECEIVING",
                 "disposition": "IN_PROGRESS",
-                "action": "ADD",
+                "action": "OBSERVE",
                 "referencedIdentifier": [],
                 "parentReferencedIdentifier": {},
-                "outputReferencedIdentifier": [],
-                "name": "V3: Receive Product",
-                "description": "Receive Product: SGTIN of product instance"
+                "outputReferencedIdentifier": []
             }
         }
     ],
@@ -225,6 +215,8 @@
             "name": "connector1",
             "source": "1",
             "target": "2",
+            "output_class": "output_1",
+            "input_class": "input_1",
             "hideInheritParentCount": false,
             "epcCount": 1,
             "inheritParentCount": 0,
@@ -236,6 +228,8 @@
             "name": "connector2",
             "source": "2",
             "target": "3",
+            "output_class": "output_1",
+            "input_class": "input_1",
             "hideInheritParentCount": true,
             "epcCount": 1,
             "inheritParentCount": 0,
@@ -247,6 +241,8 @@
             "name": "connector3",
             "source": "3",
             "target": "4",
+            "output_class": "output_1",
+            "input_class": "input_1",
             "hideInheritParentCount": true,
             "epcCount": 1,
             "inheritParentCount": 0,
@@ -279,8 +275,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 262,
-                        "pos_y": 127
+                        "pos_x": 75,
+                        "pos_y": 210
                     },
                     "2": {
                         "id": 2,
@@ -312,8 +308,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 504,
-                        "pos_y": 139
+                        "pos_x": 369,
+                        "pos_y": 214
                     },
                     "3": {
                         "id": 3,
@@ -345,8 +341,8 @@
                                 ]
                             }
                         },
-                        "pos_x": 743,
-                        "pos_y": 138
+                        "pos_x": 673,
+                        "pos_y": 212
                     },
                     "4": {
                         "id": 4,
@@ -373,8 +369,8 @@
                                 "connections": []
                             }
                         },
-                        "pos_x": 984,
-                        "pos_y": 137
+                        "pos_x": 970,
+                        "pos_y": 210
                     }
                 }
             }
