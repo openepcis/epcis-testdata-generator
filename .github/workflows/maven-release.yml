@@ -27,7 +27,7 @@ jobs:
           token: ${{ secrets.OPENEPCIS_WEB_TOKEN }}
 
       - name: vus.js ui build
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
@@ -51,7 +51,7 @@ jobs:
 
       - name: 'Upload VUE.JS Artifact'
         if: contains(github.ref, 'v')
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: 'testdata-generator-ui-dist'
           path: 'modules/openepcis-web/openepcis-test-data-designer/.output/public'
@@ -63,19 +63,19 @@ jobs:
     needs: [ build-vue-js-job ]
     steps:
       - name: checkout git submodules
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         id: builder
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v3
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -91,7 +91,7 @@ jobs:
 
       - name: 'Download VUE.JS Artifact'
         if: contains(github.ref, 'v')
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: 'testdata-generator-ui-dist'
           path: 'modules/openepcis-web/openepcis-test-data-designer/.output/public'
@@ -118,7 +118,7 @@ jobs:
             -B clean verify deploy sonar:sonar
 
       - name: vus.js ui build
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
@@ -130,7 +130,7 @@ jobs:
           echo "::set-env name=VERSION::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
 
       - name: 'Publish Application JAR'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: 'testdata-generator-quarkus-rest-app-${{env.VERSION}}-runner.jar'
           path: 'testdata-generator-quarkus-rest-app/target/testdata-generator-quarkus-rest-app-runner.jar'
@@ -168,7 +168,7 @@ jobs:
           echo "${{steps.create_release.outputs.upload_url}}" > upload_url.txt
       - name: 'Publish Upload URL'
         if: contains(github.ref, 'v')
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: 'upload_url.txt'
           path: 'upload_url.txt'
@@ -179,31 +179,31 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - name: checkout from git
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 'Get Version from tag'
-        uses: olegtarasov/get-tag@v2.1.2
+        uses: olegtarasov/get-tag@v2.1.3
         id: tagName
         with:
           tagRegex: "v(.*)"
           tagRegexGroup: 1
 
       - name: 'Login to GitHub Container Registry'
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         id: builder
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v3
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -211,7 +211,7 @@ jobs:
 
       - name: 'Download VUE.JS Artifact'
         if: contains(github.ref, 'v')
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: 'testdata-generator-ui-dist'
           path: 'modules/openepcis-web/openepcis-test-data-designer/.output/public'
@@ -293,21 +293,21 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 'Get Version from tag'
-        uses: olegtarasov/get-tag@v2.1.2
+        uses: olegtarasov/get-tag@v2.1.3
         id: tagName
         with:
           tagRegex: "v(.*)"
           tagRegexGroup: 1
 
       - name: 'Login to GitHub Container Registry'
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -315,7 +315,7 @@ jobs:
 
       - name: 'Download VUE.JS Artifact'
         if: contains(github.ref, 'v')
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: 'testdata-generator-ui-dist'
           path: 'testdata-generator-ui/dist'
@@ -354,14 +354,14 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - name: 'Login to GitHub Container Registry'
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
 
       - name: 'Get Version from tag'
-        uses: olegtarasov/get-tag@v2.1.2
+        uses: olegtarasov/get-tag@v2.1.3
         id: tagName
         with:
           tagRegex: "v(.*)"
@@ -412,7 +412,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 'Get Version from tag'
-        uses: olegtarasov/get-tag@v2.1.2
+        uses: olegtarasov/get-tag@v2.1.3
         id: tagName
         with:
           tagRegex: "v(.*)"
@@ -420,7 +420,7 @@ jobs:
 
       - name: 'Download Release URL'
         if: contains(github.ref, 'v')
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: 'upload_url.txt'
 
@@ -441,7 +441,7 @@ jobs:
 
       - name: 'Download VUE.JS Artifact'
         if: contains(github.ref, 'v')
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: 'testdata-generator-ui-dist'
           path: 'testdata-generator-ui/dist'
