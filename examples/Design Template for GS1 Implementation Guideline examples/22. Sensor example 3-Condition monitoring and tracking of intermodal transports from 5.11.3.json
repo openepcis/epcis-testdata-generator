@@ -465,62 +465,74 @@
               {
                 "stringValue": "53.553747",
                 "time": "2023-06-25T02:00",
-                "type": "Latitude"
+                "component": "latitude",
+                "type": "Angle"
               },
               {
                 "stringValue": "8.562372",
                 "time": "2023-06-25T02:00",
-                "type": "Longitude"
+                "component": "longitude",
+                "type": "Angle"
               },
               {
                 "stringValue": "53.882318",
                 "time": "2023-06-25T06:00",
-                "type": "Latitude"
+                "component": "latitude",
+                "type": "Angle"
               },
               {
                 "stringValue": "8.099310",
                 "time": "2023-06-25T06:00",
-                "type": "Longitude"
+                "component": "longitude",
+                "type": "Angle"
               },
               {
                 "stringValue": "54.172892",
                 "time": "2023-06-25T10:00",
-                "type": "Latitude"
+                "component": "latitude",
+                "type": "Angle"
               },
               {
                 "stringValue": "7.094428",
                 "time": "2023-06-25T10:00",
-                "type": "Longitude"
+                "component": "longitude",
+                "type": "Angle"
               },
               {
                 "stringValue": "54.389794",
                 "time": "2023-06-25T14:00",
-                "type": "Latitude"
+                "component": "latitude",
+                "type": "Angle"
               },
               {
                 "stringValue": "5.753072",
                 "time": "2023-06-25T14:00",
-                "type": "Longitude"
+                "component": "longitude",
+                "type": "Angle"
               },
               {
                 "stringValue": "54.790116",
                 "time": "2023-06-25T18:00",
-                "type": "Latitude"
+                "component": "latitude",
+                "type": "Angle"
               },
               {
                 "stringValue": "3.407863",
                 "time": "2023-06-25T18:00",
-                "type": "Longitude"
+                "component": "longitude",
+                "type": "Angle"
               },
               {
                 "stringValue": "56.196056",
                 "time": "2023-06-25T22:00",
-                "type": "Latitude"
+                "component": "latitude",
+                "type": "Angle"
               },
               {
                 "stringValue": "1.490934",
                 "time": "2023-06-25T22:00",
-                "type": "Longitude"
+                "component": "longitude",
+                "type": "Angle"
               }
             ]
           }
@@ -1392,7 +1404,7 @@
                 ]
               }
             },
-            "pos_x": 1692.4285714285713,
+            "pos_x": 1692,
             "pos_y": 275
           },
           "15": {
