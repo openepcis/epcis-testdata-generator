@@ -77,7 +77,7 @@ Installation instruction for Windows/macOS: https://podman.io/getting-started/in
 
 Run the following command in a terminal or command prompt after installing Podman on your local machine:
 ```
-podman run --rm -t --name testdata-generator -p 8080:8080 ghcr.io/openepcis/testdata-generator:0.9.2
+podman run --rm -t --name testdata-generator -p 8080:8080 ghcr.io/openepcis/testdata-generator:0.9.4
 ```
 
 ### Running with Docker:
@@ -90,7 +90,7 @@ For Linux: https://docs.docker.com/desktop/install/linux-install/
 
 To run the testdata generator you can simply use the [Testdata Generator Docker](https://github.com/openepcis/epcis-testdata-generator/pkgs/container/testdata-generator) image provided on GitHub.
 ```
-docker run --rm -t --name testdata-generator -p 8080:8080 ghcr.io/openepcis/testdata-generator:0.9.2
+docker run --rm -t --name testdata-generator -p 8080:8080 ghcr.io/openepcis/testdata-generator:0.9.4
 ```
 
 ### Running with Java:
