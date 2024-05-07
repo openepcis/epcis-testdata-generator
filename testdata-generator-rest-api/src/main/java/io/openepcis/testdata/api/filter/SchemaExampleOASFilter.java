@@ -15,6 +15,7 @@
  */
 package io.openepcis.testdata.api.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.openepcis.resources.oas.EPCISExampleOASFilter;
 import io.quarkus.runtime.annotations.RegisterForReflection;
@@ -33,6 +34,7 @@ import java.util.Objects;
 @Slf4j
 public class SchemaExampleOASFilter extends EPCISExampleOASFilter implements OASFilter {
 
+  private final ObjectMapper objectMapper = new ObjectMapper();
   @Override
   public void filterOpenAPI(OpenAPI openAPI) {
     super.filterOpenAPI(openAPI);
