@@ -213,6 +213,11 @@
             <artifactId>openepcis-document-converter</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.openepcis</groupId>
+            <artifactId>openepcis-document-converter-sax</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
 
         <!-- additional native build dependencies -->
