@@ -26,7 +26,6 @@ quarkus:
   package:
     type: "uber-jar"
 
-
 mp:
   openapi:
     filter: "io.openepcis.testdata.api.filter.SchemaExampleOASFilter"
