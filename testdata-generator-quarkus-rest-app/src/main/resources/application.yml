@@ -7,6 +7,12 @@ quarkus:
       methods: GET,POST
       origins: "/.*/"
     port: 8080
+    ssl-port: 8443
+    ssl:
+      certificate:
+        files: ssl/cert.pem
+        key-files: ssl/key.pem
+
 
   container-image:
     group: openepcis
