@@ -15,22 +15,23 @@
  */
 package io.openepcis.testdata.generator.format;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.reactivestreams.StreamingEPCISDocument;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import static io.openepcis.constants.EPCIS.EPCIS_DEFAULT_NAMESPACES;
 
 @Getter
 @Setter
@@ -38,93 +39,68 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @RegisterForReflection
 public class UserExtensionSyntax implements Serializable {
   @Schema(
-      type = SchemaType.STRING,
-      description = "User extension namespace eg. https://example.com",
-      required = true)
-  private String namespace;
+          type = SchemaType.STRING,
+          description = "Label associated with the web vocabulary (Ex: gs1:appDownload, gs1:Country, etc.)"
+  )
+  private String label;
 
-  @NotNull(message = "Local name cannot be Null for extension")
+  @Schema(type = SchemaType.STRING,
+          description = "Prefix associated with the custom user extension (Ex: cbvmda, example, ex1, ex1:lotNumber, etc.)"
+  )
+  private String prefix;
+
+  @Schema(type = SchemaType.STRING,
+          description = "Property associated with the custom user extension (Ex: lotNumber, distance, ex1:lotNumber, etc.)"
+  )
+  private String property;
+
+  @Schema(type = SchemaType.STRING,
+          description = "Context URL associated with the user extension (Ex: https://example.com, https://ex1.com, etc.)"
+  )
+  private String contextURL;
+
+  @Schema(type = SchemaType.STRING,
+          description = "Data associated with the custom user extension (Ex: 1, value-1, 1234, ex1:lotNumber=1234 etc.)"
+  )
+  private String data;
+
   @Schema(
-      type = SchemaType.STRING,
-      description = "User extension local name eg. example",
-      required = true)
-  private String localName;
+          type = SchemaType.ARRAY,
+          description = "Complex user extension information with its own children elements.")
+  private List<UserExtensionSyntax> children;
 
-  private String text;
-  private List<UserExtensionSyntax> complex;
-  private String namespacePrefix;
-
-  @JsonCreator
-  public static UserExtensionSyntax createUserExtensionSyntax( //
-      @JsonProperty("namespace") String namespace, //
-      @JsonProperty("localName") String localName, //
-      @JsonProperty("text") String text,
-      @JsonProperty("complex") List<UserExtensionSyntax> complex) {
-    if (complex != null && !complex.isEmpty()) {
-      return new UserExtensionSyntax(namespace, localName, complex);
-    }
-    return new UserExtensionSyntax(namespace, localName, text);
-  }
-
+  //Method to format the UserExtensions based on the Web Vocabulary or Custom extensions by recursively reading them
   public Map<String, Object> toMap() {
-    try {
-      final Map<String, Object> map = new HashMap<>();
+    // Check if the namespace already exist within the context if not then only add.
+    if (StreamingEPCISDocument.getContext() != null
+            && !StreamingEPCISDocument.getContext().containsKey(this.prefix)
+            && StringUtils.isNotBlank(this.prefix)
+            && StringUtils.isNotBlank(this.contextURL)) {
 
-      // Check if the namespace already exist within the context if not then only add.
-      if (StreamingEPCISDocument.getContext() != null
-          && !StreamingEPCISDocument.getContext().containsKey(this.namespacePrefix)) {
-        StreamingEPCISDocument.getContext().put(this.namespacePrefix, this.namespace);
-      }
+      //Check if the namespace matches any of the default namespaces if so omit them
+      boolean isDuplicate = EPCIS_DEFAULT_NAMESPACES.entrySet().stream().anyMatch(entry -> entry.getKey().equals(prefix) && entry.getValue().equals(contextURL));
 
-      if (complex != null && !complex.isEmpty()) {
-        final Map<String, Object> complexMap =
-            complex.stream()
-                .flatMap(c -> c.toMap().entrySet().stream())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        map.put(namespacePrefix + ":" + localName, complexMap);
-      } else {
-        map.put(namespacePrefix + ":" + localName, text);
+      //If does not match then add
+      if (!isDuplicate) {
+        StreamingEPCISDocument.getContext().put(this.prefix, this.contextURL);
       }
-      return map;
-    } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during formatting of the Extensions, Please check the values provided values for User Extensions/ILMD/Error Extension : "
-              + ex.getMessage(), ex);
     }
-  }
 
-  // Constructor for String DataType
-  public UserExtensionSyntax(String namespace) {
-    try {
-      if (namespace.toLowerCase().contains("https://")
-          || namespace.toLowerCase().contains("http://")) {
-        this.namespacePrefix =
-            namespace.substring(
-                namespace.indexOf("/", namespace.indexOf("/") + 1) + 1, namespace.indexOf("."));
-      } else {
-        this.namespacePrefix = namespace;
-      }
-    } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during formatting of the Extensions Namespace prefix, Please check the values provided values for User Extensions/ILMD/Error Extension Namespace : "
-              + ex.getMessage(), ex);
+    final Map<String, Object> map = new HashMap<>();
+
+    //Based on the Web Vocabulary or Custom Extensions get the respective key and add information
+    final String key = StringUtils.isNotBlank(this.label) ? this.label : (this.prefix + ":" + this.property);
+
+    //for complex children is not empty then recursively loop over children and format the elements
+    if (CollectionUtils.isNotEmpty(children)) {
+      final Map<String, Object> complexMap = children.stream()
+              .flatMap(c -> c.toMap().entrySet().stream())
+              .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+      map.put(key, complexMap);
+    } else {
+      //for simple string directly add the information
+      map.put(key, data);
     }
-  }
-
-  // Constructor for String DataType
-  public UserExtensionSyntax(String namespace, String localName, String text) {
-    this(namespace);
-    this.namespace = namespace;
-    this.localName = localName;
-    this.text = text;
-  }
-
-  // Constructor for Complex DataType
-  public UserExtensionSyntax(
-      String namespace, String localName, List<UserExtensionSyntax> complex) {
-    this(namespace);
-    this.namespace = namespace;
-    this.localName = localName;
-    this.complex = complex;
+    return map;
   }
 }

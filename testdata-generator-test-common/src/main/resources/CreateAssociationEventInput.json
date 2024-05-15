@@ -61,25 +61,30 @@
       ],
       "userExtensions": [
         {
-          "type": "userExtension",
-          "element": "extensionElement",
-          "dataType": "complex",
-          "namespace": "https://google.com",
-          "localName": "google",
-          "text": "",
-          "complex": [
+          "extensionID": 0,
+          "prefix": "customExtension",
+          "contextURL": "",
+          "children": [
             {
-              "type": "userExtension",
-              "element": "extensionElement",
-              "dataType": "string",
-              "namespace": "https://fb.com",
-              "localName": "fb",
-              "text": "myval",
-              "complex": null,
-              "ID": 1
+              "property": "exampleProperty",
+              "dataType": "complex",
+              "prefix": "google",
+              "contextURL": "https://google.com",
+              "key": 0,
+              "children": [
+                {
+                  "property": "anotherExample",
+                  "dataType": "simple",
+                  "prefix": "fb",
+                  "contextURL": "https://fb.com",
+                  "key": 2,
+                  "children": [],
+                  "data": "myval"
+                }
+              ],
+              "data": ""
             }
-          ],
-          "ID": 0
+          ]
         }
       ],
       "referencedIdentifier": [
