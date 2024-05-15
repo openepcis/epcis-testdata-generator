@@ -99,8 +99,9 @@ public class ObjectEventCreationModel
     if (typeInfo.getIlmd() != null && !typeInfo.getIlmd().isEmpty()) {
       final Map<String, Object> ilmdMap =
           typeInfo.getIlmd().stream()
-              .flatMap(c -> c.toMap().entrySet().stream())
-              .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1));
+                  .flatMap(root -> root.getChildren().stream())
+                  .flatMap(c -> c.toMap().entrySet().stream())
+                  .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1));
       e.setIlmdXml(ilmdMap);
     }
   }

@@ -79,8 +79,9 @@ public class TransformationEventCreationModel
     if (typeInfo.getIlmd() != null && !typeInfo.getIlmd().isEmpty()) {
       final Map<String, Object> ilmdMap =
           typeInfo.getIlmd().stream()
-              .flatMap(c -> c.toMap().entrySet().stream())
-              .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                  .flatMap(root -> root.getChildren().stream())
+                  .flatMap(c -> c.toMap().entrySet().stream())
+                  .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
       e.setIlmdXml(ilmdMap);
     }
   }

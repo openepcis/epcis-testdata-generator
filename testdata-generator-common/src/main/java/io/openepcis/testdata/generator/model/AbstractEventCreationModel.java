@@ -214,8 +214,9 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
           && !typeInfo.getErrorDeclaration().getExtensions().isEmpty()) {
         err.setUserExtensions(
             typeInfo.getErrorDeclaration().getExtensions().stream()
-                .flatMap(c -> c.toMap().entrySet().stream())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1)));
+                    .flatMap(root -> root.getChildren().stream())
+                    .flatMap(c -> c.toMap().entrySet().stream())
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1)));
       }
 
       epcisEvent.setErrorDeclaration(err);
