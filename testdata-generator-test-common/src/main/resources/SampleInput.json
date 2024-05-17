@@ -11,7 +11,7 @@
       "eventID": false,
       "eventTime": {
         "timeZoneOffset": "+02:00",
-        "specificTime": "2024-05-13T17:10:51.000+02:00"
+        "specificTime": "2024-05-17T12:06:10.000+02:00"
       },
       "userExtensions": [
         {
@@ -20,42 +20,21 @@
           "contextURL": "https://gs1.org/voc/",
           "children": [
             {
-              "label": "gs1:AuthenticityDetails",
+              "label": "gs1:AdditionalProductClassificationDetails",
               "key": 1,
               "dataType": "complex",
               "type": "class",
+              "data": "",
               "contextURL": "https://gs1.org/voc/",
               "children": [
                 {
-                  "label": "gs1:authenticitySecurityFeatureInstructions",
-                  "rangeType": "rdf:langString",
+                  "label": "gs1:additionalProductClassificationCode",
+                  "rangeType": "xsd:string",
                   "dataType": "simple",
                   "type": "simple",
-                  "data": "onee",
+                  "data": "1234",
                   "key": 0,
                   "additionType": "property",
-                  "contextURL": "https://gs1.org/voc/",
-                  "parentKey": 1
-                },
-                {
-                  "label": "gs1:authenticitySecurityFeatureInstructionsURL",
-                  "rangeType": "xsd:anyURI",
-                  "dataType": "simple",
-                  "type": "simple",
-                  "data": "url",
-                  "key": 1,
-                  "additionType": "property",
-                  "contextURL": "https://gs1.org/voc/",
-                  "parentKey": 1
-                },
-                {
-                  "label": "gs1:allergenInfo",
-                  "rangeType": "xsd:anyURI",
-                  "dataType": "simple",
-                  "type": "simple",
-                  "data": "Allergy",
-                  "key": 2,
-                  "additionType": "linkTypes",
                   "contextURL": "https://gs1.org/voc/",
                   "parentKey": 1
                 }
@@ -66,109 +45,150 @@
               "key": 2,
               "dataType": "complex",
               "type": "class",
+              "data": "",
               "contextURL": "https://gs1.org/voc/",
               "children": [
-                {
-                  "label": "gs1:cholesterolPerNutrientBasis",
-                  "rangeType": "gs1:NutritionMeasurementType",
-                  "dataType": "complex",
-                  "type": "class",
-                  "key": 3,
-                  "additionType": "property",
-                  "contextURL": "https://gs1.org/voc/",
-                  "parentKey": 2,
-                  "children": [
-                    {
-                      "label": "gs1:dailyValueIntakePercent",
-                      "rangeType": "xsd:float",
-                      "dataType": "simple",
-                      "type": "simple",
-                      "data": 200,
-                      "key": 4,
-                      "additionType": "property",
-                      "contextURL": "https://gs1.org/voc/",
-                      "parentKey": 3
-                    }
-                  ]
-                },
                 {
                   "label": "gs1:preparationInformation",
                   "rangeType": "gs1:FoodAndBeveragePreparationInformation",
                   "dataType": "complex",
                   "type": "class",
-                  "key": 5,
+                  "key": 1,
+                  "data": "",
                   "additionType": "property",
                   "contextURL": "https://gs1.org/voc/",
                   "parentKey": 2,
                   "children": [
                     {
+                      "label": "gs1:minimumOptimumConsumptionTemperature",
+                      "rangeType": "gs1:QuantitativeValue",
+                      "dataType": "complex",
+                      "type": "class",
+                      "key": 2,
+                      "data": "",
+                      "additionType": "property",
+                      "contextURL": "https://gs1.org/voc/",
+                      "parentKey": 1,
+                      "children": [
+                        {
+                          "label": "gs1:unitCode",
+                          "rangeType": "xsd:string",
+                          "dataType": "simple",
+                          "type": "simple",
+                          "data": "Code",
+                          "key": 3,
+                          "additionType": "property",
+                          "contextURL": "https://gs1.org/voc/",
+                          "parentKey": 2
+                        },
+                        {
+                          "label": "gs1:value",
+                          "rangeType": "xsd:float",
+                          "dataType": "simple",
+                          "type": "simple",
+                          "data": 100,
+                          "key": 4,
+                          "additionType": "property",
+                          "contextURL": "https://gs1.org/voc/",
+                          "parentKey": 2
+                        }
+                      ]
+                    },
+                    {
                       "label": "gs1:manufacturerPreparationCode",
                       "rangeType": "gs1:PreparationTypeCode",
                       "dataType": "complex",
                       "type": "code",
-                      "data": "BOIL",
-                      "key": 6,
+                      "data": "AS_DRAINED",
+                      "key": 5,
                       "additionType": "property",
                       "contextURL": "https://gs1.org/voc/",
-                      "parentKey": 5
+                      "parentKey": 1
                     }
                   ]
                 }
               ]
+            },
+            {
+              "label": "gs1:brandHomepageClinical",
+              "rangeType": "xsd:anyURI",
+              "dataType": "simple",
+              "type": "simple",
+              "data": "downLoad",
+              "key": 6,
+              "additionType": "linkTypes",
+              "contextURL": "https://gs1.org/voc/"
             }
           ]
         },
         {
           "extensionID": 1,
-          "prefix": "customExtension",
+          "prefix": "buildExtension",
           "contextURL": "",
           "children": [
             {
+              "property": "One",
+              "dataType": "complex",
+              "prefix": "ex1",
+              "contextURL": "https://ex1.com",
+              "key": 0,
+              "children": [
+                {
+                  "property": "Two",
+                  "dataType": "complex",
+                  "prefix": "ex2",
+                  "contextURL": "https://ex2.com",
+                  "key": 1,
+                  "children": [
+                    {
+                      "property": "Three",
+                      "dataType": "simple",
+                      "prefix": "ex3",
+                      "contextURL": "https://ex3.com",
+                      "key": 2,
+                      "children": [],
+                      "data": "Value3"
+                    }
+                  ],
+                  "data": ""
+                }
+              ],
+              "data": ""
+            },
+            {
+              "property": "Six",
+              "dataType": "simple",
               "prefix": "ex6",
               "contextURL": "https://ex6.com",
-              "property": "one",
-              "dataType": "simple",
-              "key": 0,
-              "children": [],
-              "data": "Value-1"
-            },
-            {
-              "prefix": "ex2",
-              "contextURL": "https://ex2.com",
-              "property": "two",
-              "dataType": "complex",
-              "key": 1,
-              "children": [
-                {
-                  "prefix": "ex3",
-                  "contextURL": "https://ex3.com",
-                  "property": "three",
-                  "dataType": "complex",
-                  "key": 2,
-                  "children": [],
-                  "data": "test"
-                }
-              ]
-            },
-            {
-              "prefix": "ex5",
-              "contextURL": "https://ex5.com",
-              "property": "five",
-              "dataType": "complex",
               "key": 3,
-              "children": [
+              "children": [],
+              "data": "Six"
+            }
+          ]
+        },
+        {
+          "extensionID": 0,
+          "prefix": "generatedExtension",
+          "contextURL": "",
+          "children": [],
+          "rawJsonld": {
+            "@context": [
+              {
+                "gdst": "https://traceability-dialogue.org/epcis"
+              }
+            ],
+            "cbvmda:certificationList": {
+              "gs1:certification": [
                 {
-                  "prefix": "Ex6",
-                  "contextURL": "https://Ex6.com",
-                  "property": "fix",
-                  "dataType": "simple",
-                  "key": 4,
-                  "children": [],
-                  "data": "six"
+                  "gdst:certificationType": "urn:gdst:certType:harvestCoC",
+                  "gs1:certificationAgency": "test",
+                  "gs1:certificationStandard": "test",
+                  "gs1:certificationValue": "test",
+                  "gs1:certificationIdentification": "test"
                 }
               ]
             }
-          ]
+          }
         }
       ],
       "referencedIdentifier": [
@@ -193,7 +213,7 @@
           "gcpLength": "",
           "serialType": "range",
           "sgtin": "12345678901234",
-          "rangeFrom": 100,
+          "rangeFrom": 1,
           "count": 1,
           "ID": 1
         }

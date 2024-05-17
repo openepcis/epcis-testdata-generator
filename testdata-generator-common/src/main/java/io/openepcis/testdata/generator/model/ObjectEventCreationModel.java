@@ -26,9 +26,12 @@ import io.openepcis.testdata.generator.format.SourceFormatter;
 import io.openepcis.testdata.generator.reactivestreams.EventIdentifierTracker;
 import io.openepcis.testdata.generator.template.Identifier;
 import io.openepcis.testdata.generator.template.ObjectEventType;
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ObjectEventCreationModel
     extends AbstractEventCreationModel<ObjectEventType, ObjectEvent> {
@@ -99,8 +102,17 @@ public class ObjectEventCreationModel
     if (typeInfo.getIlmd() != null && !typeInfo.getIlmd().isEmpty()) {
       final Map<String, Object> ilmdMap =
           typeInfo.getIlmd().stream()
-                  .flatMap(root -> root.getChildren().stream())
-                  .flatMap(c -> c.toMap().entrySet().stream())
+                  .flatMap(root -> {
+                    if (CollectionUtils.isNotEmpty(root.getChildren())) {
+                      // Stream over children if present
+                      return root.getChildren().stream().flatMap(c -> c.toMap().entrySet().stream());
+                    } else if (root.getRawJsonld() instanceof Map) {
+                      // Stream over rawJsonld if it's a Map
+                      return root.toMap().entrySet().stream();
+                    }
+                    // Return an empty stream if neither are present
+                    return Stream.empty();
+                  })
                   .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1));
       e.setIlmdXml(ilmdMap);
     }
