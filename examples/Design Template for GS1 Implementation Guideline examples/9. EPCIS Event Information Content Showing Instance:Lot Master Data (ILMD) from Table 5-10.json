@@ -36,20 +36,43 @@
                 "userExtensions": [],
                 "ilmd": [
                     {
-                        "element": "extensionElement",
-                        "namespace": "https://gs1-ilmd.example.com",
-                        "localName": "expirationDate",
-                        "dataType": "string",
-                        "ID": 1,
-                        "text": "2024-04-15"
-                    },
-                    {
-                        "element": "extensionElement",
-                        "namespace": "https://gs1-ilmd.example.com",
-                        "localName": "hasBatchLotNumber",
-                        "dataType": "string",
-                        "ID": 2,
-                        "text": "100"
+                        "extensionID": 0,
+                        "prefix": "gs1",
+                        "contextURL": "https://gs1.org/voc/",
+                        "children": [
+                            {
+                                "label": "gs1:Product",
+                                "key": 1,
+                                "dataType": "complex",
+                                "type": "class",
+                                "data": "",
+                                "contextURL": "https://gs1.org/voc/",
+                                "children": [
+                                    {
+                                        "label": "gs1:expirationDate",
+                                        "rangeType": "xsd:date",
+                                        "dataType": "simple",
+                                        "type": "simple",
+                                        "data": "2024-04-15",
+                                        "key": 0,
+                                        "additionType": "property",
+                                        "contextURL": "https://gs1.org/voc/",
+                                        "parentKey": 1
+                                    },
+                                    {
+                                        "label": "gs1:hasBatchLotNumber",
+                                        "rangeType": "xsd:string",
+                                        "dataType": "simple",
+                                        "type": "simple",
+                                        "data": "100",
+                                        "key": 1,
+                                        "additionType": "property",
+                                        "contextURL": "https://gs1.org/voc/",
+                                        "parentKey": 1
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ],
                 "errorDeclaration": {
@@ -199,14 +222,14 @@
         {
             "identifiersId": 1,
             "identifierType": "Identifiers",
-            "objectIdentifierSyntax": "WebURI",
             "instanceType": "sgtin",
             "instanceData": {
                 "identifierType": "sgtin",
                 "serialType": "range",
                 "sgtin": "09521568251228",
                 "rangeFrom": 100
-            }
+            },
+            "objectIdentifierSyntax": "WebURI"
         }
     ],
     "connectorsInfo": [

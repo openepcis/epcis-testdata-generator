@@ -33,12 +33,20 @@
                 "userExtensions": [],
                 "ilmd": [
                     {
-                        "element": "extensionElement",
-                        "namespace": "https://loyalty-card.example.com/",
-                        "localName": "redeemDate",
-                        "dataType": "string",
-                        "ID": 1,
-                        "text": "16-07-2022"
+                        "extensionID": 0,
+                        "prefix": "customExtension",
+                        "contextURL": "",
+                        "children": [
+                            {
+                                "property": "redeemDate",
+                                "dataType": "simple",
+                                "prefix": "loyalty-card",
+                                "contextURL": "https://loyalty-card.example.com/",
+                                "key": 0,
+                                "children": [],
+                                "data": "16-07-2022"
+                            }
+                        ]
                     }
                 ],
                 "errorDeclaration": {
