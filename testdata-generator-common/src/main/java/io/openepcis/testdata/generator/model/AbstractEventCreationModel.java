@@ -30,18 +30,21 @@ import io.openepcis.testdata.generator.reactivestreams.EventIdentifierTracker;
 import io.openepcis.testdata.generator.template.EPCISEventType;
 import io.openepcis.testdata.generator.template.Identifier;
 import io.openepcis.testdata.generator.template.ReferencedIdentifier;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.*;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.stream.Stream;
 
 @Getter
 @Slf4j
@@ -101,9 +104,19 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
       // User extensions addition
       if (typeInfo.getUserExtensions() != null && !typeInfo.getUserExtensions().isEmpty()) {
         epcisEvent.setUserExtensions(
-            typeInfo.getUserExtensions().stream()
-                .flatMap(c -> c.toMap().entrySet().stream())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1)));
+                typeInfo.getUserExtensions().stream()
+                        .flatMap(root -> {
+                          if (CollectionUtils.isNotEmpty(root.getChildren())) {
+                            // Stream over children if present
+                            return root.getChildren().stream().flatMap(c -> c.toMap().entrySet().stream());
+                          } else if (root.getRawJsonld() instanceof Map) {
+                            // Stream over rawJsonld if it's a Map
+                            return root.toMap().entrySet().stream();
+                          }
+                          // Return an empty stream if neither are present
+                          return Stream.empty();
+                        })
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1)));
       }
     } catch (Exception e) {
       throw new TestDataGeneratorException(
@@ -213,8 +226,18 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
           && !typeInfo.getErrorDeclaration().getExtensions().isEmpty()) {
         err.setUserExtensions(
             typeInfo.getErrorDeclaration().getExtensions().stream()
-                .flatMap(c -> c.toMap().entrySet().stream())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1)));
+                    .flatMap(root -> {
+                      if (CollectionUtils.isNotEmpty(root.getChildren())) {
+                        // Stream over children if present
+                        return root.getChildren().stream().flatMap(c -> c.toMap().entrySet().stream());
+                      } else if (root.getRawJsonld() instanceof Map) {
+                        // Stream over rawJsonld if it's a Map
+                        return root.toMap().entrySet().stream();
+                      }
+                      // Return an empty stream if neither are present
+                      return Stream.empty();
+                    })
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1)));
       }
 
       epcisEvent.setErrorDeclaration(err);

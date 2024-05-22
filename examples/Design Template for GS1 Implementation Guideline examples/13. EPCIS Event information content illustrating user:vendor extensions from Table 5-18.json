@@ -32,12 +32,20 @@
                 "sensorElementList": [],
                 "userExtensions": [
                     {
-                        "element": "extensionElement",
-                        "namespace": "http://myvoc.example.org/",
-                        "localName": "inspector_badge_nr",
-                        "dataType": "string",
-                        "ID": 1,
-                        "text": "244301128"
+                        "extensionID": 0,
+                        "prefix": "customExtension",
+                        "contextURL": "",
+                        "children": [
+                            {
+                                "property": "inspector_badge_nr",
+                                "dataType": "simple",
+                                "prefix": "myvoc",
+                                "contextURL": "http://myvoc.example.org/",
+                                "key": 0,
+                                "children": [],
+                                "data": "244301128"
+                            }
+                        ]
                     }
                 ],
                 "ilmd": [],
@@ -72,14 +80,14 @@
         {
             "identifiersId": 1,
             "identifierType": "Identifiers",
-            "objectIdentifierSyntax": "WebURI",
             "instanceType": "sgtin",
             "instanceData": {
                 "identifierType": "sgtin",
                 "serialType": "range",
                 "sgtin": "09521141174736",
                 "rangeFrom": 101
-            }
+            },
+            "objectIdentifierSyntax": "WebURI"
         }
     ],
     "connectorsInfo": [
