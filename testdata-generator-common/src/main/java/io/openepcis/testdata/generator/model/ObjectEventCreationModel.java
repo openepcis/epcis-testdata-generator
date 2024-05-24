@@ -114,7 +114,7 @@ public class ObjectEventCreationModel
                     return Stream.empty();
                   })
                   .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1));
-      e.setIlmdXml(ilmdMap);
+      e.setIlmdXml(ilmdMap.isEmpty() ? null : ilmdMap);
     }
   }
 

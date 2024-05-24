@@ -94,7 +94,7 @@ public class TransformationEventCreationModel
                     return Stream.empty();
                   })
                   .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-      e.setIlmdXml(ilmdMap);
+      e.setIlmdXml(ilmdMap.isEmpty() ? null : ilmdMap);
     }
   }
 
