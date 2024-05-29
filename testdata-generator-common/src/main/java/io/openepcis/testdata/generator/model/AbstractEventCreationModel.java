@@ -300,7 +300,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
           epcList.addAll(
               matchingIdentifier
                   .getInstanceData()
-                  .format(matchingIdentifier.getObjectIdentifierSyntax(), epc.getEpcCount(), matchingIdentifier.getDlURL()));
+                  .format(matchingIdentifier.getObjectIdentifierSyntax(), epc.getEpcCount(), matchingIdentifier.getDlURL(), typeInfo.getSeed()));
         }
       } else if (epc.getParentNodeId() != 0 && epc.getEpcCount() > 0) {
         // If referenced identifier contains the parent node id then obtain the identifiers from its
