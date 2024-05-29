@@ -50,10 +50,10 @@ public class GenerateSGTIN extends GenerateEPC {
   private static final String SGTIN_URI_SERIAL_PART = "/21/";
 
   /**
-   * Method to generate SGTIN identifiers based on URN/WebURI format by manipulating the provided SGTIN values.
+   * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *
    * @param syntax syntax in which identifiers need to be generated URN/WebURI
-   * @param count  count of SGTIN instance identifiers need to be generated
+   * @param count  count of instance identifiers need to be generated
    * @param dlURL  if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
    * @return returns list of identifiers in string format
    */
@@ -63,10 +63,10 @@ public class GenerateSGTIN extends GenerateEPC {
   }
 
   /**
-   * Method to generate SGTIN identifiers based on URN/WebURI format by manipulating the provided SGTIN values.
+   * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *
    * @param syntax syntax in which identifiers need to be generated URN/WebURI
-   * @param count  count of SGTIN instance identifiers need to be generated
+   * @param count  count of instance identifiers need to be generated
    * @param dlURL  if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
    * @param seed   seed for random mersenne generator to generate same random numbers if same seed is provided
    * @return returns list of identifiers in string format

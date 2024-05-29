@@ -19,11 +19,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
-import io.openepcis.testdata.generator.format.RandomValueGenerator;
+import io.openepcis.testdata.generator.format.RandomMersenneValueGenerator;
+import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Setter;
@@ -31,6 +29,10 @@ import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @JsonTypeName("gdti")
@@ -47,106 +49,55 @@ public class GenerateGDTI extends GenerateEPC {
   private String gdti;
 
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
-    if (IdentifierVocabularyType.WEBURI == syntax) {
-      // For WebURI syntax call the generateWebURI, pass the required identifiers count to create
-      // Instance Identifiers
-      return generateWebURI(count, dlURL);
+  public final List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL) {
+    return format(syntax, count, dlURL, null);
+  }
+
+  @Override
+  public final List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
+    return generateIdentifiers(syntax, count, dlURL, seed);
+  }
+
+  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
+    try {
+      final List<String> formattedGDTI = new ArrayList<>();
+      final String prefix = syntax.equals(IdentifierVocabularyType.URN) ? GDTI_URN_PART : dlURL + GDTI_URI_PART;
+      final String modifiedGDTI = prepareModifiedGDTI(syntax);
+      final String delimiter = syntax.equals(IdentifierVocabularyType.URN) ? "." : "";
+
+      if (SerialTypeChecker.isRangeType(serialType, count, rangeFrom)) {
+        //For range generate sequential identifiers
+        for (var rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count; rangeID++) {
+          formattedGDTI.add(prefix + modifiedGDTI + delimiter + rangeID);
+        }
+        rangeFrom = BigInteger.valueOf(rangeFrom.longValue() + count);
+      } else if (SerialTypeChecker.isRandomType(serialType, count)) {
+        //For random generate random identifiers or based on seed
+        randomMinLength = Math.max(1, Math.min(17, randomMinLength));
+        randomMaxLength = Math.max(1, Math.min(17, randomMaxLength));
+        final List<String> randomSerialNumbers = RandomMersenneValueGenerator.getInstance(seed).randomGenerator(randomType, randomMinLength, randomMaxLength, count);
+
+        for (var randomID : randomSerialNumbers) {
+          formattedGDTI.add(prefix + modifiedGDTI + delimiter + randomID);
+        }
+      } else if (SerialTypeChecker.isNoneType(serialType, count, serialNumber)) {
+        //For none generate static identifier
+        formattedGDTI.add(prefix + modifiedGDTI + delimiter + serialNumber);
+      }
+
+      return formattedGDTI;
+    } catch (Exception ex) {
+      throw new TestDataGeneratorException("Exception occurred during generation of GDTI instance identifiers in WebURI format : " + ex.getMessage(), ex);
+    }
+  }
+
+
+  //Function to format the GDTI based on URN or WebURI format
+  private String prepareModifiedGDTI(final IdentifierVocabularyType syntax) {
+    if (syntax.equals(IdentifierVocabularyType.URN)) {
+      return CompanyPrefixFormatter.gcpFormatterNormal(gdti, gcpLength).toString();
     } else {
-      // For URN syntax call the generateURN, pass the required identifiers count to create Instance
-      // Identifiers
-      return generateURN(count);
-    }
-  }
-
-  // Generate URN formatted GDTI
-  private List<String> generateURN(Integer count) {
-    try {
-      final List<String> formattedGDTI = new ArrayList<>();
-      final String modifiedGDTI = CompanyPrefixFormatter.gcpFormatterNormal(gdti, gcpLength) + ".";
-
-      // Return the list of GDTI for RANGE calculation
-      if (serialType.equalsIgnoreCase("range")
-          && rangeFrom != null
-          && count != null
-          && count > 0
-          && rangeFrom.longValue() >= 0) {
-        for (var rangeID = rangeFrom.longValue();
-            rangeID < rangeFrom.longValue() + count;
-            rangeID++) {
-          formattedGDTI.add(GDTI_URN_PART + modifiedGDTI + rangeID);
-        }
-        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
-      } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
-        // Return the list of GDTI for RANDOM calculation
-        randomMinLength = randomMinLength < 1 || randomMinLength > 17 ? 1 : randomMinLength;
-        randomMaxLength = randomMaxLength < 1 || randomMaxLength > 17 ? 17 : randomMaxLength;
-
-        final List<String> randomSerialNumbers =
-                RandomValueGenerator.getInstance().randomGenerator(
-                randomType, randomMinLength, randomMaxLength, count);
-
-        for (var randomID : randomSerialNumbers) {
-          formattedGDTI.add(GDTI_URN_PART + modifiedGDTI + randomID);
-        }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
-        // Return the single GDTI values for None selection
-        for (var noneCounter = 0; noneCounter < count; noneCounter++) {
-          formattedGDTI.add(GDTI_URN_PART + modifiedGDTI + serialNumber);
-        }
-      }
-      return formattedGDTI;
-    } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of GDTI instance identifiers in URN format, Please check the values provided for GDTI instance identifiers : "
-              + ex.getMessage(), ex);
-    }
-  }
-
-  // Generate URN formatted GDTI
-  private List<String> generateWebURI(Integer count, final String dlURL) {
-    try {
-      final List<String> formattedGDTI = new ArrayList<>();
-      final String modifiedGDTI =
-          gdti.substring(0, 11)
-              + UPCEANLogicImpl.calcChecksum(gdti.substring(0, 11))
-              + gdti.charAt(12);
-
-      // Return the list of GDTI for RANGE calculation
-      if (serialType.equalsIgnoreCase("range")
-          && rangeFrom != null
-          && count != null
-          && count > 0
-          && rangeFrom.longValue() >= 0) {
-        for (var rangeID = rangeFrom.longValue();
-            rangeID < rangeFrom.longValue() + count;
-            rangeID++) {
-          formattedGDTI.add(dlURL + GDTI_URI_PART + modifiedGDTI + rangeID);
-        }
-        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
-      } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
-        // Return the list of GDTI for RANDOM calculation
-        randomMinLength = randomMinLength < 1 || randomMinLength > 17 ? 1 : randomMinLength;
-        randomMaxLength = randomMaxLength < 1 || randomMaxLength > 17 ? 17 : randomMaxLength;
-
-        final List<String> randomSerialNumbers =
-                RandomValueGenerator.getInstance().randomGenerator(
-                randomType, randomMinLength, randomMaxLength, count);
-
-        for (var randomID : randomSerialNumbers) {
-          formattedGDTI.add(dlURL + GDTI_URI_PART + modifiedGDTI + randomID);
-        }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
-        // Return the single GDTI values for None selection
-        for (var noneCounter = 0; noneCounter < count; noneCounter++) {
-          formattedGDTI.add(dlURL + GDTI_URI_PART + modifiedGDTI + serialNumber);
-        }
-      }
-      return formattedGDTI;
-    } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of GDTI instance identifiers in WebURI format, Please check the values provided for GDTI instance identifiers : "
-              + ex.getMessage(), ex);
+      return gdti.substring(0, 11) + UPCEANLogicImpl.calcChecksum(gdti.substring(0, 11)) + gdti.charAt(12);
     }
   }
 }

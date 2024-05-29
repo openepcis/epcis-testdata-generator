@@ -19,13 +19,15 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
-import io.openepcis.testdata.generator.format.RandomValueGenerator;
+import io.openepcis.testdata.generator.format.RandomMersenneValueGenerator;
+import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.Setter;
-import lombok.ToString;
 
 @Setter
 @JsonTypeName("giai")
@@ -38,96 +40,51 @@ public class GenerateGIAI extends GenerateEPCType2 {
 
   @Override
   public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
-    if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
-      // For WebURI syntax call the generateWebURI, pass the required identifiers count to create
-      // Instance Identifiers
-      return generateWebURI(count, dlURL);
-    } else {
-      // For URN syntax call the generateURN, pass the required identifiers count to create Instance
-      // Identifiers
-      return generateURN(count);
-    }
+    return format(syntax, count, dlURL, null);
   }
 
-  // Generate URN formatted GIAI
-  private List<String> generateURN(Integer count) {
+  /**
+   * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
+   *
+   * @param syntax syntax in which identifiers need to be generated URN/WebURI.
+   * @param count  count of instance identifiers need to be generated.
+   * @param dlURL  if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org.
+   * @param seed   seed for random mersenne generator to generate same random numbers if same seed is provided
+   * @return returns list of identifiers in string format
+   */
+  @Override
+  public List<String> format(IdentifierVocabularyType syntax, Integer count, String dlURL, Long seed) {
+    return generateIdentifiers(syntax, count, dlURL, seed);
+  }
+
+  //Function to check which type of instance identifiers need to be generated Range/Random/Static and accordingly generate
+  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
     try {
       final List<String> formattedGIAI = new ArrayList<>();
+      final String prefix = syntax.equals(IdentifierVocabularyType.URN) ? GIAI_URN_PART : dlURL + GIAI_URI_PART;
+      final String delimiter = syntax.equals(IdentifierVocabularyType.URN) ? "." : "";
 
-      // Return the list of GIAI for RANGE calculation
-      if (serialType.equalsIgnoreCase("range")
-          && rangeFrom != null
-          && count != null
-          && count > 0
-          && rangeFrom.longValue() >= 0) {
-        for (var rangeID = rangeFrom.longValue();
-            rangeID < rangeFrom.longValue() + count.longValue();
-            rangeID++) {
-          formattedGIAI.add(GIAI_URN_PART + gcp + "." + rangeID);
+      if (SerialTypeChecker.isRangeType(this.serialType, count, this.rangeFrom)) {
+        //For range generate sequential identifiers
+        for (var rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count.longValue(); rangeID++) {
+          formattedGIAI.add(prefix + gcp + delimiter + rangeID);
         }
         this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count.longValue());
-      } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
-        // Return the list of GIAI for RANDOM calculation
+      } else if (SerialTypeChecker.isRandomType(this.serialType, count)) {
+        //For random generate random identifiers or based on seed
         final int requiredMaxLength = 29 - gcp.length();
-        final List<String> randomSerialNumbers =
-            RandomValueGenerator.getInstance().randomGenerator(
-                RandomizationType.NUMERIC, 1, requiredMaxLength, count);
+        final List<String> randomSerialNumbers = RandomMersenneValueGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, 1, requiredMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
-          formattedGIAI.add(GIAI_URN_PART + gcp + "." + randomID);
+          formattedGIAI.add(prefix + gcp + delimiter + randomID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
-        // Return the single GIAI values for None selection
-        for (var noneCounter = 0; noneCounter < count; noneCounter++) {
-          formattedGIAI.add(GIAI_URN_PART + gcp + "." + serialNumber);
-        }
+      } else if (SerialTypeChecker.isNoneType(this.serialType, count, this.serialNumber)) {
+        //For none generate static identifier
+        formattedGIAI.add(prefix + gcp + delimiter + serialNumber);
       }
       return formattedGIAI;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of GIAI instance identifiers in URN format, Please check the values provided for GIAI instance identifiers : "
-              + ex.getMessage(), ex);
-    }
-  }
-
-  // Generate URN formatted GIAI
-  private List<String> generateWebURI(Integer count, final String dlURL) {
-    try {
-      final List<String> formattedGIAI = new ArrayList<>();
-
-      // Return the list of GIAI for RANGE calculation
-      if (serialType.equalsIgnoreCase("range")
-          && rangeFrom != null
-          && count != null
-          && count > 0
-          && rangeFrom.longValue() >= 0) {
-        for (var rangeID = rangeFrom.longValue();
-            rangeID < rangeFrom.longValue() + count.longValue();
-            rangeID++) {
-          formattedGIAI.add(dlURL + GIAI_URI_PART + gcp + rangeID);
-        }
-        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count.longValue());
-      } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
-        // Return the list of GIAI for RANDOM calculation
-        final int requiredMaxLength = 29 - gcp.length();
-        final List<String> randomSerialNumbers =
-            RandomValueGenerator.getInstance().randomGenerator(
-                RandomizationType.NUMERIC, 1, requiredMaxLength, count);
-
-        for (var randomID : randomSerialNumbers) {
-          formattedGIAI.add(dlURL + GIAI_URI_PART + gcp + randomID);
-        }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
-        // Return the single GIAI values for None selection
-        for (var noneCounter = 0; noneCounter < count; noneCounter++) {
-          formattedGIAI.add(dlURL + GIAI_URI_PART + gcp + serialNumber);
-        }
-      }
-      return formattedGIAI;
-    } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of GIAI instance identifiers in WebURI format, Please check the values provided for GIAI instance identifiers : "
-              + ex.getMessage(), ex);
+      throw new TestDataGeneratorException("Exception occurred during generation of GIAI instance identifiers : " + ex.getMessage(), ex);
     }
   }
 }
