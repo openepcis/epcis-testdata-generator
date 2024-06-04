@@ -19,13 +19,15 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.util.ArrayList;
-import java.util.List;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @JsonTypeName("bic")
@@ -33,15 +35,18 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 @RegisterForReflection
 public class GenerateBIC implements EPCStrategy {
 
+  @Pattern(regexp = "^[A-Z]{3}U\\d{7}$", message = "BIC should be 11 characters with first 3 alphabet character, 4th character U and followed by numbers")
   @NotNull(message = "BIC value cannot be Null")
-  @Schema(
-      type = SchemaType.STRING,
-      description = "Valid URI for the BIC identifier.",
-      required = true)
+  @Schema(type = SchemaType.STRING, description = "Valid URI for the BIC identifier.", required = true)
   private String bic;
 
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
+  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL) {
+    return format(syntax, count, dlURL, null);
+  }
+
+  @Override
+  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
     return generateBIC();
   }
 
@@ -51,9 +56,7 @@ public class GenerateBIC implements EPCStrategy {
       formattedBIC.add("urn:epc:id:bic:" + bic);
       return formattedBIC;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of BIC instance identifiers, Please check the values provided for BIC instance identifiers : "
-              + ex.getMessage(), ex);
+      throw new TestDataGeneratorException("Exception occurred during generation of BIC instance identifiers : " + ex.getMessage(), ex);
     }
   }
 }

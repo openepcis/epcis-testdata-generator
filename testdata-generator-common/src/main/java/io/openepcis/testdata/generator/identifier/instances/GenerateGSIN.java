@@ -19,14 +19,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
-import io.openepcis.testdata.generator.format.RandomValueGenerator;
+import io.openepcis.testdata.generator.format.RandomMersenneValueGenerator;
+import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.lang.StringUtils;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @ToString(callSuper = true)
@@ -38,102 +40,59 @@ public class GenerateGSIN extends GenerateEPCType2 {
   private static final String GSIN_URI_PART = "/402/";
 
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
-    if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
-      // For WebURI syntax call the generateWebURI, pass the required identifiers count to create
-      // Instance Identifiers
-      return generateWebURI(count, dlURL);
-    } else {
-      // For URN syntax call the generateURN, pass the required identifiers count to create Instance
-      // Identifiers
-      return generateURN(count);
+  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL) {
+    return format(syntax, count, dlURL);
+  }
+
+  /**
+   * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
+   *
+   * @param syntax syntax in which identifiers need to be generated URN/WebURI
+   * @param count  count of instance identifiers need to be generated
+   * @param dlURL  if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
+   * @param seed   seed for random mersenne generator to generate same random numbers if same seed is provided
+   * @return returns list of identifiers in string format
+   */
+  @Override
+  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
+    return generateIdentifiers(syntax, count, dlURL, seed);
+  }
+
+  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
+    try {
+      final List<String> formattedGSIN = new ArrayList<>();
+      final String prefix = syntax == IdentifierVocabularyType.URN ? GSIN_URN_PART : dlURL + GSIN_URI_PART;
+      final String suffix = syntax == IdentifierVocabularyType.URN ? "." : "";
+      final int paddingLength = syntax == IdentifierVocabularyType.WEBURI ? 17 : 16;
+
+      if (SerialTypeChecker.isRangeType(serialType, count, rangeFrom)) {
+        //For range generate sequential identifiers
+        for (var rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count.longValue(); rangeID++) {
+          appendFormattedGSIN(formattedGSIN, prefix, suffix, rangeID, paddingLength);
+        }
+        rangeFrom = BigInteger.valueOf(rangeFrom.longValue() + count.longValue());
+      } else if (SerialTypeChecker.isRandomType(serialType, count)) {
+        //For random generate random identifiers or based on seed
+        final List<String> randomSerialNumbers = RandomMersenneValueGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, 1, 4, count.intValue());
+
+        for (var randomID : randomSerialNumbers) {
+          appendFormattedGSIN(formattedGSIN, prefix, suffix, randomID, paddingLength);
+        }
+      } else if (SerialTypeChecker.isNoneType(serialType, count, serialNumber)) {
+        //For none generate static identifier
+        appendFormattedGSIN(formattedGSIN, prefix, suffix, serialNumber, paddingLength);
+      }
+
+      return formattedGSIN;
+    } catch (Exception ex) {
+      throw new TestDataGeneratorException("Exception occurred during generation of GSIN instance identifiers : " + ex.getMessage(), ex);
     }
   }
 
-  private List<String> generateURN(Integer count) {
-    try {
-      final List<String> formattedGSIN = new ArrayList<>();
-
-      // RANGE calculation
-      if (serialType.equalsIgnoreCase("range")
-          && rangeFrom != null
-          && count != null
-          && count.longValue() > 0
-          && rangeFrom.longValue() >= 0) {
-        for (var rangeID = rangeFrom.longValue();
-            rangeID < rangeFrom.longValue() + count.longValue();
-            rangeID++) {
-          String append = gcp + rangeID;
-          append = StringUtils.repeat("0", 16 - append.length()) + rangeID;
-          formattedGSIN.add(GSIN_URN_PART + gcp + "." + append);
-        }
-        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count.longValue());
-      } else if (serialType.equalsIgnoreCase("random") && count != null && count.longValue() > 0) {
-        final List<String> randomSerialNumbers =
-                RandomValueGenerator.getInstance().randomGenerator(RandomizationType.NUMERIC, 1, 4, count.intValue());
-
-        for (var randomID : randomSerialNumbers) {
-          var append = gcp + randomID;
-          append = StringUtils.repeat("0", 16 - append.length()) + randomID;
-          formattedGSIN.add(GSIN_URN_PART + gcp + "." + append);
-        }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
-        // NONE selection
-        for (var noneCounter = 0; noneCounter < count.longValue(); noneCounter++) {
-          String append = gcp + "." + serialNumber;
-          append = StringUtils.repeat("0", 16 - append.length()) + serialNumber;
-          formattedGSIN.add(GSIN_URN_PART + gcp + "." + append);
-        }
-      }
-      return formattedGSIN;
-    } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of GSIN instance identifiers in URN format, Please check the values provided for GSIN instance identifiers : "
-              + ex.getMessage(), ex);
-    }
-  }
-
-  private List<String> generateWebURI(Integer count, final String dlURL) {
-    try {
-      final List<String> formattedGSIN = new ArrayList<>();
-
-      // RANGE calculation
-      if (serialType.equalsIgnoreCase("range")
-          && rangeFrom != null
-          && count != null
-          && count.longValue() > 0
-          && rangeFrom.longValue() >= 0) {
-        for (var rangeID = rangeFrom.longValue();
-            rangeID < (rangeFrom.longValue() + count.longValue());
-            rangeID++) {
-          var append = gcp + rangeID;
-          append = StringUtils.repeat("0", 17 - append.length()) + rangeID;
-          formattedGSIN.add(dlURL + GSIN_URI_PART + gcp + append);
-        }
-        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count.longValue());
-      } else if (serialType.equalsIgnoreCase("random") && count != null && count.longValue() > 0) {
-        // RANDOM calculation
-        List<String> randomSerialNumbers =
-                RandomValueGenerator.getInstance().randomGenerator(RandomizationType.NUMERIC, 1, 4, count.intValue());
-
-        for (var randomID : randomSerialNumbers) {
-          var append = gcp + randomID;
-          append = StringUtils.repeat("0", 17 - append.length()) + randomID;
-          formattedGSIN.add(dlURL + GSIN_URI_PART + gcp + append);
-        }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
-        // None selection
-        for (var noneCounter = 0; noneCounter < count; noneCounter++) {
-          var append = gcp + serialNumber;
-          append = StringUtils.repeat("0", 17 - append.length()) + serialNumber;
-          formattedGSIN.add(dlURL + GSIN_URI_PART + gcp + append);
-        }
-      }
-      return formattedGSIN;
-    } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of GSIN instance identifiers in WebURI format, Please check the values provided for GSIN instance identifiers : "
-              + ex.getMessage(), ex);
-    }
+  //Method to append additional characters to match required format
+  private void appendFormattedGSIN(final List<String> formattedGSIN, final String prefix, final String suffix, final Object serial, final int paddingLength) {
+    var append = gcp + serial.toString();
+    append = StringUtils.repeat("0", paddingLength - append.length()) + serial;
+    formattedGSIN.add(prefix + gcp + suffix + append);
   }
 }

@@ -17,16 +17,13 @@ package io.openepcis.testdata.generator.identifier.classes;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.model.epcis.QuantityList;
-import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
-import io.openepcis.testdata.generator.format.RandomValueGenerator;
+import io.openepcis.testdata.generator.format.RandomMersenneValueGenerator;
+import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -36,6 +33,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @JsonTypeName("lgtin")
@@ -48,22 +49,14 @@ public class GenerateLGTIN extends GenerateQuantity {
   @Schema(type = SchemaType.STRING, description = "LGTIN consisting of 14 digits", required = true)
   private String lgtin;
 
-  @Schema(
-      type = SchemaType.STRING,
-      description = "Type of serial identifier generation",
-      enumeration = {"range", "random", "none"},
-      required = true)
+  @Schema(type = SchemaType.STRING, description = "Type of serial identifier generation", enumeration = {"range", "random", "none"}, required = true)
   private String serialType;
 
-  @Schema(
-      type = SchemaType.STRING,
-      description = "Serial number for none based identifier generation")
+  @Schema(type = SchemaType.STRING, description = "Serial number for none based identifier generation")
   private String serialNumber;
 
   @Min(value = 0, message = "Range start value cannot be less than 0")
-  @Schema(
-      type = SchemaType.NUMBER,
-      description = "Starting value for range based identifier generation")
+  @Schema(type = SchemaType.NUMBER, description = "Starting value for range based identifier generation")
   private BigInteger rangeFrom;
 
   private static final String LGTIN_URN_PART = "urn:epc:class:lgtin:";
@@ -71,158 +64,53 @@ public class GenerateLGTIN extends GenerateQuantity {
   private static final String LGTIN_SERIAL_PART = "/10/";
 
   @Override
-  public List<QuantityList> format(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
-    if (IdentifierVocabularyType.WEBURI == syntax) {
-      // For WebURI syntax call the generateWebURI, pass the required identifiers count to create
-      // Class Identifiers
-      return generateWebURI(count, refQuantity, dlURL);
-    } else {
-      // For URN syntax call the generateURN, pass the required identifiers count to create Class
-      // Identifiers
-      return generateURN(count, refQuantity);
-    }
+  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
+    return format(syntax, count, refQuantity, dlURL, null);
   }
 
-  public List<QuantityList> generateURN(Integer count, final Float refQuantity) {
-    try {
-      final List<QuantityList> returnQuantityFormatted = new ArrayList<>();
-
-      var formattedLgtin =
-          this.lgtin.substring(0, 13) + UPCEANLogicImpl.calcChecksum(this.lgtin.substring(0, 13));
-      formattedLgtin =
-          CompanyPrefixFormatter.gcpFormatterWithReplace(formattedLgtin, gcpLength).toString();
-      quantity = refQuantity != null && refQuantity != 0 ? refQuantity : quantity;
-
-      if (serialType.equalsIgnoreCase("range")
-          && rangeFrom != null
-          && count != null
-          && count > 0
-          && rangeFrom.doubleValue() >= 0) {
-        for (var rangeID = rangeFrom.longValue();
-            rangeID < rangeFrom.longValue() + count;
-            rangeID++) {
-          // Call the method to create and add the Quantity information for every range option
-          returnQuantityFormatted.add(
-              quantityUrnCreator(
-                  IdentifierVocabularyType.URN,
-                  formattedLgtin,
-                  Long.toString(rangeID),
-                  quantity,
-                  uom));
-        }
-        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
-      } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
-        final List<String> randomSerialNumbers =
-                RandomValueGenerator.getInstance().randomGenerator(RandomizationType.NUMERIC, 1, 20, count);
-
-        for (var randomId : randomSerialNumbers) {
-          // Call the method to create and add the Quantity information for every random option
-          returnQuantityFormatted.add(
-              quantityUrnCreator(
-                  IdentifierVocabularyType.URN, formattedLgtin, randomId, quantity, uom));
-        }
-      } else if (serialType.equalsIgnoreCase("none")
-          && serialNumber != null
-          && count != null
-          && count > 0) {
-        // Return the single SGTIN values for None selection
-        for (var identifierCounter = 0; identifierCounter < count; identifierCounter++) {
-          // Call the method to create and add the Quantity information for every serial option
-          returnQuantityFormatted.add(
-              quantityUrnCreator(
-                  IdentifierVocabularyType.URN,
-                  formattedLgtin,
-                  serialNumber.toString(),
-                  quantity,
-                  uom));
-        }
-      }
-      return returnQuantityFormatted;
-    } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of LGTIN class identifiers in URN format, Please check the values provided for LGTIN class identifiers : "
-              + ex.getMessage(), ex);
-    }
+  @Override
+  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
+    return generateIdentifiers(syntax, count, refQuantity, dlURL, seed);
   }
 
-  public List<QuantityList> generateWebURI(Integer count, final Float refQuantity, final String dlURL) {
+  public List<QuantityList> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
     try {
-      final List<QuantityList> returnQuantityFormatted = new ArrayList<>();
-      final String formattedLgtin =
-          this.lgtin.substring(0, 13) + UPCEANLogicImpl.calcChecksum(this.lgtin.substring(0, 13));
-      final String lgtinWebURI = dlURL + LGTIN_URI_PART + formattedLgtin + LGTIN_SERIAL_PART;
+      final List<QuantityList> formattedLGTIN = new ArrayList<>();
+      lgtin = lgtin.substring(0, 13) + UPCEANLogicImpl.calcChecksum(lgtin.substring(0, 13));
+      final String prefix = syntax == IdentifierVocabularyType.URN ? LGTIN_URN_PART : dlURL + LGTIN_URI_PART;
+      final String suffix = syntax == IdentifierVocabularyType.URN ? "." : LGTIN_SERIAL_PART;
+      final String modifiedSgtin = syntax == IdentifierVocabularyType.URN ? CompanyPrefixFormatter.gcpFormatterWithReplace(lgtin, gcpLength).toString() : lgtin;
       quantity = refQuantity != null && refQuantity != 0 ? refQuantity : quantity;
 
-      // Return the list of SGTIN for RANGE calculation
-      if (serialType.equalsIgnoreCase("range")
-          && rangeFrom != null
-          && count != null
-          && count > 0
-          && rangeFrom.doubleValue() >= 0) {
-        for (var rangeID = rangeFrom.longValue();
-            rangeID < rangeFrom.longValue() + count;
-            rangeID++) {
-          // Call the method to create and add the Quantity information for every range option
-          returnQuantityFormatted.add(
-              quantityUrnCreator(
-                  IdentifierVocabularyType.WEBURI,
-                  lgtinWebURI,
-                  Long.toString(rangeID),
-                  quantity,
-                  uom));
+      if (SerialTypeChecker.isRangeType(serialType, count, rangeFrom)) {
+        //For range generate sequential identifiers
+        for (var rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count; rangeID++) {
+          formattedLGTIN.add(quantityUrnCreator(prefix + modifiedSgtin + suffix + rangeID));
         }
-        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
-      } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
-        // Return the list of SGTIN for RANDOM calculation
-        List<String> randomSerialNumbers =
-            RandomValueGenerator.getInstance().randomGenerator(RandomizationType.NUMERIC, 1, 20, count);
+      } else if (SerialTypeChecker.isRandomType(serialType, count)) {
+        //For random generate random identifiers or based on seed
+        final List<String> randomSerialNumbers = RandomMersenneValueGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, 1, 20, count);
 
         for (var randomId : randomSerialNumbers) {
-          // Call the method to create and add the Quantity information for every random option
-          returnQuantityFormatted.add(
-              quantityUrnCreator(
-                  IdentifierVocabularyType.WEBURI, lgtinWebURI, randomId, quantity, uom));
+          formattedLGTIN.add(quantityUrnCreator(prefix + modifiedSgtin + suffix + randomId));
         }
-      } else if (serialType.equalsIgnoreCase("none")
-          && serialNumber != null
-          && count != null
-          && count > 0) {
-        // Return the single SGTIN values for None selection
-        for (var identifierCounter = 0; identifierCounter < count; identifierCounter++) {
-          // Call the method to create and add the Quantity information for every Serial number
-          // option
-          returnQuantityFormatted.add(
-              quantityUrnCreator(
-                  IdentifierVocabularyType.WEBURI,
-                  lgtinWebURI,
-                  serialNumber.toString(),
-                  quantity,
-                  uom));
-        }
+      } else if (SerialTypeChecker.isNoneType(serialType, count, serialNumber)) {
+        //For none generate static identifier
+        formattedLGTIN.add(quantityUrnCreator(prefix + modifiedSgtin + suffix + serialNumber));
       }
-      return returnQuantityFormatted;
+
+      return formattedLGTIN;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of LGTIN class identifiers in WebURI format, Please check the values provided for LGTIN class identifiers : "
-              + ex.getMessage(), ex);
+      throw new TestDataGeneratorException("Exception occurred during generation of LGTIN class identifiers : " + ex.getMessage(), ex);
     }
   }
 
   // Method to create and generate the Quantity object in URN format
-  private QuantityList quantityUrnCreator(
-      final IdentifierVocabularyType syntax,
-      final String formattedLgtin,
-      final String serialId,
-      final Float quantity,
-      final String uom) {
+  private QuantityList quantityUrnCreator(final String epcClass) {
     var quantityFormatted = new QuantityList();
-    // Based on type specified format the LGTIN accordingly
-    quantityFormatted.setEpcClass(
-        syntax.equals(IdentifierVocabularyType.URN)
-            ? LGTIN_URN_PART + formattedLgtin + "." + serialId
-            : formattedLgtin + serialId);
-    if(!StringUtils.isBlank(quantityType)){
+
+    quantityFormatted.setEpcClass(epcClass);
+    if (!StringUtils.isBlank(quantityType)) {
       quantityFormatted.setQuantity(quantity);
       quantityFormatted.setUom(uom);
     }

@@ -74,8 +74,8 @@ public class GenerateSGTIN extends GenerateEPC {
   @Override
   public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
     try {
-      final List<String> formattedSGTIN = new ArrayList<>(); sgtin = this.sgtin.substring(0, 13) + UPCEANLogicImpl.calcChecksum(this.sgtin.substring(0, 13));
-
+      final List<String> formattedSGTIN = new ArrayList<>();
+      sgtin = this.sgtin.substring(0, 13) + UPCEANLogicImpl.calcChecksum(this.sgtin.substring(0, 13));
       final String identifierPrefix = syntax == IdentifierVocabularyType.WEBURI ? dlURL + SGTIN_URI_PART : SGTIN_URN_PART;
       final String identifierSuffix = syntax == IdentifierVocabularyType.WEBURI ? SGTIN_URI_SERIAL_PART : ".";
       final String modifiedSgtin = syntax == IdentifierVocabularyType.WEBURI ? sgtin : CompanyPrefixFormatter.gcpFormatterWithReplace(sgtin, gcpLength).toString();

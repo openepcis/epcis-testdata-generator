@@ -28,4 +28,8 @@ public class SerialTypeChecker {
     public static boolean isNoneType(final String serialType, final Integer count, final String serialNumber) {
         return serialType.equalsIgnoreCase("none") && NumericUtils.isPositive(count) && serialNumber != null;
     }
+
+    public static boolean isNoneType(final String serialType, final Integer count, final Integer serialNumber) {
+        return serialType.equalsIgnoreCase("none") && NumericUtils.isPositive(count) && NumericUtils.isPositive(serialNumber);
+    }
 }
