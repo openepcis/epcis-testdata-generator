@@ -98,6 +98,11 @@ public class EPCISEventType implements Serializable {
           description = "(Optional) Custom URL used during the Digital Link URL generation. Default:https://ref.gs1.org")
   private @Valid String dlURL = DomainName.VOCABULARY_DOMAIN;
 
+  @Schema(
+          type = SchemaType.NUMBER,
+          description = "(Optional) Seed used for the Mersenne Twister (MT) algorithm to generate same random numbers each time based on the seed is provided.")
+  private @Valid Long seed;
+
   @NotNull(message = "Event type cannot be Null, should be Ordinary/Error")
   @Schema(
       type = SchemaType.BOOLEAN,

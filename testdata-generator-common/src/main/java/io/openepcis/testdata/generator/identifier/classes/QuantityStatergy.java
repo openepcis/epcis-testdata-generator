@@ -20,22 +20,22 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.openepcis.model.epcis.QuantityList;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+
 import java.util.List;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.WRAPPER_OBJECT)
 @JsonSubTypes({ //
   @JsonSubTypes.Type(value = GenerateLGTIN.class, name = "lgtin"), //
   @JsonSubTypes.Type(value = GenerateGTIN.class, name = "gtin"), //
-  @JsonSubTypes.Type(value = GenerateGRAI.class, name = "grai"), //
-  @JsonSubTypes.Type(value = GenerateGDTI.class, name = "gdti"), //
-  @JsonSubTypes.Type(value = GenerateGCN.class, name = "gcn"), //
-  @JsonSubTypes.Type(value = GenerateCPI.class, name = "cpi"), //
-  @JsonSubTypes.Type(value = GenerateITIP.class, name = "itip"), //
-  @JsonSubTypes.Type(value = GenerateUPUI.class, name = "upui"),
-  @JsonSubTypes.Type(value = GenerateManualURI.class, name = "manualURI")
+        @JsonSubTypes.Type(value = GenerateGRAI.class, name = "grai"), //
+        @JsonSubTypes.Type(value = GenerateGDTI.class, name = "gdti"), //
+        @JsonSubTypes.Type(value = GenerateGCN.class, name = "gcn"), //
+        @JsonSubTypes.Type(value = GenerateCPI.class, name = "cpi"), //
+        @JsonSubTypes.Type(value = GenerateITIP.class, name = "itip"), //
+        @JsonSubTypes.Type(value = GenerateUPUI.class, name = "upui"),
+        @JsonSubTypes.Type(value = GenerateManualURI.class, name = "manualURI")
 })
 @RegisterForReflection
 public interface QuantityStatergy {
-  List<QuantityList> format(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL);
+  List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed);
 }

@@ -17,18 +17,18 @@ package io.openepcis.testdata.generator.identifier.classes;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.model.epcis.QuantityList;
-import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.util.ArrayList;
-import java.util.List;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @JsonTypeName("cpi")
@@ -44,45 +44,36 @@ public class GenerateCPI extends GenerateQuantity {
   private static final String CPI_URN_PART = "urn:epc:idpat:cpi:";
 
   @Override
-  public List<QuantityList> format(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
-    return generateCpiIdentifiers(syntax, count, refQuantity, dlURL);
+  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
+    return generateIdentifiers(syntax, count, refQuantity, dlURL);
   }
 
-  // Method to generate CPI Class identifiers in URN/WebURI format based on information provided by
-  // the users.
-  private List<QuantityList> generateCpiIdentifiers(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
+  // Method to generate CPI Class identifiers in URN/WebURI format based on information
+  private List<QuantityList> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
     try {
       final List<QuantityList> returnQuantityFormatted = new ArrayList<>();
       final var quantityFormatted = new QuantityList();
-      final var modifiedUrnCPI =
-          syntax.equals(IdentifierVocabularyType.URN)
-              ? cpi.substring(0, gcpLength) + "." + cpi.substring(gcpLength)
-              : "";
+      final var modifiedUrnCPI = syntax.equals(IdentifierVocabularyType.URN) ? cpi.substring(0, gcpLength) + "." + cpi.substring(gcpLength) : "";
 
       if (count != null && count > 0) {
         for (var identifierCounter = 0; identifierCounter < count; identifierCounter++) {
-          // For URN syntax create the identifiers based on the URN type
+          //Set EPC class based on syntax
           if (syntax.equals(IdentifierVocabularyType.URN)) {
             quantityFormatted.setEpcClass(CPI_URN_PART + modifiedUrnCPI + ".*");
           } else if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
-            // For WebURI syntax create the identifiers based on the WebURI type
             quantityFormatted.setEpcClass(dlURL + "/8010/" + cpi);
           }
 
           // Add the quantity and UOM information if provided accordingly to the Quantity
-          quantityFormatted.setQuantity(
-              refQuantity != null && refQuantity != 0 ? refQuantity : quantity);
+          quantityFormatted.setQuantity(refQuantity != null && refQuantity != 0 ? refQuantity : quantity);
           quantityFormatted.setUom(uom);
           returnQuantityFormatted.add(quantityFormatted);
         }
       }
+
       return returnQuantityFormatted;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of CPI class identifiers, Please check the values provided for CPI class identifiers : "
-              + ex.getMessage(), ex);
+      throw new TestDataGeneratorException("Exception occurred during generation of CPI class identifiers : " + ex.getMessage(), ex);
     }
   }
 }

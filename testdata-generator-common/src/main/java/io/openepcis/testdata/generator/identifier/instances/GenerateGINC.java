@@ -19,13 +19,15 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
-import io.openepcis.testdata.generator.format.RandomValueGenerator;
+import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
+import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.Setter;
-import lombok.ToString;
 
 @Setter
 @JsonTypeName("ginc")
@@ -36,96 +38,47 @@ public class GenerateGINC extends GenerateEPCType2 {
   private static final String GINC_URN_PART = "urn:epc:id:ginc:";
   private static final String GINC_URI_PART = "/401/";
 
+  /**
+   * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
+   *
+   * @param syntax syntax in which identifiers need to be generated URN/WebURI
+   * @param count  count of instance identifiers need to be generated
+   * @param dlURL  if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
+   * @param seed   seed for random mersenne generator to generate same random numbers if same seed is provided
+   * @return returns list of identifiers in string format
+   */
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
-    if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
-      // For WebURI syntax call the generateWebURI, pass the required identifiers count to create
-      // Instance Identifiers
-      return generateWebURI(count, dlURL);
-    } else {
-      // For URN syntax call the generateURN, pass the required identifiers count to create Instance
-      // Identifiers
-      return generateURN(count);
-    }
+  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
+    return generateIdentifiers(syntax, count, dlURL, seed);
   }
 
-  private List<String> generateURN(Integer count) {
+  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
     try {
       final List<String> formattedGINC = new ArrayList<>();
+      final String prefix = syntax == IdentifierVocabularyType.URN ? GINC_URN_PART : dlURL + GINC_URI_PART;
+      final String suffix = syntax == IdentifierVocabularyType.URN ? "." : "";
 
-      if (serialType.equalsIgnoreCase("range")
-          && rangeFrom != null
-          && count != null
-          && count > 0
-          && rangeFrom.longValue() >= 0) {
-        // Return the list of GINC for RANGE calculation
-        for (var rangeID = rangeFrom.longValue();
-            rangeID < rangeFrom.longValue() + count;
-            rangeID++) {
-          formattedGINC.add(GINC_URN_PART + gcp + "." + rangeID);
+      if (SerialTypeChecker.isRangeType(serialType, count, rangeFrom)) {
+        //For range generate sequential identifiers
+        for (var rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count; rangeID++) {
+          formattedGINC.add(prefix + gcp + suffix + rangeID);
         }
-        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
-      } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
-        // Return the list of GINC for RANDOM calculation
+        rangeFrom = BigInteger.valueOf(rangeFrom.longValue() + count.longValue());
+      } else if (SerialTypeChecker.isRandomType(serialType, count)) {
+        //For random generate random identifiers or based on seed
         final int requiredMaxLength = 29 - gcp.length();
-        final List<String> randomSerialNumbers =
-            RandomValueGenerator.getInstance().randomGenerator(
-                RandomizationType.NUMERIC, 1, requiredMaxLength, count);
+        final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, 1, requiredMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
-          formattedGINC.add(GINC_URN_PART + gcp + "." + randomID);
+          formattedGINC.add(prefix + gcp + suffix + randomID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
-        // Return the single GINC values for None selection
-        for (var noneCounter = 0; noneCounter < count; noneCounter++) {
-          formattedGINC.add(GINC_URN_PART + gcp + "." + serialNumber);
-        }
+      } else if (SerialTypeChecker.isNoneType(serialType, count, serialNumber)) {
+        //For none generate static identifier
+        formattedGINC.add(prefix + gcp + suffix + serialNumber);
       }
       return formattedGINC;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of GINC instance identifiers in URN format, Please check the values provided for GINC instance identifiers : "
-              + ex.getMessage(), ex);
-    }
-  }
-
-  private List<String> generateWebURI(Integer count, final String dlURL) {
-    try {
-      final List<String> formattedGINC = new ArrayList<>();
-
-      if (serialType.equalsIgnoreCase("range")
-          && rangeFrom != null
-          && count != null
-          && count > 0
-          && rangeFrom.longValue() >= 0) {
-        // RANGE calculation
-        for (var rangeID = rangeFrom.longValue();
-            rangeID < rangeFrom.longValue() + count;
-            rangeID++) {
-          formattedGINC.add(dlURL + GINC_URI_PART + gcp + rangeID);
-        }
-        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
-      } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
-        // RANDOM calculation
-        final int requiredMaxLength = 29 - gcp.length();
-        final List<String> randomSerialNumbers =
-                RandomValueGenerator.getInstance().randomGenerator(
-                RandomizationType.NUMERIC, 1, requiredMaxLength, count);
-
-        for (var randomID : randomSerialNumbers) {
-          formattedGINC.add(dlURL + GINC_URI_PART + gcp + randomID);
-        }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
-        // None selection
-        for (var noneCounter = 0; noneCounter < count; noneCounter++) {
-          formattedGINC.add(dlURL + GINC_URI_PART + gcp + serialNumber);
-        }
-      }
-      return formattedGINC;
-    } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of GINC instance identifiers in WebURI format, Please check the values provided for GINC instance identifiers : "
-              + ex.getMessage(), ex);
+      throw new TestDataGeneratorException("Exception occurred during generation of GINC instance identifiers : " + ex.getMessage(), ex);
     }
   }
 }

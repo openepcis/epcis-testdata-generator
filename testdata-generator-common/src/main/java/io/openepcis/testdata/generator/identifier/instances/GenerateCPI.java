@@ -19,17 +19,20 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
-import io.openepcis.testdata.generator.format.RandomValueGenerator;
+import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
+import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
+import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @JsonTypeName("cpi")
@@ -46,101 +49,50 @@ public class GenerateCPI extends GenerateEPC {
   private static final String CPI_URI_PART = "/8010/";
   private static final String SERIAL_URI_PART = "/8011/";
 
+  /**
+   * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
+   *
+   * @param syntax syntax in which identifiers need to be generated URN/WebURI
+   * @param count  count of instance identifiers need to be generated
+   * @param dlURL  if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
+   * @param seed   seed for random mersenne generator to generate same random numbers if same seed is provided
+   * @return returns list of identifiers in string format
+   */
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
-    if (IdentifierVocabularyType.WEBURI == syntax) {
-      // For WebURI syntax call the generateWebURI, pass the required identifiers count to create
-      // Instance Identifiers
-      return generateWebURI(count, dlURL);
-    } else {
-      // For URN syntax call the generateURN, pass the required identifiers count to create Instance
-      // Identifiers
-      return generateURN(count);
-    }
+  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
+    return generateIdentifiers(syntax, count, dlURL, seed);
   }
 
-  private List<String> generateURN(Integer count) {
+  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
     try {
       final List<String> formattedCPI = new ArrayList<>();
-      final String modifiedCPI = cpi.substring(0, gcpLength) + "." + cpi.substring(gcpLength);
+      final String prefix = syntax == IdentifierVocabularyType.URN ? CPI_URN_PART : dlURL + CPI_URI_PART;
+      final String suffix = syntax == IdentifierVocabularyType.URN ? "." : SERIAL_URI_PART;
+      final String modifiedCPI = syntax == IdentifierVocabularyType.URN ? CompanyPrefixFormatter.gcpFormatterWithReplace(cpi, gcpLength).toString() : cpi;
 
-      // Return the list of CPI for RANGE calculation
-      if (serialType.equalsIgnoreCase("range")
-          && rangeFrom != null
-          && count != null
-          && count > 0
-          && rangeFrom.longValue() >= 0) {
-        for (var rangeID = rangeFrom.longValue();
-            rangeID < rangeFrom.longValue() + count.longValue();
-            rangeID++) {
-          formattedCPI.add(CPI_URN_PART + modifiedCPI + "." + rangeID);
+      if (SerialTypeChecker.isRangeType(serialType, count, rangeFrom)) {
+        //For range generate sequential identifiers
+        for (var rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count.longValue(); rangeID++) {
+          formattedCPI.add(prefix + modifiedCPI + suffix + rangeID);
         }
-        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count.longValue());
-      } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
-        // Return the list of CPI for RANDOM calculation
-        randomMinLength = randomMinLength < 1 || randomMinLength > 12 ? 1 : randomMinLength;
-        randomMaxLength = randomMaxLength < 1 || randomMaxLength > 12 ? 12 : randomMaxLength;
+        rangeFrom = BigInteger.valueOf(rangeFrom.longValue() + count.longValue());
+      } else if (SerialTypeChecker.isRandomType(serialType, count)) {
+        //For random generate random identifiers or based on seed
+        randomMinLength = Math.max(1, Math.min(12, randomMinLength));
+        randomMaxLength = Math.max(1, Math.min(12, randomMaxLength));
 
-        final List<String> randomSerialNumbers =
-            RandomValueGenerator.getInstance().randomGenerator(
-                RandomizationType.NUMERIC, randomMinLength, randomMaxLength, count);
+        final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, randomMinLength, randomMaxLength, count);
 
         for (String randomID : randomSerialNumbers) {
-          formattedCPI.add(CPI_URN_PART + modifiedCPI + "." + randomID);
+          formattedCPI.add(prefix + modifiedCPI + suffix + randomID);
         }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
-        // Return the single CPI values for None selection
-        for (var noneCounter = 0; noneCounter < count; noneCounter++) {
-          formattedCPI.add(CPI_URN_PART + modifiedCPI + "." + serialNumber);
-        }
+      } else if (SerialTypeChecker.isNoneType(serialType, count, serialNumber)) {
+        //For none generate static identifier
+        formattedCPI.add(prefix + modifiedCPI + suffix + serialNumber);
       }
       return formattedCPI;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of CPI instance identifiers in URN format, Please check the values provided for CPI instance identifiers : "
-              + ex.getMessage(), ex);
-    }
-  }
-
-  private List<String> generateWebURI(Integer count, final String dlURL) {
-    try {
-      final List<String> formattedCPI = new ArrayList<>();
-
-      // Return the list of CPI for RANGE calculation
-      if (serialType.equalsIgnoreCase("range")
-          && rangeFrom != null
-          && count != null
-          && count > 0
-          && rangeFrom.longValue() >= 0) {
-        for (var rangeID = rangeFrom.longValue();
-            rangeID < rangeFrom.longValue() + count.longValue();
-            rangeID++) {
-          formattedCPI.add(dlURL + CPI_URI_PART + cpi + SERIAL_URI_PART + rangeID);
-        }
-        this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count.longValue());
-      } else if (serialType.equalsIgnoreCase("random") && count != null && count > 0) {
-        // Return the list of CPI for RANDOM calculation
-        randomMinLength = randomMinLength < 1 || randomMinLength > 12 ? 1 : randomMinLength;
-        randomMaxLength = randomMaxLength < 1 || randomMaxLength > 12 ? 12 : randomMaxLength;
-
-        final List<String> randomSerialNumbers =
-            RandomValueGenerator.getInstance().randomGenerator(
-                randomType, randomMinLength, randomMaxLength, count);
-
-        for (var randomID : randomSerialNumbers) {
-          formattedCPI.add(dlURL + CPI_URI_PART + cpi + SERIAL_URI_PART + randomID);
-        }
-      } else if (serialType.equalsIgnoreCase("none") && serialNumber != null && count != null) {
-        // Return the single CPI values for None selection
-        for (var noneCounter = 0; noneCounter < count; noneCounter++) {
-          formattedCPI.add(dlURL + CPI_URI_PART + cpi + SERIAL_URI_PART + serialNumber);
-        }
-      }
-      return formattedCPI;
-    } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of CPI instance identifiers in WebURI format, Please check the values provided for CPI instance identifiers : "
-              + ex.getMessage(), ex);
+      throw new TestDataGeneratorException("Exception occurred during generation of CPI instance identifiers : " + ex.getMessage(), ex);
     }
   }
 }

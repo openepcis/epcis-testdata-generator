@@ -20,13 +20,14 @@ import io.openepcis.model.epcis.QuantityList;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.util.ArrayList;
-import java.util.List;
 import jakarta.validation.constraints.NotNull;
 import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @JsonTypeName("manualURI")
@@ -35,18 +36,11 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 public class GenerateManualURI implements QuantityStatergy {
 
   @NotNull(message = "Manual URI cannot be Null")
-  @Schema(
-      type = SchemaType.STRING,
-      description = "Valid URI for the Manual URI identifier.",
-      required = true)
+  @Schema(type = SchemaType.STRING, description = "Valid URI for the Manual URI identifier.", required = true)
   private String baseManualUri;
 
   @NotNull(message = "Manual URI type cannot be Null")
-  @Schema(
-      type = SchemaType.STRING,
-      enumeration = {"static", "dynamic"},
-      description = "Valid URI for the Manual URI identifier.",
-      required = true)
+  @Schema(type = SchemaType.STRING, enumeration = {"static", "dynamic"}, description = "Valid URI for the Manual URI identifier.", required = true)
   private String manualUriType;
 
   private Integer manualUriRangeFrom;
@@ -58,45 +52,39 @@ public class GenerateManualURI implements QuantityStatergy {
   private String uom;
 
   @Override
-  public List<QuantityList> format(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
-    return generateManualURI(refQuantity, count, dlURL);
+  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
+    return generateIdentifier(refQuantity, count);
   }
 
-  private List<QuantityList> generateManualURI(final Float refQuantity, final Integer count, final String dlURL) {
+  private List<QuantityList> generateIdentifier(final Float refQuantity, final Integer count) {
     try {
       final List<QuantityList> formattedURI = new ArrayList<>();
 
       // If the requested manualURI is of Static type then just add the BaseManualURI
       if (manualUriType.equalsIgnoreCase("static")) {
-        final var quantityFormatted = new QuantityList();
-        quantityFormatted.setEpcClass(baseManualUri);
-        quantityFormatted.setQuantity(
-            refQuantity != null && refQuantity != 0 ? refQuantity : quantity);
-        quantityFormatted.setUom(uom);
-        formattedURI.add(quantityFormatted);
-      } else if (manualUriType.equalsIgnoreCase("dynamic")
-          && manualUriRangeFrom != null
-          && count != null
-          && count > 0
-          && manualUriRangeFrom >= 0) {
-        // If the requested manualURI is of Dynamic type then add the BaseManualURI with serial
-        // number
-        for (var rangeID = manualUriRangeFrom; rangeID < manualUriRangeFrom + count; rangeID++) {
-          final var quantityFormatted = new QuantityList();
-          quantityFormatted.setEpcClass(baseManualUri + rangeID);
-          quantityFormatted.setQuantity(
-              refQuantity != null && refQuantity != 0 ? refQuantity : quantity);
-          quantityFormatted.setUom(uom);
-          formattedURI.add(quantityFormatted);
-        }
-        this.manualUriRangeFrom = this.manualUriRangeFrom + count;
+        addQuantityToList(formattedURI, baseManualUri, refQuantity, uom);
+        return formattedURI;
       }
+
+      // If the requested manualURI is of Dynamic type then add the BaseManualURI with serial number
+      if (manualUriType.equalsIgnoreCase("dynamic") && manualUriRangeFrom != null && count != null && count > 0 && manualUriRangeFrom >= 0) {
+        for (var rangeID = manualUriRangeFrom; rangeID < manualUriRangeFrom + count; rangeID++) {
+          addQuantityToList(formattedURI, baseManualUri + rangeID, refQuantity, uom);
+        }
+        manualUriRangeFrom = manualUriRangeFrom + count;
+      }
+
       return formattedURI;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of Manual class identifiers, Please check the values provided for Manual class identifiers : "
-              + ex.getMessage(), ex);
+      throw new TestDataGeneratorException("Exception occurred during generation of Manual class identifiers : " + ex.getMessage(), ex);
     }
+  }
+
+  private void addQuantityToList(final List<QuantityList> formattedURI, final String epcClass, final Float refQuantity, final String uom) {
+    final var quantityFormatted = new QuantityList();
+    quantityFormatted.setEpcClass(epcClass);
+    quantityFormatted.setQuantity(refQuantity != null && refQuantity != 0 ? refQuantity : quantity);
+    quantityFormatted.setUom(uom);
+    formattedURI.add(quantityFormatted);
   }
 }

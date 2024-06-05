@@ -101,7 +101,7 @@ public class AggregationEventCreationModel
       e.setParentID(
               matchingParentId
                       .getParentData()
-                      .format(matchingParentId.getObjectIdentifierSyntax(), 1, matchingParentId.getDlURL())
+                      .format(matchingParentId.getObjectIdentifierSyntax(), 1, matchingParentId.getDlURL(), typeInfo.getSeed())
                       .get(0));
     } else if (typeInfo.getParentIdentifier() != null && !typeInfo.getParentIdentifier().isEmpty()) {
       // If user is importing the existing event and if the existing event has parent identifier

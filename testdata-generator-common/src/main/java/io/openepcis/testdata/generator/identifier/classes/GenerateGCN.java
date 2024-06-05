@@ -46,48 +46,38 @@ public class GenerateGCN extends GenerateQuantity {
   private static final String SGCN_URN_PART = "urn:epc:idpat:sgcn:";
 
   @Override
-  public List<QuantityList> format(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
-    return generateGcnIdentifiers(syntax, count, refQuantity, dlURL);
+  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
+    return generateIdentifiers(syntax, count, refQuantity, dlURL);
   }
 
-  // Method to generate GCN Class identifiers in URN/WebURI format based on information provided by
-  // the users.
-  private List<QuantityList> generateGcnIdentifiers(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
+  // Method to generate GCN Class identifiers in URN/WebURI format based on information
+  private List<QuantityList> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
     try {
       final List<QuantityList> returnQuantityFormatted = new ArrayList<>();
       final var quantityFormatted = new QuantityList();
-      final var modifiedUrnGCN =
-          syntax.equals(IdentifierVocabularyType.URN)
-              ? CompanyPrefixFormatter.gcpFormatterNormal(gcn, gcpLength).toString()
-              : "";
-      final var modifiedUriGCN =
-          syntax.equals(IdentifierVocabularyType.WEBURI)
-              ? gcn.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gcn.substring(0, 12))
-              : "";
+
+      final var modifiedUrnGCN = syntax.equals(IdentifierVocabularyType.URN) ? CompanyPrefixFormatter.gcpFormatterNormal(gcn, gcpLength).toString() : "";
+      final var modifiedUriGCN = syntax.equals(IdentifierVocabularyType.WEBURI) ? gcn.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gcn.substring(0, 12)) : "";
 
       // Loop until the count and create the Class identifiers based on it
       if (count != null && count > 0) {
         for (var identifierCounter = 0; identifierCounter < count; identifierCounter++) {
-          // For URN syntax create the identifiers based on the URN type
+          //Based on syntax generate identifier
           if (syntax.equals(IdentifierVocabularyType.URN)) {
             quantityFormatted.setEpcClass(SGCN_URN_PART + modifiedUrnGCN + ".*");
           } else if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
-            // For WebURI syntax create the identifiers based on the WebURI type
             quantityFormatted.setEpcClass(dlURL + "/255/" + modifiedUriGCN);
           }
-          quantityFormatted.setQuantity(
-              refQuantity != null && refQuantity != 0 ? refQuantity : quantity);
+
+          quantityFormatted.setQuantity(refQuantity != null && refQuantity != 0 ? refQuantity : quantity);
           quantityFormatted.setUom(uom);
           returnQuantityFormatted.add(quantityFormatted);
         }
       }
+
       return returnQuantityFormatted;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of GCN class identifiers, Please check the values provided for GCN class identifiers : "
-              + ex.getMessage(), ex);
+      throw new TestDataGeneratorException("Exception occurred during generation of GCN class identifiers : " + ex.getMessage(), ex);
     }
   }
 }

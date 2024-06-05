@@ -47,39 +47,29 @@ public class GenerateGDTI extends GenerateQuantity {
   private static final String GDTI_URI_PART = "/253/";
 
   @Override
-  public List<QuantityList> format(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
-    return generateGdtiIdentifiers(syntax, count, refQuantity, dlURL);
+  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
+    return generateIdentifiers(syntax, count, refQuantity, dlURL);
   }
 
-  // Method to generate GDTI Class identifiers in URN/WebURI format based on information provided by
-  // the users.
-  private List<QuantityList> generateGdtiIdentifiers(
-      final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
+  // Method to generate GDTI Class identifiers in URN/WebURI format based on information
+  private List<QuantityList> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
     try {
       final List<QuantityList> returnQuantityFormatted = new ArrayList<>();
       final var quantityFormatted = new QuantityList();
-      final var modifiedUrnGDTI =
-          syntax.equals(IdentifierVocabularyType.URN)
-              ? CompanyPrefixFormatter.gcpFormatterNormal(gdti, gcpLength).toString()
-              : "";
-      final var modifiedUriGDTI =
-          syntax.equals(IdentifierVocabularyType.WEBURI)
-              ? gdti.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gdti.substring(0, 12))
-              : "";
+      final var modifiedUrnGDTI = syntax.equals(IdentifierVocabularyType.URN) ? CompanyPrefixFormatter.gcpFormatterNormal(gdti, gcpLength).toString() : "";
+      final var modifiedUriGDTI = syntax.equals(IdentifierVocabularyType.WEBURI) ? gdti.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gdti.substring(0, 12)) : "";
 
       // Loop until the count and create the Class identifiers based on it
       if (count != null && count > 0) {
+        //Based on syntax generate EPC class
         for (var identifierCounter = 0; identifierCounter < count; identifierCounter++) {
-          // For URN syntax create the identifiers based on the URN type
           if (syntax.equals(IdentifierVocabularyType.URN)) {
             quantityFormatted.setEpcClass(GDTI_URN_PART + modifiedUrnGDTI + ".*");
           } else if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
-            // For WebURI syntax create the identifiers based on the WebURI type
             quantityFormatted.setEpcClass(dlURL + GDTI_URI_PART + modifiedUriGDTI);
           }
-          quantityFormatted.setQuantity(
-              refQuantity != null && refQuantity != 0 ? refQuantity : quantity);
+
+          quantityFormatted.setQuantity(refQuantity != null && refQuantity != 0 ? refQuantity : quantity);
           quantityFormatted.setUom(uom);
           returnQuantityFormatted.add(quantityFormatted);
         }
@@ -87,9 +77,7 @@ public class GenerateGDTI extends GenerateQuantity {
 
       return returnQuantityFormatted;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of GDTI class identifiers, Please check the values provided for GDTI class identifiers : "
-              + ex.getMessage(), ex);
+      throw new TestDataGeneratorException("Exception occurred during generation of GDTI class identifiers : " + ex.getMessage(), ex);
     }
   }
 }
