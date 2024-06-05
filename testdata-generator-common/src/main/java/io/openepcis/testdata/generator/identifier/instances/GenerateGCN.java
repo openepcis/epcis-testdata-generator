@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
-import io.openepcis.testdata.generator.format.RandomMersenneValueGenerator;
+import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Setter;
@@ -70,7 +70,7 @@ public class GenerateGCN extends GenerateEPCType2 {
       } else if (SerialTypeChecker.isRandomType(serialType, count)) {
         //For random generate random identifiers or based on seed
         final int requiredLength = 23 - gcp.length();
-        final List<String> randomSerialNumbers = RandomMersenneValueGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, requiredLength, requiredLength, count);
+        final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, requiredLength, requiredLength, count);
         for (var randomID : randomSerialNumbers) {
           formattedGCN.add(prefix + generateSerialNumber(suffix, gcp + randomID));
         }

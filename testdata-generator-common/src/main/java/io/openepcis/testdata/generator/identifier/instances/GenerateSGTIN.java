@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
-import io.openepcis.testdata.generator.format.RandomMersenneValueGenerator;
+import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.constraints.NotNull;
@@ -97,7 +97,7 @@ public class GenerateSGTIN extends GenerateEPC {
   private void generateRandomIdentifiers(List<String> formattedSGTIN, String identifierPrefix, String sgtin, String identifierSuffix, Long seed, Integer count) {
     this.randomMinLength = Math.max(1, Math.min(20, this.randomMinLength)); this.randomMaxLength = Math.max(1, Math.min(20, this.randomMaxLength));
 
-    final List<String> randomSerialNumbers = RandomMersenneValueGenerator.getInstance(seed).randomGenerator(this.randomType, this.randomMinLength, this.randomMaxLength, count);
+    final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(this.randomType, this.randomMinLength, this.randomMaxLength, count);
 
     for (String randomID : randomSerialNumbers) {
       formattedSGTIN.add(identifierPrefix + sgtin + identifierSuffix + randomID);

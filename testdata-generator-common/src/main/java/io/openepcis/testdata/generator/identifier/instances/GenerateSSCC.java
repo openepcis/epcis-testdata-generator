@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
-import io.openepcis.testdata.generator.format.RandomMersenneValueGenerator;
+import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Setter;
@@ -97,7 +97,7 @@ public class GenerateSSCC extends GenerateEPCType2 {
       } else if (SerialTypeChecker.isRandomType(this.serialType, count)) {
         // Generate RANDOM SSCC identifiers in URN/WEBURI format based on count
         final int requiredLength = totalLength - baseGcp.length();
-        final List<String> randomSerialNumbers = RandomMersenneValueGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, requiredLength, requiredLength, count);
+        final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, requiredLength, requiredLength, count);
         for (var randomID : randomSerialNumbers) {
           formattedSSCC.add(prefix + baseGcp + delimiter + randomID);
         }

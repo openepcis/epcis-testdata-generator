@@ -18,7 +18,7 @@ package io.openepcis.testdata.generator.identifier.instances;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
-import io.openepcis.testdata.generator.format.RandomMersenneValueGenerator;
+import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.constraints.NotNull;
@@ -85,7 +85,7 @@ public class GenerateITIP extends GenerateEPC {
         randomMinLength = Math.max(1, Math.min(20, randomMinLength));
         randomMaxLength = Math.max(1, Math.min(20, randomMaxLength));
 
-        final List<String> randomSerialNumbers = RandomMersenneValueGenerator.getInstance(seed).randomGenerator(randomType, randomMinLength, randomMaxLength, count);
+        final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(randomType, randomMinLength, randomMaxLength, count);
         for (var randomID : randomSerialNumbers) {
           formattedITIP.add(prefix + modifiedITIP + suffix + randomID);
         }

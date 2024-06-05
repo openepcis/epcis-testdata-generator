@@ -1,4 +1,4 @@
-package io.openepcis.testdata.generator.format;
+package io.openepcis.testdata.generator.identifier.util;
 
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
@@ -11,24 +11,24 @@ import java.util.List;
 /**
  * Class to generate the random numbers using the Mersenne Twister (MT) algorithm where if the seed is provided then Random numbers are generated based on the seed. If no seed is provided then truly random numbers are generated.
  */
-public class RandomMersenneValueGenerator {
+public class RandomSerialNumberGenerator {
     private final RandomGenerator random;
 
     // Private constructor to prevent direct instantiation.
-    private RandomMersenneValueGenerator(Long seed) {
+    private RandomSerialNumberGenerator(Long seed) {
         seed = seed != null ? seed : System.nanoTime();
         this.random = new MersenneTwister(seed);
     }
 
     // Holder class to hold the singleton instance
     private static class SingletonHelper {
-        private static final RandomMersenneValueGenerator INSTANCE = new RandomMersenneValueGenerator(null);
+        private static final RandomSerialNumberGenerator INSTANCE = new RandomSerialNumberGenerator(null);
     }
 
     // Public method to get the singleton instance
-    public static RandomMersenneValueGenerator getInstance(final Long seed) {
+    public static RandomSerialNumberGenerator getInstance(final Long seed) {
         if (seed != null) {
-            return new RandomMersenneValueGenerator(seed);
+            return new RandomSerialNumberGenerator(seed);
         }
         return SingletonHelper.INSTANCE;
     }

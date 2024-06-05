@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
-import io.openepcis.testdata.generator.format.RandomMersenneValueGenerator;
+import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
@@ -59,7 +59,7 @@ public class GenerateIMOVN implements EPCStrategy {
       final List<String> formattedIMOVN = new ArrayList<>();
 
       if (count != null && count > 0) {
-        final List<String> randomSerialNumbers = RandomMersenneValueGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, 7, 7, count);
+        final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, 7, 7, count);
         for (var rangeID : randomSerialNumbers) {
           formattedIMOVN.add(IMOVN_URN_PART + rangeID);
         }
