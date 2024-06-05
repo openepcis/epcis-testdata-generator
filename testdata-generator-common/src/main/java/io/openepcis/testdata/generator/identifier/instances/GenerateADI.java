@@ -78,11 +78,6 @@ public class GenerateADI implements EPCStrategy {
   private static final String ADI_URN_PART = "urn:epc:id:adi:";
 
   @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL) {
-    return format(syntax, count, dlURL, null);
-  }
-
-  @Override
   public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
     return generateURN(count, seed);
   }

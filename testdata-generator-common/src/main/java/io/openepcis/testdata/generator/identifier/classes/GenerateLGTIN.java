@@ -64,16 +64,11 @@ public class GenerateLGTIN extends GenerateQuantity {
   private static final String LGTIN_SERIAL_PART = "/10/";
 
   @Override
-  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
-    return format(syntax, count, refQuantity, dlURL, null);
-  }
-
-  @Override
   public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
     return generateIdentifiers(syntax, count, refQuantity, dlURL, seed);
   }
 
-  public List<QuantityList> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
+  private List<QuantityList> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
     try {
       final List<QuantityList> formattedLGTIN = new ArrayList<>();
       lgtin = lgtin.substring(0, 13) + UPCEANLogicImpl.calcChecksum(lgtin.substring(0, 13));

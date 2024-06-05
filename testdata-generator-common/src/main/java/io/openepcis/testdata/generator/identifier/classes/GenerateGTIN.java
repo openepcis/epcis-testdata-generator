@@ -47,11 +47,6 @@ public class GenerateGTIN extends GenerateQuantity {
   private static final String GTIN_URI_PART = "/01/";
 
   @Override
-  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
-    return format(syntax, count, refQuantity,dlURL);
-  }
-
-  @Override
   public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
     return generateIdentifiers(syntax, count, refQuantity,dlURL);
   }

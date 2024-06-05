@@ -47,11 +47,6 @@ public class GenerateGDTI extends GenerateQuantity {
   private static final String GDTI_URI_PART = "/253/";
 
   @Override
-  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
-    return format(syntax, count, refQuantity, dlURL);
-  }
-
-  @Override
   public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
     return generateIdentifiers(syntax, count, refQuantity, dlURL);
   }

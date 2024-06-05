@@ -46,11 +46,6 @@ public class GenerateGCN extends GenerateQuantity {
   private static final String SGCN_URN_PART = "urn:epc:idpat:sgcn:";
 
   @Override
-  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
-    return format(syntax, count, refQuantity, dlURL);
-  }
-
-  @Override
   public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
     return generateIdentifiers(syntax, count, refQuantity, dlURL);
   }

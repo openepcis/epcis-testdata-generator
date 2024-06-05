@@ -39,11 +39,6 @@ public class GenerateGSIN extends GenerateEPCType2 {
   private static final String GSIN_URN_PART = "urn:epc:id:gsin:";
   private static final String GSIN_URI_PART = "/402/";
 
-  @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL) {
-    return format(syntax, count, dlURL);
-  }
-
   /**
    * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *

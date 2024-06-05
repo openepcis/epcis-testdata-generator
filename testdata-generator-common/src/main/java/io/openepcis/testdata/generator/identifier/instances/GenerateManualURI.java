@@ -47,11 +47,6 @@ public class GenerateManualURI implements EPCStrategy {
   private Integer manualUriRangeTo;
 
   @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL) {
-    return format(syntax, count, dlURL, null);
-  }
-
-  @Override
   public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
     return generateURI(count);
   }

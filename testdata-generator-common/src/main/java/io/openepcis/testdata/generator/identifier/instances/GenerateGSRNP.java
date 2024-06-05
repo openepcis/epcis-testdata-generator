@@ -39,11 +39,6 @@ public class GenerateGSRNP extends GenerateEPCType2 {
   private static final String GSRNP_URN_PART = "urn:epc:id:gsrnp:";
   private static final String GSRNP_URI_PART = "/8017/";
 
-  @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL) {
-    return format(syntax, count, dlURL, null);
-  }
-
   /**
    * Method to generate SSCC identifiers based on URN/WebURI format by manipulating the provided SSCC values.
    *

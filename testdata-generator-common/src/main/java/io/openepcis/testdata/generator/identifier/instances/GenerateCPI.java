@@ -49,11 +49,6 @@ public class GenerateCPI extends GenerateEPC {
   private static final String CPI_URI_PART = "/8010/";
   private static final String SERIAL_URI_PART = "/8011/";
 
-  @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL) {
-    return format(syntax, count, dlURL, null);
-  }
-
   /**
    * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *

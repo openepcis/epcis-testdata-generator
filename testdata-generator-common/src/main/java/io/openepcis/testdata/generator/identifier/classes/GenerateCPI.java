@@ -44,11 +44,6 @@ public class GenerateCPI extends GenerateQuantity {
   private static final String CPI_URN_PART = "urn:epc:idpat:cpi:";
 
   @Override
-  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
-    return format(syntax, count, refQuantity, dlURL, null);
-  }
-
-  @Override
   public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
     return generateIdentifiers(syntax, count, refQuantity, dlURL);
   }

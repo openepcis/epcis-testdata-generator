@@ -38,11 +38,6 @@ public class GenerateGINC extends GenerateEPCType2 {
   private static final String GINC_URN_PART = "urn:epc:id:ginc:";
   private static final String GINC_URI_PART = "/401/";
 
-  @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL) {
-    return format(syntax, count, dlURL, null);
-  }
-
   /**
    * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *

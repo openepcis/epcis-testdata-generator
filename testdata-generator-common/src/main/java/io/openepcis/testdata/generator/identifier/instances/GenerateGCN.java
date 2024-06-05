@@ -39,11 +39,6 @@ public class GenerateGCN extends GenerateEPCType2 {
   private static final String URN_SGCN_PART = "urn:epc:id:sgcn:";
   private static final String URI_SGCN_PART = "/255/";
 
-  @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL) {
-    return format(syntax, count, dlURL, null);
-  }
-
   /**
    * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *

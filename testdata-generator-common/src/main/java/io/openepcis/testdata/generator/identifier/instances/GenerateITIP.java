@@ -47,12 +47,6 @@ public class GenerateITIP extends GenerateEPC {
   private static final String ITIP_URI_PART = "/8006/";
   private static final String ITIP_SERIAL_PART = "/21/";
 
-  @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL) {
-    return format(syntax, count, dlURL, null);
-  }
-
-
   /**
    * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *

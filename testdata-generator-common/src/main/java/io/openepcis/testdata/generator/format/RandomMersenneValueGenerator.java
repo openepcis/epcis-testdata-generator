@@ -9,21 +9,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class to generate the random numbers using the Mersenne Twister (MT) algorithm where \ if the seed is provided then Random numbers are generated based on the seed. \ If no seed is provided then truly random numbers are generated.
+ * Class to generate the random numbers using the Mersenne Twister (MT) algorithm where if the seed is provided then Random numbers are generated based on the seed. If no seed is provided then truly random numbers are generated.
  */
 public class RandomMersenneValueGenerator {
-
-    private static RandomMersenneValueGenerator randomMersenneValueGenerator;
     private final RandomGenerator random;
 
+    // Private constructor to prevent direct instantiation.
     private RandomMersenneValueGenerator(Long seed) {
-        seed = seed != null ? seed : System.currentTimeMillis();
+        seed = seed != null ? seed : System.nanoTime();
         this.random = new MersenneTwister(seed);
     }
 
-    public static synchronized RandomMersenneValueGenerator getInstance(final Long seed) {
-        randomMersenneValueGenerator = new RandomMersenneValueGenerator(seed);
-        return randomMersenneValueGenerator;
+    // Holder class to hold the singleton instance
+    private static class SingletonHelper {
+        private static final RandomMersenneValueGenerator INSTANCE = new RandomMersenneValueGenerator(null);
+    }
+
+    // Public method to get the singleton instance
+    public static RandomMersenneValueGenerator getInstance(final Long seed) {
+        if (seed != null) {
+            return new RandomMersenneValueGenerator(seed);
+        }
+        return SingletonHelper.INSTANCE;
     }
 
     public List<String> randomGenerator(RandomizationType type, int minLength, int maxLength, int randomCount) {
@@ -37,13 +44,12 @@ public class RandomMersenneValueGenerator {
         };
     }
 
-
-    static final String ALPHA_NUMERIC_RANDOM_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    static final String URL_SAFE_RANDOM_SET = "abcdefghijklmnopqrstuvwxyz0123456789-_";
-    static final String NUMERIC_RANDOM_SET = "1234567890";
+    private static final String ALPHA_NUMERIC_RANDOM_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final String URL_SAFE_RANDOM_SET = "abcdefghijklmnopqrstuvwxyz0123456789-_";
+    private static final String NUMERIC_RANDOM_SET = "1234567890";
 
     /**
-     * Method to generate random Alpha numeric numbers.
+     * Method to generate random Alpha numeric serial identifiers based on provided max and min length.
      *
      * @param minLength   Minimum length of the random number
      * @param maxLength   Maximum length of the random number
@@ -51,7 +57,6 @@ public class RandomMersenneValueGenerator {
      * @return returns the List<String> with integer formatted random numbers
      */
     public List<String> alphaNumericGenerator(final int minLength, final int maxLength, final int randomCount) {
-        System.out.println("ALPHA NUMERIC GENERATOR");
         try {
             final List<String> randomList = new ArrayList<>();
 
@@ -64,16 +69,15 @@ public class RandomMersenneValueGenerator {
                 }
                 randomList.add(randomID.toString());
             }
+
             return randomList;
         } catch (Exception ex) {
-            throw new TestDataGeneratorException(
-                    "Exception occurred during creation of seral numbers in Random Alphanumeric format, Please check the values provided values for Identifiers random values : "
-                            + ex.getMessage(), ex);
+            throw new TestDataGeneratorException("Exception occurred during creation of Random Alphanumeric serial identifiers : " + ex.getMessage(), ex);
         }
     }
 
     /**
-     * Method to generate random URL Safe numbers.
+     * Method to generate random URL Safe serial identifier based on provided min and max length.
      *
      * @param minLength   Minimum length of the random number
      * @param maxLength   Maximum length of the random number
@@ -81,7 +85,6 @@ public class RandomMersenneValueGenerator {
      * @return returns the List<String> with integer formatted random numbers
      */
     public List<String> urlSafeGenerator(final int minLength, int maxLength, int randomCount) {
-        System.out.println("URL GENERATOR");
         try {
             final List<String> randomList = new ArrayList<>();
 
@@ -96,12 +99,12 @@ public class RandomMersenneValueGenerator {
             }
             return randomList;
         } catch (Exception ex) {
-            throw new TestDataGeneratorException("Exception occurred during creation of seral numbers in Random Alphanumeric with special characters, Please check the values provided values for Identifiers random values : " + ex.getMessage(), ex);
+            throw new TestDataGeneratorException("Exception occurred during creation of Random URL safe special identifiers : " + ex.getMessage(), ex);
         }
     }
 
     /**
-     * Method to generate random integer numbers.
+     * Method to generate random integer serial identifiers based on provided min and max length.
      *
      * @param minLength   Minimum length of the random number
      * @param maxLength   Maximum length of the random number
@@ -109,7 +112,6 @@ public class RandomMersenneValueGenerator {
      * @return returns the List<String> with integer formatted random numbers
      */
     public List<String> numericGenerator(final int minLength, final int maxLength, final int randomCount) {
-        System.out.println("NUMERIC GENERATOR");
         try {
             final List<String> randomList = new ArrayList<>();
 
@@ -124,7 +126,7 @@ public class RandomMersenneValueGenerator {
             }
             return randomList;
         } catch (Exception ex) {
-            throw new TestDataGeneratorException("Exception occurred during creation of seral numbers in Random Numeric format, Please check the values provided values for Identifiers random values : " + ex.getMessage(), ex);
+            throw new TestDataGeneratorException("Exception occurred during creation of Random Numeric serial identifiers : " + ex.getMessage(), ex);
         }
     }
 

@@ -38,11 +38,6 @@ public class GenerateGIAI extends GenerateEPCType2 {
   private static final String GIAI_URN_PART = "urn:epc:id:giai:";
   private static final String GIAI_URI_PART = "/8004/";
 
-  @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
-    return format(syntax, count, dlURL, null);
-  }
-
   /**
    * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *

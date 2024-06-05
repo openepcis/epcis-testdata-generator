@@ -148,13 +148,13 @@ public class TransformationEventCreationModel
           // Get the matching identifiers from the IdentifiersList based on the Identifiers present
           // in the ReferencedIdentifier
           this.identifiers.stream()
-              .filter(identifier -> identifier.getIdentifierId() == outputEpc.getIdentifierId())
-              .findFirst()
-              .ifPresent(
-                  m ->
-                      outputEpcList.addAll(
-                          m.getInstanceData()
-                              .format(m.getObjectIdentifierSyntax(), outputEpc.getEpcCount(), m.getDlURL())));
+                  .filter(identifier -> identifier.getIdentifierId() == outputEpc.getIdentifierId())
+                  .findFirst()
+                  .ifPresent(
+                          m ->
+                                  outputEpcList.addAll(
+                                          m.getInstanceData()
+                                                  .format(m.getObjectIdentifierSyntax(), outputEpc.getEpcCount(), m.getDlURL(), typeInfo.getSeed())));
         }
       }
     }
@@ -192,17 +192,17 @@ public class TransformationEventCreationModel
           // in the ReferencedIdentifier and append all Class Identifiers values onto the
           // Instance-Identifiers List
           this.identifiers.stream()
-              .filter(
-                  identifier -> identifier.getIdentifierId() == outputQuantity.getIdentifierId())
-              .findFirst()
-              .ifPresent(
-                  oq ->
-                      outputQuantityList.addAll(
-                          oq.getClassData()
-                              .format(
-                                  oq.getObjectIdentifierSyntax(),
-                                  outputQuantity.getClassCount(),
-                                  outputQuantity.getQuantity(), oq.getDlURL())));
+                  .filter(
+                          identifier -> identifier.getIdentifierId() == outputQuantity.getIdentifierId())
+                  .findFirst()
+                  .ifPresent(
+                          oq ->
+                                  outputQuantityList.addAll(
+                                          oq.getClassData()
+                                                  .format(
+                                                          oq.getObjectIdentifierSyntax(),
+                                                          outputQuantity.getClassCount(),
+                                                          outputQuantity.getQuantity(), oq.getDlURL(), typeInfo.getSeed())));
         }
       }
     }

@@ -49,11 +49,6 @@ public class GenerateUPUI extends GenerateEPC {
   private static final String UPUI_URI_PART = "/01/";
   private static final String UPUI_URI_SERIAL_PART = "/235/";
 
-  @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL) {
-    return format(syntax, count, dlURL, null);
-  }
-
   /**
    * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *

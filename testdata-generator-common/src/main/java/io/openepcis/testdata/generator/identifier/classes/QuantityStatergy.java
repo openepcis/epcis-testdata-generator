@@ -37,7 +37,5 @@ import java.util.List;
 })
 @RegisterForReflection
 public interface QuantityStatergy {
-  List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL);
-
   List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed);
 }

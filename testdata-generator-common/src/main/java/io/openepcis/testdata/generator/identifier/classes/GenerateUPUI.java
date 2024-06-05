@@ -47,18 +47,11 @@ public class GenerateUPUI extends GenerateQuantity {
   private static final String UPUI_URI_PART = "/8003/";
 
   @Override
-  public List<QuantityList> format(
-          final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
-    return format(syntax, count, refQuantity, dlURL, null);
-  }
-
-  @Override
   public List<QuantityList> format(IdentifierVocabularyType syntax, Integer count, Float refQuantity, String dlURL, Long seed) {
     return generateIdentifiers(syntax, count, refQuantity, dlURL);
   }
 
-  // Method to generate UPUI Class identifiers in URN/WebURI format based on information provided by
-  // the users.
+  // Method to generate UPUI Class identifiers in URN/WebURI format based on information provided
   private List<QuantityList> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
     try {
       final List<QuantityList> returnQuantityFormatted = new ArrayList<>();

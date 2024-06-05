@@ -48,11 +48,6 @@ public class GenerateGDTI extends GenerateEPC {
   @Schema(type = SchemaType.STRING, description = "GDTI consisting of 13 digits", required = true)
   private String gdti;
 
-  @Override
-  public final List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL) {
-    return format(syntax, count, dlURL, null);
-  }
-
   /**
    * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *

@@ -55,19 +55,6 @@ public class GenerateSGTIN extends GenerateEPC {
    * @param syntax syntax in which identifiers need to be generated URN/WebURI
    * @param count  count of instance identifiers need to be generated
    * @param dlURL  if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
-   * @return returns list of identifiers in string format
-   */
-  @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL) {
-    return format(syntax, count, dlURL, null);
-  }
-
-  /**
-   * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
-   *
-   * @param syntax syntax in which identifiers need to be generated URN/WebURI
-   * @param count  count of instance identifiers need to be generated
-   * @param dlURL  if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
    * @param seed   seed for random mersenne generator to generate same random numbers if same seed is provided
    * @return returns list of identifiers in string format
    */
