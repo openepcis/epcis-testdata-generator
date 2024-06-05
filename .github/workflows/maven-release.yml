@@ -112,10 +112,8 @@ jobs:
             --no-transfer-progress \
             --batch-mode \
             -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
-            -Pcoverage -Pci-build -Popenepcis-ossrh \
-            -Dsonar.host.url=${{ secrets.CG_SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.CG_SONAR_LOGIN }} \
-            -B clean verify deploy sonar:sonar
+            -Pci-build -Popenepcis-ossrh \
+            -B clean verify deploy
 
       - name: vus.js ui build
         uses: actions/setup-node@v4
