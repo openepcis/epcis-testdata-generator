@@ -21,6 +21,7 @@ import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
+import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class GenerateGCN extends GenerateQuantity {
   private static final String SGCN_URN_PART = "urn:epc:idpat:sgcn:";
 
   @Override
-  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
+  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final RandomSerialNumberGenerator randomSerialNumberGenerator) {
     return generateIdentifiers(syntax, count, refQuantity, dlURL);
   }
 

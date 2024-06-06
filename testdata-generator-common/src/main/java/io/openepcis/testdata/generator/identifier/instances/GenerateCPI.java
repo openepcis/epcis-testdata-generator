@@ -52,18 +52,18 @@ public class GenerateCPI extends GenerateEPC {
   /**
    * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *
-   * @param syntax syntax in which identifiers need to be generated URN/WebURI
-   * @param count  count of instance identifiers need to be generated
-   * @param dlURL  if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
-   * @param seed   seed for random mersenne generator to generate same random numbers if same seed is provided
+   * @param syntax                syntax in which identifiers need to be generated URN/WebURI
+   * @param count                 count of instance identifiers need to be generated
+   * @param dlURL                 if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
+   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random serial number
    * @return returns list of identifiers in string format
    */
   @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
-    return generateIdentifiers(syntax, count, dlURL, seed);
+  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+    return generateIdentifiers(syntax, count, dlURL, serialNumberGenerator);
   }
 
-  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
+  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedCPI = new ArrayList<>();
       final String prefix = syntax == IdentifierVocabularyType.URN ? CPI_URN_PART : dlURL + CPI_URI_PART;
@@ -81,7 +81,7 @@ public class GenerateCPI extends GenerateEPC {
         randomMinLength = Math.max(1, Math.min(12, randomMinLength));
         randomMaxLength = Math.max(1, Math.min(12, randomMaxLength));
 
-        final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, randomMinLength, randomMaxLength, count);
+        final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(RandomizationType.NUMERIC, randomMinLength, randomMaxLength, count);
 
         for (String randomID : randomSerialNumbers) {
           formattedCPI.add(prefix + modifiedCPI + suffix + randomID);

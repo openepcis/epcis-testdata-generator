@@ -17,13 +17,11 @@ package io.openepcis.testdata.generator.identifier.classes;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.model.epcis.QuantityList;
-import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
+import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.util.ArrayList;
-import java.util.List;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Setter;
@@ -31,6 +29,9 @@ import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @JsonTypeName("gtin")
@@ -47,8 +48,8 @@ public class GenerateGTIN extends GenerateQuantity {
   private static final String GTIN_URI_PART = "/01/";
 
   @Override
-  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
-    return generateIdentifiers(syntax, count, refQuantity,dlURL);
+  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final RandomSerialNumberGenerator randomSerialNumberGenerator) {
+    return generateIdentifiers(syntax, count, refQuantity, dlURL);
   }
 
   // Method to generate GTIN Class identifiers in URN/WebURI format based on information

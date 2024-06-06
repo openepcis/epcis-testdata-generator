@@ -74,11 +74,11 @@ public class GenerateUSDoD implements EPCStrategy {
   private static final String USDOD_URN_PART = "urn:epc:id:usdod:";
 
   @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
-    return generateURN(count, seed);
+  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+    return generateURN(count, serialNumberGenerator);
   }
 
-  private List<String> generateURN(final Integer count, final Long seed) {
+  private List<String> generateURN(final Integer count, final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedUSDoD = new ArrayList<>();
 
@@ -93,7 +93,7 @@ public class GenerateUSDoD implements EPCStrategy {
         randomMinLength = Math.max(1, Math.min(11, randomMinLength));
         randomMaxLength = Math.max(1, Math.min(11, randomMaxLength));
 
-        final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, randomMinLength, randomMaxLength, count);
+        final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(RandomizationType.NUMERIC, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
           formattedUSDoD.add(USDOD_URN_PART + usdodCage + "." + randomID);

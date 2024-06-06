@@ -20,6 +20,7 @@ import io.openepcis.model.epcis.QuantityList;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
+import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -47,7 +48,7 @@ public class GenerateGRAI extends GenerateQuantity {
   private static final String GRAI_URI_PART = "/8003/";
 
   @Override
-  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
+  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final RandomSerialNumberGenerator randomSerialNumberGenerator) {
     return generateIdentifiers(syntax, count, refQuantity, dlURL);
   }
 

@@ -29,23 +29,15 @@ import java.util.List;
 public class RandomSerialNumberGenerator {
     private final RandomGenerator random;
 
+    // Public method to get the singleton instance
+    public static RandomSerialNumberGenerator getInstance(final Long seed) {
+        return new RandomSerialNumberGenerator(seed);
+    }
+
     // Private constructor to prevent direct instantiation.
     private RandomSerialNumberGenerator(Long seed) {
         seed = seed != null ? seed : System.nanoTime();
         this.random = new MersenneTwister(seed);
-    }
-
-    // Holder class to hold the singleton instance
-    private static class SingletonHelper {
-        private static final RandomSerialNumberGenerator INSTANCE = new RandomSerialNumberGenerator(null);
-    }
-
-    // Public method to get the singleton instance
-    public static RandomSerialNumberGenerator getInstance(final Long seed) {
-        if (seed != null) {
-            return new RandomSerialNumberGenerator(seed);
-        }
-        return SingletonHelper.INSTANCE;
     }
 
     public List<String> randomGenerator(RandomizationType type, int minLength, int maxLength, int randomCount) {

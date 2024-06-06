@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.model.epcis.QuantityList;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
+import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.constraints.NotNull;
 import lombok.Setter;
@@ -52,7 +53,7 @@ public class GenerateManualURI implements QuantityStatergy {
   private String uom;
 
   @Override
-  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
+  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final RandomSerialNumberGenerator randomSerialNumberGenerator) {
     return generateIdentifier(refQuantity, count);
   }
 

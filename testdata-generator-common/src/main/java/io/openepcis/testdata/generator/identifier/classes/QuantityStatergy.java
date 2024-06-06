@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.openepcis.model.epcis.QuantityList;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
+import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 import java.util.List;
@@ -37,5 +38,5 @@ import java.util.List;
 })
 @RegisterForReflection
 public interface QuantityStatergy {
-  List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed);
+  List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final RandomSerialNumberGenerator randomSerialNumberGenerator);
 }

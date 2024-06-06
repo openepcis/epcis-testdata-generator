@@ -78,11 +78,11 @@ public class GenerateADI implements EPCStrategy {
   private static final String ADI_URN_PART = "urn:epc:id:adi:";
 
   @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
-    return generateURN(count, seed);
+  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+    return generateURN(count, serialNumberGenerator);
   }
 
-  private List<String> generateURN(final Integer count, final Long seed) {
+  private List<String> generateURN(final Integer count, final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedADI = new ArrayList<>();
       final String suffix = ".";
@@ -98,7 +98,7 @@ public class GenerateADI implements EPCStrategy {
         randomMinLength = Math.max(1, Math.min(20, randomMinLength));
         randomMaxLength = Math.max(1, Math.min(20, randomMaxLength));
 
-        final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, randomMinLength, randomMaxLength, count);
+        final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(RandomizationType.NUMERIC, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
           formattedADI.add(ADI_URN_PART + adiCage + suffix + adiPNO + suffix + randomID);

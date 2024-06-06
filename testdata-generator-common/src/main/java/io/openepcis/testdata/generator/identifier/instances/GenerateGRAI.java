@@ -51,19 +51,19 @@ public class GenerateGRAI extends GenerateEPC {
   /**
    * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *
-   * @param syntax syntax in which identifiers need to be generated URN/WebURI
-   * @param count  count of instance identifiers need to be generated
-   * @param dlURL  if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
-   * @param seed   seed for random mersenne generator to generate same random numbers if same seed is provided
+   * @param syntax                syntax in which identifiers need to be generated URN/WebURI
+   * @param count                 count of instance identifiers need to be generated
+   * @param dlURL                 if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
+   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random serial number
    * @return returns list of identifiers in string format
    */
   @Override
-  public List<String> format(IdentifierVocabularyType syntax, Integer count, String dlURL, Long seed) {
-    return generateIdentifiers(syntax, count, dlURL, seed);
+  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+    return generateIdentifiers(syntax, count, dlURL, serialNumberGenerator);
   }
 
   //Function to check which type of instance identifiers need to be generated Range/Random/Static
-  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
+  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedGRAI = new ArrayList<>();
       final String modifiedGRAI = prepareModifiedGRAI(syntax);
@@ -75,7 +75,7 @@ public class GenerateGRAI extends GenerateEPC {
         generateRangeIdentifiers(formattedGRAI, prefix, modifiedGRAI, delimiter, count);
       } else if (SerialTypeChecker.isRandomType(this.serialType, count)) {
         //For random generate random identifiers or based on seed
-        generateRandomIdentifiers(formattedGRAI, prefix, modifiedGRAI, delimiter, seed, count);
+        generateRandomIdentifiers(formattedGRAI, prefix, modifiedGRAI, delimiter, serialNumberGenerator, count);
       } else if (SerialTypeChecker.isNoneType(this.serialType, count, this.serialNumber)) {
         //For none generate static identifier
         generateStaticIdentifier(formattedGRAI, prefix, modifiedGRAI, delimiter, this.serialNumber);
@@ -96,10 +96,10 @@ public class GenerateGRAI extends GenerateEPC {
   }
 
   //Function to generate the GRAI Random identifiers based on seed and return the list of identifiers
-  private void generateRandomIdentifiers(final List<String> formattedGRAI, final String prefix, final String modifiedGRAI, final String delimiter, final Long seed, final Integer count) {
+  private void generateRandomIdentifiers(final List<String> formattedGRAI, final String prefix, final String modifiedGRAI, final String delimiter, final RandomSerialNumberGenerator serialNumberGenerator, final Integer count) {
     randomMinLength = Math.max(1, Math.min(16, randomMinLength));
     randomMaxLength = Math.max(1, Math.min(16, randomMaxLength));
-    final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(randomType, randomMinLength, randomMaxLength, count);
+    final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(randomType, randomMinLength, randomMaxLength, count);
 
     for (var randomID : randomSerialNumbers) {
       formattedGRAI.add(prefix + modifiedGRAI + delimiter + randomID);

@@ -53,38 +53,15 @@ public class AssociationEventCreationModel
   @Override
   public AssociationEvent create(final List<EventIdentifierTracker> parentTracker) {
     var epcisEvent = new AssociationEvent();
-    super.configure(epcisEvent);
+    super.configure(epcisEvent); //Add common info of AssociationEvent
+    super.configureParent(epcisEvent, parentTracker, matchingParentId); //Add parentID of AssociationEvent
+
     configureCommons(epcisEvent);
-    configureParent(epcisEvent, parentTracker);
     configureIdentifier(epcisEvent, parentTracker);
 
     // Set the EventId to either UUID or HashID depending on the user provided parameter
     super.setupEventHashId(epcisEvent);
     return epcisEvent;
-  }
-
-  // Private method which will add the Parent Identifiers for each AssociationEvent
-  private void configureParent(final AssociationEvent e, final List<EventIdentifierTracker> parentTracker) {
-    // If user has provided values for parentReferencedIdentifier then generated and add Parent
-    // identifier based on it.
-    if (matchingParentId != null && matchingParentId.getParentData() != null) {
-      // Append parent identifier value to the event
-      e.setParentID(
-          matchingParentId
-              .getParentData()
-              .format(matchingParentId.getObjectIdentifierSyntax(), 1, matchingParentId.getDlURL(), typeInfo.getSeed())
-              .get(0));
-    } else if (typeInfo.getParentIdentifier() != null
-        && typeInfo.getParentIdentifier().equals("")) {
-      // If user is importing the existing event and if the existing event has parent identifier
-      // then include it
-      e.setParentID(typeInfo.getParentIdentifier());
-    }else if(typeInfo.getReferencedIdentifier() != null && !typeInfo.getReferencedIdentifier().isEmpty()){
-      final List<String> parentID = super.referencedParentIdentifier(parentTracker);
-      if(!parentID.isEmpty()){
-        e.setParentID(parentID.get(0));
-      }
-    }
   }
 
   // Private method which will add the common elements to AssociationEvent

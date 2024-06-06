@@ -25,13 +25,13 @@ import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.RecordTimeType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.*;
+import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.openepcis.testdata.generator.reactivestreams.EPCISEventDownstreamHandler;
 import io.openepcis.testdata.generator.reactivestreams.EventIdentifierTracker;
 import io.openepcis.testdata.generator.template.EPCISEventType;
 import io.openepcis.testdata.generator.template.Identifier;
 import io.openepcis.testdata.generator.template.ReferencedIdentifier;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -48,7 +48,6 @@ import java.util.stream.Stream;
 
 @Getter
 @Slf4j
-@RequiredArgsConstructor
 public abstract class AbstractEventCreationModel<T extends EPCISEventType, E extends EPCISEvent>
     implements EventCreationModel<T, E> {
 
@@ -64,7 +63,15 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
   private EPCISEventDownstreamHandler epcisEventDownstreamHandler = null;
 
   private final DateTimeFormatter dateFormatter =
-      DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+          DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+
+  private final RandomSerialNumberGenerator randomSerialNumberGenerator;
+
+  public AbstractEventCreationModel(final T typeInfo, final List<Identifier> identifiers) {
+    this.typeInfo = typeInfo;
+    this.identifiers = identifiers;
+    this.randomSerialNumberGenerator = RandomSerialNumberGenerator.getInstance(typeInfo.getSeed()); //Since instance of MersenneTwister for each model
+  }
 
   @Override
   public EPCISEventDownstreamHandler toEPCISDownstreamHandler() {
@@ -258,7 +265,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
                 .findFirst()
                 .ifPresent(
                         t -> parentList.addAll(EventModelUtil.parentIdentifiers(t, epc.getInheritParentCount())));
-      }else if(epc.getParentNodeId() != 0 && epc.getInheritEPCToParent() != null && epc.getInheritEPCToParent() > 0){
+      } else if (epc.getParentNodeId() != 0 && epc.getInheritEPCToParent() != null && epc.getInheritEPCToParent() > 0) {
         parentTracker.stream()
                 .filter(i -> i.getEventTypeInfo().getNodeId() == epc.getParentNodeId())
                 .findFirst()
@@ -269,14 +276,49 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
     return parentList;
   }
 
+  //Common method to built or import the parentID for Aggregation/Transaction/Association eventTypes
+  public void configureParent(final EPCISEvent event, final List<EventIdentifierTracker> parentTracker, final Identifier matchingParentId) {
+    // Determine the event type and cast it accordingly
+    if (event instanceof AggregationEvent) {
+      ((AggregationEvent) event).setParentID(buildParentID(matchingParentId, parentTracker));
+    } else if (event instanceof TransactionEvent) {
+      ((TransactionEvent) event).setParentID(buildParentID(matchingParentId, parentTracker));
+    } else if (event instanceof AssociationEvent) {
+      ((AssociationEvent) event).setParentID(buildParentID(matchingParentId, parentTracker));
+    }
+  }
+
+  //Method to either build/import parentID
+  private String buildParentID(final Identifier matchingParentId, final List<EventIdentifierTracker> parentTracker) {
+    if (matchingParentId != null && matchingParentId.getParentData() != null) {
+      // If values for parentReferencedIdentifier is provided then generated and add ParentID.
+      return matchingParentId
+              .getParentData()
+              .format(matchingParentId.getObjectIdentifierSyntax(), 1, matchingParentId.getDlURL(), randomSerialNumberGenerator)
+              .get(0);
+    } else if (typeInfo.getParentIdentifier() != null && !typeInfo.getParentIdentifier().isEmpty()) {
+      // If importing the existing event and if the existing event has parent identifier then include it
+      return typeInfo.getParentIdentifier();
+    } else if (typeInfo.getReferencedIdentifier() != null && !typeInfo.getReferencedIdentifier().isEmpty()) {
+      //If importing the parent identifier from previous ObjectEvent or other event EPCs
+      final List<String> parentID = referencedParentIdentifier(parentTracker);
+      if (!parentID.isEmpty()) {
+        return parentID.get(0);
+      }
+    }
+    return null;
+  }
+
   /**
    * Method used for creating the EPCs based on the value provided for the field ReferencedIdentifier
-   * @param parentTracker List of the parent identifiers node infprmation stored as parentTracker
+   *
+   * @param parentTracker            List of the parent identifiers node infprmation stored as parentTracker
    * @param inheritParentIdCountFlag flag to detect if inheritParentIdentifiers need to be added or not. Inherited only for Object/TransformationEvent.
    * @return returns List of EPC identifiers
    */
   public List<String> referencedEpcsIdentifierGenerator(
-      final List<EventIdentifierTracker> parentTracker, final Boolean inheritParentIdCountFlag) {
+          final List<EventIdentifierTracker> parentTracker, final Boolean inheritParentIdCountFlag
+  ) {
     // Create a List to store all the values associated Instance Identifiers
     final List<String> epcList = new ArrayList<>();
 
@@ -298,9 +340,9 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
         if (matchingIdentifier != null && matchingIdentifier.getInstanceData() != null) {
           // Append all instance identifiers values onto the Instance-Identifiers List
           epcList.addAll(
-              matchingIdentifier
-                  .getInstanceData()
-                  .format(matchingIdentifier.getObjectIdentifierSyntax(), epc.getEpcCount(), matchingIdentifier.getDlURL(), typeInfo.getSeed()));
+                  matchingIdentifier
+                          .getInstanceData()
+                          .format(matchingIdentifier.getObjectIdentifierSyntax(), epc.getEpcCount(), matchingIdentifier.getDlURL(), randomSerialNumberGenerator));
         }
       } else if (epc.getParentNodeId() != 0 && epc.getEpcCount() > 0) {
         // If referenced identifier contains the parent node id then obtain the identifiers from its
@@ -377,7 +419,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
                   .format(
                       matchedClassIdentifier.getObjectIdentifierSyntax(),
                       quantity.getClassCount(),
-                      quantity.getQuantity(), matchedClassIdentifier.getDlURL(), typeInfo.getSeed()));
+                      quantity.getQuantity(), matchedClassIdentifier.getDlURL(), randomSerialNumberGenerator));
         }
       } else if (quantity.getParentNodeId() != 0  && quantity.getClassCount() != null && quantity.getClassCount() > 0) {
         // If referenced identifier contains the parent node id then obtain the identifiers from its

@@ -52,62 +52,49 @@ public class GenerateSGTIN extends GenerateEPC {
   /**
    * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *
-   * @param syntax syntax in which identifiers need to be generated URN/WebURI
-   * @param count  count of instance identifiers need to be generated
-   * @param dlURL  if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
-   * @param seed   seed for random mersenne generator to generate same random numbers if same seed is provided
+   * @param syntax                syntax in which identifiers need to be generated URN/WebURI
+   * @param count                 count of instance identifiers need to be generated
+   * @param dlURL                 if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
+   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random serial number
    * @return returns list of identifiers in string format
    */
   @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
+  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+    return generateIdentifiers(syntax, count, dlURL, serialNumberGenerator);
+  }
+
+  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedSGTIN = new ArrayList<>();
-      sgtin = this.sgtin.substring(0, 13) + UPCEANLogicImpl.calcChecksum(this.sgtin.substring(0, 13));
-      final String identifierPrefix = syntax == IdentifierVocabularyType.WEBURI ? dlURL + SGTIN_URI_PART : SGTIN_URN_PART;
-      final String identifierSuffix = syntax == IdentifierVocabularyType.WEBURI ? SGTIN_URI_SERIAL_PART : ".";
+      sgtin = sgtin.substring(0, 13) + UPCEANLogicImpl.calcChecksum(sgtin.substring(0, 13));
+      final String prefix = syntax == IdentifierVocabularyType.WEBURI ? dlURL + SGTIN_URI_PART : SGTIN_URN_PART;
+      final String suffix = syntax == IdentifierVocabularyType.WEBURI ? SGTIN_URI_SERIAL_PART : ".";
       final String modifiedSgtin = syntax == IdentifierVocabularyType.WEBURI ? sgtin : CompanyPrefixFormatter.gcpFormatterWithReplace(sgtin, gcpLength).toString();
 
-      if (SerialTypeChecker.isRangeType(this.serialType, count, this.rangeFrom)) {
+      if (SerialTypeChecker.isRangeType(serialType, count, rangeFrom)) {
         //For range generate sequential identifiers
-        generateSequentialIdentifiers(formattedSGTIN, identifierPrefix, modifiedSgtin, identifierSuffix, rangeFrom, count);
-      } else if (SerialTypeChecker.isRandomType(this.serialType, count)) {
+        for (long rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count; rangeID++) {
+          formattedSGTIN.add(prefix + modifiedSgtin + suffix + rangeID);
+        }
+        rangeFrom = BigInteger.valueOf(rangeFrom.longValue() + count);
+      } else if (SerialTypeChecker.isRandomType(serialType, count)) {
         //For random generate random identifiers or based on seed
-        generateRandomIdentifiers(formattedSGTIN, identifierPrefix, modifiedSgtin, identifierSuffix, seed, count);
-      } else if (SerialTypeChecker.isNoneType(this.serialType, count, this.serialNumber)) {
+        randomMinLength = Math.max(1, Math.min(20, randomMinLength));
+        randomMaxLength = Math.max(1, Math.min(20, randomMaxLength));
+
+        final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(randomType, randomMinLength, randomMaxLength, count);
+
+        for (String randomID : randomSerialNumbers) {
+          formattedSGTIN.add(prefix + modifiedSgtin + suffix + randomID);
+        }
+      } else if (SerialTypeChecker.isNoneType(serialType, count, serialNumber)) {
         //For none generate static identifier
-        generateStaticIdentifiers(formattedSGTIN, identifierPrefix, modifiedSgtin, identifierSuffix, serialNumber, count);
+        formattedSGTIN.add(prefix + modifiedSgtin + suffix + serialNumber);
       }
 
       return formattedSGTIN;
     } catch (Exception ex) {
       throw new TestDataGeneratorException("Exception occurred during generation of SGTIN instance identifiers : " + ex.getMessage(), ex);
-    }
-
-
-  }
-
-  // Generate SEQUENTIAL/RANGE SGTIN identifiers in URN/WEBURI format based on from value and count
-  private void generateSequentialIdentifiers(List<String> formattedSGTIN, String identifierPrefix, String sgtin, String identifierSuffix, BigInteger rangeFrom, Integer count) {
-    for (long rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count; rangeID++) {
-      formattedSGTIN.add(identifierPrefix + sgtin + identifierSuffix + rangeID);
-    } this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
-  }
-
-  // Generate RANDOM SGTIN identifiers in URN/WEBURI format based on count
-  private void generateRandomIdentifiers(List<String> formattedSGTIN, String identifierPrefix, String sgtin, String identifierSuffix, Long seed, Integer count) {
-    this.randomMinLength = Math.max(1, Math.min(20, this.randomMinLength)); this.randomMaxLength = Math.max(1, Math.min(20, this.randomMaxLength));
-
-    final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(this.randomType, this.randomMinLength, this.randomMaxLength, count);
-
-    for (String randomID : randomSerialNumbers) {
-      formattedSGTIN.add(identifierPrefix + sgtin + identifierSuffix + randomID);
-    }
-  }
-
-  // Generate STATIC SGTIN identifiers in URN/WEB URI format based on count
-  private void generateStaticIdentifiers(List<String> formattedSGTIN, String identifierPrefix, String sgtin, String identifierSuffix, String serialNumber, Integer count) {
-    for (int noneCounter = 0; noneCounter < count; noneCounter++) {
-      formattedSGTIN.add(identifierPrefix + sgtin + identifierSuffix + serialNumber);
     }
   }
 }

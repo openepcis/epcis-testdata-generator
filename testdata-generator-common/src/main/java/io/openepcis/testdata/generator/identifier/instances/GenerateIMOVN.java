@@ -50,16 +50,16 @@ public class GenerateIMOVN implements EPCStrategy {
   private static final String IMOVN_URN_PART = "urn:epc:id:imovn:";
 
   @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
-    return generateIMOVN(count, seed);
+  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+    return generateIMOVN(count, serialNumberGenerator);
   }
 
-  private List<String> generateIMOVN(final Integer count, final Long seed) {
+  private List<String> generateIMOVN(final Integer count, final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedIMOVN = new ArrayList<>();
 
       if (count != null && count > 0) {
-        final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, 7, 7, count);
+        final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(RandomizationType.NUMERIC, 7, 7, count);
         for (var rangeID : randomSerialNumbers) {
           formattedIMOVN.add(IMOVN_URN_PART + rangeID);
         }

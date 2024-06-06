@@ -79,14 +79,14 @@ public class GenerateGID implements EPCStrategy {
   private static final String GID_URN_PART = "urn:epc:id:gid:";
 
   @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
+  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
     if (manager != null && gidClass != null) {
-      return generateURN(count, seed);
+      return generateURN(count, serialNumberGenerator);
     }
     return Collections.emptyList();
   }
 
-  private List<String> generateURN(final Integer count, final Long seed) {
+  private List<String> generateURN(final Integer count, final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedGID = new ArrayList<>();
       final String suffix = ".";
@@ -102,7 +102,7 @@ public class GenerateGID implements EPCStrategy {
         randomMinLength = Math.max(1, Math.min(10, randomMinLength));
         randomMaxLength = Math.max(1, Math.min(10, randomMaxLength));
 
-        final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, randomMinLength, randomMaxLength, count);
+        final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(RandomizationType.NUMERIC, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
           formattedGID.add(GID_URN_PART + manager + suffix + gidClass + suffix + randomID);

@@ -52,9 +52,10 @@ public class AggregationEventCreationModel
   @Override
   public AggregationEvent create(final List<EventIdentifierTracker> parentTracker) {
     var epcisEvent = new AggregationEvent();
-    super.configure(epcisEvent);
+    super.configure(epcisEvent); //Add common info of AggregationEvent
+    super.configureParent(epcisEvent, parentTracker, matchingParentId); //Add parentID of AggregationEvent
+
     configureCommons(epcisEvent);
-    configureParent(epcisEvent, parentTracker);
     configureIdentifier(epcisEvent, parentTracker);
 
     // Set the EventId to either UUID or HashID depending on the user provided parameter
@@ -91,30 +92,6 @@ public class AggregationEventCreationModel
     }
   }
 
-
-  // Private method which will add the Parent Identifiers for each Aggregation event
-  private void configureParent(final AggregationEvent e, final List<EventIdentifierTracker> parentTracker) {
-    // If user has provided values for parentReferencedIdentifier then generated and add Parent
-    // identifier based on it.
-    if (matchingParentId != null && matchingParentId.getParentData() != null) {
-      // Append parent identifier value to the event
-      e.setParentID(
-              matchingParentId
-                      .getParentData()
-                      .format(matchingParentId.getObjectIdentifierSyntax(), 1, matchingParentId.getDlURL(), typeInfo.getSeed())
-                      .get(0));
-    } else if (typeInfo.getParentIdentifier() != null && !typeInfo.getParentIdentifier().isEmpty()) {
-      // If user is importing the existing event and if the existing event has parent identifier
-      // then include it
-      e.setParentID(typeInfo.getParentIdentifier());
-    }else if(typeInfo.getReferencedIdentifier() != null && !typeInfo.getReferencedIdentifier().isEmpty()){
-      //If user is importing the parent identifier from previous ObjectEvent or other event EPCs
-      final List<String> parentID = super.referencedParentIdentifier(parentTracker);
-      if(!parentID.isEmpty()){
-        e.setParentID(parentID.get(0));
-      }
-    }
-  }
 
   // Private method which will generate Instance/ChildEPCs & Class/ChildQuantities identifiers if
   // available and add it to the AggregationEvent which will be created by OpenEPCIS
