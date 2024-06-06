@@ -42,70 +42,43 @@ public class GenerateSSCC extends GenerateEPCType2 {
   /**
    * Method to generate SSCC identifiers based on URN/WebURI format by manipulating the provided SSCC values.
    *
-   * @param syntax syntax in which identifiers need to be generated URN/WebURI
-   * @param count  count of SSCC instance identifiers need to be generated
-   * @param dlURL  if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
-   * @param seed   seed for random mersenne generator to generate same random numbers if same seed is provided
+   * @param syntax                syntax in which identifiers need to be generated URN/WebURI
+   * @param count                 count of SSCC instance identifiers need to be generated
+   * @param dlURL                 if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
+   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random serial number
    * @return returns list of identifiers in string format
    */
   @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
-    if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
-      // For WebURI syntax call the generateWebURI to create Instance Identifiers
-      return generateWebURI(count, dlURL, seed);
-    } else {
-      // For URN syntax call the generateURN to create Instance Identifiers
-      return generateURN(count, seed);
-    }
-  }
-
-  /**
-   * Method to generate SSCC identifiers in URN format.
-   *
-   * @param count count of SSCC instance identifiers need to be generated
-   * @param seed  seed for random mersenne generator to generate same random numbers if same seed is provided
-   * @return returns list of identifiers in string format
-   */
-  private List<String> generateURN(final Integer count, final Long seed) {
-    return generateIdentifiers(count, seed, SSCC_URN_PART, ".", 17);
-  }
-
-  /**
-   * Method to generate SSCC identifiers in WebURI format
-   *
-   * @param count count of SSCC instance identifiers need to be generated
-   * @param seed  seed for random mersenne generator to generate same random numbers if same seed is provided
-   * @return returns list of identifiers in string format
-   */
-  private List<String> generateWebURI(final Integer count, final String dlURL, final Long seed) {
-    gcp = "0" + gcp; // Prepend '0' to gcp for WebURI format
-    return generateIdentifiers(count, seed, dlURL + SSCC_URI_PART, "", 18);
+  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+    return generateIdentifiers(syntax, count, dlURL, serialNumberGenerator);
   }
 
   //Generate the SSCC identifiers based on the serialType and format them according to URN or WebURI format.
-  private List<String> generateIdentifiers(final Integer count, final Long seed, final String prefix, final String delimiter, final int totalLength) {
+  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedSSCC = new ArrayList<>();
-      String baseGcp = gcp;
+      final String prefix = syntax.equals(IdentifierVocabularyType.URN) ? SSCC_URN_PART : dlURL + SSCC_URI_PART;
+      final String suffix = syntax.equals(IdentifierVocabularyType.URN) ? "." : "";
+      final String modifiedGCP = syntax.equals(IdentifierVocabularyType.URN) ? gcp : "0" + gcp;
+      final int appendLength = syntax.equals(IdentifierVocabularyType.URN) ? 17 : 18;
 
       if (SerialTypeChecker.isRangeType(this.serialType, count, this.rangeFrom)) {
         // Generate SEQUENTIAL/RANGE SSCC identifiers in URN/WEBURI format based on from value and count
         for (var rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count; rangeID++) {
-          formattedSSCC.add(prefix + baseGcp + delimiter + padAndAppend(baseGcp, rangeID, totalLength));
+          formattedSSCC.add(prefix + modifiedGCP + suffix + padAndAppend(modifiedGCP, rangeID, appendLength));
         }
         this.rangeFrom = BigInteger.valueOf(this.rangeFrom.longValue() + count);
       } else if (SerialTypeChecker.isRandomType(this.serialType, count)) {
         // Generate RANDOM SSCC identifiers in URN/WEBURI format based on count
-        final int requiredLength = totalLength - baseGcp.length();
-        final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, requiredLength, requiredLength, count);
+        final int requiredLength = appendLength - modifiedGCP.length();
+        final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(RandomizationType.NUMERIC, requiredLength, requiredLength, count);
+
         for (var randomID : randomSerialNumbers) {
-          formattedSSCC.add(prefix + baseGcp + delimiter + randomID);
+          formattedSSCC.add(prefix + modifiedGCP + suffix + randomID);
         }
       } else if (SerialTypeChecker.isNoneType(this.serialType, count, this.serialNumber)) {
         // Generate STATIC SSCC identifiers in URN/WEB URI format based on count
-        for (var noneCounter = 0; noneCounter < count; noneCounter++) {
-          formattedSSCC.add(prefix + baseGcp + delimiter + padAndAppend(baseGcp, serialNumber, totalLength));
-        }
+        formattedSSCC.add(prefix + modifiedGCP + suffix + padAndAppend(modifiedGCP, serialNumber, appendLength));
       }
       return formattedSSCC;
     } catch (Exception ex) {

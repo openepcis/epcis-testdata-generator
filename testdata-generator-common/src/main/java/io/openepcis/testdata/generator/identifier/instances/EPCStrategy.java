@@ -18,6 +18,7 @@ package io.openepcis.testdata.generator.identifier.instances;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
+import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.util.List;
 
@@ -45,5 +46,5 @@ import java.util.List;
 })
 @RegisterForReflection
 public interface EPCStrategy {
-  List<String> format(IdentifierVocabularyType syntax, Integer count, final String dlURL, final Long seed);
+  List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator randomSerialNumberGenerator);
 }

@@ -42,19 +42,19 @@ public class GenerateGSRNP extends GenerateEPCType2 {
   /**
    * Method to generate SSCC identifiers based on URN/WebURI format by manipulating the provided SSCC values.
    *
-   * @param syntax syntax in which identifiers need to be generated URN/WebURI
-   * @param count  count of SSCC instance identifiers need to be generated
-   * @param dlURL  if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
-   * @param seed   seed for random mersenne generator to generate same random numbers if same seed is provided
+   * @param syntax                syntax in which identifiers need to be generated URN/WebURI
+   * @param count                 count of SSCC instance identifiers need to be generated
+   * @param dlURL                 if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
+   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random serial number
    * @return returns list of identifiers in string format
    */
   @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
-    return generateIdentifiers(syntax, count, dlURL, seed);
+  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+    return generateIdentifiers(syntax, count, dlURL, serialNumberGenerator);
   }
 
   //Function to check which type of instance identifiers need to be generated Range/Random/Static
-  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final Long seed) {
+  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedGSRNP = new ArrayList<>();
       final String prefix = syntax.equals(IdentifierVocabularyType.URN) ? GSRNP_URN_PART : dlURL + GSRNP_URI_PART;
@@ -72,7 +72,7 @@ public class GenerateGSRNP extends GenerateEPCType2 {
       } else if (SerialTypeChecker.isRandomType(serialType, count)) {
         // Generate RANDOM identifiers in URN/WEBURI format based on count
         final int requiredLength = maxAppendLength - gcp.length();
-        final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, requiredLength, requiredLength, count);
+        final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(RandomizationType.NUMERIC, requiredLength, requiredLength, count);
 
         for (var randomID : randomSerialNumbers) {
           formattedGSRNP.add(prefix + gcp + delimiter + randomID);

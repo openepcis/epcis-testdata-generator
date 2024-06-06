@@ -64,11 +64,11 @@ public class GenerateLGTIN extends GenerateQuantity {
   private static final String LGTIN_SERIAL_PART = "/10/";
 
   @Override
-  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
-    return generateIdentifiers(syntax, count, refQuantity, dlURL, seed);
+  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final RandomSerialNumberGenerator randomSerialNumberGenerator) {
+    return generateIdentifiers(syntax, count, refQuantity, dlURL, randomSerialNumberGenerator);
   }
 
-  private List<QuantityList> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final Long seed) {
+  private List<QuantityList> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final RandomSerialNumberGenerator randomSerialNumberGenerator) {
     try {
       final List<QuantityList> formattedLGTIN = new ArrayList<>();
       lgtin = lgtin.substring(0, 13) + UPCEANLogicImpl.calcChecksum(lgtin.substring(0, 13));
@@ -84,7 +84,7 @@ public class GenerateLGTIN extends GenerateQuantity {
         }
       } else if (SerialTypeChecker.isRandomType(serialType, count)) {
         //For random generate random identifiers or based on seed
-        final List<String> randomSerialNumbers = RandomSerialNumberGenerator.getInstance(seed).randomGenerator(RandomizationType.NUMERIC, 1, 20, count);
+        final List<String> randomSerialNumbers = randomSerialNumberGenerator.randomGenerator(RandomizationType.NUMERIC, 1, 20, count);
 
         for (var randomId : randomSerialNumbers) {
           formattedLGTIN.add(quantityUrnCreator(prefix + modifiedSgtin + suffix + randomId));
