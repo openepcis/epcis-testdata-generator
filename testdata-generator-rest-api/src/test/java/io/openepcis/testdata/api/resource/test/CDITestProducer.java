@@ -17,7 +17,7 @@ package io.openepcis.testdata.api.resource.test;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.openepcis.convert.VersionTransformer;
+import io.openepcis.converter.VersionTransformer;
 import jakarta.enterprise.inject.Produces;
 import jakarta.xml.bind.JAXBContext;
 import lombok.RequiredArgsConstructor;

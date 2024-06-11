@@ -18,7 +18,7 @@ package io.openepcis.testdata.api.resource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.openepcis.constants.EPCISFormat;
 import io.openepcis.constants.EPCISVersion;
-import io.openepcis.convert.VersionTransformer;
+import io.openepcis.converter.VersionTransformer;
 import io.openepcis.model.epcis.EPCISDocument;
 import io.openepcis.model.rest.ProblemResponseBody;
 import io.openepcis.testdata.generator.EPCISEventGenerator;
@@ -56,7 +56,8 @@ public class TestDataGeneratorResource {
 
   @Inject Validator validator;
 
-  @Inject VersionTransformer versionTransformer;
+  @Inject
+  VersionTransformer versionTransformer;
 
   // Method to Generator test data based on the provided JSON data template and show the appropriate
   // error messages
