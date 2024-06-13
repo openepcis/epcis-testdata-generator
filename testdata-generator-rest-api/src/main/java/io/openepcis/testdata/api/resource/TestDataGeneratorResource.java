@@ -18,7 +18,7 @@ package io.openepcis.testdata.api.resource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.openepcis.constants.EPCISFormat;
 import io.openepcis.constants.EPCISVersion;
-import io.openepcis.convert.VersionTransformer;
+import io.openepcis.converter.VersionTransformer;
 import io.openepcis.model.epcis.EPCISDocument;
 import io.openepcis.model.rest.ProblemResponseBody;
 import io.openepcis.testdata.generator.EPCISEventGenerator;

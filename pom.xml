@@ -128,6 +128,11 @@
                 <artifactId>openepcis-document-converter</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.openepcis.quarkus</groupId>
+                <artifactId>quarkus-document-converter</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
 
             <!-- Jackson ObjectMapper dependency-->
             <dependency>

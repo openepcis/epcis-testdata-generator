@@ -202,6 +202,10 @@
             <artifactId>converter-service-rest</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.openepcis.quarkus</groupId>
+            <artifactId>quarkus-document-converter</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.openepcis</groupId>
             <artifactId>openepcis-document-validation-rest-api</artifactId>
         </dependency>
