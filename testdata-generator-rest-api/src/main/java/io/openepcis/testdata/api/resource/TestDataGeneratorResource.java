@@ -56,7 +56,8 @@ public class TestDataGeneratorResource {
 
   @Inject Validator validator;
 
-  @Inject VersionTransformer versionTransformer;
+  @Inject
+  VersionTransformer versionTransformer;
 
   // Method to Generator test data based on the provided JSON data template and show the appropriate
   // error messages
