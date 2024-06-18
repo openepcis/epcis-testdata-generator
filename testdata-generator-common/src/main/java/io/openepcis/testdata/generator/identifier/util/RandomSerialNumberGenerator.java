@@ -54,6 +54,7 @@ public class RandomSerialNumberGenerator {
     private static final String ALPHA_NUMERIC_RANDOM_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final String URL_SAFE_RANDOM_SET = "abcdefghijklmnopqrstuvwxyz0123456789-_";
     private static final String NUMERIC_RANDOM_SET = "1234567890";
+    private static final int MAX_RANDOM_ATTEMPTS = 3;
 
     /**
      * Method to generate random Alpha numeric serial identifiers based on provided max and min length.
@@ -67,14 +68,17 @@ public class RandomSerialNumberGenerator {
         try {
             final List<String> randomList = new ArrayList<>();
 
-            for (int id = 0; id < randomCount; id++) {
-                final StringBuilder randomID = new StringBuilder();
-                final int charPicker = minLength + random.nextInt(maxLength - minLength + 1);
+            while (randomList.size() < randomCount) {
+                String randomIDString = generateRandomID(ALPHA_NUMERIC_RANDOM_SET, minLength, maxLength);
+                int attempts = 0;
 
-                for (int i = 0; i < charPicker; i++) {
-                    randomID.append(ALPHA_NUMERIC_RANDOM_SET.charAt(random.nextInt(ALPHA_NUMERIC_RANDOM_SET.length())));
+                //Avoid adding the duplicated serial numbers in the list but try recreating max 3 times
+                while (randomList.contains(randomIDString) && attempts < MAX_RANDOM_ATTEMPTS) {
+                    randomIDString = generateRandomID(ALPHA_NUMERIC_RANDOM_SET, minLength, maxLength);
+                    attempts++;
                 }
-                randomList.add(randomID.toString());
+
+                randomList.add(randomIDString);
             }
 
             return randomList;
@@ -95,14 +99,17 @@ public class RandomSerialNumberGenerator {
         try {
             final List<String> randomList = new ArrayList<>();
 
-            for (var id = 0; id < randomCount; id++) {
-                var randomID = new StringBuilder();
-                final int charPicker = minLength + random.nextInt(maxLength - minLength + 1);
+            while (randomList.size() < randomCount) {
+                String randomIDString = generateRandomID(URL_SAFE_RANDOM_SET, minLength, maxLength);
+                int attempts = 0;
 
-                for (var i = 0; i < charPicker; i++) {
-                    randomID.append(URL_SAFE_RANDOM_SET.charAt(random.nextInt(URL_SAFE_RANDOM_SET.length())));
+                //Avoid adding the duplicated serial numbers in the list but try recreating max 3 times
+                while (randomList.contains(randomIDString) && attempts < MAX_RANDOM_ATTEMPTS) {
+                    randomIDString = generateRandomID(URL_SAFE_RANDOM_SET, minLength, maxLength);
+                    attempts++;
                 }
-                randomList.add(randomID.toString());
+
+                randomList.add(randomIDString);
             }
             return randomList;
         } catch (Exception ex) {
@@ -122,14 +129,17 @@ public class RandomSerialNumberGenerator {
         try {
             final List<String> randomList = new ArrayList<>();
 
-            for (int id = 0; id < randomCount; id++) {
-                final StringBuilder randomID = new StringBuilder();
-                final int charPicker = minLength + random.nextInt(maxLength - minLength + 1);
+            while (randomList.size() < randomCount) {
+                String randomIDString = generateRandomID(NUMERIC_RANDOM_SET, minLength, maxLength);
+                int attempts = 0;
 
-                for (int i = 0; i < charPicker; i++) {
-                    randomID.append(NUMERIC_RANDOM_SET.charAt(random.nextInt(NUMERIC_RANDOM_SET.length())));
+                //Avoid adding the duplicated serial numbers in the list but try recreating max 3 times
+                while (randomList.contains(randomIDString) && attempts < MAX_RANDOM_ATTEMPTS) {
+                    randomIDString = generateRandomID(NUMERIC_RANDOM_SET, minLength, maxLength);
+                    attempts++;
                 }
-                randomList.add(randomID.toString());
+
+                randomList.add(randomIDString);
             }
             return randomList;
         } catch (Exception ex) {
@@ -137,5 +147,15 @@ public class RandomSerialNumberGenerator {
         }
     }
 
+    //Function to generate the random ids based on provided character set, minLength and maxLength
+    private String generateRandomID(final String characterSet, final int minLength, final int maxLength) {
+        final StringBuilder randomID = new StringBuilder();
+        final int charPicker = minLength + random.nextInt(maxLength - minLength + 1);
 
+        for (int i = 0; i < charPicker; i++) {
+            randomID.append(characterSet.charAt(random.nextInt(characterSet.length())));
+        }
+
+        return randomID.toString();
+    }
 }
