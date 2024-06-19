@@ -133,7 +133,11 @@
                 <artifactId>quarkus-document-converter</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>io.openepcis.quarkus</groupId>
+                <artifactId>quarkus-document-validation-service</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
             <!-- Jackson ObjectMapper dependency-->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
