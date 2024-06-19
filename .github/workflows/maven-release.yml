@@ -378,13 +378,12 @@ jobs:
           docker manifest push ghcr.io/openepcis/testdata-generator-native:latest;
 
   build-quarkus-native-executable:
-    if: false
     name: "Build Quarkus Service Native Executable"
     needs: [build-jar-job, build-vue-js-job]
 
     strategy:
       matrix:
-        os: ['ubuntu-latest', 'ubuntu-22.04-arm64', 'macos-latest', 'windows-latest']
+        os: ['ubuntu-latest', 'ubuntu-22.04-arm64', 'macos-13', 'macos-latest', 'windows-latest']
         include:
           - os: 'ubuntu-latest'
             label: 'linux-amd64'
@@ -392,8 +391,11 @@ jobs:
           - os: 'ubuntu-22.04-arm64'
             label: 'linux-arm64'
             exe: ""
+          - os: 'macos-13'
+            label: 'mac-x64'
+            exe: ""
           - os: 'macos-latest'
-            label: 'mac'
+            label: 'mac-arm'
             exe: ""
           - os: 'windows-latest'
             label: 'windows'

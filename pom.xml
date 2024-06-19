@@ -130,6 +130,11 @@
             </dependency>
             <dependency>
                 <groupId>io.openepcis.quarkus</groupId>
+                <artifactId>quarkus-openepcis-model</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.openepcis.quarkus</groupId>
                 <artifactId>quarkus-document-converter</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>

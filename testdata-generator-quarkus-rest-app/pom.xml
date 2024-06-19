@@ -198,8 +198,8 @@
             <artifactId>testdata-generator-rest-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.openepcis</groupId>
-            <artifactId>converter-service-rest</artifactId>
+            <groupId>io.openepcis.quarkus</groupId>
+            <artifactId>quarkus-openepcis-model</artifactId>
         </dependency>
         <dependency>
             <groupId>io.openepcis.quarkus</groupId>
@@ -302,60 +302,6 @@
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
-        </dependency>
-        <!-- add for native build -->
-        <dependency>
-            <groupId>org.glassfish.main.persistence</groupId>
-            <artifactId>eclipselink-wrapper</artifactId>
-            <version>7.0.15</version>
-            <type>pom</type>
-        </dependency>
-
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-jaxb</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-reactive-oracle-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>eclipselink</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.moxy</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm</artifactId>
-            <version>9.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm-commons</artifactId>
-            <version>9.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm-tree</artifactId>
-            <version>9.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm-util</artifactId>
-            <version>9.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.asm</artifactId>
-            <version>9.6.0</version>
         </dependency>
         <dependency>
             <groupId>jakarta.resource</groupId>
