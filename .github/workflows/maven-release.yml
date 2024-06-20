@@ -267,7 +267,6 @@ jobs:
   
 
   build-quarkus-native-container-images:
-    if: false
     name: "Build Native Container Image"
     needs: [ build-vue-js-job ]
 

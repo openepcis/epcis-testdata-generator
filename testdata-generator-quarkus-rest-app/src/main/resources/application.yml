@@ -25,7 +25,7 @@ quarkus:
   locales: en
   default-locale: en-US
   native:
-    additional-build-args: "--initialize-at-run-time=io.openepcis.testdata.generator.format.RandomValueGenerator"
+    additional-build-args: "--trace-class-initialization=io.netty.buffer.UnpooledByteBufAllocator$InstrumentedUnpooledUnsafeHeapByteBuf\\,io.netty.buffer.UnpooledDirectByteBuf\\,io.netty.buffer.ByteBufUtil\\,io.netty.buffer.AbstractReferenceCountedByteBuf\\,io.netty.buffer.PooledByteBufAllocator\\,io.netty.buffer.UnpooledHeapByteBuf\\,io.netty.buffer.UnpooledUnsafeDirectByteBuf\\,io.netty.buffer.UnpooledUnsafeHeapByteBuf\\,io.netty.buffer.UnpooledByteBufAllocator$InstrumentedUnpooledUnsafeDirectByteBuf\\,java.security.SecureRandom,--initialize-at-run-time=io.openepcis.testdata.generator.format.RandomValueGenerator"
     resources:
       includes: "ssl/*"
 
