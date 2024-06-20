@@ -43,7 +43,7 @@ public class TransformationEventCreationModel
   @Override
   public TransformationEvent create(final List<EventIdentifierTracker> parentTracker) {
     var epcisEvent = new TransformationEvent();
-    super.configure(epcisEvent);
+    super.configure(epcisEvent, parentTracker);
     configureCommons(epcisEvent);
     configureInputIdentifiers(epcisEvent, parentTracker);
     configureOutputEpcs(epcisEvent);

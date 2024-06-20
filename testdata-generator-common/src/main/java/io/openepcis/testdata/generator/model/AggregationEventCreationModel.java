@@ -52,7 +52,7 @@ public class AggregationEventCreationModel
   @Override
   public AggregationEvent create(final List<EventIdentifierTracker> parentTracker) {
     var epcisEvent = new AggregationEvent();
-    super.configure(epcisEvent); //Add common info of AggregationEvent
+    super.configure(epcisEvent, parentTracker); //Add common info of AggregationEvent
     super.configureParent(epcisEvent, parentTracker, matchingParentId); //Add parentID of AggregationEvent
 
     configureCommons(epcisEvent);

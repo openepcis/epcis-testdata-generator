@@ -17,14 +17,15 @@ package io.openepcis.testdata.generator.format;
 
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.io.Serializable;
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.math3.random.RandomDataGenerator;
+
+import java.io.Serializable;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 @Getter
 @Setter
@@ -38,17 +39,16 @@ public class RandomDateTimeGenerator implements Serializable {
   private RandomDataGenerator randomData = new RandomDataGenerator();
 
   public OffsetDateTime nextDate() {
+    //If fromTime is not provided then return the current date time
     if (fromTime == null) {
-      return Instant.ofEpochMilli(System.currentTimeMillis())
-          .atZone(ZoneId.systemDefault())
-          .toOffsetDateTime();
+      return Instant.ofEpochMilli(System.currentTimeMillis()).atZone(ZoneId.systemDefault()).toOffsetDateTime();
     }
+
+    //If from and to time is provided then return the random datetime between from and to values
     try {
       return Instant.ofEpochMilli(randomData.nextLong(fromTime.toInstant().toEpochMilli(), toTime.toInstant().toEpochMilli())).atZone(ZoneId.systemDefault()).toOffsetDateTime();
     } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during creation of Random Event Time, Please check the values provided values for EventTime : "
-              + ex.getMessage(), ex);
+      throw new TestDataGeneratorException("Exception occurred during creation of Random Event Time : " + ex.getMessage(), ex);
     }
   }
 }

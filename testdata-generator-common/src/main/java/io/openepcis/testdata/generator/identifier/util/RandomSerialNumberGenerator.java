@@ -17,6 +17,7 @@ package io.openepcis.testdata.generator.identifier.util;
 
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
+import lombok.Getter;
 import org.apache.commons.math3.random.MersenneTwister;
 import org.apache.commons.math3.random.RandomGenerator;
 
@@ -27,6 +28,7 @@ import java.util.List;
  * Class to generate the random numbers using the Mersenne Twister (MT) algorithm where if the seed is provided then Random numbers are generated based on the seed. If no seed is provided then truly random numbers are generated.
  */
 public class RandomSerialNumberGenerator {
+    @Getter
     private final RandomGenerator random;
 
     // Public method to get the singleton instance
@@ -157,5 +159,16 @@ public class RandomSerialNumberGenerator {
         }
 
         return randomID.toString();
+    }
+
+    /**
+     * Method to generate random number based on provided lower and upper bound using the Mersenne twister
+     *
+     * @param lowerBound lower bound for the long number to be generated
+     * @param upperBound upper bound for the long number to be generated
+     * @return returns the random number between lower and upper bound
+     */
+    public long generateIntInRange(final long lowerBound, final long upperBound) {
+        return lowerBound + random.nextInt((int) (upperBound - lowerBound + 1));
     }
 }

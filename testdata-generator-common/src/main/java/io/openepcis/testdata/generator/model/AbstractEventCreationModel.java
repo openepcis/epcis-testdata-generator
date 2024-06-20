@@ -81,13 +81,13 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
     return epcisEventDownstreamHandler;
   }
 
-  protected void configure(final E epcisEvent) {
+  protected void configure(final E epcisEvent, final List<EventIdentifierTracker> parentTracker) {
 
     final IdentifierVocabularyType syntax = typeInfo.getLocationPartyIdentifierSyntax();
     try {
 
       // Call the method to add the When dimension information associated with the event
-      configureWhenDimension(epcisEvent);
+      configureWhenDimension(epcisEvent, parentTracker);
 
       // Call the method to add the Where dimension information associated with the event
       configureWhereDimension(epcisEvent, syntax);
@@ -133,12 +133,13 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
 
   // Private method used to add the When dimension (Event time, Event Timezone offset, Record time)
   // related information during the creation of event
-  private void configureWhenDimension(final E epcisEvent) {
+  private void configureWhenDimension(final E epcisEvent, final List<EventIdentifierTracker> parentTracker) {
     // Set TimeZone Offset
     epcisEvent.setEventTimeZoneOffset(typeInfo.getEventTime().getTimeZoneOffset());
 
-    // Setting the event Time
-    epcisEvent.setEventTime(typeInfo.getEventTime().generate());
+    // Setting the event Time, if the
+    final OffsetDateTime parentEventTime = CollectionUtils.isNotEmpty(parentTracker) ? parentTracker.get(0).getEvent().getEventTime() : null;
+    epcisEvent.setEventTime(typeInfo.getEventTime().generate(parentEventTime, randomSerialNumberGenerator));
 
     // Set Record Time
     if (typeInfo.getRecordTimeType() == RecordTimeType.SAME_AS_EVENT_TIME) {
@@ -211,7 +212,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
       var err = new ErrorDeclaration();
 
       // Set the Error declaration time
-      err.setDeclarationTime(typeInfo.getErrorDeclaration().getDeclarationTime().generate());
+      err.setDeclarationTime(typeInfo.getErrorDeclaration().getDeclarationTime().generate(null, randomSerialNumberGenerator));
 
       // Set the Error declaration time offset this is missing in openEpcis-parent
       // err.setDeclarationTimezoneOffset(typeInfo.getErrorDeclaration().getDeclarationTime().getTimeZoneOffset());
@@ -279,12 +280,12 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
   //Common method to built or import the parentID for Aggregation/Transaction/Association eventTypes
   public void configureParent(final EPCISEvent event, final List<EventIdentifierTracker> parentTracker, final Identifier matchingParentId) {
     // Determine the event type and cast it accordingly
-    if (event instanceof AggregationEvent) {
-      ((AggregationEvent) event).setParentID(buildParentID(matchingParentId, parentTracker));
-    } else if (event instanceof TransactionEvent) {
-      ((TransactionEvent) event).setParentID(buildParentID(matchingParentId, parentTracker));
-    } else if (event instanceof AssociationEvent) {
-      ((AssociationEvent) event).setParentID(buildParentID(matchingParentId, parentTracker));
+    if (event instanceof AggregationEvent aggEvent) {
+      aggEvent.setParentID(buildParentID(matchingParentId, parentTracker));
+    } else if (event instanceof TransactionEvent txnEvent) {
+      txnEvent.setParentID(buildParentID(matchingParentId, parentTracker));
+    } else if (event instanceof AssociationEvent assocEvent) {
+      assocEvent.setParentID(buildParentID(matchingParentId, parentTracker));
     }
   }
 
@@ -366,7 +367,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
       }
 
       //Add the identifiers from ParentID Count only if the inheriting event is ObjectEvent or TransformationEvent
-      if (epc.getParentNodeId() != 0 && epc.getInheritParentCount() > 0 && inheritParentIdCountFlag) {
+      if (epc.getParentNodeId() != 0 && epc.getInheritParentCount() > 0 && Boolean.TRUE.equals(inheritParentIdCountFlag)) {
         // When user wants to inherit Parent-Ids from parent node into child node get the matching
         // Parent Identifiers. (AggregationEvent -> ObjectEvent)
         parentTracker.stream()

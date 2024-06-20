@@ -15,18 +15,26 @@
  */
 package io.openepcis.testdata.generator.format;
 
-import static com.fasterxml.jackson.annotation.JsonFormat.Feature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
+import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.io.Serializable;
-import java.time.OffsetDateTime;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import java.io.Serializable;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+
+import static com.fasterxml.jackson.annotation.JsonFormat.Feature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE;
 
 @Data
 @NoArgsConstructor
@@ -46,23 +54,48 @@ public class EventTime implements Serializable {
   @NotNull(message = "Timezone offset cannot be Null")
   private String timeZoneOffset;
 
+  @Schema(type = SchemaType.INTEGER, description = "Custom offset From value for generating eventTime based on parent eventTime")
+  private Integer customOffsetFrom;
+
+  @Schema(type = SchemaType.INTEGER, description = "Custom offset To value for generating eventTime based on parent eventTime")
+  private Integer customOffsetTo;
+
+  @Schema(type = SchemaType.STRING, description = "Custom offset type value for generating eventTime based on parent eventTime ex: seconds/minutes/hours/days")
+  private String customOffsetType;
+
   private RandomDateTimeGenerator randomDateTimeGenerator;
 
-  public OffsetDateTime generate() {
+  public OffsetDateTime generate(final OffsetDateTime parentEventTime, final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
-      if (specificTime != null) {
-        return specificTime;
+      //For specific time or random generation return dateTime
+      if (specificTime != null || randomDateTimeGenerator != null) {
+        return specificTime != null ? specificTime : randomDateTimeGenerator.nextDate();
       }
 
-      if (randomDateTimeGenerator == null) {
-        randomDateTimeGenerator = new RandomDateTimeGenerator(fromTime, toTime);
+      //For custom offset from and to date time get the value based on the parentEventTime if parentEventTime is not null
+      if (parentEventTime != null && customOffsetFrom != null && customOffsetTo != null && StringUtils.isNotBlank(customOffsetType)) {
+        return calculateCustomOffset(parentEventTime, serialNumberGenerator);
       }
 
-      return randomDateTimeGenerator.nextDate();
+      //If parentEventTime is null or any other non-matching case return the current date time
+      return Instant.ofEpochMilli(System.currentTimeMillis()).atZone(ZoneId.systemDefault()).toOffsetDateTime();
     } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during creation of assignment of the Event Time, Please check the values provided values for EventTime : "
-              + ex.getMessage(), ex);
+      throw new TestDataGeneratorException("Exception occurred during creation of assignment of the Event Time : " + ex.getMessage(), ex);
     }
+  }
+
+  //Method to calculate the eventTime based on custom offset values
+  private OffsetDateTime calculateCustomOffset(final OffsetDateTime parentEventTime, final RandomSerialNumberGenerator serialNumberGenerator) {
+    //Using from and to value generate a random number using Mersenne twister
+    final long offsetValue = serialNumberGenerator.generateIntInRange(customOffsetFrom, customOffsetTo);
+
+    //Append the Minutes/Hours/Days to the parent event eventTime based on the custom offset type value
+    return switch (customOffsetType.toLowerCase()) {
+      case "seconds" -> parentEventTime.plus(offsetValue, ChronoUnit.SECONDS);
+      case "minutes" -> parentEventTime.plus(offsetValue, ChronoUnit.MINUTES);
+      case "hours" -> parentEventTime.plus(offsetValue, ChronoUnit.HOURS);
+      case "days" -> parentEventTime.plus(offsetValue, ChronoUnit.DAYS);
+      default -> throw new IllegalArgumentException("Unsupported customOffsetType for eventTime generation : " + customOffsetType);
+    };
   }
 }
