@@ -169,6 +169,9 @@ public class RandomSerialNumberGenerator {
      * @return returns the random number between lower and upper bound
      */
     public long generateIntInRange(final long lowerBound, final long upperBound) {
-        return lowerBound + random.nextInt((int) (upperBound - lowerBound + 1));
+        final long lower = Math.min(lowerBound, upperBound);
+        final long upper = Math.max(lowerBound, upperBound);
+        final long range = upper - lower + 1;
+        return (long) (random.nextDouble() * range) + lower;
     }
 }

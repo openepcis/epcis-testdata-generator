@@ -137,7 +137,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
     // Set TimeZone Offset
     epcisEvent.setEventTimeZoneOffset(typeInfo.getEventTime().getTimeZoneOffset());
 
-    // Setting the event Time, if the
+    // Setting the event Time, if custom option selected then set eventTime based on parent eventTime
     final OffsetDateTime parentEventTime = CollectionUtils.isNotEmpty(parentTracker) ? parentTracker.get(0).getEvent().getEventTime() : null;
     epcisEvent.setEventTime(typeInfo.getEventTime().generate(parentEventTime, randomSerialNumberGenerator));
 

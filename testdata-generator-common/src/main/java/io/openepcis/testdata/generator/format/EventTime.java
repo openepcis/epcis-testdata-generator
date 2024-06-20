@@ -63,21 +63,20 @@ public class EventTime implements Serializable {
   @Schema(type = SchemaType.STRING, description = "Custom offset type value for generating eventTime based on parent eventTime ex: seconds/minutes/hours/days")
   private String customOffsetType;
 
-  private RandomDateTimeGenerator randomDateTimeGenerator;
-
-  public OffsetDateTime generate(final OffsetDateTime parentEventTime, final RandomSerialNumberGenerator serialNumberGenerator) {
+  public OffsetDateTime generate(final OffsetDateTime parentEventTime, final RandomSerialNumberGenerator randomDateTimeGenerator) {
     try {
-      //For specific time or random generation return dateTime
-      if (specificTime != null || randomDateTimeGenerator != null) {
-        return specificTime != null ? specificTime : randomDateTimeGenerator.nextDate();
+      if (specificTime != null) {
+        //For specific time return provided date time
+        return specificTime;
+      } else if (fromTime != null && toTime != null) {
+        //For range get the random date between from and to value using the Mersenne Twister
+        return Instant.ofEpochMilli(randomDateTimeGenerator.generateIntInRange(fromTime.toInstant().toEpochMilli(), toTime.toInstant().toEpochMilli())).atZone(ZoneId.systemDefault()).toOffsetDateTime();
+      } else if (parentEventTime != null && customOffsetFrom != null && customOffsetTo != null && StringUtils.isNotBlank(customOffsetType)) {
+        //For custom offset from and to date time get the value based on the parentEventTime if parentEventTime is not null
+        return calculateCustomOffset(parentEventTime, randomDateTimeGenerator);
       }
 
-      //For custom offset from and to date time get the value based on the parentEventTime if parentEventTime is not null
-      if (parentEventTime != null && customOffsetFrom != null && customOffsetTo != null && StringUtils.isNotBlank(customOffsetType)) {
-        return calculateCustomOffset(parentEventTime, serialNumberGenerator);
-      }
-
-      //If parentEventTime is null or any other non-matching case return the current date time
+      //For any other non-matching case return the current date time
       return Instant.ofEpochMilli(System.currentTimeMillis()).atZone(ZoneId.systemDefault()).toOffsetDateTime();
     } catch (Exception ex) {
       throw new TestDataGeneratorException("Exception occurred during creation of assignment of the Event Time : " + ex.getMessage(), ex);
@@ -85,9 +84,9 @@ public class EventTime implements Serializable {
   }
 
   //Method to calculate the eventTime based on custom offset values
-  private OffsetDateTime calculateCustomOffset(final OffsetDateTime parentEventTime, final RandomSerialNumberGenerator serialNumberGenerator) {
+  private OffsetDateTime calculateCustomOffset(final OffsetDateTime parentEventTime, final RandomSerialNumberGenerator randomDateTimeGenerator) {
     //Using from and to value generate a random number using Mersenne twister
-    final long offsetValue = serialNumberGenerator.generateIntInRange(customOffsetFrom, customOffsetTo);
+    final long offsetValue = randomDateTimeGenerator.generateIntInRange(customOffsetFrom, customOffsetTo);
 
     //Append the Minutes/Hours/Days to the parent event eventTime based on the custom offset type value
     return switch (customOffsetType.toLowerCase()) {
