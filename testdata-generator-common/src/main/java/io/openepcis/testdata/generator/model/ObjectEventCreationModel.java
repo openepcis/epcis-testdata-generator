@@ -44,7 +44,7 @@ public class ObjectEventCreationModel
   @Override
   public ObjectEvent create(final List<EventIdentifierTracker> parentTracker) {
     var epcisEvent = new ObjectEvent();
-    super.configure(epcisEvent);
+    super.configure(epcisEvent, parentTracker);
     configureCommons(epcisEvent);
     configureIdentifiers(epcisEvent, parentTracker);
 

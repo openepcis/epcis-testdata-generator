@@ -53,7 +53,7 @@ public class AssociationEventCreationModel
   @Override
   public AssociationEvent create(final List<EventIdentifierTracker> parentTracker) {
     var epcisEvent = new AssociationEvent();
-    super.configure(epcisEvent); //Add common info of AssociationEvent
+    super.configure(epcisEvent, parentTracker); //Add common info of AssociationEvent
     super.configureParent(epcisEvent, parentTracker, matchingParentId); //Add parentID of AssociationEvent
 
     configureCommons(epcisEvent);

@@ -53,7 +53,7 @@ public class TransactionEventCreationModel
   @Override
   public TransactionEvent create(final List<EventIdentifierTracker> parentTracker) {
     var epcisEvent = new TransactionEvent();
-    super.configure(epcisEvent); //Add common info of TransactionEvent
+    super.configure(epcisEvent, parentTracker); //Add common info of TransactionEvent
     super.configureParent(epcisEvent, parentTracker, matchingParentId); //Add parentID of TransactionEvent
 
     configureCommons(epcisEvent);
