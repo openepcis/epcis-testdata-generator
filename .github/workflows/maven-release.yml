@@ -287,6 +287,7 @@ jobs:
           docker manifest push ghcr.io/openepcis/testdata-generator-native:latest;
 
   build-quarkus-native-executable:
+    if: false
     name: "Build Quarkus Service Native Executable"
     needs: [build-jar-job]
 
@@ -343,7 +344,7 @@ jobs:
       - name: Set up GraalVM
         uses: graalvm/setup-graalvm@v1
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'graalvm-community'
           native-image-job-reports: 'true'
           github-token: ${{ secrets.GITHUB_TOKEN }}
