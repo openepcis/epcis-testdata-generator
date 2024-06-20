@@ -9,58 +9,9 @@ on:
       - 'v*'
 
 jobs:
-  build-vue-js-job:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout git submodules
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Checkout openepcis-web
-        uses: actions/checkout@v4
-        with:
-          repository: "openepcis/openepcis-web.git"
-          github-server-url: "https://code.company-group.com"
-          path: modules/openepcis-web
-          ref: "main"
-          token: ${{ secrets.OPENEPCIS_WEB_TOKEN }}
-
-      - name: vus.js ui build
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: "Create VUE.JS Artifact"
-        run: |
-          cd modules/openepcis-web
-          export API_URL="../api"
-          export COPYRIGHT_TEXT="Copyright benelog GmbH & Co. KG | 2023-2024"
-          export NUXT_APP_BASE_URL="/ui/"
-          export ACTIVATE_FEATURES=input-template
-          cd openepcis-components
-          npm install
-          cd ../openepcis-test-data-generator
-          npm install
-          cd ../openepcis-tools
-          npm install
-          cd ../openepcis-test-data-designer
-          npm install
-          npm run generate
-          cd ../..
-
-      - name: 'Upload VUE.JS Artifact'
-        if: contains(github.ref, 'v')
-        uses: actions/upload-artifact@v4
-        with:
-          name: 'testdata-generator-ui-dist'
-          path: 'modules/openepcis-web/openepcis-test-data-designer/.output/public'
-
-
 
   build-jar-job:
     runs-on: ubuntu-latest
-    needs: [ build-vue-js-job ]
     steps:
       - name: checkout git submodules
         uses: actions/checkout@v4
@@ -88,19 +39,6 @@ jobs:
         run: |
           cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
           gpg --batch --list-secret-keys --keyid-format LONG
-
-      - name: 'Download VUE.JS Artifact'
-        if: contains(github.ref, 'v')
-        uses: actions/download-artifact@v4
-        with:
-          name: 'testdata-generator-ui-dist'
-          path: 'modules/openepcis-web/openepcis-test-data-designer/.output/public'
-
-      - name: "integrate vus.js ui into quarkus rest api"
-        run: |
-          rm -Rf testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
-          mv modules/openepcis-web/openepcis-test-data-designer/.output/public testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
-        shell: "bash"
 
       - name: deploy testdata generator modules
         env:
@@ -173,7 +111,6 @@ jobs:
 
   build-quarkus-container-images:
     name: "Build Container Images"
-    needs: [ build-vue-js-job ]
     runs-on: 'ubuntu-latest'
     steps:
       - name: checkout from git
@@ -206,19 +143,6 @@ jobs:
           java-version: '21'
           distribution: 'graalvm-community'
           cache: maven
-
-      - name: 'Download VUE.JS Artifact'
-        if: contains(github.ref, 'v')
-        uses: actions/download-artifact@v4
-        with:
-          name: 'testdata-generator-ui-dist'
-          path: 'modules/openepcis-web/openepcis-test-data-designer/.output/public'
-
-      - name: "integrate vus.js ui into quarkus rest api"
-        run: |
-          rm -Rf testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
-          mv modules/openepcis-web/openepcis-test-data-designer/.output/public testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
-        shell: "bash"
 
       - name: "Prepare Build"
         run: >
@@ -268,7 +192,6 @@ jobs:
 
   build-quarkus-native-container-images:
     name: "Build Native Container Image"
-    needs: [ build-vue-js-job ]
 
     strategy:
       matrix:
@@ -309,19 +232,6 @@ jobs:
           java-version: '21'
           distribution: 'graalvm-community'
           cache: maven
-
-      - name: 'Download VUE.JS Artifact'
-        if: contains(github.ref, 'v')
-        uses: actions/download-artifact@v4
-        with:
-          name: 'testdata-generator-ui-dist'
-          path: 'testdata-generator-ui/dist'
-
-      - name: "integrate vus.js ui into quarkus rest api"
-        run: |
-          rm -Rf testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
-          mv testdata-generator-ui/dist testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
-        shell: "bash"
 
       - name: "Prepare Build"
         run: >
@@ -378,7 +288,7 @@ jobs:
 
   build-quarkus-native-executable:
     name: "Build Quarkus Service Native Executable"
-    needs: [build-jar-job, build-vue-js-job]
+    needs: [build-jar-job]
 
     strategy:
       matrix:
@@ -437,20 +347,6 @@ jobs:
           distribution: 'graalvm-community'
           native-image-job-reports: 'true'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 'Download VUE.JS Artifact'
-        if: contains(github.ref, 'v')
-        uses: actions/download-artifact@v4
-        with:
-          name: 'testdata-generator-ui-dist'
-          path: 'testdata-generator-ui/dist'
-
-      - name: "integrate vus.js ui into quarkus rest api"
-        run: |
-          rm -Rf testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
-          mv testdata-generator-ui/dist testdata-generator-quarkus-rest-app/src/main/resources/static-web/ui
-        shell: "bash"
-
 
       - name: "Prepare Build"
         run: |
