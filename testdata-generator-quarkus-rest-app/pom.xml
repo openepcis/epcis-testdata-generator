@@ -285,8 +285,8 @@
 
         <!-- OpenEPCIS dependency for Hash-Id generator -->
         <dependency>
-            <groupId>io.openepcis</groupId>
-            <artifactId>openepcis-event-hash-generator</artifactId>
+            <groupId>io.openepcis.quarkus</groupId>
+            <artifactId>quarkus-event-hash-generator</artifactId>
             <version>${project.version}</version>
         </dependency>
 
