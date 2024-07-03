@@ -117,8 +117,10 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
                   // Return an empty stream if neither are present
                   return Stream.empty();
                 }).collect(Collectors.toList());
-        
-        epcisEvent.setCertificationInfo(formattedCertificationInfo);
+
+        if (!formattedCertificationInfo.isEmpty()) {
+          epcisEvent.setCertificationInfo(formattedCertificationInfo);
+        }
       }
 
       // User extensions addition
