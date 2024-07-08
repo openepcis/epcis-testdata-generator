@@ -192,9 +192,9 @@ public class EPCISEventType implements Serializable {
   private @Valid String hashAlgorithm;
 
   @Schema(
-      type = SchemaType.STRING,
-      description = "URL at which certification details can be found.")
-  private String certificationInfo;
+      type = SchemaType.ARRAY,
+      description = "Certification information associated with the event in GS1 Web Vocabulary or Raw JSON-LD format")
+  private List<@Valid UserExtensionSyntax> certificationInfo;
 
   @Schema(
       type = SchemaType.ARRAY,

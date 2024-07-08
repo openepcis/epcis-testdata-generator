@@ -103,9 +103,24 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
         epcisEvent.setSensorElementList(typeInfo.getSensorElementList());
       }
 
-      // Add the certificationInfo
+      // Add the certificationInfo by formatting from UserExtension syntax
       if (typeInfo.getCertificationInfo() != null && !typeInfo.getCertificationInfo().isEmpty()) {
-        epcisEvent.setCertificationInfo(typeInfo.getCertificationInfo());
+        final List<Object> formattedCertificationInfo = typeInfo.getCertificationInfo().stream()
+                .flatMap(root -> {
+                  if (CollectionUtils.isNotEmpty(root.getChildren())) {
+                    // Stream over children if present
+                    return root.getChildren().stream().flatMap(c -> c.toMap().entrySet().stream());
+                  } else if (root.getRawJsonld() instanceof Map) {
+                    // Stream over rawJsonld if it's a Map
+                    return root.toMap().entrySet().stream();
+                  }
+                  // Return an empty stream if neither are present
+                  return Stream.empty();
+                }).collect(Collectors.toList());
+
+        if (!formattedCertificationInfo.isEmpty()) {
+          epcisEvent.setCertificationInfo(formattedCertificationInfo);
+        }
       }
 
       // User extensions addition
