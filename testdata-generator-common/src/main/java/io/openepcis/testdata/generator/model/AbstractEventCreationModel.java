@@ -28,8 +28,10 @@ import io.openepcis.testdata.generator.format.*;
 import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.openepcis.testdata.generator.reactivestreams.EPCISEventDownstreamHandler;
 import io.openepcis.testdata.generator.reactivestreams.EventIdentifierTracker;
+import io.openepcis.testdata.generator.sensors.SensorReportProcessor;
 import io.openepcis.testdata.generator.template.EPCISEventType;
 import io.openepcis.testdata.generator.template.Identifier;
+import io.openepcis.testdata.generator.template.RandomGenerators;
 import io.openepcis.testdata.generator.template.ReferencedIdentifier;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +62,8 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
 
   protected final List<Identifier> identifiers;
 
+  protected final List<RandomGenerators> randomGenerators;
+
   private EPCISEventDownstreamHandler epcisEventDownstreamHandler = null;
 
   private final DateTimeFormatter dateFormatter =
@@ -67,10 +71,12 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
 
   private final RandomSerialNumberGenerator randomSerialNumberGenerator;
 
-  public AbstractEventCreationModel(final T typeInfo, final List<Identifier> identifiers) {
+  public AbstractEventCreationModel(final T typeInfo, final List<Identifier> identifiers, final List<RandomGenerators> randomGenerators) {
     this.typeInfo = typeInfo;
     this.identifiers = identifiers;
+    this.randomGenerators = randomGenerators;
     this.randomSerialNumberGenerator = RandomSerialNumberGenerator.getInstance(typeInfo.getSeed()); //Since instance of MersenneTwister for each model
+    RandomValueGenerator.generateInstance(randomGenerators); // Generate Random instance for each of the randomGenerators
   }
 
   @Override
@@ -98,9 +104,24 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
       // Call the method to add the Error related information
       configureErrorInformation(epcisEvent, syntax);
 
-      // Add Sensor Info
+      // Add Sensor Info by formatting the values based on Static/Random
       if (typeInfo.getSensorElementList() != null && !typeInfo.getSensorElementList().isEmpty()) {
-        epcisEvent.setSensorElementList(typeInfo.getSensorElementList());
+        //epcisEvent.setSensorElementList(typeInfo.getSensorElementList());
+        final SensorReportProcessor sensorReportProcessor = new SensorReportProcessor();
+        final List<SensorElementList> sensorElementList = new ArrayList<>();
+
+        typeInfo.getSensorElementList().stream().forEach(sensor ->{
+          try {
+            final List<SensorReport> sensorReports = sensorReportProcessor.processSensorReports(sensor.getSensorReport(), randomGenerators);
+            final SensorElementList sensorElement = new SensorElementList();
+            sensorElement.setSensorMetadata(sensor.getSensorMetadata());
+            sensorElement.setSensorReport(sensorReports);
+            sensorElementList.add(sensorElement);
+          } catch (Exception e) {
+            throw new RuntimeException(e);
+          }
+        });
+        epcisEvent.setSensorElementList(sensorElementList);
       }
 
       // Add the certificationInfo by formatting from UserExtension syntax

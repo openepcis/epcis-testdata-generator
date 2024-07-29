@@ -23,6 +23,7 @@ import io.openepcis.testdata.generator.format.DestinationFormatter;
 import io.openepcis.testdata.generator.format.SourceFormatter;
 import io.openepcis.testdata.generator.reactivestreams.EventIdentifierTracker;
 import io.openepcis.testdata.generator.template.Identifier;
+import io.openepcis.testdata.generator.template.RandomGenerators;
 import io.openepcis.testdata.generator.template.TransactionEventType;
 import java.util.List;
 
@@ -32,8 +33,8 @@ public class TransactionEventCreationModel
   private Identifier matchingParentId = null;
 
   public TransactionEventCreationModel(
-      final TransactionEventType typeInfo, final List<Identifier> identifiers) {
-    super(typeInfo, identifiers);
+      final TransactionEventType typeInfo, final List<Identifier> identifiers, final List<RandomGenerators> randomGenerators) {
+    super(typeInfo, identifiers, randomGenerators);
 
     // Check if user has provided values for the Parent Identifiers
     if (typeInfo.getParentReferencedIdentifier() != null

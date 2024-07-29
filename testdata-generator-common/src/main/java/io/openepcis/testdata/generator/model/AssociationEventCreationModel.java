@@ -24,6 +24,8 @@ import io.openepcis.testdata.generator.format.SourceFormatter;
 import io.openepcis.testdata.generator.reactivestreams.EventIdentifierTracker;
 import io.openepcis.testdata.generator.template.AssociationEventType;
 import io.openepcis.testdata.generator.template.Identifier;
+import io.openepcis.testdata.generator.template.RandomGenerators;
+
 import java.util.List;
 
 public class AssociationEventCreationModel
@@ -32,8 +34,8 @@ public class AssociationEventCreationModel
   private Identifier matchingParentId = null;
 
   public AssociationEventCreationModel(
-      final AssociationEventType typeInfo, final List<Identifier> identifiers) {
-    super(typeInfo, identifiers);
+      final AssociationEventType typeInfo, final List<Identifier> identifiers, final List<RandomGenerators> randomGenerators) {
+    super(typeInfo, identifiers, randomGenerators);
 
     // Check if user has provided values for the Parent Identifiers
     if (typeInfo.getParentReferencedIdentifier() != null
