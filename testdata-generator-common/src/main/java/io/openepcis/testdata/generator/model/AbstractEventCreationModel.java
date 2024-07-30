@@ -28,7 +28,6 @@ import io.openepcis.testdata.generator.format.*;
 import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.openepcis.testdata.generator.reactivestreams.EPCISEventDownstreamHandler;
 import io.openepcis.testdata.generator.reactivestreams.EventIdentifierTracker;
-import io.openepcis.testdata.generator.sensors.SensorReportProcessor;
 import io.openepcis.testdata.generator.template.EPCISEventType;
 import io.openepcis.testdata.generator.template.Identifier;
 import io.openepcis.testdata.generator.template.RandomGenerators;
@@ -106,21 +105,20 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
 
       // Add Sensor Info by formatting the values based on Static/Random
       if (typeInfo.getSensorElementList() != null && !typeInfo.getSensorElementList().isEmpty()) {
-        //epcisEvent.setSensorElementList(typeInfo.getSensorElementList());
-        final SensorReportProcessor sensorReportProcessor = new SensorReportProcessor();
         final List<SensorElementList> sensorElementList = new ArrayList<>();
 
-        typeInfo.getSensorElementList().stream().forEach(sensor ->{
-          try {
-            final List<SensorReport> sensorReports = sensorReportProcessor.processSensorReports(sensor.getSensorReport(), randomGenerators);
-            final SensorElementList sensorElement = new SensorElementList();
-            sensorElement.setSensorMetadata(sensor.getSensorMetadata());
-            sensorElement.setSensorReport(sensorReports);
-            sensorElementList.add(sensorElement);
-          } catch (Exception e) {
-            throw new RuntimeException(e);
-          }
+        typeInfo.getSensorElementList().forEach(element -> {
+          final SensorElementList sensorElement = new SensorElementList();
+          final List<SensorReport> sensorReports = new ArrayList<>();
+
+          sensorElement.setSensorMetadata(element.getSensorMetadata());
+          element.getSensorReport().forEach(report -> sensorReports.add(report.format(randomGenerators))); //Format the SensorReportType to SensorReport
+
+          sensorElement.setSensorReport(sensorReports);
+          sensorElementList.add(sensorElement);
         });
+
+        //Assign formatted sensorElementList to EPCISEvent SensorElementList
         epcisEvent.setSensorElementList(sensorElementList);
       }
 

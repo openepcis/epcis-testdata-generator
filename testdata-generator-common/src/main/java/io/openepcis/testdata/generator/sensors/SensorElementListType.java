@@ -1,7 +1,6 @@
 package io.openepcis.testdata.generator.sensors;
 
 import io.openepcis.model.epcis.SensorMetadata;
-import io.openepcis.testdata.generator.format.ValueTypeSyntax;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Getter;
 import lombok.Setter;

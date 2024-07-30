@@ -13,7 +13,7 @@ public class RandomValueGenerator {
     //Method to generate the Mersenne Twister instance for each of the RandomGenerators to get subsequent numbers when used multiple times
     public static void generateInstance(final List<RandomGenerators> randomGenerators) {
         if (randomGenerators != null) {
-            randomGenerators.stream().forEach(r -> {
+            randomGenerators.forEach(r -> {
                 // Initialize Mersenne Twister with the seed
                 final RandomGenerator random = new MersenneTwister(r.getSeedValue());
                 r.setRandomGenerator(random);
@@ -30,7 +30,6 @@ public class RandomValueGenerator {
 
     //Method to generate the sample based on the seed and distribution information
     public double sample() {
-        double randomNumber = triangularDistribution.sample();
-        return randomNumber;
+        return triangularDistribution.sample();
     }
 }

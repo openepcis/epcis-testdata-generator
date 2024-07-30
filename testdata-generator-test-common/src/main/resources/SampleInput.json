@@ -55,7 +55,9 @@
               "minValue": {
                 "type": "random",
                 "randomID": 1
-              }
+              },
+              "uom": "A34",
+              "uriValue": "urn:test"
             }
           ]
         }

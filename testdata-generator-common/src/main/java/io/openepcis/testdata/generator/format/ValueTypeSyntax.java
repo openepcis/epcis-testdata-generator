@@ -29,7 +29,7 @@ public class ValueTypeSyntax implements Serializable {
     public double getValue(final List<RandomGenerators> randomGenerators) {
         if (this.type.equals("static")) {
             return this.staticValue;
-        } else if (this.type.equals("random")) {
+        } else if (this.type.equals("random") && randomGenerators != null) {
             return generateRandomValue(randomGenerators);
         }
         throw new IllegalStateException("Unknown type for Value generation : " + this.type);
