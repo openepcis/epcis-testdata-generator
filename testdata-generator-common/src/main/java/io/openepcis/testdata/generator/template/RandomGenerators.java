@@ -1,11 +1,10 @@
 package io.openepcis.testdata.generator.template;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.openepcis.testdata.generator.format.RandomValueGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.distribution.TriangularDistribution;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
@@ -61,5 +60,5 @@ public class RandomGenerators implements Serializable {
     private String distributionType;
 
     @JsonIgnore
-    private RandomGenerator randomGenerator;
+    private TriangularDistribution triangularDistribution;
 }

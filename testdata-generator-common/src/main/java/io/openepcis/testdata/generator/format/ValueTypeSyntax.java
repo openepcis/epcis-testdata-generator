@@ -42,8 +42,6 @@ public class ValueTypeSyntax implements Serializable {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("No generator found for randomID: " + randomID));
 
-        // Instantiate RandomValueGenerator with the found config
-        final RandomValueGenerator generator = new RandomValueGenerator(generatorConfig);
-        return generator.sample(); // Generate and return the random value
+        return generatorConfig.getTriangularDistribution().sample(); // Generate and return the random value
     }
 }
