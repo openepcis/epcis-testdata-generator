@@ -18,7 +18,7 @@ public class RandomValueGenerator {
             randomGenerators.forEach(r -> {
                 // Initialize Mersenne Twister with the seed
                 final RandomGenerator random = new MersenneTwister(r.getSeedValue());
-                final TriangularDistribution triangularDistribution = new TriangularDistribution(random, r.getMinValue(), r.getMaxValue(), r.getMeanValue());
+                final TriangularDistribution triangularDistribution = new TriangularDistribution(random, r.getMinValue(), r.getMeanValue(), r.getMaxValue());
                 r.setTriangularDistribution(triangularDistribution);
             });
         }

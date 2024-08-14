@@ -1,10 +1,12 @@
 package io.openepcis.testdata.generator.format;
 
+import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.template.RandomGenerators;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
@@ -32,7 +34,8 @@ public class ValueTypeSyntax implements Serializable {
         } else if (this.type.equals("random") && randomGenerators != null) {
             return generateRandomValue(randomGenerators);
         }
-        throw new IllegalStateException("Unknown type for Value generation : " + this.type);
+
+        throw new TestDataGeneratorException("Unknown type for Value generation : " + this.type);
     }
 
     private double generateRandomValue(final List<RandomGenerators> randomGenerators) {
@@ -42,6 +45,17 @@ public class ValueTypeSyntax implements Serializable {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("No generator found for randomID: " + randomID));
 
-        return generatorConfig.getTriangularDistribution().sample(); // Generate and return the random value
+        double sample = generatorConfig.getTriangularDistribution().sample(); // Generate and return the random value
+
+        //If user specified format for RandomGenerator then format based on specific format
+        if(!StringUtils.isBlank(generatorConfig.getFormatValue())){
+            try{
+                return Double.parseDouble(String.format(generatorConfig.getFormatValue(), sample));
+            }catch (Exception ex){
+                throw new TestDataGeneratorException("Invalid format value provided for formatting Random value : " + ex.getMessage(), ex);
+            }
+        }
+
+        return Double.parseDouble(String.format("%.3f", sample));
     }
 }
