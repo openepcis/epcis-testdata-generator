@@ -30,21 +30,21 @@ public class EventModelUtil {
   private EventModelUtil() {}
 
   public static Optional<EventCreationModel<EPCISEventType, EPCISEvent>> createModel(
-      final EPCISEventType epcisEventType, final List<Identifier> identifiers) {
+      final EPCISEventType epcisEventType, final List<Identifier> identifiers, final List<RandomGenerators> randomGenerators) {
     if (epcisEventType instanceof ObjectEventType objectEventType) {
-      return createEventCreationModel(new ObjectEventCreationModel(objectEventType, identifiers));
+      return createEventCreationModel(new ObjectEventCreationModel(objectEventType, identifiers, randomGenerators));
     } else if (epcisEventType instanceof AggregationEventType aggregationEventType) {
       return createEventCreationModel(
-          new AggregationEventCreationModel(aggregationEventType, identifiers));
+          new AggregationEventCreationModel(aggregationEventType, identifiers, randomGenerators));
     } else if (epcisEventType instanceof TransactionEventType transactionEventType) {
       return createEventCreationModel(
-          new TransactionEventCreationModel(transactionEventType, identifiers));
+          new TransactionEventCreationModel(transactionEventType, identifiers, randomGenerators));
     } else if (epcisEventType instanceof TransformationEventType transformationEventType) {
       return createEventCreationModel(
-          new TransformationEventCreationModel(transformationEventType, identifiers));
+          new TransformationEventCreationModel(transformationEventType, identifiers, randomGenerators));
     } else if (epcisEventType instanceof AssociationEventType associationEventType) {
       return createEventCreationModel(
-          new AssociationEventCreationModel(associationEventType, identifiers));
+          new AssociationEventCreationModel(associationEventType, identifiers, randomGenerators));
     }
     return Optional.empty();
   }

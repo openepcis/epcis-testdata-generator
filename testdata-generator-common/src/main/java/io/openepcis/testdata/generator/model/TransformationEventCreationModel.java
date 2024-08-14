@@ -21,6 +21,7 @@ import io.openepcis.model.epcis.TransformationEvent;
 import io.openepcis.testdata.generator.format.PersistentDispositionFormatter;
 import io.openepcis.testdata.generator.reactivestreams.EventIdentifierTracker;
 import io.openepcis.testdata.generator.template.Identifier;
+import io.openepcis.testdata.generator.template.RandomGenerators;
 import io.openepcis.testdata.generator.template.ReferencedIdentifier;
 import io.openepcis.testdata.generator.template.TransformationEventType;
 import org.apache.commons.collections4.CollectionUtils;
@@ -36,8 +37,8 @@ public class TransformationEventCreationModel
     extends AbstractEventCreationModel<TransformationEventType, TransformationEvent> {
 
   public TransformationEventCreationModel(
-      final TransformationEventType typeInfo, final List<Identifier> identifiers) {
-    super(typeInfo, identifiers);
+          final TransformationEventType typeInfo, final List<Identifier> identifiers, final List<RandomGenerators> randomGenerators) {
+    super(typeInfo, identifiers, randomGenerators);
   }
 
   @Override

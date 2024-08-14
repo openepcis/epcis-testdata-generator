@@ -1,20 +1,27 @@
 {
   "events": [
     {
-      "nodeId": 18,
+      "nodeId": 1,
       "eventType": "ObjectEvent",
       "eventCount": 1,
       "locationPartyIdentifierSyntax": "WebURI",
       "dlURL": "https://id.gs1.org",
-      "seed": 1718888631300,
+      "seed": 1722003455935,
       "ordinaryEvent": true,
       "action": "ADD",
       "eventID": false,
       "eventTime": {
         "timeZoneOffset": "+02:00",
-        "fromTime": "2024-11-10T15:03:51+02:00",
-        "toTime": "2024-12-12T15:03:51+02:00"
+        "specificTime": "2024-07-26T16:17:35.000+02:00"
       },
+      "certificationInfo": [
+        {
+          "extensionID": 0,
+          "prefix": "",
+          "contextURL": "",
+          "children": []
+        }
+      ],
       "userExtensions": [
         {
           "extensionID": 0,
@@ -31,10 +38,47 @@
           "children": []
         }
       ],
+      "sensorElementList": [
+        {
+          "ID": 0,
+          "sensorReport": [
+            {
+              "ID": 0,
+              "value": {
+                "type": "random",
+                "randomID": 1
+              },
+              "maxValue": {
+                "type": "random",
+                "randomID": 1
+              },
+              "minValue": {
+                "type": "random",
+                "randomID": 1
+              },
+              "uom": "A34",
+              "uriValue": "urn:test"
+            }
+          ]
+        }
+      ],
       "referencedIdentifier": [],
       "parentReferencedIdentifier": {},
       "outputReferencedIdentifier": []
     }
   ],
-  "identifiers": []
+  "identifiers": [],
+  "randomGenerators": [
+    {
+      "name": "RandomGen-1",
+      "description": "Random Generator",
+      "minValue": 10,
+      "maxValue": 12,
+      "meanValue": 20,
+      "seedValue": 1721996358265,
+      "formatValue": "%.2f",
+      "distributionType": "TriangularDistribution",
+      "randomID": 1
+    }
+  ]
 }

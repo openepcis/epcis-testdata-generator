@@ -16,7 +16,6 @@
 package io.openepcis.testdata.generator.template;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.util.List;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,20 +23,27 @@ import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
 @RegisterForReflection
 public class InputTemplate {
   @Schema(
-      type = SchemaType.ARRAY,
-      description = "List of events information required for creation of EPCIS events.",
-      required = true)
+          type = SchemaType.ARRAY,
+          description = "List of events information required for creation of EPCIS events.",
+          required = true)
   private List<@Valid EPCISEventType> events;
 
   @Schema(
-      type = SchemaType.ARRAY,
-      description = "List of identifiers information required for creation of EPCIS events.",
-      required = true)
+          type = SchemaType.ARRAY,
+          description = "List of identifiers information required for creation of EPCIS events.",
+          required = true)
   private List<@Valid Identifier> identifiers;
+
+  @Schema(
+          type = SchemaType.ARRAY,
+          description = "List of random types information required for creation of random values/serials.")
+  private List<@Valid RandomGenerators> randomGenerators;
 }

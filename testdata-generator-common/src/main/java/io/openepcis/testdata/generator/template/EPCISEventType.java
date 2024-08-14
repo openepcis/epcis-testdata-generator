@@ -21,16 +21,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.openepcis.model.epcis.BizTransactionList;
 import io.openepcis.model.epcis.PersistentDisposition;
 import io.openepcis.model.epcis.QuantityList;
-import io.openepcis.model.epcis.SensorElementList;
 import io.openepcis.testdata.generator.constants.*;
 import io.openepcis.testdata.generator.format.ErrorDeclarationSyntax;
 import io.openepcis.testdata.generator.format.EventTime;
 import io.openepcis.testdata.generator.format.ReadPointBizLocationSyntax;
 import io.openepcis.testdata.generator.format.UserExtensionSyntax;
+import io.openepcis.testdata.generator.sensors.SensorElementListType;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -39,6 +36,10 @@ import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -156,9 +157,9 @@ public class EPCISEventType implements Serializable {
 
   // HOW Dimension Common Information
   @Schema(
-      type = SchemaType.ARRAY,
-      description = "Sensor element information associated with the event")
-  private List<@Valid SensorElementList> sensorElementList;
+          type = SchemaType.ARRAY,
+          description = "Sensor element information associated with the event")
+  private List<@Valid SensorElementListType> sensorElementList;
 
   // OTHER Fields
   @Schema(

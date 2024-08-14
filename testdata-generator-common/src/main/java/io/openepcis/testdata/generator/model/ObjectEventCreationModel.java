@@ -26,6 +26,7 @@ import io.openepcis.testdata.generator.format.SourceFormatter;
 import io.openepcis.testdata.generator.reactivestreams.EventIdentifierTracker;
 import io.openepcis.testdata.generator.template.Identifier;
 import io.openepcis.testdata.generator.template.ObjectEventType;
+import io.openepcis.testdata.generator.template.RandomGenerators;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
@@ -37,8 +38,8 @@ public class ObjectEventCreationModel
     extends AbstractEventCreationModel<ObjectEventType, ObjectEvent> {
 
   public ObjectEventCreationModel(
-      final ObjectEventType typeInfo, final List<Identifier> identifiers) {
-    super(typeInfo, identifiers);
+          final ObjectEventType typeInfo, final List<Identifier> identifiers, final List<RandomGenerators> randomGenerators) {
+    super(typeInfo, identifiers, randomGenerators);
   }
 
   @Override
