@@ -12,6 +12,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 
 @Setter
 @Getter
@@ -50,7 +51,7 @@ public class ValueTypeSyntax implements Serializable {
         //If user specified format for RandomGenerator then format based on specific format
         if(!StringUtils.isBlank(generatorConfig.getFormatValue())){
             try{
-                return Double.parseDouble(String.format(generatorConfig.getFormatValue(), sample));
+                return Double.parseDouble(String.format(Locale.US, generatorConfig.getFormatValue(), sample));
             }catch (Exception ex){
                 throw new TestDataGeneratorException("Invalid format value provided for formatting Random value : " + ex.getMessage(), ex);
             }
