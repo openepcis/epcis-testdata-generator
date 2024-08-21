@@ -2,42 +2,73 @@
   "events": [
     {
       "nodeId": 1,
-      "eventType": "AggregationEvent",
-      "eventCount": 10,
-      "locationPartyIdentifierSyntax": "URN",
+      "eventType": "ObjectEvent",
+      "eventCount": 1,
+      "locationPartyIdentifierSyntax": "WebURI",
+      "dlURL": "https://id.gs1.org",
+      "seed": 1724171828851,
       "ordinaryEvent": true,
       "action": "ADD",
       "eventID": false,
       "eventTime": {
         "timeZoneOffset": "+02:00",
-        "specificTime": "2022-03-01T16:50:04+01:00"
+        "specificTime": "2024-08-20T18:37:08.000+02:00"
       },
-      "businessStep": "PACKING",
+      "businessStep": "ACCEPTING",
       "disposition": "IN_PROGRESS",
-      "referencedIdentifier": [],
-      "parentReferencedIdentifier": {
-        "identifierId": 1,
-        "parentCount": 10
-      },
+      "certificationInfo": [
+        {
+          "extensionID": 0,
+          "prefix": "",
+          "contextURL": "",
+          "children": []
+        }
+      ],
+      "userExtensions": [
+        {
+          "extensionID": 0,
+          "prefix": "",
+          "contextURL": "",
+          "children": []
+        }
+      ],
+      "ilmd": [
+        {
+          "extensionID": 0,
+          "prefix": "",
+          "contextURL": "",
+          "children": []
+        }
+      ],
+      "referencedIdentifier": [
+        {
+          "identifierId": 1,
+          "epcCount": 3,
+          "classCount": 0
+        }
+      ],
+      "parentReferencedIdentifier": {},
       "outputReferencedIdentifier": []
     }
   ],
   "identifiers": [
     {
       "identifierId": 1,
-      "objectIdentifierSyntax": "URN",
-      "instanceData": null,
-      "classData": null,
-      "parentData": {
-        "grai": {
-          "identifierType": "grai",
-          "gcpLength": "12",
-          "grai": "8394893849389",
+      "objectIdentifierSyntax": "WebURI",
+      "dlURL": "https://id.gs1.org",
+      "instanceData": {
+        "sgtin": {
+          "identifierType": "sgtin",
+          "gcpLength": "",
           "serialType": "range",
-          "rangeFrom": "9000",
-          "rangeTo": "9001"
+          "sgtin": "11111111111111",
+          "rangeFrom": 333,
+          "count": 3,
+          "ID": 1
         }
-      }
+      },
+      "classData": null,
+      "parentData": null
     }
   ]
 }

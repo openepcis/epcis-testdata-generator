@@ -96,8 +96,8 @@ public class EPCISEventType implements Serializable {
 
   @Schema(
           type = SchemaType.STRING,
-          description = "(Optional) Custom URL used during the Digital Link URL generation. Default:https://ref.gs1.org")
-  private @Valid String dlURL = DomainName.VOCABULARY_DOMAIN;
+          description = "(Optional) Custom URL used during the Digital Link URL generation. Default:https://id.gs1.org")
+  private @Valid String dlURL = DomainName.IDENTIFIER_DOMAIN;
 
   @Schema(
           type = SchemaType.NUMBER,
