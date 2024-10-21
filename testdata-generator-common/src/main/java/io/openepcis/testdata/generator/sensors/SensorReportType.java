@@ -99,6 +99,9 @@ public class SensorReportType {
         setStringValue(sensorReport, SensorReport::setStringValue, this.stringValue);
         setStringValue(sensorReport, SensorReport::setUom, this.uom);
 
+        // Invoke other values if not null/ value provided
+        sensorReport.setBooleanValue(this.booleanValue != null ? this.booleanValue : null);
+        sensorReport.setTime(this.time != null ? this.time : null);
 
         return sensorReport;
     }
