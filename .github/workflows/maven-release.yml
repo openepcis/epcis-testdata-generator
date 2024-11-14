@@ -69,7 +69,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: 'testdata-generator-quarkus-rest-app-${{env.VERSION}}-runner.jar'
-          path: 'testdata-generator-quarkus-rest-app/target/testdata-generator-quarkus-rest-app-runner.jar'
+          path: 'quarkus/quarkus-app/target/testdata-generator-quarkus-rest-app-runner.jar'
 
       - name: 'Create Release'
         if: contains(github.ref, 'v')
@@ -94,7 +94,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           upload_url: ${{steps.create_release.outputs.upload_url}}
-          asset_path: 'testdata-generator-quarkus-rest-app/target/testdata-generator-quarkus-rest-app-runner.jar'
+          asset_path: 'quarkus/quarkus-app/target/testdata-generator-quarkus-rest-app-runner.jar'
           asset_name: 'testdata-generator-quarkus-rest-app-${{env.GIT_TAG_NAME}}.jar'
           asset_content_type: application/java-archive
 
@@ -151,7 +151,7 @@ jobs:
       - name: "Build linux/amd64 Image"
         run: |
           mvn --no-transfer-progress --batch-mode -Pci-build \
-            clean package -f ./testdata-generator-quarkus-rest-app/pom.xml \
+            clean package -f ./quarkus/quarkus-app/pom.xml \
             -Dquarkus.container-image.name=testdata-generator \
             -Dquarkus.container-image.build=true \
             -Dquarkus.container-image.registry=ghcr.io \
@@ -163,7 +163,7 @@ jobs:
       - name: "Build linux/arm64 Image"
         run: |
           mvn --no-transfer-progress --batch-mode -Pci-build \
-            clean package -f ./testdata-generator-quarkus-rest-app/pom.xml \
+            clean package -f ./quarkus/quarkus-app/pom.xml \
             -Dquarkus.container-image.name=testdata-generator \
             -Dquarkus.container-image.build=true \
             -Dquarkus.container-image.registry=ghcr.io \
@@ -239,7 +239,7 @@ jobs:
 
       - name: "Build ${{matrix.platform}} native Image"
         run: |
-          mvn --no-transfer-progress --batch-mode package -Dnative -Pci-build -DskipTests -f ./testdata-generator-quarkus-rest-app/pom.xml \
+          mvn --no-transfer-progress --batch-mode package -Dnative -Pci-build -DskipTests -f ./quarkus/quarkus-app/pom.xml \
             -Dquarkus.native.container-build=true \
             -Dquarkus.container-image.build=true \
             -Dquarkus.container-image.name=testdata-generator-native \
