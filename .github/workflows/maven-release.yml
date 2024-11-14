@@ -355,7 +355,7 @@ jobs:
 
       - name: "Build Native Quarkus Executable"
         run: |
-          mvn --no-transfer-progress --batch-mode clean package -Pnative -Pci-build -DskipTests -f ./testdata-generator-quarkus-rest-app/pom.xml
+          mvn --no-transfer-progress --batch-mode clean package -Pnative -Pci-build -DskipTests -f ./quarkus/quarkus-app/pom.xml
 
       - name: 'Release Native Quarkus Executable'
         if: success() && contains(github.ref, 'v')
@@ -366,5 +366,5 @@ jobs:
         with:
           upload_url: ${{env.UPLOAD_URL}}
           asset_name: 'testdata-generator-quarkus-rest-app-runner-${{env.GIT_TAG_NAME}}-${{matrix.label}}${{matrix.exe}}'
-          asset_path: 'testdata-generator-quarkus-rest-app/target/testdata-generator-quarkus-rest-app-runner${{matrix.exe}}'
+          asset_path: 'quarkus/quarkus-app/target/testdata-generator-quarkus-rest-app-runner${{matrix.exe}}'
           asset_content_type: application/octet-stream
