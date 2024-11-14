@@ -69,3 +69,4 @@ sw.*
 
 # macOS
 .DS_Store
+/quarkus/quarkus-app/src/main/resources/static-web/**

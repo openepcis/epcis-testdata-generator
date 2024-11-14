@@ -65,7 +65,7 @@
         <module>testdata-generator-common</module>
         <module>testdata-generator-test-common</module>
         <module>testdata-generator-rest-api</module>
-        <module>testdata-generator-quarkus-rest-app</module>
+        <module>quarkus</module>
     </modules>
 
     <build>
