@@ -107,7 +107,7 @@ public class GenerateLGTIN extends GenerateQuantity {
     quantityFormatted.setEpcClass(epcClass);
     if (!StringUtils.isBlank(quantityType)) {
       quantityFormatted.setQuantity(quantity);
-      quantityFormatted.setUom(uom);
+      quantityFormatted.setUom(quantityType != null && quantityType.equals("Variable Measure Quantity") ? uom : null);
     }
     return quantityFormatted;
   }

@@ -67,7 +67,7 @@ public class GenerateCPI extends GenerateQuantity {
 
           // Add the quantity and UOM information if provided accordingly to the Quantity
           quantityFormatted.setQuantity(refQuantity != null && refQuantity != 0 ? refQuantity : quantity);
-          quantityFormatted.setUom(uom);
+          quantityFormatted.setUom(quantityType != null && quantityType.equals("Variable Measure Quantity") ? uom : null);
           returnQuantityFormatted.add(quantityFormatted);
         }
       }

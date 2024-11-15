@@ -72,7 +72,7 @@ public class GenerateGRAI extends GenerateQuantity {
           }
 
           quantityFormatted.setQuantity(refQuantity != null && refQuantity != 0 ? refQuantity : quantity);
-          quantityFormatted.setUom(uom);
+          quantityFormatted.setUom(quantityType != null && quantityType.equals("Variable Measure Quantity") ? uom : null);
           returnQuantityFormatted.add(quantityFormatted);
         }
       }
