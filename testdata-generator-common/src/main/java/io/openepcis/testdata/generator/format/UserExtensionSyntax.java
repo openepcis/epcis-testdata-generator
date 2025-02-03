@@ -22,11 +22,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,15 +69,21 @@ public class UserExtensionSyntax implements Serializable {
   )
   private String data;
 
-  @Schema(
-          type = SchemaType.STRING,
-          enumeration = {
-                  "simple",
-                  "complex"
-          },
-          description =
-                  "Type of user extension simple type with direct value or complex type with children elements")
-  private List<UserExtensionSyntax> children;
+    @Schema(type = SchemaType.NUMBER,
+            description = "Number Data associated with the custom user extension (Ex: 1, 10, 1234, 20.0 etc.)"
+    )
+    private String numberData;
+
+    @Schema(
+            type = SchemaType.STRING,
+            enumeration = {
+                    "string",
+                    "number",
+                    "complex"
+            },
+            description =
+                    "Type of user extension simple type with direct value or complex type with children elements")
+    private List<UserExtensionSyntax> children;
 
   @Schema(type = SchemaType.OBJECT,
           description = "Raw JSON-LD formatted extension with @context which can be directly appended as extensions."
@@ -87,43 +95,52 @@ public class UserExtensionSyntax implements Serializable {
   public Map<String, Object> toMap() {
     final Map<String, Object> map = new HashMap<>();
 
-    if (this.rawJsonld == null) {
-      //Add the context prefix and url to the document context
-      buildContextInfo(this.prefix, this.contextURL);
+        if (this.rawJsonld == null) {
+            //Add the context prefix and url to the document context
+            buildContextInfo(this.prefix, this.contextURL);
 
-      //Based on the Web Vocabulary or Custom Extensions get the respective key and add information
-      final String key = StringUtils.isNotBlank(this.label) ? this.label : (this.prefix + ":" + this.property);
+            // Determine the key based on Web Vocabulary or Custom Extensions
+            final String key = StringUtils.defaultIfBlank(this.label, this.prefix + ":" + this.property);
 
-      //for complex children is not empty then recursively loop over children and format the elements
-      if (CollectionUtils.isNotEmpty(children)) {
-        final Map<String, Object> complexMap = children.stream()
-                .flatMap(c -> c.toMap().entrySet().stream())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        map.put(key, complexMap);
-      } else {
-        //for simple string directly add the information
-        map.put(key, data);
-      }
-    } else if (this.rawJsonld instanceof Map<?, ?>) {
-      // Check if rawJsonld is a Map if so extract context info and append others to map
-      @SuppressWarnings("unchecked")
-      final Map<String, Object> genExtMap = (Map<String, Object>) this.rawJsonld;
+            // If children are present, recursively process them
+            if (CollectionUtils.isNotEmpty(children)) {
+                final Map<String, Object> complexMap = children.stream()
+                        .flatMap(c -> c.toMap().entrySet().stream())
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                map.put(key, complexMap);
+            } else {
+                // Determine the value to store
+                final String value = StringUtils.defaultIfBlank(data, numberData);
 
-      // Extract @context if present and append it to the StreamingEPCISDocument @context of EPCIS Document
-      Optional.ofNullable(genExtMap.get("@context"))
-              .filter(obj -> obj instanceof List)
-              .map(obj -> (List<Map<String, String>>) obj)
-              .ifPresent(contextList -> contextList.stream()
-                      .flatMap(contextMap -> contextMap.entrySet().stream())
-                      .forEach(entry -> buildContextInfo(entry.getKey(), entry.getValue())));
+                // If number add as Number else add as String
+                if(NumberUtils.isNumber(value)){
+                    final Number number = value.contains(".") || value.toLowerCase().contains("e")
+                                            ?  new BigDecimal(value)
+                                            : NumberUtils.createNumber(value);
+                    map.put(key, number);
+                }else {
+                    map.put(key, value);
+                }
+            }
+        } else if (this.rawJsonld instanceof Map<?, ?>) {
+            // Check if rawJsonld is a Map if so extract context info and append others to map
+            @SuppressWarnings("unchecked") final Map<String, Object> genExtMap = (Map<String, Object>) this.rawJsonld;
+
+            // Extract @context if present and append it to the StreamingEPCISDocument @context of EPCIS Document
+            Optional.ofNullable(genExtMap.get("@context"))
+                    .filter(obj -> obj instanceof List)
+                    .map(obj -> (List<Map<String, String>>) obj)
+                    .ifPresent(contextList -> contextList.stream()
+                            .flatMap(contextMap -> contextMap.entrySet().stream())
+                            .forEach(entry -> buildContextInfo(entry.getKey(), entry.getValue())));
 
 
-      genExtMap.remove("@context"); // exclude the @context from the rawJsonld
-      map.putAll(genExtMap); // add remaining entries to the map
+            genExtMap.remove("@context"); // exclude the @context from the rawJsonld
+            map.putAll(genExtMap); // add remaining entries to the map
+        }
+
+        return map;
     }
-
-    return map;
-  }
 
 
   //Function to add the context url and the prefix to the StreamingEPCISDocument context to generate the @context
