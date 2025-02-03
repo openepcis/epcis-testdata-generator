@@ -157,6 +157,7 @@ public class TestDataGeneratorResource {
       if (violations.isEmpty()) {
         final StreamingEPCISDocument streamingEPCISDocument = new StreamingEPCISDocument();
         StreamingEPCISDocument.storeContextInfo(inputTemplate.getEvents());
+        StreamingEPCISDocument.storeContextUrls(inputTemplate.getContextUrls());
         streamingEPCISDocument.setPrettyPrint(pretty);
         streamingEPCISDocument.setEpcisEvents(EPCISEventGenerator.generate(inputTemplate));
         return streamingEPCISDocument;

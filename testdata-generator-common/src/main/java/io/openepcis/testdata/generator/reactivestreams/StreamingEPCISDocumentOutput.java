@@ -19,10 +19,13 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import io.openepcis.constants.EPCIS;
+import io.openepcis.constants.EPCISVersion;
 import io.openepcis.model.epcis.EPCISEvent;
 import io.openepcis.model.rest.ProblemResponseBody;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.smallrye.mutiny.Multi;
+import org.apache.commons.collections4.CollectionUtils;
 import org.jboss.resteasy.reactive.RestResponse;
 
 import java.io.IOException;
@@ -50,7 +53,7 @@ public class StreamingEPCISDocumentOutput {
     private static final DateTimeFormatter DATE_TIME_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
 
-    private StreamingEPCISDocumentOutput( final Executor executor, final ObjectMapper objectMapper, final OutputStream outputStream, final Writer writer) {
+    private StreamingEPCISDocumentOutput(final Executor executor, final ObjectMapper objectMapper, final OutputStream outputStream, final Writer writer) {
         this.executor = executor;
         this.objectMapper = objectMapper.copy();
         this.outputStream = outputStream;
@@ -74,7 +77,7 @@ public class StreamingEPCISDocumentOutput {
     }
 
     private JsonGenerator createJsonGenerator() throws IOException {
-        final JsonGenerator jsonGenerator = outputStream != null?JSON_FACTORY.createGenerator(outputStream):JSON_FACTORY.createGenerator(writer);
+        final JsonGenerator jsonGenerator = outputStream != null ? JSON_FACTORY.createGenerator(outputStream) : JSON_FACTORY.createGenerator(writer);
         jsonGenerator.setCodec(objectMapper);
         return jsonGenerator;
     }
@@ -102,7 +105,7 @@ public class StreamingEPCISDocumentOutput {
         }
     }
 
-    public Flow.Subscriber<EPCISEvent> createSubscriber(final JsonGenerator jsonGenerator, final AtomicBoolean running)  {
+    public Flow.Subscriber<EPCISEvent> createSubscriber(final JsonGenerator jsonGenerator, final AtomicBoolean running) {
         return new Flow.Subscriber<>() {
             final AtomicReference<Flow.Subscription> refSubscription = new AtomicReference<>();
 
@@ -116,10 +119,21 @@ public class StreamingEPCISDocumentOutput {
                     jsonGenerator.writeStartObject();
 
                     // Write the info related to Context element in JSON
-                    jsonGenerator.writeFieldName("@context");
+                    jsonGenerator.writeFieldName(EPCIS.CONTEXT);
                     jsonGenerator.writeStartArray();
-                    jsonGenerator.writeString(
-                            "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld");
+                    jsonGenerator.writeString(EPCISVersion.getDefaultJSONContext());
+
+                    // Adds all selected context URLs to the EPCIS document's @context array.
+                    if (CollectionUtils.isNotEmpty(StreamingEPCISDocument.getSelectedContextUrls())) {
+                        StreamingEPCISDocument.getSelectedContextUrls()
+                                .forEach(url -> {
+                                    try {
+                                        jsonGenerator.writeString(url);
+                                    } catch (IOException e) {
+                                        throw new TestDataGeneratorException("Failed to write context URL: " + url, e);
+                                    }
+                                });
+                    }
 
                     // If context contains any values then add them to context array
                     if (StreamingEPCISDocument.getContext() != null
@@ -179,7 +193,7 @@ public class StreamingEPCISDocumentOutput {
                     jsonGenerator.writeEndObject(); // End epcisBody
 
                     //If there is error then add the error message to JSON
-                    final ProblemResponseBody pb =  ProblemResponseBody.fromException(t, RestResponse.Status.BAD_REQUEST);
+                    final ProblemResponseBody pb = ProblemResponseBody.fromException(t, RestResponse.Status.BAD_REQUEST);
                     jsonGenerator.writeObjectField("problemResponse", pb);
 
                     jsonGenerator.writeEndObject(); // End whole json file

@@ -17,6 +17,7 @@ package io.openepcis.testdata.generator.reactivestreams;
 
 import io.openepcis.model.epcis.EPCISEvent;
 import io.openepcis.testdata.generator.format.UserExtensionSyntax;
+import io.openepcis.testdata.generator.template.CustomContextUrl;
 import io.openepcis.testdata.generator.template.EPCISEventType;
 import io.openepcis.testdata.generator.template.ObjectEventType;
 import io.openepcis.testdata.generator.template.TransformationEventType;
@@ -30,7 +31,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -40,6 +43,9 @@ public class StreamingEPCISDocument {
     // Variable to store the localname & namespaces from User Extensions so can be added to @context
     @Getter
     private static Map<String, String> context;
+
+    @Getter
+    private static List<String> selectedContextUrls;
 
     private Multi<EPCISEvent> epcisEvents;
     private boolean prettyPrint;
@@ -76,8 +82,16 @@ public class StreamingEPCISDocument {
                 });
     }
 
+    public static void storeContextUrls(final List<CustomContextUrl> customContextUrls) {
+        selectedContextUrls = customContextUrls.stream()
+                .filter(c ->  Objects.nonNull(c.getIsChecked()) && c.getIsChecked())
+                .map(CustomContextUrl::getContextURL)
+                .toList();
+    }
+
     /**
      * Extract namespaceURI and localname from each event and store in context.
+     *
      * @param extensions list of extensions from ilmd, error and userExtensions
      */
     public static void extractNamespaces(final List<UserExtensionSyntax> extensions) {
@@ -86,6 +100,7 @@ public class StreamingEPCISDocument {
 
     /**
      * write to OutputStream
+     *
      * @param fn builder reference
      * @throws IOException throws the io exception
      */
@@ -95,6 +110,7 @@ public class StreamingEPCISDocument {
 
     /**
      * write to Writer
+     *
      * @param fn builder reference
      * @throws IOException throws the io exception
      */
