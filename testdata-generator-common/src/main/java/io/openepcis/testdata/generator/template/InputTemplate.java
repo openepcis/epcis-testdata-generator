@@ -30,20 +30,25 @@ import java.util.List;
 @ToString
 @RegisterForReflection
 public class InputTemplate {
-  @Schema(
-          type = SchemaType.ARRAY,
-          description = "List of events information required for creation of EPCIS events.",
-          required = true)
-  private List<@Valid EPCISEventType> events;
+    @Schema(
+            type = SchemaType.ARRAY,
+            description = "List of events information required for creation of EPCIS events.",
+            required = true)
+    private List<@Valid EPCISEventType> events;
 
-  @Schema(
-          type = SchemaType.ARRAY,
-          description = "List of identifiers information required for creation of EPCIS events.",
-          required = true)
-  private List<@Valid Identifier> identifiers;
+    @Schema(
+            type = SchemaType.ARRAY,
+            description = "List of identifiers information required for creation of EPCIS events.",
+            required = true)
+    private List<@Valid Identifier> identifiers;
 
-  @Schema(
-          type = SchemaType.ARRAY,
-          description = "List of random types information required for creation of random values/serials.")
-  private List<@Valid RandomGenerators> randomGenerators;
+    @Schema(
+            type = SchemaType.ARRAY,
+            description = "List of random types information required for creation of random values/serials.")
+    private List<@Valid RandomGenerators> randomGenerators;
+
+    @Schema(
+            type = SchemaType.ARRAY,
+            description = "A list of custom context URL definitions, used to extend the @context field in generated events.")
+    private List<@Valid CustomContextUrl> contextUrls;
 }
