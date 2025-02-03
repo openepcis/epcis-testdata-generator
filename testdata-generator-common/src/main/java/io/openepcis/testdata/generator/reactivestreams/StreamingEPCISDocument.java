@@ -26,6 +26,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -83,10 +84,12 @@ public class StreamingEPCISDocument {
     }
 
     public static void storeContextUrls(final List<CustomContextUrl> customContextUrls) {
-        selectedContextUrls = customContextUrls.stream()
-                .filter(c ->  Objects.nonNull(c.getIsChecked()) && c.getIsChecked())
-                .map(CustomContextUrl::getContextURL)
-                .toList();
+        if(CollectionUtils.isNotEmpty(customContextUrls)){
+            selectedContextUrls = customContextUrls.stream()
+                    .filter(c ->  Objects.nonNull(c.getIsChecked()) && c.getIsChecked())
+                    .map(CustomContextUrl::getContextURL)
+                    .toList();
+        }
     }
 
     /**
