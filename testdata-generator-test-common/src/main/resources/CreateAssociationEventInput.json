@@ -79,10 +79,9 @@
                   "contextURL": "https://fb.com",
                   "key": 2,
                   "children": [],
-                  "data": "myval"
+                  "stringData": "myval"
                 }
-              ],
-              "data": ""
+              ]
             }
           ]
         }

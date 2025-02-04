@@ -16,6 +16,7 @@
 package io.openepcis.testdata.generator.format;
 
 import io.openepcis.testdata.generator.reactivestreams.StreamingEPCISDocument;
+import io.openepcis.testdata.generator.reactivestreams.StreamingEPCISDocumentOutput;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.Getter;
@@ -67,12 +68,17 @@ public class UserExtensionSyntax implements Serializable {
   @Schema(type = SchemaType.STRING,
           description = "Data associated with the custom user extension (Ex: 1, value-1, 1234, ex1:lotNumber=1234 etc.)"
   )
-  private String data;
+  private String stringData;
 
     @Schema(type = SchemaType.NUMBER,
             description = "Number Data associated with the custom user extension (Ex: 1, 10, 1234, 20.0 etc.)"
     )
     private String numberData;
+
+    @Schema(type = SchemaType.STRING,
+            description = "Expression associated with the custom user extension (Ex: {{ epcList[0] }}, etc.)"
+    )
+    private String expression;
 
     @Schema(
             type = SchemaType.STRING,
@@ -91,6 +97,7 @@ public class UserExtensionSyntax implements Serializable {
   private transient Object rawJsonld;
 
 
+
   //Method to format the UserExtensions based on the Web Vocabulary or Custom extensions by recursively reading them
   public Map<String, Object> toMap() {
     final Map<String, Object> map = new HashMap<>();
@@ -100,7 +107,9 @@ public class UserExtensionSyntax implements Serializable {
             buildContextInfo(this.prefix, this.contextURL);
 
             // Determine the key based on Web Vocabulary or Custom Extensions
-            final String key = StringUtils.defaultIfBlank(this.label, this.prefix + ":" + this.property);
+            final String key = StringUtils.startsWith(this.property, "@")
+                    ? this.property
+                    : StringUtils.defaultIfBlank(this.label, this.prefix + ":" + this.property);
 
             // If children are present, recursively process them
             if (CollectionUtils.isNotEmpty(children)) {
@@ -109,17 +118,20 @@ public class UserExtensionSyntax implements Serializable {
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                 map.put(key, complexMap);
             } else {
-                // Determine the value to store
-                final String value = StringUtils.defaultIfBlank(data, numberData);
+                // If expression is present, store it in the map
+                if(StringUtils.isNotBlank(this.expression)){
+                    map.put(key, expression);
 
-                // If number add as Number else add as String
-                if(NumberUtils.isNumber(value)){
-                    final Number number = value.contains(".") || value.toLowerCase().contains("e")
-                                            ?  new BigDecimal(value)
-                                            : NumberUtils.createNumber(value);
+                    // Flag to indicate Jinja processing is needed after event creation
+                    StreamingEPCISDocumentOutput.setShouldRunJinjaTemplate(true);
+                }else if(StringUtils.isNotBlank(this.numberData)){
+                    final Number number = this.numberData.contains(".") || this.numberData.toLowerCase().contains("e")
+                            ?  new BigDecimal(this.numberData)
+                            : NumberUtils.createNumber(this.numberData);
                     map.put(key, number);
                 }else {
-                    map.put(key, value);
+                    // If only data is present, store it as a string (even if it looks like a number)
+                    map.put(key, stringData);
                 }
             }
         } else if (this.rawJsonld instanceof Map<?, ?>) {

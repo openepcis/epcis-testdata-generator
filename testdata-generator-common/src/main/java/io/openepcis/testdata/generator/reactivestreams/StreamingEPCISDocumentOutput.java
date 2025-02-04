@@ -19,12 +19,15 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.hubspot.jinjava.Jinjava;
 import io.openepcis.constants.EPCIS;
 import io.openepcis.constants.EPCISVersion;
 import io.openepcis.model.epcis.EPCISEvent;
 import io.openepcis.model.rest.ProblemResponseBody;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.smallrye.mutiny.Multi;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.jboss.resteasy.reactive.RestResponse;
 
@@ -33,6 +36,7 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Flow;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -50,8 +54,14 @@ public class StreamingEPCISDocumentOutput {
 
     private static final JsonFactory JSON_FACTORY = new JsonFactory();
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SS'Z'");
+    private static final Jinjava jinjava = new Jinjava();
+
+    @Getter
+    @Setter
+    private static boolean shouldRunJinjaTemplate = false;
+
+
 
     private StreamingEPCISDocumentOutput(final Executor executor, final ObjectMapper objectMapper, final OutputStream outputStream, final Writer writer) {
         this.executor = executor;
@@ -177,7 +187,26 @@ public class StreamingEPCISDocumentOutput {
             @Override
             public void onNext(EPCISEvent epcisEvent) {
                 try {
-                    jsonGenerator.writeObject(epcisEvent);
+                    // Detect if the event needs to be run through Jinja render to convert expression to value
+                    if(!shouldRunJinjaTemplate){
+                        // If no need to run via Jinja template then directly add
+                        jsonGenerator.writeObject(epcisEvent);
+                    }else{
+                        // Extract context directly from the EPCISEvent object
+                        final Map<String, Object> context = objectMapper.convertValue(epcisEvent, Map.class);
+
+                        // Apply Jinja processing directly on JSON representation
+                        final String processedJsonString = jinjava.render(objectMapper.writeValueAsString(context), context);
+
+                        // Convert back to EPCISEvent
+                        final EPCISEvent processedEvent = objectMapper.readValue(processedJsonString, EPCISEvent.class);
+
+                        // Write processed event
+                        jsonGenerator.writeObject(processedEvent);
+
+                        // Reset flag to prevent reprocessing
+                        shouldRunJinjaTemplate = false;
+                    }
                     refSubscription.get().request(1L);
                 } catch (IOException ex) {
                     refSubscription.get().cancel();
