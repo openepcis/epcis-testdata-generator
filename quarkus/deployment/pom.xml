@@ -23,7 +23,7 @@
     <parent>
         <groupId>io.openepcis.quarkus</groupId>
         <artifactId>quarkus-testdata-generator-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>999-SNAPSHOT</version>
     </parent>
 
     <artifactId>quarkus-testdata-generator-deployment</artifactId>

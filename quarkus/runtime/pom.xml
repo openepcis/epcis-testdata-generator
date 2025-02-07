@@ -23,7 +23,7 @@
     <parent>
         <groupId>io.openepcis.quarkus</groupId>
         <artifactId>quarkus-testdata-generator-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>999-SNAPSHOT</version>
     </parent>
 
     <artifactId>quarkus-testdata-generator</artifactId>
@@ -170,7 +170,7 @@
         <dependency>
             <groupId>io.openepcis</groupId>
             <artifactId>testdata-generator-test-common</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

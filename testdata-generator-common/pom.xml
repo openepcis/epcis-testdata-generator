@@ -23,7 +23,7 @@
     <parent>
         <groupId>io.openepcis</groupId>
         <artifactId>testdata-generator-build</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>999-SNAPSHOT</version>
     </parent>
 
     <artifactId>testdata-generator-common</artifactId>
@@ -177,7 +177,7 @@
         <dependency>
             <groupId>io.openepcis</groupId>
             <artifactId>testdata-generator-test-common</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
             <scope>test</scope>
         </dependency>
 
