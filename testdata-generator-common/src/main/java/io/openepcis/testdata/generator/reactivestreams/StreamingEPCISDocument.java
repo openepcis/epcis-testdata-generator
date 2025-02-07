@@ -98,7 +98,7 @@ public class StreamingEPCISDocument {
      * @param extensions list of extensions from ilmd, error and userExtensions
      */
     public static void extractNamespaces(final List<UserExtensionSyntax> extensions) {
-        extensions.forEach(UserExtensionSyntax::toMap);
+        extensions.forEach(UserExtensionSyntax::extractNamespaces);
     }
 
     /**

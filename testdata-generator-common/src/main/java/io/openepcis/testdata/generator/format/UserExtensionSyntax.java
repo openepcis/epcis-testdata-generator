@@ -17,6 +17,7 @@ package io.openepcis.testdata.generator.format;
 
 import io.openepcis.testdata.generator.reactivestreams.StreamingEPCISDocument;
 import io.openepcis.testdata.generator.reactivestreams.StreamingEPCISDocumentOutput;
+import io.openepcis.testdata.generator.template.RandomGenerators;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Data;
 import lombok.Getter;
@@ -80,6 +81,11 @@ public class UserExtensionSyntax implements Serializable {
     )
     private String expression;
 
+    @Schema(type = SchemaType.OBJECT,
+            description = "Random information associated with the custom user extension (Ex: { \"type\": \"static\", \"staticValue\": 10, \"randomID\": \"\" })"
+    )
+    private ValueTypeSyntax random;
+
     @Schema(
             type = SchemaType.STRING,
             enumeration = {
@@ -96,43 +102,66 @@ public class UserExtensionSyntax implements Serializable {
   )
   private transient Object rawJsonld;
 
+    @Setter
+    private static List<RandomGenerators> randomGenerators;
 
 
-  //Method to format the UserExtensions based on the Web Vocabulary or Custom extensions by recursively reading them
-  public Map<String, Object> toMap() {
-    final Map<String, Object> map = new HashMap<>();
+    // Converts UserExtensionSyntax to a Map representation, handling both raw JSON-LD and structured data.
+    public Map<String, Object> toMap() {
+        final Map<String, Object> result = new HashMap<>();
 
+        // If raw JSON-LD is provided, use it (excluding any "@context")
+        if (rawJsonld instanceof Map<?, ?>) {
+            @SuppressWarnings("unchecked") final Map<String, Object> rawMap = (Map<String, Object>) rawJsonld;
+            rawMap.remove("@context");
+            result.putAll(rawMap);
+            return result;
+        }
+
+        // Determine the key based on property or label
+        final String key = StringUtils.startsWith(property, "@")
+                ? property
+                : StringUtils.defaultIfBlank(label, prefix + ":" + property);
+
+        // If there are child extensions, process them recursively
+        if (CollectionUtils.isNotEmpty(children)) {
+            final Map<String, Object> childrenMap = children.stream()
+                    .flatMap(child -> child.toMap().entrySet().stream())
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            result.put(key, childrenMap);
+            return result;
+        }
+
+        // Process the leaf node based on the available data
+        if (StringUtils.isNotBlank(expression)) {
+            result.put(key, expression);
+            // Flag that Jinja processing is needed after event creation
+            StreamingEPCISDocumentOutput.setShouldRunJinjaTemplate(true);
+        } else if (random != null) {
+            // Generate a random value using the configured randomGenerators
+            result.put(key, random.getValue(randomGenerators));
+        } else if (StringUtils.isNotBlank(numberData)) {
+            // Parse numeric data, handling decimals and scientific notation
+            final Number number = (numberData.contains(".") || numberData.toLowerCase().contains("e"))
+                    ? new BigDecimal(numberData)
+                    : NumberUtils.createNumber(numberData);
+            result.put(key, number);
+        } else {
+            // Default: use string data (or empty string if null)
+            result.put(key, StringUtils.defaultIfBlank(stringData, ""));
+        }
+
+        return result;
+    }
+
+    // Recursively processes namespaces from raw JSON-LD data and child extensions.
+    public void extractNamespaces() {
         if (this.rawJsonld == null) {
-            //Add the context prefix and url to the document context
-            buildContextInfo(this.prefix, this.contextURL);
+            buildContextInfo(prefix, contextURL);
 
-            // Determine the key based on Web Vocabulary or Custom Extensions
-            final String key = StringUtils.startsWith(this.property, "@")
-                    ? this.property
-                    : StringUtils.defaultIfBlank(this.label, this.prefix + ":" + this.property);
-
-            // If children are present, recursively process them
+            // Loop over children and complex values to extract namespaces
             if (CollectionUtils.isNotEmpty(children)) {
-                final Map<String, Object> complexMap = children.stream()
-                        .flatMap(c -> c.toMap().entrySet().stream())
-                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-                map.put(key, complexMap);
-            } else {
-                // If expression is present, store it in the map
-                if(StringUtils.isNotBlank(this.expression)){
-                    map.put(key, expression);
-
-                    // Flag to indicate Jinja processing is needed after event creation
-                    StreamingEPCISDocumentOutput.setShouldRunJinjaTemplate(true);
-                }else if(StringUtils.isNotBlank(this.numberData)){
-                    final Number number = this.numberData.contains(".") || this.numberData.toLowerCase().contains("e")
-                            ?  new BigDecimal(this.numberData)
-                            : NumberUtils.createNumber(this.numberData);
-                    map.put(key, number);
-                }else {
-                    // If only data is present, store it as a string (even if it looks like a number)
-                    map.put(key, stringData);
-                }
+                children.forEach(UserExtensionSyntax::extractNamespaces);
             }
         } else if (this.rawJsonld instanceof Map<?, ?>) {
             // Check if rawJsonld is a Map if so extract context info and append others to map
@@ -140,36 +169,31 @@ public class UserExtensionSyntax implements Serializable {
 
             // Extract @context if present and append it to the StreamingEPCISDocument @context of EPCIS Document
             Optional.ofNullable(genExtMap.get("@context"))
-                    .filter(obj -> obj instanceof List)
+                    .filter(List.class::isInstance)
                     .map(obj -> (List<Map<String, String>>) obj)
                     .ifPresent(contextList -> contextList.stream()
                             .flatMap(contextMap -> contextMap.entrySet().stream())
                             .forEach(entry -> buildContextInfo(entry.getKey(), entry.getValue())));
-
-
-            genExtMap.remove("@context"); // exclude the @context from the rawJsonld
-            map.putAll(genExtMap); // add remaining entries to the map
         }
-
-        return map;
     }
 
 
-  //Function to add the context url and the prefix to the StreamingEPCISDocument context to generate the @context
-  private void buildContextInfo(final String prefix, final String contextURL) {
-    // Check if the namespace already exist within the context if not then only add.
-    if (StreamingEPCISDocument.getContext() != null
-            && !StreamingEPCISDocument.getContext().containsKey(prefix)
-            && StringUtils.isNotBlank(prefix)
-            && StringUtils.isNotBlank(contextURL)) {
+    //Function to add the context url and the prefix to the StreamingEPCISDocument context to generate the @context
+    private void buildContextInfo(final String prefix, final String contextURL) {
+        // Check if the namespace already exist within the context if not then only add.
+        if (StreamingEPCISDocument.getContext() != null
+                && !StreamingEPCISDocument.getContext().containsKey(prefix)
+                && StringUtils.isNotBlank(prefix)
+                && StringUtils.isNotBlank(contextURL)) {
 
-      //Check if the namespace matches any of the default namespaces if so omit them
-      boolean isDefaultContext = EPCIS_DEFAULT_NAMESPACES.entrySet().stream().anyMatch(entry -> entry.getKey().equals(prefix) && entry.getValue().equals(contextURL));
+            //Check if the namespace matches any of the default namespaces if so omit them
+            boolean isDefaultContext = EPCIS_DEFAULT_NAMESPACES.entrySet().stream()
+                    .anyMatch(entry -> entry.getKey().equals(prefix) && entry.getValue().equals(contextURL));
 
-      //if no matches to default namespace then add
-      if (!isDefaultContext) {
-        StreamingEPCISDocument.getContext().put(prefix, contextURL);
-      }
+            //if no matches to default namespace then add
+            if (!isDefaultContext) {
+                StreamingEPCISDocument.getContext().put(prefix, contextURL);
+            }
+        }
     }
-  }
 }

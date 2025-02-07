@@ -15,6 +15,7 @@
  */
 package io.openepcis.testdata.generator.model;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -76,6 +77,8 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
     this.randomGenerators = randomGenerators;
     this.randomSerialNumberGenerator = RandomSerialNumberGenerator.getInstance(typeInfo.getSeed()); //Since instance of MersenneTwister for each model
     RandomValueGenerator.generateInstance(randomGenerators); // Generate Random instance for each of the randomGenerators
+    // Configures the random number generators that will be used when processing extension/ilmd
+    UserExtensionSyntax.setRandomGenerators(randomGenerators);
   }
 
   @Override
@@ -142,7 +145,7 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
         }
       }
 
-      // User extensions addition
+      // Processes user extensions from TypeInfo and sets them on the EPCIS event.
       if (typeInfo.getUserExtensions() != null && !typeInfo.getUserExtensions().isEmpty()) {
         epcisEvent.setUserExtensions(
                 typeInfo.getUserExtensions().stream()
@@ -153,6 +156,16 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
                           } else if (root.getRawJsonld() instanceof Map) {
                             // Stream over rawJsonld if it's a Map
                             return root.toMap().entrySet().stream();
+                          }else if(root.getRawJsonld() instanceof String) {
+                            // Handle raw JSON-LD string - processes JSON-LD format with context removal
+                            try {
+                              final Map<String, Object> rawMap = objectMapper.readValue(root.getRawJsonld().toString(), new TypeReference<>() {});
+                              rawMap.remove("@context");
+                              return rawMap.entrySet().stream();
+                            }
+                            catch (Exception e){
+                              throw new TestDataGeneratorException("Error during the conversion of RawJsonLD : " + typeInfo.getEventType() + e.getMessage(), e);
+                            }
                           }
                           // Return an empty stream if neither are present
                           return Stream.empty();
