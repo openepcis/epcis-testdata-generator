@@ -46,7 +46,7 @@ FINALLY: copy binary build to azure-function deployment application file
 ```bash
          
 # copy binary from build to 'application'
-cp ../quarkus/quarkus-app/target/openepcis-event-hash-generator-service-runner application
+cp ../quarkus/quarkus-app/target/testdata-generator-quarkus-rest-app-runner application
 ```
 
 ## Deployment
