@@ -31,10 +31,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static io.openepcis.constants.EPCIS.EPCIS_DEFAULT_NAMESPACES;
@@ -45,31 +42,36 @@ import static io.openepcis.constants.EPCIS.EPCIS_DEFAULT_NAMESPACES;
 @RegisterForReflection
 @Data
 public class UserExtensionSyntax implements Serializable {
-  @Schema(
-          type = SchemaType.STRING,
-          description = "Label associated with the web vocabulary (Ex: gs1:appDownload, gs1:Country, etc.)"
-  )
-  private String label;
+    @Schema(
+            type = SchemaType.STRING,
+            description = "Label associated with the web vocabulary (Ex: gs1:appDownload, gs1:Country, etc.)"
+    )
+    private String label;
 
-  @Schema(type = SchemaType.STRING,
-          description = "Prefix associated with the custom user extension (Ex: cbvmda, example, ex1, ex1:lotNumber, etc.)"
-  )
-  private String prefix;
+    @Schema(type = SchemaType.STRING,
+            description = "Prefix associated with the custom user extension (Ex: cbvmda, example, ex1, ex1:lotNumber, etc.)"
+    )
+    private String prefix;
 
-  @Schema(type = SchemaType.STRING,
-          description = "Property associated with the custom user extension (Ex: lotNumber, distance, ex1:lotNumber, etc.)"
-  )
-  private String property;
+    @Schema(type = SchemaType.STRING,
+            description = "Property associated with the custom user extension (Ex: lotNumber, distance, ex1:lotNumber, etc.)"
+    )
+    private String property;
 
-  @Schema(type = SchemaType.STRING,
-          description = "Context URL associated with the user extension (Ex: https://example.com, https://ex1.com, etc.)"
-  )
-  private String contextURL;
+    @Schema(type = SchemaType.STRING,
+            description = "Data type associated with the custom user extension (Ex: array, object, string, etc.)"
+    )
+    private String dataType;
 
-  @Schema(type = SchemaType.STRING,
-          description = "Data associated with the custom user extension (Ex: 1, value-1, 1234, ex1:lotNumber=1234 etc.)"
-  )
-  private String stringData;
+    @Schema(type = SchemaType.STRING,
+            description = "Context URL associated with the user extension (Ex: https://example.com, https://ex1.com, etc.)"
+    )
+    private String contextURL;
+
+    @Schema(type = SchemaType.STRING,
+            description = "Data associated with the custom user extension (Ex: 1, value-1, 1234, ex1:lotNumber=1234 etc.)"
+    )
+    private String stringData;
 
     @Schema(type = SchemaType.NUMBER,
             description = "Number Data associated with the custom user extension (Ex: 1, 10, 1234, 20.0 etc.)"
@@ -97,10 +99,10 @@ public class UserExtensionSyntax implements Serializable {
                     "Type of user extension simple type with direct value or complex type with children elements")
     private List<UserExtensionSyntax> children;
 
-  @Schema(type = SchemaType.OBJECT,
-          description = "Raw JSON-LD formatted extension with @context which can be directly appended as extensions."
-  )
-  private transient Object rawJsonld;
+    @Schema(type = SchemaType.OBJECT,
+            description = "Raw JSON-LD formatted extension with @context which can be directly appended as extensions."
+    )
+    private transient Object rawJsonld;
 
     @Setter
     private static List<RandomGenerators> randomGenerators;
@@ -118,12 +120,41 @@ public class UserExtensionSyntax implements Serializable {
             return result;
         }
 
-        // Determine the key based on property or label
-        final String key = StringUtils.startsWith(property, "@")
-                ? property
-                : StringUtils.defaultIfBlank(label, prefix + ":" + property);
+        // Compute key using label (if present) or prefix + ":" + property
+        String key = null;
+        if (StringUtils.isNotBlank(property) || StringUtils.isNotBlank(label)) {
+            key = StringUtils.startsWith(property, "@")
+                    ? property
+                    : StringUtils.defaultIfBlank(label, prefix + ":" + property);
+        }
 
-        // If there are child extensions, process them recursively
+        // If computed key is blank (avoid "null:null" by merging children directly)
+        // If dataType equals "array" (return a list of children maps under the key)
+        if (StringUtils.isBlank(key) || "array".equalsIgnoreCase(dataType)) {
+            if (CollectionUtils.isNotEmpty(children)) {
+                if (StringUtils.isBlank(key)) {
+                    // If key is blank, merge children directly.
+                    return children.stream()
+                            .flatMap(child -> child.toMap().entrySet().stream())
+                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                } else {
+                    // For an array type, convert children to a List of Maps.
+                    final List<Map<String, Object>> childrenList = children.stream()
+                            .map(UserExtensionSyntax::toMap)
+                            .collect(Collectors.toList());
+                    result.put(key, childrenList);
+                }
+            } else {
+                if (StringUtils.isBlank(key)) {
+                    return new HashMap<>();
+                } else {
+                    result.put(key, new ArrayList<>());
+                }
+            }
+            return result;
+        }
+
+        // If there are child and object type extensions, process them recursively
         if (CollectionUtils.isNotEmpty(children)) {
             final Map<String, Object> childrenMap = children.stream()
                     .flatMap(child -> child.toMap().entrySet().stream())
