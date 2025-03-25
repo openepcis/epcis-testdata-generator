@@ -1,0 +1,81 @@
+{
+    "objectIdentifierSyntax": "WebURI",
+    "locationPartyIdentifierSyntax": "WebURI",
+    "dlURL": "https://id.gs1.org",
+    "seed": 1742922883323,
+    "eventCount": 1,
+    "eventTime": {
+        "timeSelector": "TimeRange",
+        "specificTime": "2025-03-25T18:14:43.000",
+        "fromTime": "2024-03-01T18:14:43",
+        "toTime": "2024-03-30T18:14:43",
+        "timeZoneOffset": "+01:00"
+    },
+    "parentIdentifier": [],
+    "instanceIdentifier": [
+        {
+            "identifierType": "sgtin",
+            "gcpLength": "",
+            "serialType": "random",
+            "sgtin": "09521141012345",
+            "randomType": "ALPHA_NUMERIC",
+            "randomMinLength": 2,
+            "randomMaxLength": 10,
+            "randomCount": 10,
+            "ID": 1
+        }
+    ],
+    "classIdentifier": [],
+    "outputInstanceIdentifier": [],
+    "outputClassIdentifier": [],
+    "readPoint": {},
+    "bizLocation": {},
+    "persistentDispositionList": [],
+    "bizTransactions": [],
+    "sources": [],
+    "destinations": [],
+    "sensorElementList": [],
+    "certificationInfo": [
+        {
+            "extensionID": 0,
+            "prefix": "",
+            "contextURL": "",
+            "children": []
+        }
+    ],
+    "userExtensions": [
+        {
+            "extensionID": 2040,
+            "prefix": "",
+            "contextURL": "",
+            "children": []
+        }
+    ],
+    "ilmd": [
+        {
+            "extensionID": 2966,
+            "prefix": "",
+            "contextURL": "",
+            "children": []
+        }
+    ],
+    "errorDeclaration": {
+        "declarationTime": {
+            "timeSelector": "SpecificTime",
+            "timeZoneOffset": "+01:00",
+            "specificTime": "2025-03-25T18:14:43.000",
+            "fromTime": "2025-03-24T18:14:43.000",
+            "toTime": "2025-03-25T18:14:43.000"
+        },
+        "correctiveIds": [],
+        "extensions": [],
+        "declarationReason": "DID_NOT_OCCUR"
+    },
+    "eventType": "ObjectEvent",
+    "ordinaryEvent": true,
+    "eventID": false,
+    "recordTimeOption": "No",
+    "businessStep": "COMMISSIONING",
+    "disposition": "ACTIVE",
+    "action": "ADD"
+}

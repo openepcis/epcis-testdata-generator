@@ -1,0 +1,86 @@
+{
+    "objectIdentifierSyntax": "WebURI",
+    "locationPartyIdentifierSyntax": "WebURI",
+    "dlURL": "https://id.gs1.org",
+    "seed": 1742915939920,
+    "eventCount": 2,
+    "eventTime": {
+        "timeSelector": "TimeRange",
+        "specificTime": "2025-03-25T16:18:59.000",
+        "fromTime": "2025-03-01T00:00",
+        "toTime": "2025-03-30T18:00",
+        "timeZoneOffset": "+01:00"
+    },
+    "parentIdentifier": [],
+    "instanceIdentifier": [
+        {
+            "identifierType": "sgtin",
+            "gcpLength": "",
+            "serialType": "range",
+            "sgtin": "09521141012345",
+            "rangeFrom": 1,
+            "count": 10,
+            "ID": 1
+        }
+    ],
+    "classIdentifier": [],
+    "outputInstanceIdentifier": [],
+    "outputClassIdentifier": [],
+    "readPoint": {
+        "type": "SGLN",
+        "gln": "6223002970001"
+    },
+    "bizLocation": {
+        "type": "SGLN",
+        "gln": "6223004510007",
+        "extension": ""
+    },
+    "persistentDispositionList": [],
+    "bizTransactions": [],
+    "sources": [],
+    "destinations": [],
+    "sensorElementList": [],
+    "certificationInfo": [
+        {
+            "extensionID": 0,
+            "prefix": "",
+            "contextURL": "",
+            "children": []
+        }
+    ],
+    "userExtensions": [
+        {
+            "extensionID": 4482,
+            "prefix": "",
+            "contextURL": "",
+            "children": []
+        }
+    ],
+    "ilmd": [
+        {
+            "extensionID": 543,
+            "prefix": "",
+            "contextURL": "",
+            "children": []
+        }
+    ],
+    "errorDeclaration": {
+        "declarationTime": {
+            "timeSelector": "SpecificTime",
+            "timeZoneOffset": "+01:00",
+            "specificTime": "2025-03-25T16:18:59.000",
+            "fromTime": "2025-03-24T16:18:59.000",
+            "toTime": "2025-03-25T16:18:59.000"
+        },
+        "correctiveIds": [],
+        "extensions": [],
+        "declarationReason": "DID_NOT_OCCUR"
+    },
+    "eventType": "ObjectEvent",
+    "ordinaryEvent": true,
+    "eventID": false,
+    "recordTimeOption": "No",
+    "businessStep": "COMMISSIONING",
+    "disposition": "ACTIVE",
+    "action": "ADD"
+}
