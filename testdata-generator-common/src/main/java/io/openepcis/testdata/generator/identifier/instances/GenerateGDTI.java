@@ -101,7 +101,7 @@ public class GenerateGDTI extends GenerateEPC {
     if (syntax.equals(IdentifierVocabularyType.URN)) {
       return CompanyPrefixFormatter.gcpFormatterNormal(gdti, gcpLength).toString();
     } else {
-      return gdti.substring(0, 11) + UPCEANLogicImpl.calcChecksum(gdti.substring(0, 11)) + gdti.charAt(12);
+      return gdti.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gdti.substring(0, 12)) + gdti.substring(13);
     }
   }
 }

@@ -1,18 +1,19 @@
 {
   "events": [
     {
-      "nodeId": 1,
+      "nodeId": 25,
       "eventType": "ObjectEvent",
       "eventCount": 1,
       "locationPartyIdentifierSyntax": "WebURI",
       "dlURL": "https://id.gs1.org",
-      "seed": 1722003455935,
+      "seed": 1743775489922,
       "ordinaryEvent": true,
       "action": "ADD",
-      "eventID": false,
+      "eventID": true,
+      "eventIdType": "UUID",
       "eventTime": {
         "timeZoneOffset": "+02:00",
-        "specificTime": "2024-07-26T16:17:35.000+02:00"
+        "specificTime": "2025-04-04T16:04:49.000+02:00"
       },
       "certificationInfo": [
         {
@@ -24,7 +25,7 @@
       ],
       "userExtensions": [
         {
-          "extensionID": 0,
+          "extensionID": 7013,
           "prefix": "",
           "contextURL": "",
           "children": []
@@ -32,53 +33,102 @@
       ],
       "ilmd": [
         {
-          "extensionID": 0,
+          "extensionID": 6835,
           "prefix": "",
           "contextURL": "",
           "children": []
         }
       ],
-      "sensorElementList": [
+      "referencedIdentifier": [
         {
-          "ID": 0,
-          "sensorReport": [
-            {
-              "ID": 0,
-              "value": {
-                "type": "random",
-                "randomID": 1
-              },
-              "maxValue": {
-                "type": "random",
-                "randomID": 1
-              },
-              "minValue": {
-                "type": "random",
-                "randomID": 1
-              },
-              "uom": "A34",
-              "uriValue": "urn:test"
-            }
-          ]
+          "identifierId": 2,
+          "epcCount": 10,
+          "classCount": 0
         }
       ],
-      "referencedIdentifier": [],
       "parentReferencedIdentifier": {},
       "outputReferencedIdentifier": []
     }
   ],
-  "identifiers": [],
+  "identifiers": [
+    {
+      "identifierId": 2,
+      "objectIdentifierSyntax": "WebURI",
+      "dlURL": "https://id.gs1.org",
+      "instanceData": {
+        "gdti": {
+          "identifierType": "gdti",
+          "gcpLength": 9,
+          "serialType": "range",
+          "gdti": "1234567890123",
+          "rangeFrom": 1,
+          "count": 10,
+          "ID": 2
+        }
+      },
+      "classData": null,
+      "parentData": null
+    }
+  ],
   "randomGenerators": [
     {
       "name": "RandomGen-1",
-      "description": "Random Generator",
       "minValue": 10,
       "maxValue": 20,
       "meanValue": 12,
-      "seedValue": 1721996358265,
-      "formatValue": "%.2f",
+      "seedValue": 1723642951657,
+      "distributionType": "TriangularDistribution",
+      "randomID": 2
+    },
+    {
+      "name": "RandomGen-2",
+      "description": "Test",
+      "minValue": 10,
+      "maxValue": 20,
+      "meanValue": 12,
+      "seedValue": 1723640844430,
       "distributionType": "TriangularDistribution",
       "randomID": 1
+    },
+    {
+      "name": "RandomGen-3",
+      "description": "This is Randome Generator 3",
+      "minValue": 100,
+      "maxValue": 200,
+      "meanValue": 120,
+      "seedValue": 1738855467925,
+      "distributionType": "TriangularDistribution",
+      "randomID": 3
+    }
+  ],
+  "contextUrls": [
+    {
+      "contextURL": "https://ex1.com",
+      "prefix": "ex1",
+      "ID": 1,
+      "isChecked": false
+    },
+    {
+      "contextURL": "https://ex2.com",
+      "prefix": "ex2",
+      "ID": 2,
+      "isChecked": false
+    },
+    {
+      "contextURL": "https://ex3.com",
+      "prefix": "ext3",
+      "ID": 4
+    },
+    {
+      "contextURL": "https://ex4.com",
+      "prefix": "ext4",
+      "ID": 5
+    },
+    {
+      "contextURL": "https://tn.example.com",
+      "prefix": "tn",
+      "ID": 3,
+      "isChecked": false
     }
   ]
 }
