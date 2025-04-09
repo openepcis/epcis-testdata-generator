@@ -22,13 +22,12 @@ import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import lombok.Setter;
-import lombok.ToString;
-import org.apache.commons.lang.StringUtils;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.lang.StringUtils;
 
 @Setter
 @JsonTypeName("gcn")
@@ -42,53 +41,70 @@ public class GenerateGCN extends GenerateEPCType2 {
   /**
    * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *
-   * @param syntax                syntax in which identifiers need to be generated URN/WebURI
-   * @param count                 count of instance identifiers need to be generated
-   * @param dlURL                 if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
-   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random serial number
+   * @param syntax syntax in which identifiers need to be generated URN/WebURI
+   * @param count count of instance identifiers need to be generated
+   * @param dlURL if provided use the provided dlURI to format WebURI identifiers else use default
+   *     ref.gs1.org
+   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random
+   *     serial number
    * @return returns list of identifiers in string format
    */
   @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+  public List<String> format(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final String dlURL,
+      final RandomSerialNumberGenerator serialNumberGenerator) {
     return generateIdentifiers(syntax, count, dlURL, serialNumberGenerator);
   }
 
-  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+  private List<String> generateIdentifiers(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final String dlURL,
+      final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedGCN = new ArrayList<>();
-      final String prefix = syntax.equals(IdentifierVocabularyType.URN) ? URN_SGCN_PART : dlURL + URI_SGCN_PART;
+      final String prefix =
+          syntax.equals(IdentifierVocabularyType.URN) ? URN_SGCN_PART : dlURL + URI_SGCN_PART;
       final String suffix = syntax.equals(IdentifierVocabularyType.URN) ? "." : "";
 
       if (SerialTypeChecker.isRangeType(serialType, count, rangeFrom)) {
-        //For range generate sequential identifiers
-        for (var rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count; rangeID++) {
+        // For range generate sequential identifiers
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           String append = gcp + rangeID;
           append = gcp + StringUtils.repeat("0", 23 - append.length()) + rangeID;
           formattedGCN.add(prefix + generateSerialNumber(suffix, append));
         }
         rangeFrom = BigInteger.valueOf(rangeFrom.longValue() + count);
       } else if (SerialTypeChecker.isRandomType(serialType, count)) {
-        //For random generate random identifiers or based on seed
+        // For random generate random identifiers or based on seed
         final int requiredLength = 23 - gcp.length();
-        final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(RandomizationType.NUMERIC, requiredLength, requiredLength, count);
+        final List<String> randomSerialNumbers =
+            serialNumberGenerator.randomGenerator(
+                RandomizationType.NUMERIC, requiredLength, requiredLength, count);
 
         for (var randomID : randomSerialNumbers) {
           formattedGCN.add(prefix + generateSerialNumber(suffix, gcp + randomID));
         }
       } else if (SerialTypeChecker.isNoneType(serialType, count, serialNumber)) {
-        //For none generate static identifier
+        // For none generate static identifier
         String append = gcp + serialNumber;
         append = gcp + StringUtils.repeat("0", 23 - append.length()) + serialNumber;
         formattedGCN.add(prefix + generateSerialNumber(suffix, append));
-      } return formattedGCN;
+      }
+      return formattedGCN;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException("Exception occurred during generation of GCN instance identifiers : " + ex.getMessage(), ex);
+      throw new TestDataGeneratorException(
+          "Exception occurred during generation of GCN instance identifiers : " + ex.getMessage(),
+          ex);
     }
   }
 
-  //Method to append the serial number to gcp with formatting as per GCN
+  // Method to append the serial number to gcp with formatting as per GCN
   private String generateSerialNumber(final String suffix, final String append) {
     return gcp + suffix + append.substring(gcp.length() + 1, 13) + suffix + append.substring(14);
   }
-
 }

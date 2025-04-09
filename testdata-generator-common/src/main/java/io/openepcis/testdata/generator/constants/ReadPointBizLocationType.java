@@ -19,16 +19,16 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection
 public enum ReadPointBizLocationType {
-    SGLN("SGLN"),
-    MANUALLY("MANUALLY");
+  SGLN("SGLN"),
+  MANUALLY("MANUALLY");
 
-    private String type;
+  private String type;
 
-    ReadPointBizLocationType(String type) {
-        this.type = type;
-    }
+  ReadPointBizLocationType(String type) {
+    this.type = type;
+  }
 
-    String getReadPointBizLocationType() {
-        return type;
-    }
+  String getReadPointBizLocationType() {
+    return type;
+  }
 }

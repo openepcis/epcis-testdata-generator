@@ -22,13 +22,12 @@ import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import lombok.Setter;
-import lombok.ToString;
-import org.apache.commons.lang.StringUtils;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.lang.StringUtils;
 
 @Setter
 @JsonTypeName("gsrn")
@@ -40,30 +39,44 @@ public class GenerateGSRN extends GenerateEPCType2 {
   private static final String GSRN_URI_PART = "/8018/";
 
   /**
-   * Method to generate SSCC identifiers based on URN/WebURI format by manipulating the provided SSCC values.
+   * Method to generate SSCC identifiers based on URN/WebURI format by manipulating the provided
+   * SSCC values.
    *
-   * @param syntax                syntax in which identifiers need to be generated URN/WebURI
-   * @param count                 count of SSCC instance identifiers need to be generated
-   * @param dlURL                 if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
-   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random serial number
+   * @param syntax syntax in which identifiers need to be generated URN/WebURI
+   * @param count count of SSCC instance identifiers need to be generated
+   * @param dlURL if provided use the provided dlURI to format WebURI identifiers else use default
+   *     ref.gs1.org
+   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random
+   *     serial number
    * @return returns list of identifiers in string format
    */
   @Override
-  public final List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+  public final List<String> format(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final String dlURL,
+      final RandomSerialNumberGenerator serialNumberGenerator) {
     return generateIdentifiers(syntax, count, dlURL, serialNumberGenerator);
   }
 
-  //Function to check which type of instance identifiers need to be generated Range/Random/Static
-  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+  // Function to check which type of instance identifiers need to be generated Range/Random/Static
+  private List<String> generateIdentifiers(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final String dlURL,
+      final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedGSRN = new ArrayList<>();
-      final String prefix = syntax.equals(IdentifierVocabularyType.URN) ? GSRN_URN_PART : dlURL + GSRN_URI_PART;
+      final String prefix =
+          syntax.equals(IdentifierVocabularyType.URN) ? GSRN_URN_PART : dlURL + GSRN_URI_PART;
       final String delimiter = syntax.equals(IdentifierVocabularyType.URN) ? "." : "";
       final int maxAppendLength = syntax.equals(IdentifierVocabularyType.URN) ? 17 : 18;
 
       if (SerialTypeChecker.isRangeType(serialType, count, rangeFrom)) {
         // Generate SEQUENTIAL/RANGE identifiers in URN/WEBURI format based on from value and count
-        for (var rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count; rangeID++) {
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           var append = gcp + rangeID;
           append = StringUtils.repeat("0", maxAppendLength - append.length()) + rangeID;
           formattedGSRN.add(prefix + gcp + delimiter + append);
@@ -72,7 +85,9 @@ public class GenerateGSRN extends GenerateEPCType2 {
       } else if (SerialTypeChecker.isRandomType(serialType, count)) {
         // Generate RANDOM identifiers in URN/WEBURI format based on count
         final int requiredLength = maxAppendLength - gcp.length();
-        final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(RandomizationType.NUMERIC, requiredLength, requiredLength, count);
+        final List<String> randomSerialNumbers =
+            serialNumberGenerator.randomGenerator(
+                RandomizationType.NUMERIC, requiredLength, requiredLength, count);
 
         for (var randomID : randomSerialNumbers) {
           formattedGSRN.add(prefix + gcp + delimiter + randomID);
@@ -85,8 +100,9 @@ public class GenerateGSRN extends GenerateEPCType2 {
       }
       return formattedGSRN;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException("Exception occurred during generation of GSRN instance identifiers : " + ex.getMessage(), ex);
+      throw new TestDataGeneratorException(
+          "Exception occurred during generation of GSRN instance identifiers : " + ex.getMessage(),
+          ex);
     }
   }
-
 }

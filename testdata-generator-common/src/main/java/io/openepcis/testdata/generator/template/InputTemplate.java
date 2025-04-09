@@ -17,38 +17,39 @@ package io.openepcis.testdata.generator.template;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import java.util.List;
-
 @Getter
 @Setter
 @ToString
 @RegisterForReflection
 public class InputTemplate {
-    @Schema(
-            type = SchemaType.ARRAY,
-            description = "List of events information required for creation of EPCIS events.",
-            required = true)
-    private List<@Valid EPCISEventType> events;
+  @Schema(
+      type = SchemaType.ARRAY,
+      description = "List of events information required for creation of EPCIS events.",
+      required = true)
+  private List<@Valid EPCISEventType> events;
 
-    @Schema(
-            type = SchemaType.ARRAY,
-            description = "List of identifiers information required for creation of EPCIS events.",
-            required = true)
-    private List<@Valid Identifier> identifiers;
+  @Schema(
+      type = SchemaType.ARRAY,
+      description = "List of identifiers information required for creation of EPCIS events.",
+      required = true)
+  private List<@Valid Identifier> identifiers;
 
-    @Schema(
-            type = SchemaType.ARRAY,
-            description = "List of random types information required for creation of random values/serials.")
-    private List<@Valid RandomGenerators> randomGenerators;
+  @Schema(
+      type = SchemaType.ARRAY,
+      description =
+          "List of random types information required for creation of random values/serials.")
+  private List<@Valid RandomGenerators> randomGenerators;
 
-    @Schema(
-            type = SchemaType.ARRAY,
-            description = "A list of custom context URL definitions, used to extend the @context field in generated events.")
-    private List<@Valid CustomContextUrl> contextUrls;
+  @Schema(
+      type = SchemaType.ARRAY,
+      description =
+          "A list of custom context URL definitions, used to extend the @context field in generated events.")
+  private List<@Valid CustomContextUrl> contextUrls;
 }

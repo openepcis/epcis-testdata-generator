@@ -27,18 +27,19 @@ import io.openepcis.testdata.generator.reactivestreams.EventIdentifierTracker;
 import io.openepcis.testdata.generator.template.Identifier;
 import io.openepcis.testdata.generator.template.ObjectEventType;
 import io.openepcis.testdata.generator.template.RandomGenerators;
-import org.apache.commons.collections4.CollectionUtils;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.commons.collections4.CollectionUtils;
 
 public class ObjectEventCreationModel
     extends AbstractEventCreationModel<ObjectEventType, ObjectEvent> {
 
   public ObjectEventCreationModel(
-          final ObjectEventType typeInfo, final List<Identifier> identifiers, final List<RandomGenerators> randomGenerators) {
+      final ObjectEventType typeInfo,
+      final List<Identifier> identifiers,
+      final List<RandomGenerators> randomGenerators) {
     super(typeInfo, identifiers, randomGenerators);
   }
 
@@ -66,15 +67,15 @@ public class ObjectEventCreationModel
     if (typeInfo.getPersistentDisposition() != null) {
       var pd = new PersistentDisposition();
       if (typeInfo.getPersistentDisposition().getSet() != null
-              && !typeInfo.getPersistentDisposition().getSet().isEmpty()) {
+          && !typeInfo.getPersistentDisposition().getSet().isEmpty()) {
         pd.setSet(
-                PersistentDispositionFormatter.format(typeInfo.getPersistentDisposition().getSet()));
+            PersistentDispositionFormatter.format(typeInfo.getPersistentDisposition().getSet()));
       }
 
       if (typeInfo.getPersistentDisposition().getUnset() != null
-              && !typeInfo.getPersistentDisposition().getUnset().isEmpty()) {
+          && !typeInfo.getPersistentDisposition().getUnset().isEmpty()) {
         pd.setUnset(
-                PersistentDispositionFormatter.format(typeInfo.getPersistentDisposition().getUnset()));
+            PersistentDispositionFormatter.format(typeInfo.getPersistentDisposition().getUnset()));
       }
       e.setPersistentDisposition(pd);
     }
@@ -82,7 +83,9 @@ public class ObjectEventCreationModel
     // Add source list
     if (typeInfo.getSources() != null && !typeInfo.getSources().isEmpty()) {
       e.setSourceList(
-          typeInfo.getSources().stream().map(src -> SourceFormatter.format(syntax, src, typeInfo.getDlURL())).toList());
+          typeInfo.getSources().stream()
+              .map(src -> SourceFormatter.format(syntax, src, typeInfo.getDlURL()))
+              .toList());
     }
 
     // Add Destination list
@@ -103,10 +106,12 @@ public class ObjectEventCreationModel
     if (typeInfo.getIlmd() != null && !typeInfo.getIlmd().isEmpty()) {
       final Map<String, Object> ilmdMap =
           typeInfo.getIlmd().stream()
-                  .flatMap(root -> {
+              .flatMap(
+                  root -> {
                     if (CollectionUtils.isNotEmpty(root.getChildren())) {
                       // Stream over children if present
-                      return root.getChildren().stream().flatMap(c -> c.toMap().entrySet().stream());
+                      return root.getChildren().stream()
+                          .flatMap(c -> c.toMap().entrySet().stream());
                     } else if (root.getRawJsonld() instanceof Map) {
                       // Stream over rawJsonld if it's a Map
                       return root.toMap().entrySet().stream();
@@ -114,7 +119,7 @@ public class ObjectEventCreationModel
                     // Return an empty stream if neither are present
                     return Stream.empty();
                   })
-                  .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1));
+              .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1));
       e.setIlmdXml(ilmdMap.isEmpty() ? null : ilmdMap);
     }
   }

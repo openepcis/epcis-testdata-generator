@@ -21,15 +21,15 @@ import io.openepcis.testdata.generator.constants.SourceDestinationGLNType;
 import io.openepcis.testdata.generator.constants.SourceDestinationType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import java.io.Serializable;
 import org.apache.commons.lang3.StringUtils;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
-
-import java.io.Serializable;
 
 @RegisterForReflection
 public class SourceFormatter implements Serializable {
 
-  public static SourceList format(IdentifierVocabularyType syntax, SourceDestinationSyntax source, final String dlURL) {
+  public static SourceList format(
+      IdentifierVocabularyType syntax, SourceDestinationSyntax source, final String dlURL) {
     // If the source is Not other type then based on provided values generate the Source/Destination
     if (!source.getType().toString().equalsIgnoreCase("other")) {
       if (IdentifierVocabularyType.WEBURI == syntax) {
@@ -55,15 +55,17 @@ public class SourceFormatter implements Serializable {
       gln = CompanyPrefixFormatter.gcpFormatterNormal(gln, input.getGcpLength()).toString();
       srcFormatted.setType(input.getType().toString().toLowerCase());
 
-      //If type is LOCATION or GLN type is SGLN then format with SGLN and add extension if not null
-      if (input.getType().equals(SourceDestinationType.LOCATION) || input.getGlnType() == SourceDestinationGLNType.SGLN) {
+      // If type is LOCATION or GLN type is SGLN then format with SGLN and add extension if not null
+      if (input.getType().equals(SourceDestinationType.LOCATION)
+          || input.getGlnType() == SourceDestinationGLNType.SGLN) {
         if (input.getExtension() != null) {
           srcFormatted.setSource("urn:epc:id:sgln:" + gln + "." + input.getExtension());
         } else {
           srcFormatted.setSource("urn:epc:id:sgln:" + gln);
         }
-      } else if(StringUtils.isNotBlank(input.getGlnType().toString()) && input.getGlnType().equals(SourceDestinationGLNType.PGLN)) {
-        //if type is PGLN then format with PGLN
+      } else if (StringUtils.isNotBlank(input.getGlnType().toString())
+          && input.getGlnType().equals(SourceDestinationGLNType.PGLN)) {
+        // if type is PGLN then format with PGLN
         srcFormatted.setSource("urn:epc:id:pgln:" + gln);
       }
 
@@ -81,14 +83,20 @@ public class SourceFormatter implements Serializable {
       gln = gln.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gln.substring(0, 12));
       String source = "";
 
-      //If type is LOCATION or GLN type SGLN then format as per SGLN with /414/ and add extension if not NULL or 0
-      if (input.getType().equals(SourceDestinationType.LOCATION) || input.getGlnType().equals(SourceDestinationGLNType.SGLN)) {
+      // If type is LOCATION or GLN type SGLN then format as per SGLN with /414/ and add extension
+      // if not NULL or 0
+      if (input.getType().equals(SourceDestinationType.LOCATION)
+          || input.getGlnType().equals(SourceDestinationGLNType.SGLN)) {
         source = dlURL + "/414/" + gln;
 
-        //For SGLN type add the extension if provided and non-zero
-        source += StringUtils.isNotBlank(input.getExtension()) && !input.getExtension().equals("0") ? "/254/" + input.getExtension() : "";
-      } else if (StringUtils.isNotBlank(input.getGlnType().toString()) && input.getGlnType().equals(SourceDestinationGLNType.PGLN)) {
-        //If GLN type is PGLN then format as per PGLN with /417/ and without extension
+        // For SGLN type add the extension if provided and non-zero
+        source +=
+            StringUtils.isNotBlank(input.getExtension()) && !input.getExtension().equals("0")
+                ? "/254/" + input.getExtension()
+                : "";
+      } else if (StringUtils.isNotBlank(input.getGlnType().toString())
+          && input.getGlnType().equals(SourceDestinationGLNType.PGLN)) {
+        // If GLN type is PGLN then format as per PGLN with /417/ and without extension
         source = dlURL + "/417/" + gln;
       }
 
@@ -101,7 +109,8 @@ public class SourceFormatter implements Serializable {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of the Source in WebURI format, Please check the values provided values for Source : "
-              + ex.getMessage(), ex);
+              + ex.getMessage(),
+          ex);
     }
   }
 }

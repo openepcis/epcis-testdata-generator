@@ -24,15 +24,14 @@ import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
-
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
 @Setter
 @JsonTypeName("upui")
@@ -52,51 +51,70 @@ public class GenerateUPUI extends GenerateEPC {
   /**
    * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *
-   * @param syntax                syntax in which identifiers need to be generated URN/WebURI
-   * @param count                 count of instance identifiers need to be generated
-   * @param dlURL                 if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
-   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random serial number
+   * @param syntax syntax in which identifiers need to be generated URN/WebURI
+   * @param count count of instance identifiers need to be generated
+   * @param dlURL if provided use the provided dlURI to format WebURI identifiers else use default
+   *     ref.gs1.org
+   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random
+   *     serial number
    * @return returns list of identifiers in string format
    */
   @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+  public List<String> format(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final String dlURL,
+      final RandomSerialNumberGenerator serialNumberGenerator) {
     return generateIdentifiers(syntax, count, dlURL, serialNumberGenerator);
   }
 
-  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+  private List<String> generateIdentifiers(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final String dlURL,
+      final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedUPUI = new ArrayList<>();
-      final String prefix = syntax == IdentifierVocabularyType.URN ? UPUI_URN_PART : dlURL + UPUI_URI_PART;
+      final String prefix =
+          syntax == IdentifierVocabularyType.URN ? UPUI_URN_PART : dlURL + UPUI_URI_PART;
       final String suffix = syntax == IdentifierVocabularyType.URN ? "." : UPUI_URI_SERIAL_PART;
       upui = upui.substring(0, 13) + UPCEANLogicImpl.calcChecksum(upui.substring(0, 13));
-      upui = syntax == IdentifierVocabularyType.URN ? CompanyPrefixFormatter.gcpFormatterWithReplace(upui, gcpLength).toString() : upui;
-
+      upui =
+          syntax == IdentifierVocabularyType.URN
+              ? CompanyPrefixFormatter.gcpFormatterWithReplace(upui, gcpLength).toString()
+              : upui;
 
       if (SerialTypeChecker.isRangeType(serialType, count, rangeFrom)) {
-        //For range generate sequential identifiers
-        for (var rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count; rangeID++) {
+        // For range generate sequential identifiers
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           formattedUPUI.add(prefix + upui + suffix + rangeID);
         }
         rangeFrom = BigInteger.valueOf(rangeFrom.longValue() + count);
       } else if (SerialTypeChecker.isRandomType(serialType, count)) {
-        //For random generate random identifiers or based on seed
+        // For random generate random identifiers or based on seed
         randomMinLength = Math.max(1, Math.min(28, randomMinLength));
         randomMaxLength = Math.max(1, Math.min(28, randomMaxLength));
 
-        final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(randomType, randomMinLength, randomMaxLength, count);
+        final List<String> randomSerialNumbers =
+            serialNumberGenerator.randomGenerator(
+                randomType, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
           formattedUPUI.add(prefix + upui + suffix + randomID);
         }
 
       } else if (SerialTypeChecker.isNoneType(serialType, count, serialNumber)) {
-        //For none generate static identifier
+        // For none generate static identifier
         formattedUPUI.add(prefix + upui + suffix + serialNumber);
       }
 
       return formattedUPUI;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException("Exception occurred during generation of UPUI instance identifiers : " + ex.getMessage(), ex);
+      throw new TestDataGeneratorException(
+          "Exception occurred during generation of UPUI instance identifiers : " + ex.getMessage(),
+          ex);
     }
   }
 }

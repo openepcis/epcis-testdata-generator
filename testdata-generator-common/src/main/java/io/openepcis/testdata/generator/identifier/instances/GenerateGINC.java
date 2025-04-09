@@ -22,12 +22,11 @@ import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import lombok.Setter;
-import lombok.ToString;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @JsonTypeName("ginc")
@@ -41,44 +40,61 @@ public class GenerateGINC extends GenerateEPCType2 {
   /**
    * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *
-   * @param syntax                syntax in which identifiers need to be generated URN/WebURI
-   * @param count                 count of instance identifiers need to be generated
-   * @param dlURL                 if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
-   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random serial number
+   * @param syntax syntax in which identifiers need to be generated URN/WebURI
+   * @param count count of instance identifiers need to be generated
+   * @param dlURL if provided use the provided dlURI to format WebURI identifiers else use default
+   *     ref.gs1.org
+   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random
+   *     serial number
    * @return returns list of identifiers in string format
    */
   @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+  public List<String> format(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final String dlURL,
+      final RandomSerialNumberGenerator serialNumberGenerator) {
     return generateIdentifiers(syntax, count, dlURL, serialNumberGenerator);
   }
 
-  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+  private List<String> generateIdentifiers(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final String dlURL,
+      final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedGINC = new ArrayList<>();
-      final String prefix = syntax == IdentifierVocabularyType.URN ? GINC_URN_PART : dlURL + GINC_URI_PART;
+      final String prefix =
+          syntax == IdentifierVocabularyType.URN ? GINC_URN_PART : dlURL + GINC_URI_PART;
       final String suffix = syntax == IdentifierVocabularyType.URN ? "." : "";
 
       if (SerialTypeChecker.isRangeType(serialType, count, rangeFrom)) {
-        //For range generate sequential identifiers
-        for (var rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count; rangeID++) {
+        // For range generate sequential identifiers
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           formattedGINC.add(prefix + gcp + suffix + rangeID);
         }
         rangeFrom = BigInteger.valueOf(rangeFrom.longValue() + count.longValue());
       } else if (SerialTypeChecker.isRandomType(serialType, count)) {
-        //For random generate random identifiers or based on seed
+        // For random generate random identifiers or based on seed
         final int requiredMaxLength = 29 - gcp.length();
-        final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(RandomizationType.NUMERIC, 1, requiredMaxLength, count);
+        final List<String> randomSerialNumbers =
+            serialNumberGenerator.randomGenerator(
+                RandomizationType.NUMERIC, 1, requiredMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
           formattedGINC.add(prefix + gcp + suffix + randomID);
         }
       } else if (SerialTypeChecker.isNoneType(serialType, count, serialNumber)) {
-        //For none generate static identifier
+        // For none generate static identifier
         formattedGINC.add(prefix + gcp + suffix + serialNumber);
       }
       return formattedGINC;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException("Exception occurred during generation of GINC instance identifiers : " + ex.getMessage(), ex);
+      throw new TestDataGeneratorException(
+          "Exception occurred during generation of GINC instance identifiers : " + ex.getMessage(),
+          ex);
     }
   }
 }

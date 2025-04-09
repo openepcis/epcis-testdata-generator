@@ -33,7 +33,9 @@ public class TransactionEventCreationModel
   private Identifier matchingParentId = null;
 
   public TransactionEventCreationModel(
-      final TransactionEventType typeInfo, final List<Identifier> identifiers, final List<RandomGenerators> randomGenerators) {
+      final TransactionEventType typeInfo,
+      final List<Identifier> identifiers,
+      final List<RandomGenerators> randomGenerators) {
     super(typeInfo, identifiers, randomGenerators);
 
     // Check if user has provided values for the Parent Identifiers
@@ -54,8 +56,9 @@ public class TransactionEventCreationModel
   @Override
   public TransactionEvent create(final List<EventIdentifierTracker> parentTracker) {
     var epcisEvent = new TransactionEvent();
-    super.configure(epcisEvent, parentTracker); //Add common info of TransactionEvent
-    super.configureParent(epcisEvent, parentTracker, matchingParentId); //Add parentID of TransactionEvent
+    super.configure(epcisEvent, parentTracker); // Add common info of TransactionEvent
+    super.configureParent(
+        epcisEvent, parentTracker, matchingParentId); // Add parentID of TransactionEvent
 
     configureCommons(epcisEvent);
     configureIdentifiers(epcisEvent, parentTracker);
@@ -75,7 +78,9 @@ public class TransactionEventCreationModel
     // Add source list
     if (typeInfo.getSources() != null && !typeInfo.getSources().isEmpty()) {
       e.setSourceList(
-          typeInfo.getSources().stream().map(src -> SourceFormatter.format(syntax, src, typeInfo.getDlURL())).toList());
+          typeInfo.getSources().stream()
+              .map(src -> SourceFormatter.format(syntax, src, typeInfo.getDlURL()))
+              .toList());
     }
 
     // Add Destination list

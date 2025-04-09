@@ -33,10 +33,6 @@ import io.openepcis.testdata.generator.template.EPCISEventType;
 import io.openepcis.testdata.generator.template.Identifier;
 import io.openepcis.testdata.generator.template.RandomGenerators;
 import io.openepcis.testdata.generator.template.ReferencedIdentifier;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.OffsetDateTime;
@@ -47,6 +43,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 
 @Getter
 @Slf4j
@@ -67,16 +66,22 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
   private EPCISEventDownstreamHandler epcisEventDownstreamHandler = null;
 
   private final DateTimeFormatter dateFormatter =
-          DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
+      DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
   private final RandomSerialNumberGenerator randomSerialNumberGenerator;
 
-  public AbstractEventCreationModel(final T typeInfo, final List<Identifier> identifiers, final List<RandomGenerators> randomGenerators) {
+  public AbstractEventCreationModel(
+      final T typeInfo,
+      final List<Identifier> identifiers,
+      final List<RandomGenerators> randomGenerators) {
     this.typeInfo = typeInfo;
     this.identifiers = identifiers;
     this.randomGenerators = randomGenerators;
-    this.randomSerialNumberGenerator = RandomSerialNumberGenerator.getInstance(typeInfo.getSeed()); //Since instance of MersenneTwister for each model
-    RandomValueGenerator.generateInstance(randomGenerators); // Generate Random instance for each of the randomGenerators
+    this.randomSerialNumberGenerator =
+        RandomSerialNumberGenerator.getInstance(
+            typeInfo.getSeed()); // Since instance of MersenneTwister for each model
+    RandomValueGenerator.generateInstance(
+        randomGenerators); // Generate Random instance for each of the randomGenerators
     // Configures the random number generators that will be used when processing extension/ilmd
     UserExtensionSyntax.setRandomGenerators(randomGenerators);
   }
@@ -110,35 +115,49 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
       if (typeInfo.getSensorElementList() != null && !typeInfo.getSensorElementList().isEmpty()) {
         final List<SensorElementList> sensorElementList = new ArrayList<>();
 
-        typeInfo.getSensorElementList().forEach(element -> {
-          final SensorElementList sensorElement = new SensorElementList();
-          final List<SensorReport> sensorReports = new ArrayList<>();
+        typeInfo
+            .getSensorElementList()
+            .forEach(
+                element -> {
+                  final SensorElementList sensorElement = new SensorElementList();
+                  final List<SensorReport> sensorReports = new ArrayList<>();
 
-          sensorElement.setSensorMetadata(element.getSensorMetadata());
-          element.getSensorReport().forEach(report -> sensorReports.add(report.format(randomGenerators))); //Format the SensorReportType to SensorReport
+                  sensorElement.setSensorMetadata(element.getSensorMetadata());
+                  element
+                      .getSensorReport()
+                      .forEach(
+                          report ->
+                              sensorReports.add(
+                                  report.format(
+                                      randomGenerators))); // Format the SensorReportType to
+                  // SensorReport
 
-          sensorElement.setSensorReport(sensorReports);
-          sensorElementList.add(sensorElement);
-        });
+                  sensorElement.setSensorReport(sensorReports);
+                  sensorElementList.add(sensorElement);
+                });
 
-        //Assign formatted sensorElementList to EPCISEvent SensorElementList
+        // Assign formatted sensorElementList to EPCISEvent SensorElementList
         epcisEvent.setSensorElementList(sensorElementList);
       }
 
       // Add the certificationInfo by formatting from UserExtension syntax
       if (typeInfo.getCertificationInfo() != null && !typeInfo.getCertificationInfo().isEmpty()) {
-        final List<Object> formattedCertificationInfo = typeInfo.getCertificationInfo().stream()
-                .flatMap(root -> {
-                  if (CollectionUtils.isNotEmpty(root.getChildren())) {
-                    // Stream over children if present
-                    return root.getChildren().stream().flatMap(c -> c.toMap().entrySet().stream());
-                  } else if (root.getRawJsonld() instanceof Map) {
-                    // Stream over rawJsonld if it's a Map
-                    return root.toMap().entrySet().stream();
-                  }
-                  // Return an empty stream if neither are present
-                  return Stream.empty();
-                }).collect(Collectors.toList());
+        final List<Object> formattedCertificationInfo =
+            typeInfo.getCertificationInfo().stream()
+                .flatMap(
+                    root -> {
+                      if (CollectionUtils.isNotEmpty(root.getChildren())) {
+                        // Stream over children if present
+                        return root.getChildren().stream()
+                            .flatMap(c -> c.toMap().entrySet().stream());
+                      } else if (root.getRawJsonld() instanceof Map) {
+                        // Stream over rawJsonld if it's a Map
+                        return root.toMap().entrySet().stream();
+                      }
+                      // Return an empty stream if neither are present
+                      return Stream.empty();
+                    })
+                .collect(Collectors.toList());
 
         if (!formattedCertificationInfo.isEmpty()) {
           epcisEvent.setCertificationInfo(formattedCertificationInfo);
@@ -148,45 +167,59 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
       // Processes user extensions from TypeInfo and sets them on the EPCIS event.
       if (typeInfo.getUserExtensions() != null && !typeInfo.getUserExtensions().isEmpty()) {
         epcisEvent.setUserExtensions(
-                typeInfo.getUserExtensions().stream()
-                        .flatMap(root -> {
-                          if (CollectionUtils.isNotEmpty(root.getChildren())) {
-                            // Stream over children if present
-                            return root.getChildren().stream().flatMap(c -> c.toMap().entrySet().stream());
-                          } else if (root.getRawJsonld() instanceof Map) {
-                            // Stream over rawJsonld if it's a Map
-                            return root.toMap().entrySet().stream();
-                          }else if(root.getRawJsonld() instanceof String) {
-                            // Handle raw JSON-LD string - processes JSON-LD format with context removal
-                            try {
-                              final Map<String, Object> rawMap = objectMapper.readValue(root.getRawJsonld().toString(), new TypeReference<>() {});
-                              rawMap.remove("@context");
-                              return rawMap.entrySet().stream();
-                            }
-                            catch (Exception e){
-                              throw new TestDataGeneratorException("Error during the conversion of RawJsonLD : " + typeInfo.getEventType() + e.getMessage(), e);
-                            }
-                          }
-                          // Return an empty stream if neither are present
-                          return Stream.empty();
-                        })
-                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1)));
+            typeInfo.getUserExtensions().stream()
+                .flatMap(
+                    root -> {
+                      if (CollectionUtils.isNotEmpty(root.getChildren())) {
+                        // Stream over children if present
+                        return root.getChildren().stream()
+                            .flatMap(c -> c.toMap().entrySet().stream());
+                      } else if (root.getRawJsonld() instanceof Map) {
+                        // Stream over rawJsonld if it's a Map
+                        return root.toMap().entrySet().stream();
+                      } else if (root.getRawJsonld() instanceof String) {
+                        // Handle raw JSON-LD string - processes JSON-LD format with context removal
+                        try {
+                          final Map<String, Object> rawMap =
+                              objectMapper.readValue(
+                                  root.getRawJsonld().toString(), new TypeReference<>() {});
+                          rawMap.remove("@context");
+                          return rawMap.entrySet().stream();
+                        } catch (Exception e) {
+                          throw new TestDataGeneratorException(
+                              "Error during the conversion of RawJsonLD : "
+                                  + typeInfo.getEventType()
+                                  + e.getMessage(),
+                              e);
+                        }
+                      }
+                      // Return an empty stream if neither are present
+                      return Stream.empty();
+                    })
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1)));
       }
     } catch (Exception e) {
       throw new TestDataGeneratorException(
-          "Error during the configuring EPCIS event : " + typeInfo.getEventType() + e.getMessage(), e);
+          "Error during the configuring EPCIS event : " + typeInfo.getEventType() + e.getMessage(),
+          e);
     }
   }
 
   // Private method used to add the When dimension (Event time, Event Timezone offset, Record time)
   // related information during the creation of event
-  private void configureWhenDimension(final E epcisEvent, final List<EventIdentifierTracker> parentTracker) {
+  private void configureWhenDimension(
+      final E epcisEvent, final List<EventIdentifierTracker> parentTracker) {
     // Set TimeZone Offset
     epcisEvent.setEventTimeZoneOffset(typeInfo.getEventTime().getTimeZoneOffset());
 
-    // Setting the event Time, if custom option selected then set eventTime based on parent eventTime
-    final OffsetDateTime parentEventTime = CollectionUtils.isNotEmpty(parentTracker) ? parentTracker.get(0).getEvent().getEventTime() : null;
-    epcisEvent.setEventTime(typeInfo.getEventTime().generate(parentEventTime, randomSerialNumberGenerator));
+    // Setting the event Time, if custom option selected then set eventTime based on parent
+    // eventTime
+    final OffsetDateTime parentEventTime =
+        CollectionUtils.isNotEmpty(parentTracker)
+            ? parentTracker.get(0).getEvent().getEventTime()
+            : null;
+    epcisEvent.setEventTime(
+        typeInfo.getEventTime().generate(parentEventTime, randomSerialNumberGenerator));
 
     // Set Record Time
     if (typeInfo.getRecordTimeType() == RecordTimeType.SAME_AS_EVENT_TIME) {
@@ -201,7 +234,9 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
   private void configureWhereDimension(final E epcisEvent, final IdentifierVocabularyType syntax) {
     // Set Read Point
     if (typeInfo.getReadPoint() != null) {
-      final String formattedReadPoint = ReadpointBusinessLocationFormatter.format(syntax, typeInfo.getReadPoint(), typeInfo.getDlURL());
+      final String formattedReadPoint =
+          ReadpointBusinessLocationFormatter.format(
+              syntax, typeInfo.getReadPoint(), typeInfo.getDlURL());
       var rp = new ReadPoint();
 
       try {
@@ -210,7 +245,8 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
         throw new TestDataGeneratorException(
             "Error during the addition of ReadPoint to EPCIS event : "
                 + typeInfo.getEventType()
-                + ex.getMessage(), ex);
+                + ex.getMessage(),
+            ex);
       }
 
       // Set the ReadPoint for the EPCIS event
@@ -219,7 +255,9 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
 
     // Set Biz Location
     if (typeInfo.getBizLocation() != null) {
-      final String formattedBizLocation = ReadpointBusinessLocationFormatter.format(syntax, typeInfo.getBizLocation(), typeInfo.getDlURL());
+      final String formattedBizLocation =
+          ReadpointBusinessLocationFormatter.format(
+              syntax, typeInfo.getBizLocation(), typeInfo.getDlURL());
       var biz = new BizLocation();
 
       try {
@@ -228,7 +266,8 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
         throw new TestDataGeneratorException(
             "Error during the addition of BizLocation to EPCIS event : "
                 + typeInfo.getEventType()
-                + ex.getMessage(), ex);
+                + ex.getMessage(),
+            ex);
       }
 
       // Set the BizLocation for the EPCIS event
@@ -241,12 +280,16 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
   private void configureWhyDimension(final E epcisEvent) {
     // Set Business Step
     if (typeInfo.getBusinessStep() != null) {
-      epcisEvent.setBizStep(BusinessStepFormatter.format(typeInfo.getBusinessStep(), typeInfo.getBusinessStepManualURI()));
+      epcisEvent.setBizStep(
+          BusinessStepFormatter.format(
+              typeInfo.getBusinessStep(), typeInfo.getBusinessStepManualURI()));
     }
 
     // Set Disposition
     if (typeInfo.getDisposition() != null) {
-      epcisEvent.setDisposition(DispositionFormatter.format(typeInfo.getDisposition(), typeInfo.getDispositionManualURI()));
+      epcisEvent.setDisposition(
+          DispositionFormatter.format(
+              typeInfo.getDisposition(), typeInfo.getDispositionManualURI()));
     }
   }
 
@@ -259,7 +302,11 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
       var err = new ErrorDeclaration();
 
       // Set the Error declaration time
-      err.setDeclarationTime(typeInfo.getErrorDeclaration().getDeclarationTime().generate(null, randomSerialNumberGenerator));
+      err.setDeclarationTime(
+          typeInfo
+              .getErrorDeclaration()
+              .getDeclarationTime()
+              .generate(null, randomSerialNumberGenerator));
 
       // Set the Error declaration time offset this is missing in openEpcis-parent
       // err.setDeclarationTimezoneOffset(typeInfo.getErrorDeclaration().getDeclarationTime().getTimeZoneOffset());
@@ -273,7 +320,8 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
       if (typeInfo.getErrorDeclaration().getCorrectiveIds() != null
           && !typeInfo.getErrorDeclaration().getCorrectiveIds().isEmpty()) {
         err.setCorrectiveEventIDs(
-            ErrorDeclarationFormatter.format(syntax, typeInfo.getErrorDeclaration().getCorrectiveIds(), typeInfo.getDlURL()));
+            ErrorDeclarationFormatter.format(
+                syntax, typeInfo.getErrorDeclaration().getCorrectiveIds(), typeInfo.getDlURL()));
       }
 
       // Add Error Extensions if not null
@@ -281,10 +329,12 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
           && !typeInfo.getErrorDeclaration().getExtensions().isEmpty()) {
         err.setUserExtensions(
             typeInfo.getErrorDeclaration().getExtensions().stream()
-                    .flatMap(root -> {
+                .flatMap(
+                    root -> {
                       if (CollectionUtils.isNotEmpty(root.getChildren())) {
                         // Stream over children if present
-                        return root.getChildren().stream().flatMap(c -> c.toMap().entrySet().stream());
+                        return root.getChildren().stream()
+                            .flatMap(c -> c.toMap().entrySet().stream());
                       } else if (root.getRawJsonld() instanceof Map) {
                         // Stream over rawJsonld if it's a Map
                         return root.toMap().entrySet().stream();
@@ -292,40 +342,53 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
                       // Return an empty stream if neither are present
                       return Stream.empty();
                     })
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1)));
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (r1, r2) -> r1)));
       }
 
       epcisEvent.setErrorDeclaration(err);
     }
   }
 
-  //Method used for creating the parentID based on the value provided for the parentReferenceIdentifier
-  public List<String> referencedParentIdentifier(final List<EventIdentifierTracker> parentTracker){
+  // Method used for creating the parentID based on the value provided for the
+  // parentReferenceIdentifier
+  public List<String> referencedParentIdentifier(final List<EventIdentifierTracker> parentTracker) {
     // Create a List to store values related to Parent Identifiers
     List<String> parentList = new ArrayList<>();
 
-    //Loop over the referenced identifier to get the parent identifiers
+    // Loop over the referenced identifier to get the parent identifiers
     for (ReferencedIdentifier epc : typeInfo.getReferencedIdentifier()) {
       // When user wants to inherit Parent-Ids from parent node into child node get the matching
-      if (epc.getParentNodeId() != 0 && epc.getInheritParentCount() != null && epc.getInheritParentCount() > 0) {
+      if (epc.getParentNodeId() != 0
+          && epc.getInheritParentCount() != null
+          && epc.getInheritParentCount() > 0) {
         parentTracker.stream()
-                .filter(i -> i.getEventTypeInfo().getNodeId() == epc.getParentNodeId())
-                .findFirst()
-                .ifPresent(
-                        t -> parentList.addAll(EventModelUtil.parentIdentifiers(t, epc.getInheritParentCount())));
-      } else if (epc.getParentNodeId() != 0 && epc.getInheritEPCToParent() != null && epc.getInheritEPCToParent() > 0) {
+            .filter(i -> i.getEventTypeInfo().getNodeId() == epc.getParentNodeId())
+            .findFirst()
+            .ifPresent(
+                t ->
+                    parentList.addAll(
+                        EventModelUtil.parentIdentifiers(t, epc.getInheritParentCount())));
+      } else if (epc.getParentNodeId() != 0
+          && epc.getInheritEPCToParent() != null
+          && epc.getInheritEPCToParent() > 0) {
         parentTracker.stream()
-                .filter(i -> i.getEventTypeInfo().getNodeId() == epc.getParentNodeId())
-                .findFirst()
-                .ifPresent(
-                        t -> parentList.addAll(EventModelUtil.instanceIdentifiers(t, epc.getInheritEPCToParent())));
+            .filter(i -> i.getEventTypeInfo().getNodeId() == epc.getParentNodeId())
+            .findFirst()
+            .ifPresent(
+                t ->
+                    parentList.addAll(
+                        EventModelUtil.instanceIdentifiers(t, epc.getInheritEPCToParent())));
       }
     }
     return parentList;
   }
 
-  //Common method to built or import the parentID for Aggregation/Transaction/Association eventTypes
-  public void configureParent(final EPCISEvent event, final List<EventIdentifierTracker> parentTracker, final Identifier matchingParentId) {
+  // Common method to built or import the parentID for Aggregation/Transaction/Association
+  // eventTypes
+  public void configureParent(
+      final EPCISEvent event,
+      final List<EventIdentifierTracker> parentTracker,
+      final Identifier matchingParentId) {
     // Determine the event type and cast it accordingly
     if (event instanceof AggregationEvent aggEvent) {
       aggEvent.setParentID(buildParentID(matchingParentId, parentTracker));
@@ -336,19 +399,27 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
     }
   }
 
-  //Method to either build/import parentID
-  private String buildParentID(final Identifier matchingParentId, final List<EventIdentifierTracker> parentTracker) {
+  // Method to either build/import parentID
+  private String buildParentID(
+      final Identifier matchingParentId, final List<EventIdentifierTracker> parentTracker) {
     if (matchingParentId != null && matchingParentId.getParentData() != null) {
       // If values for parentReferencedIdentifier is provided then generated and add ParentID.
       return matchingParentId
-              .getParentData()
-              .format(matchingParentId.getObjectIdentifierSyntax(), 1, matchingParentId.getDlURL(), randomSerialNumberGenerator)
-              .get(0);
-    } else if (typeInfo.getParentIdentifier() != null && !typeInfo.getParentIdentifier().isEmpty()) {
-      // If importing the existing event and if the existing event has parent identifier then include it
+          .getParentData()
+          .format(
+              matchingParentId.getObjectIdentifierSyntax(),
+              1,
+              matchingParentId.getDlURL(),
+              randomSerialNumberGenerator)
+          .get(0);
+    } else if (typeInfo.getParentIdentifier() != null
+        && !typeInfo.getParentIdentifier().isEmpty()) {
+      // If importing the existing event and if the existing event has parent identifier then
+      // include it
       return typeInfo.getParentIdentifier();
-    } else if (typeInfo.getReferencedIdentifier() != null && !typeInfo.getReferencedIdentifier().isEmpty()) {
-      //If importing the parent identifier from previous ObjectEvent or other event EPCs
+    } else if (typeInfo.getReferencedIdentifier() != null
+        && !typeInfo.getReferencedIdentifier().isEmpty()) {
+      // If importing the parent identifier from previous ObjectEvent or other event EPCs
       final List<String> parentID = referencedParentIdentifier(parentTracker);
       if (!parentID.isEmpty()) {
         return parentID.get(0);
@@ -358,15 +429,16 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
   }
 
   /**
-   * Method used for creating the EPCs based on the value provided for the field ReferencedIdentifier
+   * Method used for creating the EPCs based on the value provided for the field
+   * ReferencedIdentifier
    *
-   * @param parentTracker            List of the parent identifiers node infprmation stored as parentTracker
-   * @param inheritParentIdCountFlag flag to detect if inheritParentIdentifiers need to be added or not. Inherited only for Object/TransformationEvent.
+   * @param parentTracker List of the parent identifiers node infprmation stored as parentTracker
+   * @param inheritParentIdCountFlag flag to detect if inheritParentIdentifiers need to be added or
+   *     not. Inherited only for Object/TransformationEvent.
    * @return returns List of EPC identifiers
    */
   public List<String> referencedEpcsIdentifierGenerator(
-          final List<EventIdentifierTracker> parentTracker, final Boolean inheritParentIdCountFlag
-  ) {
+      final List<EventIdentifierTracker> parentTracker, final Boolean inheritParentIdCountFlag) {
     // Create a List to store all the values associated Instance Identifiers
     final List<String> epcList = new ArrayList<>();
 
@@ -388,9 +460,13 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
         if (matchingIdentifier != null && matchingIdentifier.getInstanceData() != null) {
           // Append all instance identifiers values onto the Instance-Identifiers List
           epcList.addAll(
-                  matchingIdentifier
-                          .getInstanceData()
-                          .format(matchingIdentifier.getObjectIdentifierSyntax(), epc.getEpcCount(), matchingIdentifier.getDlURL(), randomSerialNumberGenerator));
+              matchingIdentifier
+                  .getInstanceData()
+                  .format(
+                      matchingIdentifier.getObjectIdentifierSyntax(),
+                      epc.getEpcCount(),
+                      matchingIdentifier.getDlURL(),
+                      randomSerialNumberGenerator));
         }
       } else if (epc.getParentNodeId() != 0 && epc.getEpcCount() > 0) {
         // If referenced identifier contains the parent node id then obtain the identifiers from its
@@ -404,25 +480,30 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
             .findFirst()
             .ifPresent(
                 t -> epcList.addAll(EventModelUtil.instanceIdentifiers(t, epc.getEpcCount())));
-      }else if(epc.getParentNodeId() != 0 && epc.getInheritParentToEPC() > 0){
-        //If inheriting the identifiers from ParentID to subsequent ChildEPCS/EPCS then inherit based on getInheritParentToEPC
+      } else if (epc.getParentNodeId() != 0 && epc.getInheritParentToEPC() > 0) {
+        // If inheriting the identifiers from ParentID to subsequent ChildEPCS/EPCS then inherit
+        // based on getInheritParentToEPC
         parentTracker.stream()
-                .filter(i -> i.getEventTypeInfo().getNodeId() == epc.getParentNodeId())
-                .findFirst()
-                .ifPresent(
-                        t -> epcList.addAll(EventModelUtil.segregateParentToEPC(t, epc.getInheritParentToEPC())));
+            .filter(i -> i.getEventTypeInfo().getNodeId() == epc.getParentNodeId())
+            .findFirst()
+            .ifPresent(
+                t ->
+                    epcList.addAll(
+                        EventModelUtil.segregateParentToEPC(t, epc.getInheritParentToEPC())));
       }
 
-      //Add the identifiers from ParentID Count only if the inheriting event is ObjectEvent or TransformationEvent
-      if (epc.getParentNodeId() != 0 && epc.getInheritParentCount() > 0 && Boolean.TRUE.equals(inheritParentIdCountFlag)) {
+      // Add the identifiers from ParentID Count only if the inheriting event is ObjectEvent or
+      // TransformationEvent
+      if (epc.getParentNodeId() != 0
+          && epc.getInheritParentCount() > 0
+          && Boolean.TRUE.equals(inheritParentIdCountFlag)) {
         // When user wants to inherit Parent-Ids from parent node into child node get the matching
         // Parent Identifiers. (AggregationEvent -> ObjectEvent)
         parentTracker.stream()
-                .forEach(
-                        parent ->
-                          epcList.addAll(
-                                  EventModelUtil.parentIdentifiers(parent, epc.getInheritParentCount()))
-                        );
+            .forEach(
+                parent ->
+                    epcList.addAll(
+                        EventModelUtil.parentIdentifiers(parent, epc.getInheritParentCount())));
       }
     }
 
@@ -446,7 +527,9 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
 
       // If the EventNode is directly connected to the IdentifiersNode then create the class
       // identifiers based on the provided identifiers info
-      if (quantity.getIdentifierId() != 0 && quantity.getClassCount() != null && quantity.getClassCount() > 0) {
+      if (quantity.getIdentifierId() != 0
+          && quantity.getClassCount() != null
+          && quantity.getClassCount() > 0) {
 
         // Get the matching identifiers from the IdentifiersList based on the Identifiers present in
         // the ReferencedIdentifier
@@ -467,9 +550,13 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
                   .format(
                       matchedClassIdentifier.getObjectIdentifierSyntax(),
                       quantity.getClassCount(),
-                      quantity.getQuantity(), matchedClassIdentifier.getDlURL(), randomSerialNumberGenerator));
+                      quantity.getQuantity(),
+                      matchedClassIdentifier.getDlURL(),
+                      randomSerialNumberGenerator));
         }
-      } else if (quantity.getParentNodeId() != 0  && quantity.getClassCount() != null && quantity.getClassCount() > 0) {
+      } else if (quantity.getParentNodeId() != 0
+          && quantity.getClassCount() != null
+          && quantity.getClassCount() > 0) {
         // If referenced identifier contains the parent node id then obtain the identifiers from its
         // parent event and add it
 

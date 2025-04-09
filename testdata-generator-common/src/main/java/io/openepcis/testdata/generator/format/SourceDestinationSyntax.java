@@ -19,9 +19,9 @@ import io.openepcis.testdata.generator.annotations.ConditionalValidation;
 import io.openepcis.testdata.generator.constants.SourceDestinationGLNType;
 import io.openepcis.testdata.generator.constants.SourceDestinationType;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.io.Serializable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
 

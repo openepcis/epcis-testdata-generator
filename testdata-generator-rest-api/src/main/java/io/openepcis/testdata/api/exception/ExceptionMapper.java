@@ -27,7 +27,8 @@ import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 @Slf4j
 public class ExceptionMapper {
 
-  public static final String EXCEPTION_OCCURRED_DURING_CREATION_OF_EPCIS_TEST_DATA_EVENTS = "Exception occurred during creation of EPCIS Test Data events";
+  public static final String EXCEPTION_OCCURRED_DURING_CREATION_OF_EPCIS_TEST_DATA_EVENTS =
+      "Exception occurred during creation of EPCIS Test Data events";
 
   @ServerExceptionMapper
   public final RestResponse<ProblemResponseBody> mapException(
@@ -42,7 +43,6 @@ public class ExceptionMapper {
   }
 
   @ServerExceptionMapper
-
   public final RestResponse<ProblemResponseBody> mapException(final SecurityException exception) {
     log.info(exception.getMessage());
     final ProblemResponseBody responseBody = new ProblemResponseBody();

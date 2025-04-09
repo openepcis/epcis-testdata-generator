@@ -24,14 +24,13 @@ import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerat
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Setter
 @JsonTypeName("grai")
@@ -48,18 +47,33 @@ public class GenerateGRAI extends GenerateQuantity {
   private static final String GRAI_URI_PART = "/8003/";
 
   @Override
-  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final RandomSerialNumberGenerator randomSerialNumberGenerator) {
+  public List<QuantityList> format(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final Float refQuantity,
+      final String dlURL,
+      final RandomSerialNumberGenerator randomSerialNumberGenerator) {
     return generateIdentifiers(syntax, count, refQuantity, dlURL);
   }
 
   // Method to generate GRAI Class identifiers in URN/WebURI format based on information
-  private List<QuantityList> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
+  private List<QuantityList> generateIdentifiers(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final Float refQuantity,
+      final String dlURL) {
     try {
       final List<QuantityList> returnQuantityFormatted = new ArrayList<>();
       final var quantityFormatted = new QuantityList();
 
-      final var modifiedUrnGRAI = syntax.equals(IdentifierVocabularyType.URN) ? CompanyPrefixFormatter.gcpFormatterNormal(grai, gcpLength).toString() : "";
-      final var modifiedUriGRAI = syntax.equals(IdentifierVocabularyType.WEBURI) ? grai.substring(0, 12) + UPCEANLogicImpl.calcChecksum(grai.substring(0, 12)) : "";
+      final var modifiedUrnGRAI =
+          syntax.equals(IdentifierVocabularyType.URN)
+              ? CompanyPrefixFormatter.gcpFormatterNormal(grai, gcpLength).toString()
+              : "";
+      final var modifiedUriGRAI =
+          syntax.equals(IdentifierVocabularyType.WEBURI)
+              ? grai.substring(0, 12) + UPCEANLogicImpl.calcChecksum(grai.substring(0, 12))
+              : "";
 
       // Loop until the count and create the Class identifiers based on it
       if (count != null && count > 0) {
@@ -71,15 +85,21 @@ public class GenerateGRAI extends GenerateQuantity {
             quantityFormatted.setEpcClass(dlURL + GRAI_URI_PART + modifiedUriGRAI);
           }
 
-          quantityFormatted.setQuantity(refQuantity != null && refQuantity != 0 ? refQuantity : quantity);
-          quantityFormatted.setUom(quantityType != null && quantityType.equals("Variable Measure Quantity") ? uom : null);
+          quantityFormatted.setQuantity(
+              refQuantity != null && refQuantity != 0 ? refQuantity : quantity);
+          quantityFormatted.setUom(
+              quantityType != null && quantityType.equals("Variable Measure Quantity")
+                  ? uom
+                  : null);
           returnQuantityFormatted.add(quantityFormatted);
         }
       }
 
       return returnQuantityFormatted;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException("Exception occurred during generation of GRAI class identifiers : " + ex.getMessage(), ex);
+      throw new TestDataGeneratorException(
+          "Exception occurred during generation of GRAI class identifiers : " + ex.getMessage(),
+          ex);
     }
   }
 }

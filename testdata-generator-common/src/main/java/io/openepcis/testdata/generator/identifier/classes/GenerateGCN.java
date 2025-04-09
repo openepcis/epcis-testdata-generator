@@ -17,16 +17,15 @@ package io.openepcis.testdata.generator.identifier.classes;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.openepcis.model.epcis.QuantityList;
-import io.openepcis.testdata.generator.constants.DomainName;
 import io.openepcis.testdata.generator.constants.IdentifierVocabularyType;
 import io.openepcis.testdata.generator.constants.TestDataGeneratorException;
 import io.openepcis.testdata.generator.format.CompanyPrefixFormatter;
 import io.openepcis.testdata.generator.identifier.util.RandomSerialNumberGenerator;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.util.ArrayList;
-import java.util.List;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -47,38 +46,58 @@ public class GenerateGCN extends GenerateQuantity {
   private static final String SGCN_URN_PART = "urn:epc:idpat:sgcn:";
 
   @Override
-  public List<QuantityList> format(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL, final RandomSerialNumberGenerator randomSerialNumberGenerator) {
+  public List<QuantityList> format(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final Float refQuantity,
+      final String dlURL,
+      final RandomSerialNumberGenerator randomSerialNumberGenerator) {
     return generateIdentifiers(syntax, count, refQuantity, dlURL);
   }
 
   // Method to generate GCN Class identifiers in URN/WebURI format based on information
-  private List<QuantityList> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final Float refQuantity, final String dlURL) {
+  private List<QuantityList> generateIdentifiers(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final Float refQuantity,
+      final String dlURL) {
     try {
       final List<QuantityList> returnQuantityFormatted = new ArrayList<>();
       final var quantityFormatted = new QuantityList();
 
-      final var modifiedUrnGCN = syntax.equals(IdentifierVocabularyType.URN) ? CompanyPrefixFormatter.gcpFormatterNormal(gcn, gcpLength).toString() : "";
-      final var modifiedUriGCN = syntax.equals(IdentifierVocabularyType.WEBURI) ? gcn.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gcn.substring(0, 12)) : "";
+      final var modifiedUrnGCN =
+          syntax.equals(IdentifierVocabularyType.URN)
+              ? CompanyPrefixFormatter.gcpFormatterNormal(gcn, gcpLength).toString()
+              : "";
+      final var modifiedUriGCN =
+          syntax.equals(IdentifierVocabularyType.WEBURI)
+              ? gcn.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gcn.substring(0, 12))
+              : "";
 
       // Loop until the count and create the Class identifiers based on it
       if (count != null && count > 0) {
         for (var identifierCounter = 0; identifierCounter < count; identifierCounter++) {
-          //Based on syntax generate identifier
+          // Based on syntax generate identifier
           if (syntax.equals(IdentifierVocabularyType.URN)) {
             quantityFormatted.setEpcClass(SGCN_URN_PART + modifiedUrnGCN + ".*");
           } else if (syntax.equals(IdentifierVocabularyType.WEBURI)) {
             quantityFormatted.setEpcClass(dlURL + "/255/" + modifiedUriGCN);
           }
 
-          quantityFormatted.setQuantity(refQuantity != null && refQuantity != 0 ? refQuantity : quantity);
-          quantityFormatted.setUom(quantityType != null && quantityType.equals("Variable Measure Quantity") ? uom : null);
+          quantityFormatted.setQuantity(
+              refQuantity != null && refQuantity != 0 ? refQuantity : quantity);
+          quantityFormatted.setUom(
+              quantityType != null && quantityType.equals("Variable Measure Quantity")
+                  ? uom
+                  : null);
           returnQuantityFormatted.add(quantityFormatted);
         }
       }
 
       return returnQuantityFormatted;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException("Exception occurred during generation of GCN class identifiers : " + ex.getMessage(), ex);
+      throw new TestDataGeneratorException(
+          "Exception occurred during generation of GCN class identifiers : " + ex.getMessage(), ex);
     }
   }
 }

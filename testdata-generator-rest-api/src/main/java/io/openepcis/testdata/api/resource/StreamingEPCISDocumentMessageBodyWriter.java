@@ -23,17 +23,17 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.ext.MessageBodyWriter;
 import jakarta.ws.rs.ext.Provider;
-import lombok.RequiredArgsConstructor;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import lombok.RequiredArgsConstructor;
 
 @Provider
 @RequiredArgsConstructor
 @Produces(MediaType.APPLICATION_JSON)
-public class StreamingEPCISDocumentMessageBodyWriter implements MessageBodyWriter<StreamingEPCISDocument> {
+public class StreamingEPCISDocumentMessageBodyWriter
+    implements MessageBodyWriter<StreamingEPCISDocument> {
 
   private final ObjectMapper objectMapper;
 
@@ -63,6 +63,7 @@ public class StreamingEPCISDocumentMessageBodyWriter implements MessageBodyWrite
       MultivaluedMap<String, Object> httpHeaders,
       OutputStream entityStream)
       throws IOException, WebApplicationException {
-    streamingEPCISDocument.writeToOutputStream(b -> b.objectMapper(objectMapper).outputStream(entityStream).build());
+    streamingEPCISDocument.writeToOutputStream(
+        b -> b.objectMapper(objectMapper).outputStream(entityStream).build());
   }
 }

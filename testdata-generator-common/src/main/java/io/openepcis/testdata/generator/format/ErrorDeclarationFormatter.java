@@ -26,7 +26,8 @@ import lombok.NoArgsConstructor;
 @RegisterForReflection
 public class ErrorDeclarationFormatter {
 
-  public static List<String> format(IdentifierVocabularyType syntax, List<String> input, final String dlURL) {
+  public static List<String> format(
+      IdentifierVocabularyType syntax, List<String> input, final String dlURL) {
     if (IdentifierVocabularyType.WEBURI == syntax) {
       return formatWebURI(input, dlURL);
     } else {
@@ -39,8 +40,6 @@ public class ErrorDeclarationFormatter {
   }
 
   private static List<String> formatWebURI(List<String> input, final String dlURL) {
-    return input.stream()
-        .filter(Objects::nonNull)
-        .toList();
+    return input.stream().filter(Objects::nonNull).toList();
   }
 }

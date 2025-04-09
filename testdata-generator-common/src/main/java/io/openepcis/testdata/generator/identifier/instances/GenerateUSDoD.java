@@ -25,14 +25,13 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
 @Setter
 @JsonTypeName("usdod")
@@ -40,25 +39,41 @@ import java.util.List;
 @RegisterForReflection
 public class GenerateUSDoD implements EPCStrategy {
 
-  @Pattern(regexp = "^[A-Z0-9]{5,6}$", message = "USDoD CAGE/DoDAAC should be Min 5 digits and Max 6 digits")
-  @NotNull(message = "Cage value for USDoD cannot be null, it should be Min 5 digits and Max 6 digits")
-  @Schema(type = SchemaType.STRING, description = "Cage value for USDoD should be Min 5 digits and Max 6 digits", required = true)
+  @Pattern(
+      regexp = "^[A-Z0-9]{5,6}$",
+      message = "USDoD CAGE/DoDAAC should be Min 5 digits and Max 6 digits")
+  @NotNull(
+      message = "Cage value for USDoD cannot be null, it should be Min 5 digits and Max 6 digits")
+  @Schema(
+      type = SchemaType.STRING,
+      description = "Cage value for USDoD should be Min 5 digits and Max 6 digits",
+      required = true)
   private String usdodCage;
 
   @NotNull(message = "Serial Numbers type can not be null.")
-  @Schema(type = SchemaType.STRING, description = "Type of serial identifier generation.", enumeration = {"range", "random", "none"}, required = true)
+  @Schema(
+      type = SchemaType.STRING,
+      description = "Type of serial identifier generation.",
+      enumeration = {"range", "random", "none"},
+      required = true)
   private String serialType;
 
   @Min(value = 0, message = "Range start value cannot be less than 0.")
-  @Schema(type = SchemaType.NUMBER, description = "Starting value for range based identifier generation.")
+  @Schema(
+      type = SchemaType.NUMBER,
+      description = "Starting value for range based identifier generation.")
   protected BigInteger rangeFrom;
 
   @Min(value = 1, message = "Range end value cannot be less than 1.")
-  @Schema(type = SchemaType.NUMBER, description = "Ending value for range based identifier generation.")
+  @Schema(
+      type = SchemaType.NUMBER,
+      description = "Ending value for range based identifier generation.")
   protected Integer rangeTo;
 
   @Min(value = 1, message = "Number of required serial numbers cannot be less than 1.")
-  @Schema(type = SchemaType.NUMBER, description = "Count value for random based identifier generation.")
+  @Schema(
+      type = SchemaType.NUMBER,
+      description = "Count value for random based identifier generation.")
   protected Integer randomCount;
 
   @Schema(type = SchemaType.NUMBER, description = "Min character length for random serial numbers.")
@@ -70,41 +85,51 @@ public class GenerateUSDoD implements EPCStrategy {
   @Schema(type = SchemaType.STRING, description = "Serial number for identifier generation.")
   protected String serialNumber;
 
-
   private static final String USDOD_URN_PART = "urn:epc:id:usdod:";
 
   @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+  public List<String> format(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final String dlURL,
+      final RandomSerialNumberGenerator serialNumberGenerator) {
     return generateURN(count, serialNumberGenerator);
   }
 
-  private List<String> generateURN(final Integer count, final RandomSerialNumberGenerator serialNumberGenerator) {
+  private List<String> generateURN(
+      final Integer count, final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedUSDoD = new ArrayList<>();
 
       if (SerialTypeChecker.isRangeType(serialType, count, rangeFrom)) {
-        //For range generate sequential identifiers
-        for (var rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count; rangeID++) {
+        // For range generate sequential identifiers
+        for (var rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           formattedUSDoD.add(USDOD_URN_PART + usdodCage + "." + rangeID);
         }
         rangeFrom = BigInteger.valueOf(rangeFrom.longValue() + count);
       } else if (SerialTypeChecker.isRandomType(serialType, count)) {
-        //For random generate random identifiers or based on seed
+        // For random generate random identifiers or based on seed
         randomMinLength = Math.max(1, Math.min(11, randomMinLength));
         randomMaxLength = Math.max(1, Math.min(11, randomMaxLength));
 
-        final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(RandomizationType.NUMERIC, randomMinLength, randomMaxLength, count);
+        final List<String> randomSerialNumbers =
+            serialNumberGenerator.randomGenerator(
+                RandomizationType.NUMERIC, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
           formattedUSDoD.add(USDOD_URN_PART + usdodCage + "." + randomID);
         }
       } else if (SerialTypeChecker.isNoneType(serialType, count, serialNumber)) {
-        //For none generate static identifier
+        // For none generate static identifier
         formattedUSDoD.add(USDOD_URN_PART + usdodCage + "." + serialNumber);
       }
       return formattedUSDoD;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException("Exception occurred during generation of USDoD instance identifiers : " + ex.getMessage(), ex);
+      throw new TestDataGeneratorException(
+          "Exception occurred during generation of USDoD instance identifiers : " + ex.getMessage(),
+          ex);
     }
   }
 }

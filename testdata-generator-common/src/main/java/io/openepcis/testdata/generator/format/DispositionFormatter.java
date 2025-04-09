@@ -35,7 +35,8 @@ public class DispositionFormatter {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of the Disposition, Please check the values provided for Disposition : "
-              + ex.getMessage(), ex);
+              + ex.getMessage(),
+          ex);
     }
   }
 }
