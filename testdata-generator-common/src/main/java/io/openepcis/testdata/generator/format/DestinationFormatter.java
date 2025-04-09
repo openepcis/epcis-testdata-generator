@@ -58,22 +58,25 @@ public class DestinationFormatter {
       gln = CompanyPrefixFormatter.gcpFormatterNormal(gln, input.getGcpLength()).toString();
       dstFormatted.setType(input.getType().toString().toLowerCase());
 
-      //If type is LOCATION or GLN type is SGLN then format with SGLN and add extension if not null
-      if (input.getType().equals(SourceDestinationType.LOCATION) || input.getGlnType() == SourceDestinationGLNType.SGLN) {
+      // If type is LOCATION or GLN type is SGLN then format with SGLN and add extension if not null
+      if (input.getType().equals(SourceDestinationType.LOCATION)
+          || input.getGlnType() == SourceDestinationGLNType.SGLN) {
         if (input.getExtension() != null) {
           dstFormatted.setDestination("urn:epc:id:sgln:" + gln + "." + input.getExtension());
         } else {
           dstFormatted.setDestination("urn:epc:id:sgln:" + gln);
         }
-      } else if (StringUtils.isNotBlank(input.getGlnType().toString()) && input.getGlnType().equals(SourceDestinationGLNType.PGLN)) {
-        //if type is PGLN then format with PGLN
+      } else if (StringUtils.isNotBlank(input.getGlnType().toString())
+          && input.getGlnType().equals(SourceDestinationGLNType.PGLN)) {
+        // if type is PGLN then format with PGLN
         dstFormatted.setDestination("urn:epc:id:pgln:" + gln);
       }
       return dstFormatted;
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of the Destination URN, Please check the values provided for Destination : "
-              + ex.getMessage(), ex);
+              + ex.getMessage(),
+          ex);
     }
   }
 
@@ -84,14 +87,20 @@ public class DestinationFormatter {
       gln = gln.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gln.substring(0, 12));
       String destination = "";
 
-      //If type is LOCATION or GLN type SGLN then format as per SGLN with /414/ and add extension if not NULL or 0
-      if (input.getType().equals(SourceDestinationType.LOCATION) || input.getGlnType().equals(SourceDestinationGLNType.SGLN)) {
+      // If type is LOCATION or GLN type SGLN then format as per SGLN with /414/ and add extension
+      // if not NULL or 0
+      if (input.getType().equals(SourceDestinationType.LOCATION)
+          || input.getGlnType().equals(SourceDestinationGLNType.SGLN)) {
         destination = dlURL + "/414/" + gln;
 
-        //For SGLN type add the extension if provided and non-zero
-        destination += StringUtils.isNotBlank(input.getExtension()) && !input.getExtension().equals("0") ? "/254/" + input.getExtension() : "";
-      } else if (StringUtils.isNotBlank(input.getGlnType().toString()) && input.getGlnType().equals(SourceDestinationGLNType.PGLN)) {
-        //If GLN type is PGLN then format as per PGLN with /417/ and without extension
+        // For SGLN type add the extension if provided and non-zero
+        destination +=
+            StringUtils.isNotBlank(input.getExtension()) && !input.getExtension().equals("0")
+                ? "/254/" + input.getExtension()
+                : "";
+      } else if (StringUtils.isNotBlank(input.getGlnType().toString())
+          && input.getGlnType().equals(SourceDestinationGLNType.PGLN)) {
+        // If GLN type is PGLN then format as per PGLN with /417/ and without extension
         destination = dlURL + "/417/" + gln;
       }
 
@@ -104,7 +113,8 @@ public class DestinationFormatter {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of the Destination WebURI, Please check the values provided for Destination : "
-              + ex.getMessage(), ex);
+              + ex.getMessage(),
+          ex);
     }
   }
 }

@@ -17,10 +17,10 @@ package io.openepcis.testdata.generator.identifier.instances;
 
 import io.openepcis.testdata.generator.constants.RandomizationType;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.math.BigInteger;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import java.math.BigInteger;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;

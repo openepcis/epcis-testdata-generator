@@ -19,22 +19,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.openepcis.resources.oas.EPCISExampleOASFilter;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.openapi.OASFactory;
 import org.eclipse.microprofile.openapi.OASFilter;
 import org.eclipse.microprofile.openapi.models.OpenAPI;
 import org.eclipse.microprofile.openapi.models.examples.Example;
 
-import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
-
 @RegisterForReflection
 @Slf4j
 public class SchemaExampleOASFilter extends EPCISExampleOASFilter implements OASFilter {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
+
   @Override
   public void filterOpenAPI(OpenAPI openAPI) {
     super.filterOpenAPI(openAPI);

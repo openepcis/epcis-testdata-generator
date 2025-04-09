@@ -25,10 +25,10 @@ import io.openepcis.testdata.generator.EPCISEventGenerator;
 import io.openepcis.testdata.generator.reactivestreams.EPCISEventPublisher;
 import io.openepcis.testdata.generator.template.InputTemplate;
 import java.util.Collections;
+import java.util.concurrent.Flow.Publisher;
 import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.tck.TestEnvironment;
 import org.reactivestreams.tck.flow.FlowPublisherVerification;
-import java.util.concurrent.Flow.Publisher;
 
 @Slf4j
 public class EPCISEventPublisherVerificationTest extends FlowPublisherVerification<EPCISEvent> {

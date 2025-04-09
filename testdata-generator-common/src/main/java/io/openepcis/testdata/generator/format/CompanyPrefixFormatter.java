@@ -55,7 +55,8 @@ public class CompanyPrefixFormatter {
       } catch (Exception ex) {
         throw new TestDataGeneratorException(
             "Exception occurred during formatting of the GCP with replace, Please check the values provided for GCP Length : "
-                + ex.getMessage(), ex);
+                + ex.getMessage(),
+            ex);
       }
     }
   }
@@ -80,7 +81,8 @@ public class CompanyPrefixFormatter {
       } catch (Exception ex) {
         throw new TestDataGeneratorException(
             "Exception occurred during formatting of the GCP, Please check the values provided for GCP Length : "
-                + ex.getMessage(), ex);
+                + ex.getMessage(),
+            ex);
       }
     }
   }

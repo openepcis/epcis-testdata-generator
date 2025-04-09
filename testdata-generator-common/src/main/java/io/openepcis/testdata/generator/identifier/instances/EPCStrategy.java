@@ -46,5 +46,9 @@ import java.util.List;
 })
 @RegisterForReflection
 public interface EPCStrategy {
-  List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator randomSerialNumberGenerator);
+  List<String> format(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final String dlURL,
+      final RandomSerialNumberGenerator randomSerialNumberGenerator);
 }

@@ -33,11 +33,16 @@ public class ReadpointBusinessLocationFormatter {
 
   private static final String URN_PREFIX = "urn:epc:id:sgln:";
 
-  public static String format(final IdentifierVocabularyType syntax, final ReadPointBizLocationSyntax input, final String dlURL) {
+  public static String format(
+      final IdentifierVocabularyType syntax,
+      final ReadPointBizLocationSyntax input,
+      final String dlURL) {
     // If ReadPoint/BizLocation is provided using ManualURI then return the same
-    if (input.getType() != null && input.getType().equals(ReadPointBizLocationType.MANUALLY) && input.getManualURI() != null) {
+    if (input.getType() != null
+        && input.getType().equals(ReadPointBizLocationType.MANUALLY)
+        && input.getManualURI() != null) {
       return input.getManualURI();
-    } else if(input.getType() != null && input.getType().equals(ReadPointBizLocationType.SGLN)) {
+    } else if (input.getType() != null && input.getType().equals(ReadPointBizLocationType.SGLN)) {
       // If ReadPoint/BizLocation is provided as an CBV based values then format them accordingly
       if (IdentifierVocabularyType.WEBURI == syntax) {
         return formatWebURI(input, dlURL);
@@ -55,14 +60,23 @@ public class ReadpointBusinessLocationFormatter {
       if (input.getGln() != null) {
         String gln = input.getGln();
         gln = gln.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gln.substring(0, 12));
-        gln = gln.substring(0, input.getGcpLength()) + "." + gln.substring(input.getGcpLength(), gln.length() - 1);
-        formattedLocation = URN_PREFIX + gln + (input.getExtension() != null && !input.getExtension().isEmpty() ? ("." + input.getExtension()) : ".0");
+        gln =
+            gln.substring(0, input.getGcpLength())
+                + "."
+                + gln.substring(input.getGcpLength(), gln.length() - 1);
+        formattedLocation =
+            URN_PREFIX
+                + gln
+                + (input.getExtension() != null && !input.getExtension().isEmpty()
+                    ? ("." + input.getExtension())
+                    : ".0");
       }
       return formattedLocation;
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of Readpoint/BizLocation URN, Please check the values provided for ReadPoint/BizLocation :  "
-              + ex.getMessage(), ex);
+              + ex.getMessage(),
+          ex);
     }
   }
 
@@ -73,12 +87,18 @@ public class ReadpointBusinessLocationFormatter {
       String gln = input.getGln();
       gln = gln.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gln.substring(0, 12));
       var formattedLocation = "";
-      formattedLocation = WEBURI_PREFIX + gln + (input.getExtension() != null && !input.getExtension().isEmpty() ? ("/254/" + input.getExtension()) : "");
+      formattedLocation =
+          WEBURI_PREFIX
+              + gln
+              + (input.getExtension() != null && !input.getExtension().isEmpty()
+                  ? ("/254/" + input.getExtension())
+                  : "");
       return formattedLocation;
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Exception occurred during formatting of Readpoint/BizLocation WebURI, Please check the values provided for ReadPoint/BizLocation : "
-              + ex.getMessage(), ex);
+              + ex.getMessage(),
+          ex);
     }
   }
 }

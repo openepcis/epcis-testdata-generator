@@ -24,20 +24,21 @@ import io.openepcis.testdata.generator.template.Identifier;
 import io.openepcis.testdata.generator.template.RandomGenerators;
 import io.openepcis.testdata.generator.template.ReferencedIdentifier;
 import io.openepcis.testdata.generator.template.TransformationEventType;
-import org.apache.commons.collections4.CollectionUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.commons.collections4.CollectionUtils;
 
 public class TransformationEventCreationModel
     extends AbstractEventCreationModel<TransformationEventType, TransformationEvent> {
 
   public TransformationEventCreationModel(
-          final TransformationEventType typeInfo, final List<Identifier> identifiers, final List<RandomGenerators> randomGenerators) {
+      final TransformationEventType typeInfo,
+      final List<Identifier> identifiers,
+      final List<RandomGenerators> randomGenerators) {
     super(typeInfo, identifiers, randomGenerators);
   }
 
@@ -61,15 +62,15 @@ public class TransformationEventCreationModel
     if (typeInfo.getPersistentDisposition() != null) {
       var pd = new PersistentDisposition();
       if (typeInfo.getPersistentDisposition().getSet() != null
-              && !typeInfo.getPersistentDisposition().getSet().isEmpty()) {
+          && !typeInfo.getPersistentDisposition().getSet().isEmpty()) {
         pd.setSet(
-                PersistentDispositionFormatter.format(typeInfo.getPersistentDisposition().getSet()));
+            PersistentDispositionFormatter.format(typeInfo.getPersistentDisposition().getSet()));
       }
 
       if (typeInfo.getPersistentDisposition().getUnset() != null
-              && !typeInfo.getPersistentDisposition().getUnset().isEmpty()) {
+          && !typeInfo.getPersistentDisposition().getUnset().isEmpty()) {
         pd.setUnset(
-                PersistentDispositionFormatter.format(typeInfo.getPersistentDisposition().getUnset()));
+            PersistentDispositionFormatter.format(typeInfo.getPersistentDisposition().getUnset()));
       }
       e.setPersistentDisposition(pd);
     }
@@ -83,10 +84,12 @@ public class TransformationEventCreationModel
     if (typeInfo.getIlmd() != null && !typeInfo.getIlmd().isEmpty()) {
       final Map<String, Object> ilmdMap =
           typeInfo.getIlmd().stream()
-                  .flatMap(root -> {
+              .flatMap(
+                  root -> {
                     if (CollectionUtils.isNotEmpty(root.getChildren())) {
                       // Stream over children if present
-                      return root.getChildren().stream().flatMap(c -> c.toMap().entrySet().stream());
+                      return root.getChildren().stream()
+                          .flatMap(c -> c.toMap().entrySet().stream());
                     } else if (root.getRawJsonld() instanceof Map) {
                       // Stream over rawJsonld if it's a Map
                       return root.toMap().entrySet().stream();
@@ -94,7 +97,7 @@ public class TransformationEventCreationModel
                     // Return an empty stream if neither are present
                     return Stream.empty();
                   })
-                  .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+              .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
       e.setIlmdXml(ilmdMap.isEmpty() ? null : ilmdMap);
     }
   }
@@ -112,7 +115,8 @@ public class TransformationEventCreationModel
 
       // A list which will store all the instance identifiers generated or inherited from the
       // parents by calling referencedEpcsIdentifierGenerator method in IdentifiersUtil
-      final List<String> inputEpcList = super.referencedEpcsIdentifierGenerator(parentTracker, true);
+      final List<String> inputEpcList =
+          super.referencedEpcsIdentifierGenerator(parentTracker, true);
 
       // Add the created EPC to the event
       if (!inputEpcList.isEmpty()) {
@@ -149,13 +153,17 @@ public class TransformationEventCreationModel
           // Get the matching identifiers from the IdentifiersList based on the Identifiers present
           // in the ReferencedIdentifier
           this.identifiers.stream()
-                  .filter(identifier -> identifier.getIdentifierId() == outputEpc.getIdentifierId())
-                  .findFirst()
-                  .ifPresent(
-                          m ->
-                                  outputEpcList.addAll(
-                                          m.getInstanceData()
-                                                  .format(m.getObjectIdentifierSyntax(), outputEpc.getEpcCount(), m.getDlURL(),super.getRandomSerialNumberGenerator())));
+              .filter(identifier -> identifier.getIdentifierId() == outputEpc.getIdentifierId())
+              .findFirst()
+              .ifPresent(
+                  m ->
+                      outputEpcList.addAll(
+                          m.getInstanceData()
+                              .format(
+                                  m.getObjectIdentifierSyntax(),
+                                  outputEpc.getEpcCount(),
+                                  m.getDlURL(),
+                                  super.getRandomSerialNumberGenerator())));
         }
       }
     }
@@ -193,17 +201,19 @@ public class TransformationEventCreationModel
           // in the ReferencedIdentifier and append all Class Identifiers values onto the
           // Instance-Identifiers List
           this.identifiers.stream()
-                  .filter(
-                          identifier -> identifier.getIdentifierId() == outputQuantity.getIdentifierId())
-                  .findFirst()
-                  .ifPresent(
-                          oq ->
-                                  outputQuantityList.addAll(
-                                          oq.getClassData()
-                                                  .format(
-                                                          oq.getObjectIdentifierSyntax(),
-                                                          outputQuantity.getClassCount(),
-                                                          outputQuantity.getQuantity(), oq.getDlURL(), super.getRandomSerialNumberGenerator())));
+              .filter(
+                  identifier -> identifier.getIdentifierId() == outputQuantity.getIdentifierId())
+              .findFirst()
+              .ifPresent(
+                  oq ->
+                      outputQuantityList.addAll(
+                          oq.getClassData()
+                              .format(
+                                  oq.getObjectIdentifierSyntax(),
+                                  outputQuantity.getClassCount(),
+                                  outputQuantity.getQuantity(),
+                                  oq.getDlURL(),
+                                  super.getRandomSerialNumberGenerator())));
         }
       }
     }

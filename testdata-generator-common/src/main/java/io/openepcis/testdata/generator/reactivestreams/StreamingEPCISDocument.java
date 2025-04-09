@@ -22,103 +22,103 @@ import io.openepcis.testdata.generator.template.EPCISEventType;
 import io.openepcis.testdata.generator.template.ObjectEventType;
 import io.openepcis.testdata.generator.template.TransformationEventType;
 import io.smallrye.mutiny.Multi;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import org.apache.commons.collections4.CollectionUtils;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
-import java.util.stream.Collectors;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.apache.commons.collections4.CollectionUtils;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
 public class StreamingEPCISDocument {
-    // Variable to store the localname & namespaces from User Extensions so can be added to @context
-    @Getter
-    private static Map<String, String> context;
+  // Variable to store the localname & namespaces from User Extensions so can be added to @context
+  @Getter private static Map<String, String> context;
 
-    @Getter
-    private static List<String> selectedContextUrls;
+  @Getter private static List<String> selectedContextUrls;
 
-    private Multi<EPCISEvent> epcisEvents;
-    private boolean prettyPrint;
+  private Multi<EPCISEvent> epcisEvents;
+  private boolean prettyPrint;
 
-    public static void storeContextInfo(final List<EPCISEventType> events) {
-        // Empty the context list for the next event to store the namespaces corresponding to the event
-        context = new HashMap<>();
-        events.forEach(
-                typeInfo -> {
-                    // Store information related User Extensions
-                    if (typeInfo.getUserExtensions() != null && !typeInfo.getUserExtensions().isEmpty()) {
-                        extractNamespaces(typeInfo.getUserExtensions());
-                    }
+  public static void storeContextInfo(final List<EPCISEventType> events) {
+    // Empty the context list for the next event to store the namespaces corresponding to the event
+    context = new HashMap<>();
+    events.forEach(
+        typeInfo -> {
+          // Store information related User Extensions
+          if (typeInfo.getUserExtensions() != null && !typeInfo.getUserExtensions().isEmpty()) {
+            extractNamespaces(typeInfo.getUserExtensions());
+          }
 
-                    // For ObjectEvent and TransformationEvent store the information related to ILMD elements
-                    if (typeInfo instanceof ObjectEventType objectEventType
-                            && objectEventType.getIlmd() != null
-                            && !objectEventType.getIlmd().isEmpty()) {
-                        // Store information related to ObjectEvent ILMD
-                        extractNamespaces(objectEventType.getIlmd());
-                    } else if (typeInfo instanceof TransformationEventType transformationEventType
-                            && transformationEventType.getIlmd() != null
-                            && !transformationEventType.getIlmd().isEmpty()) {
-                        // Store information related to TransformationEvent ILMD
-                        extractNamespaces(transformationEventType.getIlmd());
-                    }
+          // For ObjectEvent and TransformationEvent store the information related to ILMD elements
+          if (typeInfo instanceof ObjectEventType objectEventType
+              && objectEventType.getIlmd() != null
+              && !objectEventType.getIlmd().isEmpty()) {
+            // Store information related to ObjectEvent ILMD
+            extractNamespaces(objectEventType.getIlmd());
+          } else if (typeInfo instanceof TransformationEventType transformationEventType
+              && transformationEventType.getIlmd() != null
+              && !transformationEventType.getIlmd().isEmpty()) {
+            // Store information related to TransformationEvent ILMD
+            extractNamespaces(transformationEventType.getIlmd());
+          }
 
-                    // Store the information related to Error extensions
-                    if (typeInfo.getErrorDeclaration() != null
-                            && typeInfo.getErrorDeclaration().getExtensions() != null
-                            && !typeInfo.getErrorDeclaration().getExtensions().isEmpty()) {
-                        extractNamespaces(typeInfo.getErrorDeclaration().getExtensions());
-                    }
-                });
+          // Store the information related to Error extensions
+          if (typeInfo.getErrorDeclaration() != null
+              && typeInfo.getErrorDeclaration().getExtensions() != null
+              && !typeInfo.getErrorDeclaration().getExtensions().isEmpty()) {
+            extractNamespaces(typeInfo.getErrorDeclaration().getExtensions());
+          }
+        });
+  }
+
+  public static void storeContextUrls(final List<CustomContextUrl> customContextUrls) {
+    if (CollectionUtils.isNotEmpty(customContextUrls)) {
+      selectedContextUrls =
+          customContextUrls.stream()
+              .filter(c -> Objects.nonNull(c.getIsChecked()) && c.getIsChecked())
+              .map(CustomContextUrl::getContextURL)
+              .toList();
     }
+  }
 
-    public static void storeContextUrls(final List<CustomContextUrl> customContextUrls) {
-        if(CollectionUtils.isNotEmpty(customContextUrls)){
-            selectedContextUrls = customContextUrls.stream()
-                    .filter(c ->  Objects.nonNull(c.getIsChecked()) && c.getIsChecked())
-                    .map(CustomContextUrl::getContextURL)
-                    .toList();
-        }
-    }
+  /**
+   * Extract namespaceURI and localname from each event and store in context.
+   *
+   * @param extensions list of extensions from ilmd, error and userExtensions
+   */
+  public static void extractNamespaces(final List<UserExtensionSyntax> extensions) {
+    extensions.forEach(UserExtensionSyntax::extractNamespaces);
+  }
 
-    /**
-     * Extract namespaceURI and localname from each event and store in context.
-     *
-     * @param extensions list of extensions from ilmd, error and userExtensions
-     */
-    public static void extractNamespaces(final List<UserExtensionSyntax> extensions) {
-        extensions.forEach(UserExtensionSyntax::extractNamespaces);
-    }
+  /**
+   * write to OutputStream
+   *
+   * @param fn builder reference
+   * @throws IOException throws the io exception
+   */
+  public void writeToOutputStream(
+      Function<StreamingEPCISDocumentOutput.OutputStreamBuilder, StreamingEPCISDocumentOutput> fn)
+      throws IOException {
+    fn.apply(StreamingEPCISDocumentOutput.outputStreamBuilder()).write(this);
+  }
 
-    /**
-     * write to OutputStream
-     *
-     * @param fn builder reference
-     * @throws IOException throws the io exception
-     */
-    public void writeToOutputStream(Function<StreamingEPCISDocumentOutput.OutputStreamBuilder, StreamingEPCISDocumentOutput> fn) throws IOException {
-        fn.apply(StreamingEPCISDocumentOutput.outputStreamBuilder()).write(this);
-    }
-
-    /**
-     * write to Writer
-     *
-     * @param fn builder reference
-     * @throws IOException throws the io exception
-     */
-    public void writeToWriter(Function<StreamingEPCISDocumentOutput.WriterBuilder, StreamingEPCISDocumentOutput> fn) throws IOException {
-        fn.apply(StreamingEPCISDocumentOutput.writerBuilder()).write(this);
-    }
-
+  /**
+   * write to Writer
+   *
+   * @param fn builder reference
+   * @throws IOException throws the io exception
+   */
+  public void writeToWriter(
+      Function<StreamingEPCISDocumentOutput.WriterBuilder, StreamingEPCISDocumentOutput> fn)
+      throws IOException {
+    fn.apply(StreamingEPCISDocumentOutput.writerBuilder()).write(this);
+  }
 }

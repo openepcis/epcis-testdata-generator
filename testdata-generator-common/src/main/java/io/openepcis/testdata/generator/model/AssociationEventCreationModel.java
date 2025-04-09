@@ -25,7 +25,6 @@ import io.openepcis.testdata.generator.reactivestreams.EventIdentifierTracker;
 import io.openepcis.testdata.generator.template.AssociationEventType;
 import io.openepcis.testdata.generator.template.Identifier;
 import io.openepcis.testdata.generator.template.RandomGenerators;
-
 import java.util.List;
 
 public class AssociationEventCreationModel
@@ -34,7 +33,9 @@ public class AssociationEventCreationModel
   private Identifier matchingParentId = null;
 
   public AssociationEventCreationModel(
-      final AssociationEventType typeInfo, final List<Identifier> identifiers, final List<RandomGenerators> randomGenerators) {
+      final AssociationEventType typeInfo,
+      final List<Identifier> identifiers,
+      final List<RandomGenerators> randomGenerators) {
     super(typeInfo, identifiers, randomGenerators);
 
     // Check if user has provided values for the Parent Identifiers
@@ -55,8 +56,9 @@ public class AssociationEventCreationModel
   @Override
   public AssociationEvent create(final List<EventIdentifierTracker> parentTracker) {
     var epcisEvent = new AssociationEvent();
-    super.configure(epcisEvent, parentTracker); //Add common info of AssociationEvent
-    super.configureParent(epcisEvent, parentTracker, matchingParentId); //Add parentID of AssociationEvent
+    super.configure(epcisEvent, parentTracker); // Add common info of AssociationEvent
+    super.configureParent(
+        epcisEvent, parentTracker, matchingParentId); // Add parentID of AssociationEvent
 
     configureCommons(epcisEvent);
     configureIdentifier(epcisEvent, parentTracker);
@@ -77,7 +79,9 @@ public class AssociationEventCreationModel
     // Add source list
     if (typeInfo.getSources() != null && !typeInfo.getSources().isEmpty()) {
       e.setSourceList(
-          typeInfo.getSources().stream().map(src -> SourceFormatter.format(syntax, src, typeInfo.getDlURL())).toList());
+          typeInfo.getSources().stream()
+              .map(src -> SourceFormatter.format(syntax, src, typeInfo.getDlURL()))
+              .toList());
     }
 
     // Add Destination list
@@ -108,7 +112,8 @@ public class AssociationEventCreationModel
 
       // A list which will store all the instance identifiers generated or inherited from the
       // parents by calling referencedEpcsIdentifierGenerator method in IdentifiersUtil
-      final List<String> childEpcList = super.referencedEpcsIdentifierGenerator(parentTracker, false);
+      final List<String> childEpcList =
+          super.referencedEpcsIdentifierGenerator(parentTracker, false);
 
       // Add the created EPC to the event
       if (!childEpcList.isEmpty()) {

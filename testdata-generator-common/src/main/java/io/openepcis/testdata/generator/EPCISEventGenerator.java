@@ -23,7 +23,6 @@ import io.openepcis.testdata.generator.reactivestreams.EPCISEventPublisher;
 import io.openepcis.testdata.generator.template.EPCISEventType;
 import io.openepcis.testdata.generator.template.InputTemplate;
 import io.smallrye.mutiny.Multi;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -36,9 +35,11 @@ public class EPCISEventGenerator {
     try {
       return inputTemplate.getEvents().stream()
           .map(
-                  e ->
-                          EventModelUtil.createModel(
-                                  e, EventModelUtil.usedIdentifiers(e, inputTemplate.getIdentifiers()), inputTemplate.getRandomGenerators()))
+              e ->
+                  EventModelUtil.createModel(
+                      e,
+                      EventModelUtil.usedIdentifiers(e, inputTemplate.getIdentifiers()),
+                      inputTemplate.getRandomGenerators()))
           .filter(Optional::isPresent)
           .map(Optional::get)
           .toList();

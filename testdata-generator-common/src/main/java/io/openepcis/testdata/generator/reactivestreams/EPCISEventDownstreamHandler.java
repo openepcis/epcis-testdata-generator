@@ -67,28 +67,29 @@ public class EPCISEventDownstreamHandler {
 
     // run only if all upstream nodes have provided a tracker
     if (upstreamTrackers.size() == upstreamHandlers.size()) {
-        for (var i = 0; i < model.getTypeInfo().getEventCount(); i++) {
-          final EPCISEvent event = model.create(upstreamTrackers);
-          final var nextTracker = new EventIdentifierTracker(model.getTypeInfo(), event);
-          upstreamHandlers.forEach(u -> u.next(event));
-          if (!downstreamHandlers.isEmpty()) {
-            downstreamHandlers.forEach(h -> h.next(nextTracker));
-          }
+      for (var i = 0; i < model.getTypeInfo().getEventCount(); i++) {
+        final EPCISEvent event = model.create(upstreamTrackers);
+        final var nextTracker = new EventIdentifierTracker(model.getTypeInfo(), event);
+        upstreamHandlers.forEach(u -> u.next(event));
+        if (!downstreamHandlers.isEmpty()) {
+          downstreamHandlers.forEach(h -> h.next(nextTracker));
         }
+      }
       upstreamTrackers.clear();
     }
   }
 
   public void addDownstreamHandler(final EPCISEventDownstreamHandler handler) {
-      downstreamHandlers.add(handler);
+    downstreamHandlers.add(handler);
 
-      //Adding unique upstream handles to avoid duplication and missing events
-      final HashSet<EPCISEventUpstreamHandler> uniqueUpstreamHandlers = new HashSet<>(upstreamHandlers.stream().toList());
-      handler.addUpstream(uniqueUpstreamHandlers.stream().toList());
+    // Adding unique upstream handles to avoid duplication and missing events
+    final HashSet<EPCISEventUpstreamHandler> uniqueUpstreamHandlers =
+        new HashSet<>(upstreamHandlers.stream().toList());
+    handler.addUpstream(uniqueUpstreamHandlers.stream().toList());
   }
 
   public void addUpstream(final EPCISEventUpstreamHandler upstream) {
-      upstreamHandlers.add(upstream);
+    upstreamHandlers.add(upstream);
   }
 
   public void addUpstream(final List<EPCISEventUpstreamHandler> upstream) {

@@ -27,15 +27,15 @@ import io.openepcis.testdata.generator.reactivestreams.StreamingEPCISDocument;
 import io.openepcis.testdata.generator.template.InputTemplate;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import io.smallrye.mutiny.Uni;
-import java.io.*;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import java.io.*;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -56,8 +56,7 @@ public class TestDataGeneratorResource {
 
   @Inject Validator validator;
 
-  @Inject
-  VersionTransformer versionTransformer;
+  @Inject VersionTransformer versionTransformer;
 
   // Method to Generator test data based on the provided JSON data template and show the appropriate
   // error messages
@@ -143,7 +142,8 @@ public class TestDataGeneratorResource {
     } catch (Exception ex) {
       throw new TestDataGeneratorException(
           "Error occurred during the deserialization of JSON InputTemplate, Please check the provided InputTemplate : "
-              + ex.getMessage(), ex);
+              + ex.getMessage(),
+          ex);
     }
 
     // If there are no error during deserialization of the JSON then continue with execution.
@@ -180,7 +180,12 @@ public class TestDataGeneratorResource {
   @Produces(MediaType.APPLICATION_XML)
   public Uni<InputStream> convertToXml(final InputStream jsonEvents) throws IOException {
     return Uni.createFrom()
-        .item(versionTransformer.convert(jsonEvents,
-                b -> b.fromMediaType(EPCISFormat.JSON_LD).toMediaType(EPCISFormat.XML).toVersion(EPCISVersion.VERSION_2_0_0)));
+        .item(
+            versionTransformer.convert(
+                jsonEvents,
+                b ->
+                    b.fromMediaType(EPCISFormat.JSON_LD)
+                        .toMediaType(EPCISFormat.XML)
+                        .toVersion(EPCISVersion.VERSION_2_0_0)));
   }
 }

@@ -24,12 +24,9 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.quarkus.vertx.web.Route;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.handler.FileSystemAccess;
-import io.vertx.ext.web.handler.StaticHandler;
 import jakarta.enterprise.inject.Produces;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
-import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.info.Info;
@@ -38,7 +35,8 @@ import org.eclipse.microprofile.openapi.annotations.info.Info;
 @ApplicationPath("/")
 public class RESTApplication extends Application {
 
-  private final ObjectMapper objectMapper = new ObjectMapper()
+  private final ObjectMapper objectMapper =
+      new ObjectMapper()
           .setSerializationInclusion(JsonInclude.Include.NON_NULL)
           .registerModule(new Jdk8Module())
           .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -60,5 +58,4 @@ public class RESTApplication extends Application {
   void baseUrl(RoutingContext rc) {
     rc.redirect("q/swagger-ui/");
   }
-
 }

@@ -152,7 +152,6 @@
             </build>
             <properties>
                 <quarkus.native.additional-build-args>--initialize-at-run-time=io.openepcis.model.rest.servlet.ServletSupport</quarkus.native.additional-build-args>
-                <quarkus.package.type>native</quarkus.package.type>
             </properties>
         </profile>
         <profile>

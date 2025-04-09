@@ -62,12 +62,14 @@ public class ReferencedIdentifier implements Serializable {
   private Integer inheritParentCount;
 
   @Schema(
-          type = SchemaType.NUMBER,
-          description = "Number of parent identifiers inherited from parent node to subsequent child nodes EPCs/ChildEPCs application events Aggregation/Transaction/Association")
+      type = SchemaType.NUMBER,
+      description =
+          "Number of parent identifiers inherited from parent node to subsequent child nodes EPCs/ChildEPCs application events Aggregation/Transaction/Association")
   private Integer inheritParentToEPC;
 
   @Schema(
-          type = SchemaType.NUMBER,
-          description = "Number of EPCs/ChildEPCs inherited from parent node to subsequent child nodes ParentID application events Aggregation/Transaction/Association")
+      type = SchemaType.NUMBER,
+      description =
+          "Number of EPCs/ChildEPCs inherited from parent node to subsequent child nodes ParentID application events Aggregation/Transaction/Association")
   private Integer inheritEPCToParent;
 }

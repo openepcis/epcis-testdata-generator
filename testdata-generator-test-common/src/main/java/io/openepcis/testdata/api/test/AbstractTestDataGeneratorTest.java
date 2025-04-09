@@ -15,6 +15,9 @@
  */
 package io.openepcis.testdata.api.test;
 
+import static io.restassured.RestAssured.given;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.net.HttpHeaders;
 import io.openepcis.model.rest.EPCISEventTypes;
@@ -24,9 +27,6 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import jakarta.ws.rs.core.MediaType;
 import org.junit.jupiter.api.Test;
-
-import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @QuarkusTest
 public abstract class AbstractTestDataGeneratorTest {
@@ -42,29 +42,35 @@ public abstract class AbstractTestDataGeneratorTest {
   /* Simple test case that creates 2 ObjectEvents */
   @Test
   void createObjectEventTest() {
-      Response response = given()
-          .body(Commons.getInputStream("CreateObjectEventInput.json"))
-          .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-          .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-          .when()
-          .post(testDataGeneratorApi())
-          .then()
-          .statusCode(200).extract().response();
+    Response response =
+        given()
+            .body(Commons.getInputStream("CreateObjectEventInput.json"))
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .when()
+            .post(testDataGeneratorApi())
+            .then()
+            .statusCode(200)
+            .extract()
+            .response();
 
-      assertEquals(response.jsonPath().getList(EPCIS_BODY_EVENT_LIST).size(), 2);
+    assertEquals(response.jsonPath().getList(EPCIS_BODY_EVENT_LIST).size(), 2);
   }
 
   /* Simple test case that creates 10 AggregationEvents */
   @Test
   void createAggregationEventTest() {
-    Response response = given()
-          .body(Commons.getInputStream("CreateAggregationEventInput.json"))
-          .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-          .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-          .when()
-          .post(testDataGeneratorApi())
-          .then()
-        .statusCode(200).extract().response();
+    Response response =
+        given()
+            .body(Commons.getInputStream("CreateAggregationEventInput.json"))
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .when()
+            .post(testDataGeneratorApi())
+            .then()
+            .statusCode(200)
+            .extract()
+            .response();
 
     assertEquals(response.jsonPath().getList(EPCIS_BODY_EVENT_LIST).size(), 10);
   }
@@ -72,14 +78,17 @@ public abstract class AbstractTestDataGeneratorTest {
   /* Simple test case that creates 2 AggregationEvents */
   @Test
   void createAssociationEventTest() {
-    Response response = given()
-        .body(Commons.getInputStream("CreateAssociationEventInput.json"))
-        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-        .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-        .when()
-        .post(testDataGeneratorApi())
-        .then()
-        .statusCode(200).extract().response();
+    Response response =
+        given()
+            .body(Commons.getInputStream("CreateAssociationEventInput.json"))
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .when()
+            .post(testDataGeneratorApi())
+            .then()
+            .statusCode(200)
+            .extract()
+            .response();
 
     assertEquals(response.jsonPath().getList(EPCIS_BODY_EVENT_LIST).size(), 2);
   }
@@ -87,28 +96,34 @@ public abstract class AbstractTestDataGeneratorTest {
   /* Simple test case that creates 5 TransactionEvents */
   @Test
   void createTransactionEventTest() {
-    Response response = given()
-        .body(Commons.getInputStream("CreateTransactionEventInput.json"))
-        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-        .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-        .when()
-        .post(testDataGeneratorApi())
-        .then()
-            .statusCode(200).extract().response();
+    Response response =
+        given()
+            .body(Commons.getInputStream("CreateTransactionEventInput.json"))
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .when()
+            .post(testDataGeneratorApi())
+            .then()
+            .statusCode(200)
+            .extract()
+            .response();
     assertEquals(response.jsonPath().getList(EPCIS_BODY_EVENT_LIST).size(), 5);
   }
 
   /* Simple test case that creates 3 TransformationEvents */
   @Test
   void createTransformationEventTest() {
-    Response response = given()
-        .body(Commons.getInputStream("CreateTransformationEventInput.json"))
-        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-        .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
-        .when()
-        .post(testDataGeneratorApi())
-        .then()
-        .statusCode(200).extract().response();
+    Response response =
+        given()
+            .body(Commons.getInputStream("CreateTransformationEventInput.json"))
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .when()
+            .post(testDataGeneratorApi())
+            .then()
+            .statusCode(200)
+            .extract()
+            .response();
     assertEquals(response.jsonPath().getList(EPCIS_BODY_EVENT_LIST).size(), 3);
   }
 
@@ -122,8 +137,10 @@ public abstract class AbstractTestDataGeneratorTest {
 
     assertEquals(response.jsonPath().getList(EPCIS_BODY_EVENT_LIST).size(), 2);
 
-    assertEquals(1, getEventTypeCount(response.jsonPath(), EPCISEventTypes.OBJECT_EVENT.toString()));
-    assertEquals(1, getEventTypeCount(response.jsonPath(), EPCISEventTypes.AGGREGATION_EVENT.toString()));
+    assertEquals(
+        1, getEventTypeCount(response.jsonPath(), EPCISEventTypes.OBJECT_EVENT.toString()));
+    assertEquals(
+        1, getEventTypeCount(response.jsonPath(), EPCISEventTypes.AGGREGATION_EVENT.toString()));
   }
 
   /*
@@ -137,9 +154,12 @@ public abstract class AbstractTestDataGeneratorTest {
 
     assertEquals(response.jsonPath().getList(EPCIS_BODY_EVENT_LIST).size(), 4);
 
-    assertEquals(1, getEventTypeCount(response.jsonPath(), EPCISEventTypes.TRANSACTION_EVENT.toString()));
-    assertEquals(1, getEventTypeCount(response.jsonPath(), EPCISEventTypes.TRANSFORMATION_EVENT.toString()));
-    assertEquals(2, getEventTypeCount(response.jsonPath(), EPCISEventTypes.ASSOCIATION_EVENT.toString()));
+    assertEquals(
+        1, getEventTypeCount(response.jsonPath(), EPCISEventTypes.TRANSACTION_EVENT.toString()));
+    assertEquals(
+        1, getEventTypeCount(response.jsonPath(), EPCISEventTypes.TRANSFORMATION_EVENT.toString()));
+    assertEquals(
+        2, getEventTypeCount(response.jsonPath(), EPCISEventTypes.ASSOCIATION_EVENT.toString()));
   }
 
   /* Design Test Data for supply chain ObjectEvent(events - 2) -> AggregationEvent(events-3) */
@@ -150,8 +170,10 @@ public abstract class AbstractTestDataGeneratorTest {
 
     assertEquals(response.jsonPath().getList(EPCIS_BODY_EVENT_LIST).size(), 8);
 
-    assertEquals(2, getEventTypeCount(response.jsonPath(), EPCISEventTypes.OBJECT_EVENT.toString()));
-    assertEquals(6, getEventTypeCount(response.jsonPath(), EPCISEventTypes.AGGREGATION_EVENT.toString()));
+    assertEquals(
+        2, getEventTypeCount(response.jsonPath(), EPCISEventTypes.OBJECT_EVENT.toString()));
+    assertEquals(
+        6, getEventTypeCount(response.jsonPath(), EPCISEventTypes.AGGREGATION_EVENT.toString()));
   }
 
   /*
@@ -165,9 +187,12 @@ public abstract class AbstractTestDataGeneratorTest {
 
     assertEquals(response.jsonPath().getList(EPCIS_BODY_EVENT_LIST).size(), 9);
 
-    assertEquals(1, getEventTypeCount(response.jsonPath(), EPCISEventTypes.OBJECT_EVENT.toString()));
-    assertEquals(2, getEventTypeCount(response.jsonPath(), EPCISEventTypes.AGGREGATION_EVENT.toString()));
-    assertEquals(6, getEventTypeCount(response.jsonPath(), EPCISEventTypes.TRANSACTION_EVENT.toString()));
+    assertEquals(
+        1, getEventTypeCount(response.jsonPath(), EPCISEventTypes.OBJECT_EVENT.toString()));
+    assertEquals(
+        2, getEventTypeCount(response.jsonPath(), EPCISEventTypes.AGGREGATION_EVENT.toString()));
+    assertEquals(
+        6, getEventTypeCount(response.jsonPath(), EPCISEventTypes.TRANSACTION_EVENT.toString()));
   }
 
   /*
@@ -181,11 +206,13 @@ public abstract class AbstractTestDataGeneratorTest {
 
     assertEquals(response.jsonPath().getList(EPCIS_BODY_EVENT_LIST).size(), 18);
 
-    assertEquals(2, getEventTypeCount(response.jsonPath(), EPCISEventTypes.OBJECT_EVENT.toString()));
-    assertEquals(4, getEventTypeCount(response.jsonPath(), EPCISEventTypes.AGGREGATION_EVENT.toString()));
-    assertEquals(12, getEventTypeCount(response.jsonPath(), EPCISEventTypes.TRANSACTION_EVENT.toString()));
+    assertEquals(
+        2, getEventTypeCount(response.jsonPath(), EPCISEventTypes.OBJECT_EVENT.toString()));
+    assertEquals(
+        4, getEventTypeCount(response.jsonPath(), EPCISEventTypes.AGGREGATION_EVENT.toString()));
+    assertEquals(
+        12, getEventTypeCount(response.jsonPath(), EPCISEventTypes.TRANSACTION_EVENT.toString()));
   }
-
 
   /*
    Design Test data for supply chain with ObjectEvent(events-3) -> AggregationEvent(events-2) ->
@@ -198,9 +225,12 @@ public abstract class AbstractTestDataGeneratorTest {
 
     assertEquals(response.jsonPath().getList(EPCIS_BODY_EVENT_LIST).size(), 11);
 
-    assertEquals(5, getEventTypeCount(response.jsonPath(), EPCISEventTypes.OBJECT_EVENT.toString()));
-    assertEquals(2, getEventTypeCount(response.jsonPath(), EPCISEventTypes.AGGREGATION_EVENT.toString()));
-    assertEquals(4, getEventTypeCount(response.jsonPath(), EPCISEventTypes.TRANSACTION_EVENT.toString()));
+    assertEquals(
+        5, getEventTypeCount(response.jsonPath(), EPCISEventTypes.OBJECT_EVENT.toString()));
+    assertEquals(
+        2, getEventTypeCount(response.jsonPath(), EPCISEventTypes.AGGREGATION_EVENT.toString()));
+    assertEquals(
+        4, getEventTypeCount(response.jsonPath(), EPCISEventTypes.TRANSACTION_EVENT.toString()));
   }
 
   /*
@@ -214,9 +244,12 @@ public abstract class AbstractTestDataGeneratorTest {
 
     assertEquals(response.jsonPath().getList(EPCIS_BODY_EVENT_LIST).size(), 74);
 
-    assertEquals(2, getEventTypeCount(response.jsonPath(), EPCISEventTypes.TRANSFORMATION_EVENT.toString()));
-    assertEquals(8, getEventTypeCount(response.jsonPath(), EPCISEventTypes.OBJECT_EVENT.toString()));
-    assertEquals(64, getEventTypeCount(response.jsonPath(), EPCISEventTypes.AGGREGATION_EVENT.toString()));
+    assertEquals(
+        2, getEventTypeCount(response.jsonPath(), EPCISEventTypes.TRANSFORMATION_EVENT.toString()));
+    assertEquals(
+        8, getEventTypeCount(response.jsonPath(), EPCISEventTypes.OBJECT_EVENT.toString()));
+    assertEquals(
+        64, getEventTypeCount(response.jsonPath(), EPCISEventTypes.AGGREGATION_EVENT.toString()));
   }
 
   private Response executeRestAPI(final String filePath, final String url) {
@@ -225,7 +258,10 @@ public abstract class AbstractTestDataGeneratorTest {
         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
         .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
         .when()
-        .post(url).then().extract().response();
+        .post(url)
+        .then()
+        .extract()
+        .response();
   }
 
   private static void validateStatusCode(final Response response) {
@@ -234,15 +270,13 @@ public abstract class AbstractTestDataGeneratorTest {
 
   /**
    * @param eventType EventType whose count is required
-   * @param jsonPath  the JsonPath object in which we have to count the eventType
-   *
+   * @param jsonPath the JsonPath object in which we have to count the eventType
    * @return count of eventType in the jsonPath provided
    */
   private long getEventTypeCount(JsonPath jsonPath, String eventType) {
-    return jsonPath.getList(EPCIS_BODY_EVENT_LIST, ObjectNode.class)
-            .stream()
-            .map(event -> event.get("type").asText())
-            .filter(type -> type.equals(eventType))
-            .count();
+    return jsonPath.getList(EPCIS_BODY_EVENT_LIST, ObjectNode.class).stream()
+        .map(event -> event.get("type").asText())
+        .filter(type -> type.equals(eventType))
+        .count();
   }
 }

@@ -25,7 +25,6 @@ import io.openepcis.testdata.generator.reactivestreams.EventIdentifierTracker;
 import io.openepcis.testdata.generator.template.AggregationEventType;
 import io.openepcis.testdata.generator.template.Identifier;
 import io.openepcis.testdata.generator.template.RandomGenerators;
-
 import java.util.List;
 
 public class AggregationEventCreationModel
@@ -34,11 +33,14 @@ public class AggregationEventCreationModel
   private Identifier matchingParentId = null;
 
   public AggregationEventCreationModel(
-      final AggregationEventType typeInfo, final List<Identifier> identifiers, final List<RandomGenerators> randomGenerators) {
+      final AggregationEventType typeInfo,
+      final List<Identifier> identifiers,
+      final List<RandomGenerators> randomGenerators) {
     super(typeInfo, identifiers, randomGenerators);
 
     // Check if user has provided values for the Parent Identifiers
-    if (typeInfo.getParentReferencedIdentifier() != null && typeInfo.getParentReferencedIdentifier().getIdentifierId() > 0) {
+    if (typeInfo.getParentReferencedIdentifier() != null
+        && typeInfo.getParentReferencedIdentifier().getIdentifierId() > 0) {
       // Find the matching Identifiers info based Parent identifier id
       matchingParentId =
           identifiers.stream()
@@ -54,8 +56,9 @@ public class AggregationEventCreationModel
   @Override
   public AggregationEvent create(final List<EventIdentifierTracker> parentTracker) {
     var epcisEvent = new AggregationEvent();
-    super.configure(epcisEvent, parentTracker); //Add common info of AggregationEvent
-    super.configureParent(epcisEvent, parentTracker, matchingParentId); //Add parentID of AggregationEvent
+    super.configure(epcisEvent, parentTracker); // Add common info of AggregationEvent
+    super.configureParent(
+        epcisEvent, parentTracker, matchingParentId); // Add parentID of AggregationEvent
 
     configureCommons(epcisEvent);
     configureIdentifier(epcisEvent, parentTracker);
@@ -76,7 +79,9 @@ public class AggregationEventCreationModel
     // Add source list
     if (typeInfo.getSources() != null && !typeInfo.getSources().isEmpty()) {
       e.setSourceList(
-          typeInfo.getSources().stream().map(src -> SourceFormatter.format(syntax, src, typeInfo.getDlURL())).toList());
+          typeInfo.getSources().stream()
+              .map(src -> SourceFormatter.format(syntax, src, typeInfo.getDlURL()))
+              .toList());
     }
 
     // Add Destination list
@@ -94,7 +99,6 @@ public class AggregationEventCreationModel
     }
   }
 
-
   // Private method which will generate Instance/ChildEPCs & Class/ChildQuantities identifiers if
   // available and add it to the AggregationEvent which will be created by OpenEPCIS
   private void configureIdentifier(
@@ -108,7 +112,8 @@ public class AggregationEventCreationModel
 
       // A list which will store all the instance identifiers generated or inherited from the
       // parents by calling referencedEpcsIdentifierGenerator method in IdentifiersUtil
-      final List<String> childEpcList = super.referencedEpcsIdentifierGenerator(parentTracker, false);
+      final List<String> childEpcList =
+          super.referencedEpcsIdentifierGenerator(parentTracker, false);
 
       // Add the created EPC to the event
       if (!childEpcList.isEmpty()) {

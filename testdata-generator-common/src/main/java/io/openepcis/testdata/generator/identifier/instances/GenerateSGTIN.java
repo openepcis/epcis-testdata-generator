@@ -24,15 +24,14 @@ import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
-
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
 @Setter
 @JsonTypeName("sgtin")
@@ -42,7 +41,10 @@ public class GenerateSGTIN extends GenerateEPC {
 
   @Pattern(regexp = "^(\\s*|\\d{14})$", message = "SGTIN should be of 14 digits.")
   @NotNull(message = "SGTIN value cannot be Null. It should consist of 14 digits.")
-  @Schema(type = SchemaType.STRING, description = "SGTIN value consisting of 14 digits.", required = true)
+  @Schema(
+      type = SchemaType.STRING,
+      description = "SGTIN value consisting of 14 digits.",
+      required = true)
   private String sgtin;
 
   private static final String SGTIN_URN_PART = "urn:epc:id:sgtin:";
@@ -52,49 +54,69 @@ public class GenerateSGTIN extends GenerateEPC {
   /**
    * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *
-   * @param syntax                syntax in which identifiers need to be generated URN/WebURI
-   * @param count                 count of instance identifiers need to be generated
-   * @param dlURL                 if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
-   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random serial number
+   * @param syntax syntax in which identifiers need to be generated URN/WebURI
+   * @param count count of instance identifiers need to be generated
+   * @param dlURL if provided use the provided dlURI to format WebURI identifiers else use default
+   *     ref.gs1.org
+   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random
+   *     serial number
    * @return returns list of identifiers in string format
    */
   @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+  public List<String> format(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final String dlURL,
+      final RandomSerialNumberGenerator serialNumberGenerator) {
     return generateIdentifiers(syntax, count, dlURL, serialNumberGenerator);
   }
 
-  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+  private List<String> generateIdentifiers(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final String dlURL,
+      final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedSGTIN = new ArrayList<>();
       sgtin = sgtin.substring(0, 13) + UPCEANLogicImpl.calcChecksum(sgtin.substring(0, 13));
-      final String prefix = syntax == IdentifierVocabularyType.WEBURI ? dlURL + SGTIN_URI_PART : SGTIN_URN_PART;
+      final String prefix =
+          syntax == IdentifierVocabularyType.WEBURI ? dlURL + SGTIN_URI_PART : SGTIN_URN_PART;
       final String suffix = syntax == IdentifierVocabularyType.WEBURI ? SGTIN_URI_SERIAL_PART : ".";
-      final String modifiedSgtin = syntax == IdentifierVocabularyType.WEBURI ? sgtin : CompanyPrefixFormatter.gcpFormatterWithReplace(sgtin, gcpLength).toString();
+      final String modifiedSgtin =
+          syntax == IdentifierVocabularyType.WEBURI
+              ? sgtin
+              : CompanyPrefixFormatter.gcpFormatterWithReplace(sgtin, gcpLength).toString();
 
       if (SerialTypeChecker.isRangeType(serialType, count, rangeFrom)) {
-        //For range generate sequential identifiers
-        for (long rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count; rangeID++) {
+        // For range generate sequential identifiers
+        for (long rangeID = rangeFrom.longValue();
+            rangeID < rangeFrom.longValue() + count;
+            rangeID++) {
           formattedSGTIN.add(prefix + modifiedSgtin + suffix + rangeID);
         }
         rangeFrom = BigInteger.valueOf(rangeFrom.longValue() + count);
       } else if (SerialTypeChecker.isRandomType(serialType, count)) {
-        //For random generate random identifiers or based on seed
+        // For random generate random identifiers or based on seed
         randomMinLength = Math.max(1, Math.min(20, randomMinLength));
         randomMaxLength = Math.max(1, Math.min(20, randomMaxLength));
 
-        final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(randomType, randomMinLength, randomMaxLength, count);
+        final List<String> randomSerialNumbers =
+            serialNumberGenerator.randomGenerator(
+                randomType, randomMinLength, randomMaxLength, count);
 
         for (String randomID : randomSerialNumbers) {
           formattedSGTIN.add(prefix + modifiedSgtin + suffix + randomID);
         }
       } else if (SerialTypeChecker.isNoneType(serialType, count, serialNumber)) {
-        //For none generate static identifier
+        // For none generate static identifier
         formattedSGTIN.add(prefix + modifiedSgtin + suffix + serialNumber);
       }
 
       return formattedSGTIN;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException("Exception occurred during generation of SGTIN instance identifiers : " + ex.getMessage(), ex);
+      throw new TestDataGeneratorException(
+          "Exception occurred during generation of SGTIN instance identifiers : " + ex.getMessage(),
+          ex);
     }
   }
 }

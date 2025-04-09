@@ -24,13 +24,12 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Setter
 @JsonTypeName("imovn")
@@ -44,22 +43,31 @@ public class GenerateIMOVN implements EPCStrategy {
   private String imovn;
 
   @Max(value = 1000, message = "Number of required serial numbers cannot be less than 1")
-  @Schema(type = SchemaType.NUMBER, description = "Count value for identifier generation.", required = true)
+  @Schema(
+      type = SchemaType.NUMBER,
+      description = "Count value for identifier generation.",
+      required = true)
   private Integer imovnRandomCount;
 
   private static final String IMOVN_URN_PART = "urn:epc:id:imovn:";
 
   @Override
-  public List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
+  public List<String> format(
+      final IdentifierVocabularyType syntax,
+      final Integer count,
+      final String dlURL,
+      final RandomSerialNumberGenerator serialNumberGenerator) {
     return generateIMOVN(count, serialNumberGenerator);
   }
 
-  private List<String> generateIMOVN(final Integer count, final RandomSerialNumberGenerator serialNumberGenerator) {
+  private List<String> generateIMOVN(
+      final Integer count, final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedIMOVN = new ArrayList<>();
 
       if (count != null && count > 0) {
-        final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(RandomizationType.NUMERIC, 7, 7, count);
+        final List<String> randomSerialNumbers =
+            serialNumberGenerator.randomGenerator(RandomizationType.NUMERIC, 7, 7, count);
         for (var rangeID : randomSerialNumbers) {
           formattedIMOVN.add(IMOVN_URN_PART + rangeID);
         }
@@ -68,7 +76,9 @@ public class GenerateIMOVN implements EPCStrategy {
       }
       return formattedIMOVN;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException("Exception occurred during generation of IMOVN instance identifiers : " + ex.getMessage(), ex);
+      throw new TestDataGeneratorException(
+          "Exception occurred during generation of IMOVN instance identifiers : " + ex.getMessage(),
+          ex);
     }
   }
 }

@@ -17,8 +17,8 @@ package io.openepcis.testdata.generator.template;
 
 import io.openepcis.testdata.generator.format.UserExtensionSyntax;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.util.List;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

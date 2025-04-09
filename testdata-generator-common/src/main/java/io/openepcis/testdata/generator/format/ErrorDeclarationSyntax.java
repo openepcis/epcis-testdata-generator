@@ -17,10 +17,10 @@ package io.openepcis.testdata.generator.format;
 
 import io.openepcis.testdata.generator.constants.ErrorReason;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import java.io.Serializable;
-import java.util.List;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 

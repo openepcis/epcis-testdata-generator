@@ -31,15 +31,14 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -95,13 +94,15 @@ public class EPCISEventType implements Serializable {
       IdentifierVocabularyType.URN;
 
   @Schema(
-          type = SchemaType.STRING,
-          description = "(Optional) Custom URL used during the Digital Link URL generation. Default:https://id.gs1.org")
+      type = SchemaType.STRING,
+      description =
+          "(Optional) Custom URL used during the Digital Link URL generation. Default:https://id.gs1.org")
   private @Valid String dlURL = DomainName.IDENTIFIER_DOMAIN;
 
   @Schema(
-          type = SchemaType.NUMBER,
-          description = "(Optional) Seed used for the Mersenne Twister (MT) algorithm to generate same random numbers each time based on the seed is provided.")
+      type = SchemaType.NUMBER,
+      description =
+          "(Optional) Seed used for the Mersenne Twister (MT) algorithm to generate same random numbers each time based on the seed is provided.")
   private @Valid Long seed;
 
   @NotNull(message = "Event type cannot be Null, should be Ordinary/Error")
@@ -136,13 +137,17 @@ public class EPCISEventType implements Serializable {
   @Schema(type = SchemaType.OBJECT, description = "Business step associated with event.")
   private @Valid BusinessStep businessStep;
 
-  @Schema(type = SchemaType.STRING, description = "User-specific Business step associated with event.")
+  @Schema(
+      type = SchemaType.STRING,
+      description = "User-specific Business step associated with event.")
   private @Valid String businessStepManualURI;
 
   @Schema(type = SchemaType.OBJECT, description = "Disposition associated with event.")
   private @Valid Disposition disposition;
 
-  @Schema(type = SchemaType.STRING, description = "User-specific Disposition associated with event.")
+  @Schema(
+      type = SchemaType.STRING,
+      description = "User-specific Disposition associated with event.")
   private @Valid String dispositionManualURI;
 
   @Schema(
@@ -157,8 +162,8 @@ public class EPCISEventType implements Serializable {
 
   // HOW Dimension Common Information
   @Schema(
-          type = SchemaType.ARRAY,
-          description = "Sensor element information associated with the event")
+      type = SchemaType.ARRAY,
+      description = "Sensor element information associated with the event")
   private List<@Valid SensorElementListType> sensorElementList;
 
   // OTHER Fields
@@ -194,7 +199,8 @@ public class EPCISEventType implements Serializable {
 
   @Schema(
       type = SchemaType.ARRAY,
-      description = "Certification information associated with the event in GS1 Web Vocabulary or Raw JSON-LD format")
+      description =
+          "Certification information associated with the event in GS1 Web Vocabulary or Raw JSON-LD format")
   private List<@Valid UserExtensionSyntax> certificationInfo;
 
   @Schema(
