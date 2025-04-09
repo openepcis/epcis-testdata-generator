@@ -24,14 +24,15 @@ import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Setter;
 import lombok.ToString;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @JsonTypeName("gdti")
@@ -50,76 +51,57 @@ public class GenerateGDTI extends GenerateEPC {
   /**
    * Method to generate identifiers based on URN/WebURI format by manipulating the provided values.
    *
-   * @param syntax syntax in which identifiers need to be generated URN/WebURI
-   * @param count count of instance identifiers need to be generated
-   * @param dlURL if provided use the provided dlURI to format WebURI identifiers else use default
-   *     ref.gs1.org
-   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random
-   *     serial number
+   * @param syntax                syntax in which identifiers need to be generated URN/WebURI
+   * @param count                 count of instance identifiers need to be generated
+   * @param dlURL                 if provided use the provided dlURI to format WebURI identifiers else use default ref.gs1.org
+   * @param serialNumberGenerator instance of the RandomSerialNumberGenerator to generate random serial number
    * @return returns list of identifiers in string format
    */
   @Override
-  public final List<String> format(
-      final IdentifierVocabularyType syntax,
-      final Integer count,
-      final String dlURL,
-      final RandomSerialNumberGenerator serialNumberGenerator) {
+  public final List<String> format(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
     return generateIdentifiers(syntax, count, dlURL, serialNumberGenerator);
   }
 
-  private List<String> generateIdentifiers(
-      final IdentifierVocabularyType syntax,
-      final Integer count,
-      final String dlURL,
-      final RandomSerialNumberGenerator serialNumberGenerator) {
+  private List<String> generateIdentifiers(final IdentifierVocabularyType syntax, final Integer count, final String dlURL, final RandomSerialNumberGenerator serialNumberGenerator) {
     try {
       final List<String> formattedGDTI = new ArrayList<>();
-      final String prefix =
-          syntax.equals(IdentifierVocabularyType.URN) ? GDTI_URN_PART : dlURL + GDTI_URI_PART;
+      final String prefix = syntax.equals(IdentifierVocabularyType.URN) ? GDTI_URN_PART : dlURL + GDTI_URI_PART;
       final String modifiedGDTI = prepareModifiedGDTI(syntax);
       final String delimiter = syntax.equals(IdentifierVocabularyType.URN) ? "." : "";
 
       if (SerialTypeChecker.isRangeType(serialType, count, rangeFrom)) {
-        // For range generate sequential identifiers
-        for (var rangeID = rangeFrom.longValue();
-            rangeID < rangeFrom.longValue() + count;
-            rangeID++) {
+        //For range generate sequential identifiers
+        for (var rangeID = rangeFrom.longValue(); rangeID < rangeFrom.longValue() + count; rangeID++) {
           formattedGDTI.add(prefix + modifiedGDTI + delimiter + rangeID);
         }
         rangeFrom = BigInteger.valueOf(rangeFrom.longValue() + count);
       } else if (SerialTypeChecker.isRandomType(serialType, count)) {
-        // For random generate random identifiers or based on seed
+        //For random generate random identifiers or based on seed
         randomMinLength = Math.max(1, Math.min(17, randomMinLength));
         randomMaxLength = Math.max(1, Math.min(17, randomMaxLength));
-        final List<String> randomSerialNumbers =
-            serialNumberGenerator.randomGenerator(
-                randomType, randomMinLength, randomMaxLength, count);
+        final List<String> randomSerialNumbers = serialNumberGenerator.randomGenerator(randomType, randomMinLength, randomMaxLength, count);
 
         for (var randomID : randomSerialNumbers) {
           formattedGDTI.add(prefix + modifiedGDTI + delimiter + randomID);
         }
       } else if (SerialTypeChecker.isNoneType(serialType, count, serialNumber)) {
-        // For none generate static identifier
+        //For none generate static identifier
         formattedGDTI.add(prefix + modifiedGDTI + delimiter + serialNumber);
       }
 
       return formattedGDTI;
     } catch (Exception ex) {
-      throw new TestDataGeneratorException(
-          "Exception occurred during generation of GDTI instance identifiers in WebURI format : "
-              + ex.getMessage(),
-          ex);
+      throw new TestDataGeneratorException("Exception occurred during generation of GDTI instance identifiers in WebURI format : " + ex.getMessage(), ex);
     }
   }
 
-  // Function to format the GDTI based on URN or WebURI format
+
+  //Function to format the GDTI based on URN or WebURI format
   private String prepareModifiedGDTI(final IdentifierVocabularyType syntax) {
     if (syntax.equals(IdentifierVocabularyType.URN)) {
       return CompanyPrefixFormatter.gcpFormatterNormal(gdti, gcpLength).toString();
     } else {
-      return gdti.substring(0, 11)
-          + UPCEANLogicImpl.calcChecksum(gdti.substring(0, 11))
-          + gdti.charAt(12);
+      return gdti.substring(0, 12) + UPCEANLogicImpl.calcChecksum(gdti.substring(0, 12)) + gdti.substring(13);
     }
   }
 }

@@ -1,0 +1,112 @@
+{
+    "objectIdentifierSyntax": "WebURI",
+    "locationPartyIdentifierSyntax": "WebURI",
+    "dlURL": "https://id.gs1.org",
+    "seed": 1742937184604,
+    "eventCount": 1,
+    "eventTime": {
+        "timeSelector": "SpecificTime",
+        "specificTime": "2025-03-25T22:13:04.000",
+        "fromTime": "2025-03-24T22:13:04.000",
+        "toTime": "2025-03-25T22:13:04.000",
+        "timeZoneOffset": "+01:00"
+    },
+    "parentIdentifier": [],
+    "instanceIdentifier": [
+        {
+            "identifierType": "sgtin",
+            "gcpLength": "",
+            "serialType": "random",
+            "sgtin": "09521141012345",
+            "randomType": "NUMERIC",
+            "randomMinLength": 1,
+            "randomMaxLength": 10,
+            "randomCount": 10,
+            "ID": 1
+        }
+    ],
+    "classIdentifier": [],
+    "outputInstanceIdentifier": [],
+    "outputClassIdentifier": [],
+    "readPoint": {},
+    "bizLocation": {},
+    "persistentDispositionList": [],
+    "bizTransactions": [],
+    "sources": [],
+    "destinations": [],
+    "sensorElementList": [
+        {
+            "ID": 0,
+            "sensorMetadata": {
+                "bizRules": "https://example.com/253/4012345000054987",
+                "deviceID": "urn:epc:id:giai:4000001.111",
+                "deviceMetadata": "https://id.gs1.org/8004/4000001111"
+            },
+            "sensorReport": [
+                {
+                    "maxValue": {
+                        "type": "static",
+                        "staticValue": 26.2
+                    },
+                    "minValue": {
+                        "type": "static",
+                        "staticValue": 26
+                    },
+                    "type": "Temperature",
+                    "uom": "CEL",
+                    "meanValue": {
+                        "type": "static",
+                        "staticValue": 26.1
+                    },
+                    "sDev": {
+                        "type": "static",
+                        "staticValue": 0.1
+                    }
+                }
+            ]
+        }
+    ],
+    "certificationInfo": [
+        {
+            "extensionID": 0,
+            "prefix": "",
+            "contextURL": "",
+            "children": []
+        }
+    ],
+    "userExtensions": [
+        {
+            "extensionID": 6658,
+            "prefix": "",
+            "contextURL": "",
+            "children": []
+        }
+    ],
+    "ilmd": [
+        {
+            "extensionID": 5078,
+            "prefix": "",
+            "contextURL": "",
+            "children": []
+        }
+    ],
+    "errorDeclaration": {
+        "declarationTime": {
+            "timeSelector": "SpecificTime",
+            "timeZoneOffset": "+01:00",
+            "specificTime": "2025-03-25T22:13:04.000",
+            "fromTime": "2025-03-24T22:13:04.000",
+            "toTime": "2025-03-25T22:13:04.000"
+        },
+        "correctiveIds": [],
+        "extensions": [],
+        "declarationReason": "DID_NOT_OCCUR"
+    },
+    "eventType": "ObjectEvent",
+    "ordinaryEvent": true,
+    "eventID": false,
+    "recordTimeOption": "No",
+    "businessStep": "COMMISSIONING",
+    "disposition": "ACTIVE",
+    "action": "ADD"
+}
