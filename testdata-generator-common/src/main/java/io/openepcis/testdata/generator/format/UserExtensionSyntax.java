@@ -140,12 +140,27 @@ public class UserExtensionSyntax implements Serializable {
         if (StringUtils.isBlank(key)) {
           // If key is blank, merge children directly.
           return children.stream()
-              .flatMap(child -> child.toMap().entrySet().stream())
-              .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                  .flatMap(child -> child.toMap().entrySet().stream())
+                  .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         } else {
           // For an array type, convert children to a List of Maps.
           final List<Map<String, Object>> childrenList =
-              children.stream().map(UserExtensionSyntax::toMap).collect(Collectors.toList());
+                  children.stream().map(child -> {
+                    // Check if child is an anonymous object
+                    if ("anonymousObject".equalsIgnoreCase(child.getDataType())) {
+                      if (CollectionUtils.isNotEmpty(child.getChildren())) {
+                        return child.getChildren().stream()
+                                .flatMap(grandChild -> grandChild.toMap().entrySet().stream())
+                                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                      } else {
+                        // If anonymous object has no children, return empty map
+                        return new HashMap<String, Object>();
+                      }
+                    } else {
+                      // For non-anonymous objects, use the standard toMap() conversion
+                      return child.toMap();
+                    }
+                  }).collect(Collectors.toList());
           result.put(key, childrenList);
         }
       } else {
