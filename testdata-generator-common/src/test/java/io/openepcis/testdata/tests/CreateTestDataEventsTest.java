@@ -15,9 +15,6 @@
  */
 package io.openepcis.testdata.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -28,9 +25,12 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.openepcis.testdata.generator.EPCISEventGenerator;
 import io.openepcis.testdata.generator.template.InputTemplate;
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CreateTestDataEventsTest {
 

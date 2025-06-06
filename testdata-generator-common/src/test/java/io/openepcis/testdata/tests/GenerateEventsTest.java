@@ -30,11 +30,12 @@ import io.openepcis.testdata.generator.template.InputTemplate;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.CompletionException;
 import java.util.stream.Collectors;
-import org.junit.Test;
 
 public class GenerateEventsTest {
   @Test
