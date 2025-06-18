@@ -113,7 +113,7 @@ public class UserExtensionSyntax implements Serializable {
   // Converts UserExtensionSyntax to a Map representation, handling both raw JSON-LD and structured
   // data.
   public Map<String, Object> toMap() {
-    final Map<String, Object> result = new HashMap<>();
+    final Map<String, Object> result = new LinkedHashMap<>();
 
     // If raw JSON-LD is provided, use it (excluding any "@context")
     if (rawJsonld instanceof Map<?, ?>) {
@@ -149,12 +149,19 @@ public class UserExtensionSyntax implements Serializable {
                     // Check if child is an anonymous object
                     if ("anonymousObject".equalsIgnoreCase(child.getDataType())) {
                       if (CollectionUtils.isNotEmpty(child.getChildren())) {
-                        return child.getChildren().stream()
+                        final Map<String, Object> unorderedMap = child.getChildren().stream()
                                 .flatMap(grandChild -> grandChild.toMap().entrySet().stream())
-                                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                                .collect(Collectors.toMap(
+                                        Map.Entry::getKey,
+                                        Map.Entry::getValue,
+                                        (a,b) -> b, // merge function to handle duplicates
+                                        LinkedHashMap::new // preserve  order
+                                ));
+
+                        return reorderIdAndTypeFirst(unorderedMap);
                       } else {
                         // If anonymous object has no children, return empty map
-                        return new HashMap<String, Object>();
+                        return new LinkedHashMap<String, Object>();
                       }
                     } else {
                       // For non-anonymous objects, use the standard toMap() conversion
@@ -165,7 +172,7 @@ public class UserExtensionSyntax implements Serializable {
         }
       } else {
         if (StringUtils.isBlank(key)) {
-          return new HashMap<>();
+          return new LinkedHashMap<>();
         } else {
           result.put(key, new ArrayList<>());
         }
@@ -204,6 +211,22 @@ public class UserExtensionSyntax implements Serializable {
     }
 
     return result;
+  }
+
+  // Reorder elements in Anonymous array children and if id/type present add it as first elements
+  private Map<String, Object> reorderIdAndTypeFirst(final Map<String, Object> originalMap) {
+        final Map<String, Object> ordered = new LinkedHashMap<>();
+
+        if (originalMap.containsKey("id")) {
+            ordered.put("id", originalMap.remove("id"));
+        }
+
+        if (originalMap.containsKey("type")) {
+            ordered.put("type", originalMap.remove("type"));
+        }
+
+        ordered.putAll(originalMap);
+        return ordered;
   }
 
   // Recursively processes namespaces from raw JSON-LD data and child extensions.
