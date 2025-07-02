@@ -120,6 +120,10 @@ public class UserExtensionSyntax implements Serializable {
       @SuppressWarnings("unchecked")
       final Map<String, Object> rawMap = (Map<String, Object>) rawJsonld;
       rawMap.remove("@context");
+      // Check for expressions in raw JSON-LD
+      if (containsExpressions(rawMap)) {
+        StreamingEPCISDocumentOutput.setShouldRunJinjaTemplate(true);
+      }
       result.putAll(rawMap);
       return result;
     }
@@ -276,5 +280,22 @@ public class UserExtensionSyntax implements Serializable {
         StreamingEPCISDocument.getContext().put(prefix, contextURL);
       }
     }
+  }
+
+  /**
+   * Recursively checks if a map contains any Jinja expression patterns in raw jsonld.
+   * Looks for strings containing "{{" and "}}" patterns.
+   */
+  private boolean containsExpressions(Object obj) {
+    if (obj instanceof String str) {
+      return str.contains("{{") && str.contains("}}");
+    } else if (obj instanceof Map<?, ?> map) {
+      return map.values().stream().anyMatch(this::containsExpressions);
+    } else if (obj instanceof List<?> list) {
+      return list.stream().anyMatch(this::containsExpressions);
+    } else if (obj instanceof Object[] array) {
+      return Arrays.stream(array).anyMatch(this::containsExpressions);
+    }
+    return false;
   }
 }
