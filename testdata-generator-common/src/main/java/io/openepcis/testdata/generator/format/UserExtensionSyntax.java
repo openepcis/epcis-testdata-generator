@@ -287,17 +287,13 @@ public class UserExtensionSyntax implements Serializable {
    * Looks for strings containing "{{" and "}}" patterns.
    */
   private boolean containsExpressions(Object obj) {
-    if (obj instanceof String) {
-      String str = (String) obj;
+    if (obj instanceof String str) {
       return str.contains("{{") && str.contains("}}");
-    } else if (obj instanceof Map<?, ?>) {
-      Map<?, ?> map = (Map<?, ?>) obj;
+    } else if (obj instanceof Map<?, ?> map) {
       return map.values().stream().anyMatch(this::containsExpressions);
-    } else if (obj instanceof List<?>) {
-      List<?> list = (List<?>) obj;
+    } else if (obj instanceof List<?> list) {
       return list.stream().anyMatch(this::containsExpressions);
-    } else if (obj instanceof Object[]) {
-      Object[] array = (Object[]) obj;
+    } else if (obj instanceof Object[] array) {
       return Arrays.stream(array).anyMatch(this::containsExpressions);
     }
     return false;
