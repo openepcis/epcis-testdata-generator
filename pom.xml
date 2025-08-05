@@ -57,7 +57,7 @@
 
     <properties>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
-        <commons.beanutils.version>1.9.4</commons.beanutils.version>
+        <commons.beanutils.version>1.11.0</commons.beanutils.version>
         <reactive.streams.tck.flow>1.0.4</reactive.streams.tck.flow>
     </properties>
 
