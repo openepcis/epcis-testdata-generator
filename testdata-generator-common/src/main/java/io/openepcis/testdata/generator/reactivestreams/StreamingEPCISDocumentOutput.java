@@ -135,7 +135,6 @@ public class StreamingEPCISDocumentOutput {
           // Write the info related to Context element in JSON
           jsonGenerator.writeFieldName(EPCIS.CONTEXT);
           jsonGenerator.writeStartArray();
-          jsonGenerator.writeString(EPCISVersion.getDefaultJSONContext());
 
           // Adds all selected context URLs to the EPCIS document's @context array.
           if (CollectionUtils.isNotEmpty(StreamingEPCISDocument.getSelectedContextUrls())) {
@@ -169,6 +168,8 @@ public class StreamingEPCISDocumentOutput {
                       }
                     });
           }
+
+          jsonGenerator.writeString(EPCISVersion.getDefaultJSONContext());
 
           jsonGenerator.writeEndArray(); // end context array
 
