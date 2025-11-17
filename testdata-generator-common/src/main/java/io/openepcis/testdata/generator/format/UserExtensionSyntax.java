@@ -199,7 +199,7 @@ public class UserExtensionSyntax implements Serializable {
       result.put(key, expression);
       // Flag that Jinja processing is needed after event creation
       StreamingEPCISDocumentOutput.setShouldRunJinjaTemplate(true);
-    } else if (random != null) {
+    } else if (random != null && StringUtils.isNotBlank(random.getType())) {
       // Generate a random value using the configured randomGenerators
       result.put(key, random.getValue(randomGenerators));
     } else if (StringUtils.isNotBlank(numberData)) {
