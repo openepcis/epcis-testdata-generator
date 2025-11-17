@@ -37,6 +37,9 @@ jobs:
             --no-transfer-progress \
             --batch-mode \
             -Pcoverage \
-            -Dsonar.host.url=${{ secrets.CG_SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.CG_SONAR_LOGIN }} \
-            -B clean verify sonar:sonar
+            # Disable sonar due to credentials issue
+            # -Dsonar.host.url=${{ secrets.CG_SONAR_HOST_URL }} \
+            # -Dsonar.login=${{ secrets.CG_SONAR_LOGIN }} \
+            # with sonar
+            # -B clean verify sonar:sonar
+            -B clean verify
