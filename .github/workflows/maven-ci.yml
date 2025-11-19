@@ -32,11 +32,8 @@ jobs:
 
       - name: Compile and Verify Test Data Module
         run: |
-          mvn \
-            -s .mvn/settings.xml \
-            --no-transfer-progress \
-            --batch-mode \
-            -Pcoverage \
-            -Dsonar.host.url=${{ secrets.CG_SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.CG_SONAR_LOGIN }} \
-            -B clean verify sonar:sonar
+          mvn -s .mvn/settings.xml --no-transfer-progress --batch-mode -Pcoverage -B clean verify
+          # Sonar analysis is disabled due to credentials:
+          #   -Dsonar.host.url=${{ secrets.CG_SONAR_HOST_URL }} \
+          #   -Dsonar.login=${{ secrets.CG_SONAR_LOGIN }} \
+          #   sonar:sonar
