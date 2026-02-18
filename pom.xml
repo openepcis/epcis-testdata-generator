@@ -259,4 +259,14 @@
         </profile>
     </profiles>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>gitlab-maven</id>
+            <url>https://code.company-group.com/api/v4/projects/79/packages/maven</url>
+        </snapshotRepository>
+        <repository>
+            <id>gitlab-maven</id>
+            <url>https://code.company-group.com/api/v4/projects/79/packages/maven</url>
+        </repository>
+    </distributionManagement>
 </project>
