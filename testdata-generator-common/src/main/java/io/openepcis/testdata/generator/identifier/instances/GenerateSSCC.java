@@ -25,7 +25,7 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 import jakarta.validation.constraints.Pattern;
 import lombok.Setter;
 import lombok.ToString;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;

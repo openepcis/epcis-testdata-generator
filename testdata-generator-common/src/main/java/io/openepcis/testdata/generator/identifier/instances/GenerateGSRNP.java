@@ -24,7 +24,7 @@ import io.openepcis.testdata.generator.identifier.util.SerialTypeChecker;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import lombok.Setter;
 import lombok.ToString;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.krysalis.barcode4j.impl.upcean.UPCEANLogicImpl;
 
 import java.math.BigInteger;
