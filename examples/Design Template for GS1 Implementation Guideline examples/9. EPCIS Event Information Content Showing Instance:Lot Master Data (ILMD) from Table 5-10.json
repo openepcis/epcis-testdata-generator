@@ -36,41 +36,41 @@
                 "userExtensions": [],
                 "ilmd": [
                     {
-                        "extensionID": 0,
+                        "extensionID": 5175,
                         "prefix": "gs1",
-                        "contextURL": "https://gs1.org/voc/",
+                        "contextURL": "https://ref.gs1.org/voc/",
                         "children": [
                             {
                                 "label": "gs1:Product",
-                                "key": 1,
+                                "key": 4990,
                                 "dataType": "complex",
                                 "type": "class",
-                                "data": "",
-                                "contextURL": "https://gs1.org/voc/",
+                                "contextURL": "https://ref.gs1.org/voc/",
                                 "children": [
                                     {
                                         "label": "gs1:expirationDate",
                                         "rangeType": "xsd:date",
                                         "dataType": "simple",
                                         "type": "simple",
-                                        "data": "2024-04-15",
-                                        "key": 0,
-                                        "additionType": "property",
-                                        "contextURL": "https://gs1.org/voc/",
-                                        "parentKey": 1
+                                        "stringData": "2026-10-10",
+                                        "property": "gs1:expirationDate",
+                                        "key": 2360
                                     },
                                     {
                                         "label": "gs1:hasBatchLotNumber",
                                         "rangeType": "xsd:string",
                                         "dataType": "simple",
-                                        "type": "simple",
-                                        "data": "100",
-                                        "key": 1,
-                                        "additionType": "property",
-                                        "contextURL": "https://gs1.org/voc/",
-                                        "parentKey": 1
+                                        "type": "",
+                                        "stringData": "true",
+                                        "property": "gs1:hasBatchLotNumber",
+                                        "key": 6184
                                     }
-                                ]
+                                ],
+                                "classType": "",
+                                "value": "",
+                                "nodeType": "gs1TopNode",
+                                "stringData": "",
+                                "property": "gs1:Product"
                             }
                         ]
                     }

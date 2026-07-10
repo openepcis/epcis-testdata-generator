@@ -39,7 +39,10 @@
               {
                 "type": "Temperature",
                 "uom": "CEL",
-                "value": 15.1,
+                "value": {
+                  "type": "static",
+                  "staticValue": 15.1
+                },
                 "exception": "ALARM_CONDITION",
                 "uriValue": "https://example.com/alarmCodes/temperatureExceeded"
               }
