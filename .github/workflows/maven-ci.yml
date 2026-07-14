@@ -31,6 +31,9 @@ jobs:
           server-password: OPENEPCIS_OSSRH_PASSWORD
 
       - name: Compile and Verify Test Data Module
+        env:
+          GITLAB_DEPLOY_USER: ${{ secrets.GITLAB_DEPLOY_USER }}
+          GITLAB_DEPLOY_TOKEN: ${{ secrets.GITLAB_DEPLOY_TOKEN }}
         run: |
           mvn -s .mvn/settings.xml --no-transfer-progress --batch-mode -Pcoverage -B clean verify
           # Sonar analysis is disabled due to credentials:

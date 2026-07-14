@@ -196,20 +196,15 @@
     </dependencies>
 
     <repositories>
-        <!-- GitLab Maven Package Registry (project 79) - hosts io.openepcis 999-SNAPSHOT artifacts -->
-        <repository>
-            <id>gitlab-maven</id>
-            <url>https://code.company-group.com/api/v4/projects/79/packages/maven</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
         <repository>
             <id>sonatype-staging</id>
             <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
         </repository>
     </repositories>
 
