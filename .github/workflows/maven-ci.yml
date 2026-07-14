@@ -35,7 +35,8 @@ jobs:
           GITLAB_DEPLOY_USER: ${{ secrets.GITLAB_DEPLOY_USER }}
           GITLAB_DEPLOY_TOKEN: ${{ secrets.GITLAB_DEPLOY_TOKEN }}
         run: |
-          mvn -s .mvn/settings.xml --no-transfer-progress --batch-mode -Pcoverage -B clean verify
+          mvn -s .mvn/settings.xml --no-transfer-progress --batch-mode -Pcoverage -B \
+              -Dsurefire.timeout=600 clean verify
           # Sonar analysis is disabled due to credentials:
           #   -Dsonar.host.url=${{ secrets.CG_SONAR_HOST_URL }} \
           #   -Dsonar.login=${{ secrets.CG_SONAR_LOGIN }} \
