@@ -1,141 +1,79 @@
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-![Java CI](https://github.com/openepcis/epcis-testdata-generator/actions/workflows/maven-ci.yml/badge.svg)
+<p align="center">
+  <a href="https://openepcis.io"><img src="https://openepcis.io/img/openepcis-logo.svg" width="30%" alt="OpenEPCIS logo"></a>
+</p>
 
-- [Introduction](#introduction)
-- [Need for EPCIS Test Data Generator](#need-for-epcis-test-data-generator)
-- [OpenEPCIS test data generator](#openepcis-test-data-generator)
-- [Key features](#key-features)
-- [Applications overview](#applications-overview)
-    - [testdata-generator-common](#testdata-generator-common)
-    - [testdata-generator-rest-api](#testdata-generator-rest-api)
-    - [testdata-generator-ui](#testdata-generator-ui)
-- [Local set-up](#local-set-up)
-    - [Running with Podman](#running-with-podman)
-    - [Running with Docker](#running-with-docker)
-    - [Running with Java](#running-with-java)
-- [Usage](#usage)
-    - [Using local set-up](#using-local-set-up)
-    - [Direct usage](#direct-usage)
-- [Dependencies](#dependencies)
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License"></a>
+  <a href="https://github.com/openepcis/epcis-testdata-generator/tags"><img src="https://img.shields.io/github/v/tag/openepcis/epcis-testdata-generator?label=version" alt="Version"></a>
+  <a href="https://github.com/openepcis/epcis-testdata-generator/actions/workflows/maven-ci.yml"><img src="https://github.com/openepcis/epcis-testdata-generator/actions/workflows/maven-ci.yml/badge.svg" alt="Java CI"></a>
+  <a href="https://github.com/openepcis/epcis-testdata-generator/stargazers"><img src="https://img.shields.io/github/stars/openepcis/epcis-testdata-generator?style=social" alt="Stars"></a>
+</p>
 
-## Introduction
+<h1 align="center">OpenEPCIS Test Data Generator</h1>
 
-For various business requirements, including traceability (of goods, assets, etc.), process automation, compliance, and supply chain management, you and your trading partners must capture and share visibility data in addition to master data (such as the description and weight of a trade item) and transactional data (such as an order, invoice, etc.). This data category's fundamental and open-source standard, EPCIS has been already widely used across a number of industries.
+Generates EPCIS 2.0 test data events in JSON/JSON-LD format, using the CBV 2.0 vocabulary. You describe the events and the identifiers you need in a JSON input template, and the tool streams back the generated events, either over the REST API or directly from the Java library.
 
-The open standard for capturing and exchanging visibility data is EPCIS. It has been endorsed by GS1, ISO, and IEC. It includes a ready-to-use data model that enables you to consolidate every stage of a business process into a single dataset. The basic details of what happened, when, where, why, and how are recorded as EPCIS events. The key to making your items traceable is to keep track of all pertinent events (such as harvesting, producing, packing, shipping, and selling) throughout your supply network.
+## Why
 
-## Need for EPCIS Test Data Generator
+Creating EPCIS events manually takes time and is tedious work. You need EPCIS event data for load and performance tests, for PoCs and research projects (for example to populate a test database), and for starting the data exchange with a trading partner. This tool does the same job in minutes.
 
-End users, solution providers, research institutions, and other parties frequently need test data for load/performance tests, PoCs/research projects (for example, to populate test databases), initiating data interchange between business partners, and more. However, creating EPCIS test data can literally take you days of effort and is usually tedious. If you are in such a situation, you'll be relieved to learn that our new open-source tool OpenEPCIS test data generator. It is now available that can assist you in completing this task in a matter of minutes.
+The identifiers are generated for you in both syntaxes: EPC URN such as `urn:epc:id:sgtin:9384989388.893.100` (a URN cannot resolve to anything) and GS1 Digital Link Web URI (which can be resolved). Event times and serial numbers can be randomized, so you get events that look like real captured data instead of the same event repeated.
 
-## OpenEPCIS test data generator
-
-The initial version of the EPCIS test data generator was developed as part of master thesis with the collaboration of GS1 Germany from June to November 2020.  Various users of the EPCIS community were involved in the development process, which enabled the application to be customised according to their needs and requirements. The latest version of the tool has been developed as part of an organisational effort at benelog GmbH & Co. KG with many improvements and more advanced functionality. Anyone interested in adopting or implementing EPCIS can get assistance from the interactive application OpenEPCIS Test Data Generator. It is being offered as an open-source project. This essentially means that anyone is welcome to use the tool.
-
-Regardless of the industry, use case, or application domain, the OpenEPCIS test data generator tool offers a flexible and potent solution for creating test events. The generated events adhere to the most recent EPCIS specification, i.e. EPCIS 2.0. Events are produced in JSON/JSON-LD, but if businesses need EPCIS events in XML (either in accordance with EPCIS 1.2 or the most recent version, i.e., 2.0), there are additional open source tools that can transform them into the required data format.
+The first version was developed as a master thesis together with GS1 Germany between June and November 2020, with many users of the EPCIS community involved. The current version is developed at benelog GmbH & Co. KG with more features and improvements.
 
 ## Key features
 
-The following are some of the tool's key characteristics:
-* Adheres to the most recent revisions of CBV 2.0 and EPCIS 2.0.
-* Supports object/location IDs using both GS1 Digital Link URIs and EPC/EPC Class URIs.
-* Generates JSON/JSON-LD events (which in turn can be translated to XML through other tools).
-* Contains a randomization technique for elements like timestamps and serial numbers.
-* Supports the use of both UUIDs and EPCIS Event Hash IDs to identify EPCIS events.
-* Offers functionality for modelling uniquely tailored event sequences.
-* Offers copying or exporting of designs or events for later use.
+* Follows the latest EPCIS 2.0 and CBV 2.0 revisions.
+* Object and location identifiers in both GS1 Digital Link URI and EPC/EPC Class URI syntax.
+* Generates JSON/JSON-LD events, which other OpenEPCIS tools can convert into XML (EPCIS 1.2 or 2.0).
+* Randomization for values such as event times, serial numbers, etc.
+* Event identifiers as UUID or as EPCIS Event Hash ID.
+* Lets you model your own event sequences, and copy or export a design for later use.
+* Streams one event at a time, so generating a large number of events does not fill up the memory.
 
-## Applications overview:
+## Run it locally
 
-The developed OpenEPCIS Test Data Generator application has been divided into 3 modules [testdata-generator-common](testdata-generator-common), [testdata-generator-rest-api](testdata-generator-rest-api), and [testdata-generator-ui](testdata-generator-ui). Following is the overview of the individual module:
+The quickest way is the published container image. It serves the REST API and the Swagger UI on port 8080.
 
-### [testdata-generator-common](testdata-generator-common) (Generic java library for generating testdata events)
+Using Docker (commercial use of Docker is subject to license restrictions):
 
-This is the core of the OpenEPCIS Test Data Generator where the events are actually generated. It includes the logic for generating the events and formatting the values according to the EPCIS standard. To make the application memory efficient and to generate a large number of test events quickly only one event information is stored in memory at a time. It employs the Reactive Stream approach to do the same. This module has been developed primarily using Java with some additional libraries such as Jackson, Lombok, SmallRye Mutiny etc.
-
-### [testdata-generator-rest-api](testdata-generator-rest-api) (REST service wrapper for generating testdata events)
-
-This is the service that acts as a bridge between the front-end and back-end server. When a user provides the input information in the form of InputTemplate to generate the test data events then this service module will capture that information and validates it. If the InputTemplate adheres to all the constraints and rules then it's sent to the backend server ([testdata-generator-common](testdata-generator-common)) to generate the events. This service can also be directly accessed via the cURL command or Swagger-UI. This module has been developed using the latest technologies such as Java with the Quarkus framework. However, it also utilizes some libraries such as Jackson, OpenAPI, Hibernate validator, etc.
-
-### [testdata-generator-ui](testdata-generator-ui) (user interface for generating testdata events)
-
-This is the user's view of the application where users can interact with various fields of EPCIS and provide the necessary values. Also, It does the task of converting the user-provided values
-into the InputTemplate required for the subsequent modules. It has been developed primarily using the technologies such as  HTML (HyperText Markup Language), JavaScript library Nuxt.js/Vue.js, and
-CSS(Cascading Style Sheets). It also includes some important front-end libraries/frameworks such as Drawflow, Bootstrap, Bootstrap icons, CodeMirror, etc.
-
-## Local set-up
-
-On your local system, the OpenEPCIS Test Data Generator can be set up in various ways. The following section explains how to quickly set up the application using Docker and Podman.
-
-### Running with Podman:
-
-As a prerequisite, you must install Podman on your system (Podman is an open-source software platform for fast-developing, testing, and deploying applications). Please refer to the following links for further information about Podman and for installation guidelines:
-
-Official Podman: https://github.com/containers/podman
-Documentation: https://github.com/containers/podman/tree/main/docs
-Installation instruction for Windows/macOS: https://podman.io/getting-started/installation
-
-Run the following command in a terminal or command prompt after installing Podman on your local machine:
-```
-podman run --rm -t --name testdata-generator -p 8080:8080 ghcr.io/openepcis/testdata-generator:0.9.4
+```bash
+docker run --rm -t --name testdata-generator \
+  -p 8080:8080 \
+  ghcr.io/openepcis/testdata-generator:0.9.4
 ```
 
-### Running with Docker:
+Using [Podman](https://podman.io/getting-started/installation):
 
-Docker has to be installed on your system as a prerequisite (Note: Commercial usage of Docker is subject to license restrictions). Please refer to the following pages for further information about Docker and for installation guidelines:
-
-For Windows: https://docs.docker.com/desktop/install/windows-install/
-For macOS: https://docs.docker.com/desktop/install/mac-install/
-For Linux: https://docs.docker.com/desktop/install/linux-install/
-
-To run the testdata generator you can simply use the [Testdata Generator Docker](https://github.com/openepcis/epcis-testdata-generator/pkgs/container/testdata-generator) image provided on GitHub.
-```
-docker run --rm -t --name testdata-generator -p 8080:8080 ghcr.io/openepcis/testdata-generator:0.9.4
+```bash
+podman run --rm -t --name testdata-generator \
+  -p 8080:8080 \
+  ghcr.io/openepcis/testdata-generator:0.9.4
 ```
 
-### Running with Java:
+Or download the runnable jar from the [latest release](https://github.com/openepcis/epcis-testdata-generator/releases/latest) and start it with Java 21 or newer:
 
-(Java 17 Runtime Environment or greater is required)
-
-Download the latest testdata-generator-quarkus-rest-app-.jar release jar from [GitHub Releases](https://github.com/openepcis/epcis-testdata-generator/releases/latest)
-
-run it in your local JVM 
-```
+```bash
 java -jar testdata-generator-quarkus-rest-app-.jar
 ```
 
+Once it is running:
+
+| Service            | URL                                                          |
+|--------------------|--------------------------------------------------------------|
+| OpenAPI Swagger UI | [http://localhost:8080/q/swagger-ui/](http://localhost:8080/q/swagger-ui/) |
+| OpenAPI definition | [http://localhost:8080/q/openapi](http://localhost:8080/q/openapi)         |
+| Generate events    | `POST http://localhost:8080/api/generateTestData`            |
+
+If you only want to try the tool without installing anything, use the hosted [Event Data Generator](https://tools.openepcis.io/ui/event-data-generator).
+
 ## Usage
 
-### Using local set-up
+### Input template
 
-If you have the Podman pod or Docker container is up and running as mentioned in previous section, you can use the following URLs for accessing the services:
+Both the REST API and the Java library take the same input template. It holds the events you want (`events`) and the identifiers those events should use (`identifiers`):
 
-| Service            | URL                                                                         |
-|--------------------|-----------------------------------------------------------------------------|
-| User Interface     | [http://localhost:8080/ui/](http://localhost:8080/ui/)                      |
-| OpenAPI Swagger-UI | [http://localhost:8080/q/swagger-ui/](http://localhost:8080/q/swagger-ui//) |
-
-
-### Direct usage
-
-The [EPCISEventGenerator class](testdata-generator-common/src/main/java/io/openepcis/testdata/generator/EPCISEventGenerator.java) within [testdata-generator-common](testdata-generator-common)
-contains the Java method `generate` for producing test data events. To generate events, you must have the proper `inputTemplate` JSON prepared with all necessary data, which you can pass to the
-following method to obtain
-the required events:
-
-```
-// Pass the required JSON inputTemplate to generate EPCIS testdata events.
-EPCISEventGenerator.generate(inputTemplate).collect().asList().await().indefinitely().forEach(e - > {
-    try {
-        System.out.println(e.toString());
-    } catch (JsonProcessingException ex) {
-        throw new CompletionException(ex);
-    }
-});
-```
-
-Sample inputTemplate:
-```
+```json
 {
     "events": [{
         "nodeId": 1,
@@ -190,6 +128,113 @@ Sample inputTemplate:
 }
 ```
 
-## Dependencies
+This template asks for 5 ObjectEvents, each carrying 10 SGTIN instance identifiers and 5 GRAI class identifiers.
 
-The event creation logic depends on the [openepcis-models](https://github.com/openepcis/openepcis-models) package.
+### REST API
+
+Save the template above as `inputTemplate.json` and post it:
+
+```bash
+curl -X POST http://localhost:8080/api/generateTestData \
+  -H "Content-Type: application/json" \
+  -d @inputTemplate.json
+```
+
+The response is a complete EPCIS document with the generated events in `epcisBody.eventList`:
+
+```json
+{
+  "@context": ["https://ref.gs1.org/standards/epcis/epcis-context.jsonld"],
+  "type": "EPCISDocument",
+  "schemaVersion": "2.0",
+  "creationDate": "2026-09-03T15:19:21.12Z",
+  "epcisBody": {
+    "eventList": [{
+      "type": "ObjectEvent",
+      "eventTime": "2022-04-04T18:29:05.266+02:00",
+      "recordTime": "2026-09-03T15:19:21+02:00",
+      "eventTimeZoneOffset": "+02:00",
+      "epcList": ["urn:epc:id:sgtin:9384989388.893.100", "urn:epc:id:sgtin:9384989388.893.101"],
+      "action": "ADD",
+      "bizStep": "commissioning",
+      "disposition": "active",
+      "quantityList": [{"epcClass": "urn:epc:idpat:grai:8384783874.37.*"}]
+    }]
+  }
+}
+```
+
+There is a second endpoint, `POST /api/generateTestDataXML`, which takes the generated JSON events and converts them into XML.
+
+### Java library
+
+The [EPCISEventGenerator](testdata-generator-common/src/main/java/io/openepcis/testdata/generator/EPCISEventGenerator.java) class in [testdata-generator-common](testdata-generator-common) does the actual work. Read your JSON into an `InputTemplate` and pass it to `generate`, which returns a Mutiny `Multi<EPCISEvent>`:
+
+```java
+// The mapper must ignore unknown properties, otherwise Jackson rejects
+// template fields such as identifierType with an UnrecognizedPropertyException.
+final ObjectMapper objectMapper = new ObjectMapper()
+    .registerModule(new JavaTimeModule())
+    .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+    .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+final InputTemplate inputTemplate =
+    objectMapper.readValue(new File("inputTemplate.json"), InputTemplate.class);
+
+// Generate the events and print each one as JSON.
+EPCISEventGenerator.generate(inputTemplate)
+    .collect()
+    .asList()
+    .await()
+    .indefinitely()
+    .forEach(event -> {
+      try {
+        System.out.println(objectMapper.writeValueAsString(event));
+      } catch (JsonProcessingException e) {
+        throw new CompletionException(e);
+      }
+    });
+```
+
+`collect().asList()` keeps every event in memory, which is fine for a handful of events. For a large number of events, subscribe to the `Multi` instead and handle one event at a time.
+
+## Project layout
+
+| Module | What it does |
+|--------|--------------|
+| [testdata-generator-common](testdata-generator-common) | Core Java library. Creates the events and formats the values according to EPCIS. Builds on the openepcis-models classes and uses Jackson, Lombok and SmallRye Mutiny. |
+| [testdata-generator-test-common](testdata-generator-test-common) | Shared input templates and expected outputs used by the tests. |
+| [testdata-generator-rest-api](testdata-generator-rest-api) | REST service on Quarkus. Validates the input template and streams the response back. |
+| [quarkus/runtime](quarkus/runtime), [quarkus/deployment](quarkus/deployment) | Quarkus extension, so the generator can be used from a Quarkus application. |
+| [quarkus/quarkus-app](quarkus/quarkus-app) | The runnable application. Produces the uber jar and the container image. |
+
+The [testdata-generator-ui](testdata-generator-ui) folder holds the Nuxt.js/Vue.js front end, which is built and run on its own and is not part of the Maven build.
+
+## Building
+
+You need JDK 25, because the Java version comes from the `openepcis-bom` parent and is currently set to 25.
+
+```bash
+mvn clean verify
+```
+
+Other useful commands:
+
+```bash
+mvn clean verify -Pcoverage
+mvn quarkus:dev -pl quarkus/quarkus-app
+```
+
+## Related
+
+- [Test Data Generator documentation](https://openepcis.io/docs/test-data-generator) - How to use the tool, step by step
+- [Event Data Generator web app](https://tools.openepcis.io/ui/event-data-generator) - The hosted user interface, nothing to install
+- [OpenEPCIS Tools](https://tools.openepcis.io/) - open source EPCIS 2.0 tools and services
+- [OpenEPCIS](https://openepcis.io/) - Read more about OpenEPCIS
+- [benelog GmbH & Co. KG](https://www.benelog.com/) - Company behind OpenEPCIS
+- [GS1 EPCIS Standard](https://www.gs1.org/standards/epcis) - Learn more about EPCIS
+
+## License
+
+Apache License 2.0. See [LICENSE](LICENSE).
