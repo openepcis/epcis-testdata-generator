@@ -59,6 +59,8 @@
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
         <commons.beanutils.version>1.11.0</commons.beanutils.version>
         <reactive.streams.tck.flow>1.0.4</reactive.streams.tck.flow>
+        <!-- Build-time only: avoids a Quarkus test bootstrap classloader deadlock -->
+        <argLine>-Daether.metadataResolver.threads=1</argLine>
     </properties>
 
     <modules>

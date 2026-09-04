@@ -20,10 +20,10 @@ jobs:
         with:
           submodules: recursive
           
-      - name: Set up GraalVM 21
+      - name: Set up GraalVM 25
         uses: graalvm/setup-graalvm@v1
         with:
-          java-version: '21'
+          java-version: '25'
           distribution: 'graalvm-community'
           cache: maven
           server-id: openepcis-ossrh
