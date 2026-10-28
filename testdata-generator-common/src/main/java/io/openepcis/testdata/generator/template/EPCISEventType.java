@@ -174,9 +174,15 @@ public class EPCISEventType implements Serializable {
 
   @Schema(
       type = SchemaType.STRING,
-      enumeration = {"UUID", "HashId"},
-      description = "Type of Event ID associated with the event. UUID or HashId")
+      enumeration = {"UUID", "HashId", "Custom"},
+      description = "Type of Event ID associated with the event. UUID, HashId, or Custom")
   private @Valid String eventIdType;
+
+  @Schema(
+      type = SchemaType.STRING,
+      description = "Event ID used when eventIdType is Custom, e.g. the eventID of the event being corrected"
+  )
+  private @Valid String customEventID;
 
   @Schema(
       type = SchemaType.STRING,

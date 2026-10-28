@@ -46,6 +46,7 @@ import java.util.stream.Stream;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 @Getter
 @Slf4j
@@ -599,6 +600,11 @@ public abstract class AbstractEventCreationModel<T extends EPCISEventType, E ext
               ? typeInfo.getHashAlgorithm()
               : "sha-256";
       epcisEvent.setEventID(new EventHashGenerator().fromObjectNode(objectNode, hashAlgorithm));
+    } else if(typeInfo.isEventID()
+        && "Custom".equals(typeInfo.getEventIdType())
+        && StringUtils.isNotBlank(typeInfo.getCustomEventID())){
+          // Use the user's own event ID as is, e.g. the eventID of the event being corrected
+          epcisEvent.setEventID(typeInfo.getCustomEventID().strip());
     }
   }
 }
