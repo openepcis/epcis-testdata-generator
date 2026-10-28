@@ -8,6 +8,8 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  # Add "Run Workflow" button to GitHub Actions UI
+  workflow_dispatch:
 
 jobs:
   build:
@@ -41,3 +43,15 @@ jobs:
           #   -Dsonar.host.url=${{ secrets.CG_SONAR_HOST_URL }} \
           #   -Dsonar.login=${{ secrets.CG_SONAR_LOGIN }} \
           #   sonar:sonar
+
+      # Publish the 999-SNAPSHOT only when started with the Run workflow button on main and build is green above
+      - name: Publish the 999-SNAPSHOT to the GitLab package registry
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+        env:
+          GITLAB_DEPLOY_USER: ${{ secrets.GITLAB_DEPLOY_USER }}
+          GITLAB_DEPLOY_TOKEN: ${{ secrets.GITLAB_DEPLOY_TOKEN }}
+        run: >
+          mvn -s .mvn/settings.xml
+          --batch-mode --no-transfer-progress
+          -DskipTests
+          deploy
